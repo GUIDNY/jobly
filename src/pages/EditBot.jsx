@@ -152,6 +152,20 @@ export default function EditBot() {
 
           {activeTab === 'profile' && (
             <div className="space-y-4">
+              <ImagePicker
+                label="באנר"
+                value={form.banner_url || ''}
+                onChange={v => handleChange('banner_url', v)}
+                aspect="banner"
+                botId={id}
+              />
+              <ImagePicker
+                label="תמונת פרופיל"
+                value={form.avatar_url || ''}
+                onChange={v => handleChange('avatar_url', v)}
+                aspect="avatar"
+                botId={id}
+              />
               <Field label="שם" value={form.name || ''} onChange={v => handleChange('name', v)} />
               <Field label="תפקיד/כותרת" value={form.role || ''} onChange={v => handleChange('role', v)} />
               <Field label="תיאור" value={form.description || form.job_description || ''} onChange={v => handleChange(isFreelancer ? 'description' : 'job_description', v)} textarea />
