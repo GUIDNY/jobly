@@ -173,7 +173,9 @@ export default function Marketplace() {
 
           <p className="text-gray-500 text-sm mb-4">{filteredBots.length} תוצאות</p>
 
-          {filteredBots.length === 0 ? (
+          {loading ? (
+            <div className="text-center py-20 text-gray-400">טוען...</div>
+          ) : filteredBots.length === 0 ? (
             <div className="text-center py-20">
               <p className="text-gray-500 text-lg mb-2">לא נמצאו תוצאות</p>
               <p className="text-gray-600 text-sm">נסה לשנות את פרמטרי החיפוש</p>
