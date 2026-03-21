@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>כוחות לגדואל</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      min-height: 100vh;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1e3a5f, #2563eb);
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
+
+    header h1 { font-size: 1.8rem; font-weight: 800; color: #fff; letter-spacing: -0.5px; }
+    header .subtitle { font-size: 0.85rem; color: #93c5fd; margin-top: 2px; }
+    .ball { font-size: 2rem; }
+
+    nav {
+      display: flex;
+      background: #1e293b;
+      border-bottom: 2px solid #334155;
+    }
+
+    nav button {
+      flex: 1;
+      padding: 14px;
+      background: none;
+      border: none;
+      color: #94a3b8;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      border-bottom: 3px solid transparent;
+      font-family: inherit;
+    }
+
+    nav button:hover { color: #e2e8f0; background: #263148; }
+    nav button.active { color: #60a5fa; border-bottom-color: #2563eb; background: #1a2744; }
+
+    .page { display: none; padding: 24px; max-width: 900px; margin: 0 auto; }
+    .page.active { display: block; }
+
+    /* ===== CARDS ===== */
+    .card {
+      background: #1e293b;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 16px;
+      border: 1px solid #334155;
+    }
+
+    .card h2 { font-size: 1.1rem; color: #93c5fd; margin-bottom: 16px; font-weight: 700; }
+
+    /* ===== FORMS ===== */
+    .form-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: flex-end;
+    }
+
+    .form-group { display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 120px; }
+    .form-group label { font-size: 0.8rem; color: #94a3b8; font-weight: 600; }
+
+    input[type="text"], input[type="number"], select, textarea {
+      background: #0f172a;
+      border: 1px solid #475569;
+      border-radius: 8px;
+      color: #e2e8f0;
+      padding: 9px 12px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+
+    input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:focus {
+      border-color: #2563eb;
+    }
+
+    textarea { resize: vertical; min-height: 60px; }
+
+    /* ===== BUTTONS ===== */
+    .btn {
+      padding: 9px 18px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+
+    .btn-primary { background: #2563eb; color: #fff; }
+    .btn-primary:hover { background: #1d4ed8; transform: translateY(-1px); }
+    .btn-success { background: #16a34a; color: #fff; }
+    .btn-success:hover { background: #15803d; transform: translateY(-1px); }
+    .btn-warning { background: #d97706; color: #fff; }
+    .btn-warning:hover { background: #b45309; transform: translateY(-1px); }
+    .btn-danger { background: #dc2626; color: #fff; }
+    .btn-danger:hover { background: #b91c1c; }
+    .btn-ghost { background: #334155; color: #e2e8f0; }
+    .btn-ghost:hover { background: #475569; }
+    .btn-sm { padding: 5px 10px; font-size: 0.8rem; }
+
+    /* ===== PLAYER LIST ===== */
+    .player-list { display: flex; flex-direction: column; gap: 10px; }
+
+    .player-card {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      transition: border-color 0.2s;
+      position: relative;
+    }
+
+    .player-card:hover { border-color: #475569; }
+
+    .player-card.highlight-green { border-right: 4px solid #22c55e; }
+    .player-card.highlight-yellow { border-right: 4px solid #eab308; }
+    .player-card.highlight-red { border-right: 4px solid #ef4444; }
+    .player-card.highlight-blue { border-right: 4px solid #3b82f6; }
+    .player-card.highlight-none { border-right: 4px solid #334155; }
+
+    .player-info { flex: 1; }
+    .player-name { font-size: 1rem; font-weight: 700; color: #f1f5f9; }
+    .player-meta { display: flex; gap: 10px; margin-top: 4px; flex-wrap: wrap; }
+    .player-rating { color: #fbbf24; font-size: 0.85rem; }
+    .player-pos { background: #1e3a5f; color: #60a5fa; padding: 2px 8px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
+    .player-note { color: #94a3b8; font-size: 0.82rem; margin-top: 6px; font-style: italic; border-top: 1px solid #1e293b; padding-top: 6px; }
+
+    .player-actions { display: flex; gap: 6px; flex-shrink: 0; }
+
+    .stars { display: flex; gap: 2px; direction: ltr; }
+    .star { color: #475569; font-size: 1rem; cursor: pointer; transition: color 0.1s; }
+    .star.filled { color: #fbbf24; }
+
+    /* ===== HIGHLIGHT PICKER ===== */
+    .color-picker { display: flex; gap: 6px; align-items: center; }
+    .color-dot {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: transform 0.15s, border-color 0.15s;
+    }
+    .color-dot:hover { transform: scale(1.2); }
+    .color-dot.selected { border-color: #fff; transform: scale(1.2); }
+    .dot-green { background: #22c55e; }
+    .dot-yellow { background: #eab308; }
+    .dot-red { background: #ef4444; }
+    .dot-blue { background: #3b82f6; }
+    .dot-none { background: #475569; }
+
+    /* ===== IMPORT SECTION ===== */
+    .import-area {
+      border: 2px dashed #475569;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: #64748b;
+    }
+    .import-area:hover { border-color: #2563eb; color: #93c5fd; }
+    .import-area input { display: none; }
+
+    /* ===== TODAY PAGE ===== */
+    .today-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .today-player {
+      background: #0f172a;
+      border: 2px solid #334155;
+      border-radius: 10px;
+      padding: 12px;
+      cursor: pointer;
+      transition: all 0.15s;
+      text-align: center;
+      user-select: none;
+    }
+
+    .today-player:hover { border-color: #2563eb; }
+    .today-player.selected { border-color: #22c55e; background: #052e16; }
+    .today-player .tp-name { font-weight: 700; font-size: 0.95rem; }
+    .today-player .tp-rating { color: #fbbf24; font-size: 0.8rem; margin-top: 2px; }
+    .today-player .tp-check { font-size: 1.2rem; margin-bottom: 4px; }
+
+    /* ===== TEAMS ===== */
+    .teams-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .team-card {
+      background: #0f172a;
+      border-radius: 12px;
+      padding: 16px;
+      border: 2px solid #334155;
+    }
+
+    .team-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #1e293b;
+    }
+
+    .team-title {
+      font-weight: 800;
+      font-size: 1rem;
+    }
+
+    .team-avg {
+      font-size: 0.78rem;
+      color: #94a3b8;
+      background: #1e293b;
+      padding: 3px 8px;
+      border-radius: 20px;
+    }
+
+    .team-player-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 7px 0;
+      border-bottom: 1px solid #1a2333;
+    }
+
+    .team-player-item:last-child { border-bottom: none; }
+    .tpi-name { font-size: 0.9rem; font-weight: 600; }
+    .tpi-stars { color: #fbbf24; font-size: 0.75rem; }
+
+    .team-colors = ['#3b82f6', '#ef4444', '#22c55e', '#a855f7', '#f59e0b', '#06b6d4'];
+
+    /* ===== SETTINGS ===== */
+    .teams-options {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    /* ===== BADGE ===== */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #2563eb;
+      color: #fff;
+      border-radius: 20px;
+      min-width: 22px;
+      height: 22px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0 6px;
+    }
+
+    /* ===== EMPTY STATE ===== */
+    .empty {
+      text-align: center;
+      color: #475569;
+      padding: 40px 20px;
+      font-size: 0.95rem;
+    }
+    .empty .icon { font-size: 3rem; margin-bottom: 10px; }
+
+    /* ===== MODAL ===== */
+    .modal-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.7);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: #1e293b;
+      border-radius: 14px;
+      padding: 24px;
+      width: 90%;
+      max-width: 500px;
+      border: 1px solid #334155;
+    }
+    .modal h3 { margin-bottom: 16px; font-size: 1.1rem; color: #93c5fd; }
+    .modal-actions { display: flex; gap: 10px; margin-top: 16px; justify-content: flex-end; }
+
+    /* ===== SCROLLBAR ===== */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #0f172a; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 600px) {
+      .form-row { flex-direction: column; }
+      .teams-container { grid-template-columns: 1fr; }
+      header h1 { font-size: 1.4rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <span class="ball">⚽</span>
+  <div>
+    <h1>כוחות לגדואל</h1>
+    <div class="subtitle">ניהול שחקנים וחלוקת קבוצות</div>
+  </div>
+</header>
+
+<nav>
+  <button class="active" onclick="showPage('players')">שחקנים <span id="badge-players" class="badge" style="margin-right:6px">0</span></button>
+  <button onclick="showPage('today')">משחק היום <span id="badge-today" class="badge" style="margin-right:6px; background:#16a34a">0</span></button>
+  <button onclick="showPage('teams')">כוחות</button>
+</nav>
+
+<!-- ======================== PAGE: PLAYERS ======================== -->
+<div id="page-players" class="page active">
+
+  <div class="card">
+    <h2>הוסף שחקן</h2>
+    <div class="form-row" style="margin-bottom:12px">
+      <div class="form-group" style="flex:2">
+        <label>שם שחקן</label>
+        <input type="text" id="new-name" placeholder="שם מלא..." />
+      </div>
+      <div class="form-group" style="flex:1">
+        <label>עמדה</label>
+        <select id="new-pos">
+          <option value="">ללא עמדה</option>
+          <option value="שוער">שוער</option>
+          <option value="הגנה">הגנה</option>
+          <option value="קשר">קשר</option>
+          <option value="התקפה">התקפה</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row" style="margin-bottom:12px">
+      <div class="form-group">
+        <label>דירוג</label>
+        <div class="stars" id="new-stars-input">
+          <span class="star" data-val="1" onclick="setNewRating(1)">★</span>
+          <span class="star" data-val="2" onclick="setNewRating(2)">★</span>
+          <span class="star" data-val="3" onclick="setNewRating(3)">★</span>
+          <span class="star" data-val="4" onclick="setNewRating(4)">★</span>
+          <span class="star" data-val="5" onclick="setNewRating(5)">★</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>סימון צבע</label>
+        <div class="color-picker" id="new-color-picker">
+          <span class="color-dot dot-none selected" data-color="none" onclick="setNewColor('none', this)" title="ללא"></span>
+          <span class="color-dot dot-green" data-color="green" onclick="setNewColor('green', this)" title="ירוק"></span>
+          <span class="color-dot dot-yellow" data-color="yellow" onclick="setNewColor('yellow', this)" title="צהוב"></span>
+          <span class="color-dot dot-red" data-color="red" onclick="setNewColor('red', this)" title="אדום"></span>
+          <span class="color-dot dot-blue" data-color="blue" onclick="setNewColor('blue', this)" title="כחול"></span>
+        </div>
+      </div>
+    </div>
+    <div class="form-row" style="margin-bottom:14px">
+      <div class="form-group" style="flex:1">
+        <label>הערות על השחקן</label>
+        <textarea id="new-note" placeholder="חוזקות, חולשות, הערות..."></textarea>
+      </div>
+    </div>
+    <button class="btn btn-primary" onclick="addPlayer()">+ הוסף שחקן</button>
+  </div>
+
+  <div class="card">
+    <h2>ייבוא מקובץ CSV</h2>
+    <div class="import-area" onclick="document.getElementById('csv-input').click()">
+      <input type="file" id="csv-input" accept=".csv,.txt" onchange="importCSV(event)" />
+      <div style="font-size:2rem; margin-bottom:8px">📂</div>
+      <div>לחץ לייבוא קובץ CSV</div>
+      <div style="font-size:0.8rem; margin-top:4px; color:#475569">פורמט: שם,עמדה,דירוג,הערה (שורה לכל שחקן)</div>
+    </div>
+    <div style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap">
+      <button class="btn btn-ghost btn-sm" onclick="exportCSV()">ייצוא CSV</button>
+      <button class="btn btn-danger btn-sm" onclick="clearAllPlayers()">מחק הכל</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>רשימת שחקנים</h2>
+    <div id="player-list" class="player-list"></div>
+  </div>
+</div>
+
+<!-- ======================== PAGE: TODAY ======================== -->
+<div id="page-today" class="page">
+  <div class="card">
+    <h2>בחר שחקנים לגדואל היום</h2>
+    <div style="display:flex; gap:10px; margin-bottom:16px; flex-wrap:wrap">
+      <button class="btn btn-ghost btn-sm" onclick="selectAll()">בחר הכל</button>
+      <button class="btn btn-ghost btn-sm" onclick="deselectAll()">בטל הכל</button>
+      <span style="margin-right:auto; color:#94a3b8; font-size:0.9rem; align-self:center">
+        נבחרו: <strong id="selected-count">0</strong> שחקנים
+      </span>
+    </div>
+    <div id="today-grid" class="today-grid"></div>
+  </div>
+  <div style="text-align:center">
+    <button class="btn btn-success" style="font-size:1.1rem; padding:14px 36px;" onclick="goToTeams()">
+      צור כוחות ←
+    </button>
+  </div>
+</div>
+
+<!-- ======================== PAGE: TEAMS ======================== -->
+<div id="page-teams" class="page">
+  <div class="card">
+    <h2>הגדרות חלוקה</h2>
+    <div class="teams-options">
+      <div class="form-group" style="flex:0 0 auto">
+        <label>מספר קבוצות</label>
+        <select id="num-teams" style="width:80px">
+          <option value="2" selected>2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+        </select>
+      </div>
+      <div style="align-self:flex-end; display:flex; gap:8px">
+        <button class="btn btn-success" onclick="generateTeams()">צור כוחות</button>
+        <button class="btn btn-ghost" onclick="generateTeams()">ערבב מחדש</button>
+      </div>
+    </div>
+    <div style="color:#64748b; font-size:0.85rem">
+      שחקנים שנבחרו: <strong id="teams-player-count" style="color:#93c5fd">0</strong>
+    </div>
+  </div>
+
+  <div id="teams-container" class="teams-container"></div>
+  <div id="teams-empty" class="empty">
+    <div class="icon">⚽</div>
+    <div>בחר שחקנים בלשונית "משחק היום" ולחץ "צור כוחות"</div>
+  </div>
+</div>
+
+<!-- ======================== EDIT MODAL ======================== -->
+<div class="modal-overlay" id="edit-modal">
+  <div class="modal">
+    <h3>עריכת שחקן</h3>
+    <input type="hidden" id="edit-id" />
+    <div class="form-row" style="margin-bottom:12px">
+      <div class="form-group" style="flex:2">
+        <label>שם</label>
+        <input type="text" id="edit-name" />
+      </div>
+      <div class="form-group" style="flex:1">
+        <label>עמדה</label>
+        <select id="edit-pos">
+          <option value="">ללא עמדה</option>
+          <option value="שוער">שוער</option>
+          <option value="הגנה">הגנה</option>
+          <option value="קשר">קשר</option>
+          <option value="התקפה">התקפה</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row" style="margin-bottom:12px">
+      <div class="form-group">
+        <label>דירוג</label>
+        <div class="stars" id="edit-stars-input">
+          <span class="star" data-val="1" onclick="setEditRating(1)">★</span>
+          <span class="star" data-val="2" onclick="setEditRating(2)">★</span>
+          <span class="star" data-val="3" onclick="setEditRating(3)">★</span>
+          <span class="star" data-val="4" onclick="setEditRating(4)">★</span>
+          <span class="star" data-val="5" onclick="setEditRating(5)">★</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>סימון צבע</label>
+        <div class="color-picker" id="edit-color-picker">
+          <span class="color-dot dot-none" data-color="none" onclick="setEditColor('none', this)" title="ללא"></span>
+          <span class="color-dot dot-green" data-color="green" onclick="setEditColor('green', this)" title="ירוק"></span>
+          <span class="color-dot dot-yellow" data-color="yellow" onclick="setEditColor('yellow', this)" title="צהוב"></span>
+          <span class="color-dot dot-red" data-color="red" onclick="setEditColor('red', this)" title="אדום"></span>
+          <span class="color-dot dot-blue" data-color="blue" onclick="setEditColor('blue', this)" title="כחול"></span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group" style="margin-bottom:4px">
+      <label>הערות</label>
+      <textarea id="edit-note"></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeEditModal()">ביטול</button>
+      <button class="btn btn-primary" onclick="saveEdit()">שמור</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===================== STATE =====================
+let players = JSON.parse(localStorage.getItem('gadu_players') || '[]');
+let selectedToday = new Set(JSON.parse(localStorage.getItem('gadu_today') || '[]'));
+let newRating = 3;
+let newColor = 'none';
+let editRating = 3;
+let editColor = 'none';
+let generatedTeams = [];
+
+const TEAM_COLORS = ['#3b82f6', '#ef4444', '#22c55e', '#a855f7', '#f59e0b', '#06b6d4'];
+const TEAM_NAMES = ['קבוצה כחולה', 'קבוצה אדומה', 'קבוצה ירוקה', 'קבוצה סגולה'];
+
+// ===================== INIT =====================
+renderPlayerList();
+renderTodayGrid();
+updateBadges();
+setNewRating(3);
+
+// ===================== NAVIGATION =====================
+function showPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  event.currentTarget.classList.add('active');
+  if (page === 'today') renderTodayGrid();
+  if (page === 'teams') updateTeamsPageCount();
+}
+
+// ===================== PLAYERS =====================
+function save() {
+  localStorage.setItem('gadu_players', JSON.stringify(players));
+  localStorage.setItem('gadu_today', JSON.stringify([...selectedToday]));
+  updateBadges();
+}
+
+function addPlayer() {
+  const name = document.getElementById('new-name').value.trim();
+  if (!name) { alert('נא להכניס שם שחקן'); return; }
+  players.push({
+    id: Date.now().toString(),
+    name,
+    pos: document.getElementById('new-pos').value,
+    rating: newRating,
+    color: newColor,
+    note: document.getElementById('new-note').value.trim()
+  });
+  save();
+  renderPlayerList();
+  document.getElementById('new-name').value = '';
+  document.getElementById('new-note').value = '';
+  document.getElementById('new-pos').value = '';
+  setNewRating(3);
+  setNewColorByVal('none');
+}
+
+function deletePlayer(id) {
+  if (!confirm('למחוק את השחקן?')) return;
+  players = players.filter(p => p.id !== id);
+  selectedToday.delete(id);
+  save();
+  renderPlayerList();
+}
+
+function clearAllPlayers() {
+  if (!confirm('למחוק את כל השחקנים?')) return;
+  players = [];
+  selectedToday.clear();
+  save();
+  renderPlayerList();
+}
+
+function renderPlayerList() {
+  const el = document.getElementById('player-list');
+  if (!players.length) {
+    el.innerHTML = '<div class="empty"><div class="icon">👤</div><div>אין שחקנים עדיין. הוסף שחקנים למעלה.</div></div>';
+    return;
+  }
+  el.innerHTML = players.map(p => `
+    <div class="player-card highlight-${p.color || 'none'}">
+      <div class="player-info">
+        <div class="player-name">${esc(p.name)}</div>
+        <div class="player-meta">
+          <span class="player-rating">${'★'.repeat(p.rating || 0)}${'☆'.repeat(5 - (p.rating || 0))}</span>
+          ${p.pos ? `<span class="player-pos">${esc(p.pos)}</span>` : ''}
+        </div>
+        ${p.note ? `<div class="player-note">${esc(p.note)}</div>` : ''}
+      </div>
+      <div class="player-actions">
+        <button class="btn btn-ghost btn-sm" onclick="openEditModal('${p.id}')">עריכה</button>
+        <button class="btn btn-danger btn-sm" onclick="deletePlayer('${p.id}')">מחק</button>
+      </div>
+    </div>
+  `).join('');
+  updateBadges();
+}
+
+// ===================== RATINGS =====================
+function setNewRating(val) {
+  newRating = val;
+  document.querySelectorAll('#new-stars-input .star').forEach(s => {
+    s.classList.toggle('filled', +s.dataset.val <= val);
+  });
+}
+
+function setEditRating(val) {
+  editRating = val;
+  document.querySelectorAll('#edit-stars-input .star').forEach(s => {
+    s.classList.toggle('filled', +s.dataset.val <= val);
+  });
+}
+
+// ===================== COLORS =====================
+function setNewColor(color, el) {
+  newColor = color;
+  document.querySelectorAll('#new-color-picker .color-dot').forEach(d => d.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function setNewColorByVal(color) {
+  newColor = color;
+  document.querySelectorAll('#new-color-picker .color-dot').forEach(d => {
+    d.classList.toggle('selected', d.dataset.color === color);
+  });
+}
+
+function setEditColor(color, el) {
+  editColor = color;
+  document.querySelectorAll('#edit-color-picker .color-dot').forEach(d => d.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function setEditColorByVal(color) {
+  editColor = color;
+  document.querySelectorAll('#edit-color-picker .color-dot').forEach(d => {
+    d.classList.toggle('selected', d.dataset.color === color);
+  });
+}
+
+// ===================== EDIT MODAL =====================
+function openEditModal(id) {
+  const p = players.find(x => x.id === id);
+  if (!p) return;
+  document.getElementById('edit-id').value = id;
+  document.getElementById('edit-name').value = p.name;
+  document.getElementById('edit-pos').value = p.pos || '';
+  document.getElementById('edit-note').value = p.note || '';
+  setEditRating(p.rating || 3);
+  setEditColorByVal(p.color || 'none');
+  document.getElementById('edit-modal').classList.add('open');
+}
+
+function closeEditModal() {
+  document.getElementById('edit-modal').classList.remove('open');
+}
+
+function saveEdit() {
+  const id = document.getElementById('edit-id').value;
+  const p = players.find(x => x.id === id);
+  if (!p) return;
+  p.name = document.getElementById('edit-name').value.trim();
+  p.pos = document.getElementById('edit-pos').value;
+  p.note = document.getElementById('edit-note').value.trim();
+  p.rating = editRating;
+  p.color = editColor;
+  save();
+  renderPlayerList();
+  closeEditModal();
+}
+
+document.getElementById('edit-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeEditModal();
+});
+
+// ===================== CSV IMPORT / EXPORT =====================
+function importCSV(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const lines = e.target.result.split('\n').filter(l => l.trim());
+    let added = 0;
+    for (const line of lines) {
+      const parts = line.split(',').map(s => s.trim());
+      if (!parts[0]) continue;
+      players.push({
+        id: Date.now().toString() + Math.random(),
+        name: parts[0],
+        pos: parts[1] || '',
+        rating: Math.min(5, Math.max(1, parseInt(parts[2]) || 3)),
+        color: 'none',
+        note: parts[3] || ''
+      });
+      added++;
+    }
+    save();
+    renderPlayerList();
+    alert(`יובאו ${added} שחקנים בהצלחה!`);
+  };
+  reader.readAsText(file, 'UTF-8');
+  event.target.value = '';
+}
+
+function exportCSV() {
+  if (!players.length) { alert('אין שחקנים לייצוא'); return; }
+  const rows = players.map(p => `${p.name},${p.pos || ''},${p.rating || 3},${p.note || ''}`);
+  const blob = new Blob([rows.join('\n')], { type: 'text/csv;charset=utf-8;' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'שחקנים_גדואל.csv';
+  a.click();
+}
+
+// ===================== TODAY =====================
+function renderTodayGrid() {
+  const el = document.getElementById('today-grid');
+  if (!players.length) {
+    el.innerHTML = '<div class="empty" style="grid-column:1/-1"><div class="icon">👤</div><div>הוסף שחקנים קודם</div></div>';
+    document.getElementById('selected-count').textContent = '0';
+    return;
+  }
+  el.innerHTML = players.map(p => `
+    <div class="today-player ${selectedToday.has(p.id) ? 'selected' : ''}" onclick="toggleToday('${p.id}', this)">
+      <div class="tp-check">${selectedToday.has(p.id) ? '✅' : '⬜'}</div>
+      <div class="tp-name">${esc(p.name)}</div>
+      ${p.pos ? `<div style="font-size:0.78rem;color:#64748b;margin-top:2px">${esc(p.pos)}</div>` : ''}
+      <div class="tp-rating">${'★'.repeat(p.rating || 0)}${'☆'.repeat(5 - (p.rating || 0))}</div>
+    </div>
+  `).join('');
+  updateSelectedCount();
+}
+
+function toggleToday(id, el) {
+  if (selectedToday.has(id)) {
+    selectedToday.delete(id);
+    el.classList.remove('selected');
+    el.querySelector('.tp-check').textContent = '⬜';
+  } else {
+    selectedToday.add(id);
+    el.classList.add('selected');
+    el.querySelector('.tp-check').textContent = '✅';
+  }
+  save();
+  updateSelectedCount();
+}
+
+function selectAll() {
+  players.forEach(p => selectedToday.add(p.id));
+  save();
+  renderTodayGrid();
+}
+
+function deselectAll() {
+  selectedToday.clear();
+  save();
+  renderTodayGrid();
+}
+
+function updateSelectedCount() {
+  document.getElementById('selected-count').textContent = selectedToday.size;
+  updateBadges();
+}
+
+function goToTeams() {
+  if (selectedToday.size === 0) { alert('בחר לפחות שחקן אחד'); return; }
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-teams').classList.add('active');
+  document.querySelectorAll('nav button')[2].classList.add('active');
+  generateTeams();
+}
+
+// ===================== TEAMS =====================
+function updateTeamsPageCount() {
+  document.getElementById('teams-player-count').textContent = selectedToday.size;
+}
+
+function generateTeams() {
+  const numTeams = parseInt(document.getElementById('num-teams').value);
+  const activePlayers = players.filter(p => selectedToday.has(p.id));
+  document.getElementById('teams-player-count').textContent = activePlayers.length;
+
+  if (!activePlayers.length) {
+    document.getElementById('teams-container').innerHTML = '';
+    document.getElementById('teams-empty').style.display = 'block';
+    return;
+  }
+  document.getElementById('teams-empty').style.display = 'none';
+
+  // Shuffle first for randomness
+  const shuffled = [...activePlayers].sort(() => Math.random() - 0.5);
+  // Sort by rating desc for balanced distribution
+  shuffled.sort((a, b) => (b.rating || 3) - (a.rating || 3));
+
+  const teams = Array.from({ length: numTeams }, () => []);
+  const sums = Array(numTeams).fill(0);
+
+  // Snake draft: 1,2,3,3,2,1,1,2,3...
+  let dir = 1;
+  let i = 0;
+  for (const p of shuffled) {
+    teams[i].push(p);
+    sums[i] += p.rating || 3;
+    if (dir === 1 && i === numTeams - 1) dir = -1;
+    else if (dir === -1 && i === 0) dir = 1;
+    else i += dir;
+  }
+
+  generatedTeams = teams;
+  renderTeams(teams);
+}
+
+function renderTeams(teams) {
+  const container = document.getElementById('teams-container');
+  container.innerHTML = teams.map((team, idx) => {
+    const avg = team.length ? (team.reduce((s, p) => s + (p.rating || 3), 0) / team.length).toFixed(1) : 0;
+    const color = TEAM_COLORS[idx] || '#64748b';
+    const name = TEAM_NAMES[idx] || `קבוצה ${idx + 1}`;
+    return `
+      <div class="team-card" style="border-color:${color}">
+        <div class="team-header">
+          <div class="team-title" style="color:${color}">${name}</div>
+          <div class="team-avg">ממוצע: ${avg} ★ | ${team.length} שחקנים</div>
+        </div>
+        ${team.map(p => `
+          <div class="team-player-item">
+            <span class="tpi-name">${esc(p.name)}</span>
+            <span class="tpi-stars">${'★'.repeat(p.rating || 3)}</span>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }).join('');
+}
+
+// ===================== BADGES =====================
+function updateBadges() {
+  document.getElementById('badge-players').textContent = players.length;
+  document.getElementById('badge-today').textContent = selectedToday.size;
+}
+
+// ===================== UTILS =====================
+function esc(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+</script>
+</body>
+</html>
