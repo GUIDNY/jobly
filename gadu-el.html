@@ -3,361 +3,639 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>כוחות לגדואל</title>
+  <title>GADU-EL | כוחות</title>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;700;900&family=Heebo:wght@300;400;600;700;900&display=swap" rel="stylesheet" />
   <style>
+    :root {
+      --neon: #00f0ff;
+      --neon2: #7b2fff;
+      --neon3: #ff2f6e;
+      --neon4: #00ff88;
+      --bg: #080c14;
+      --bg2: #0d1424;
+      --glass: rgba(255,255,255,0.04);
+      --glass-border: rgba(255,255,255,0.08);
+      --text: #e8f4ff;
+      --muted: #4a6080;
+    }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: #0f172a;
-      color: #e2e8f0;
+      font-family: 'Heebo', 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
       min-height: 100vh;
+      overflow-x: hidden;
     }
 
+    /* ── ANIMATED BG ── */
+    .bg-orbs {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.18;
+      animation: drift 12s ease-in-out infinite alternate;
+    }
+    .orb1 { width: 500px; height: 500px; background: var(--neon2); top: -100px; right: -100px; animation-delay: 0s; }
+    .orb2 { width: 400px; height: 400px; background: var(--neon); bottom: -80px; left: -80px; animation-delay: -4s; }
+    .orb3 { width: 300px; height: 300px; background: var(--neon3); top: 50%; left: 50%; transform: translate(-50%,-50%); animation-delay: -8s; }
+    @keyframes drift { from { transform: translate(0,0) scale(1); } to { transform: translate(30px, 20px) scale(1.1); } }
+
+    /* ── HEADER ── */
     header {
-      background: linear-gradient(135deg, #1e3a5f, #2563eb);
-      padding: 20px 24px;
+      position: relative;
+      z-index: 10;
+      padding: 0 24px;
+      height: 72px;
       display: flex;
       align-items: center;
-      gap: 14px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      justify-content: space-between;
+      border-bottom: 1px solid var(--glass-border);
+      background: rgba(8,12,20,0.8);
+      backdrop-filter: blur(20px);
     }
 
-    header h1 { font-size: 1.8rem; font-weight: 800; color: #fff; letter-spacing: -0.5px; }
-    header .subtitle { font-size: 0.85rem; color: #93c5fd; margin-top: 2px; }
-    .ball { font-size: 2rem; }
-
-    nav {
+    .logo {
       display: flex;
-      background: #1e293b;
-      border-bottom: 2px solid #334155;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--neon2), var(--neon));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      box-shadow: 0 0 20px rgba(123,47,255,0.5);
+    }
+
+    .logo-text { line-height: 1.1; }
+    .logo-title {
+      font-family: 'Exo 2', sans-serif;
+      font-weight: 900;
+      font-size: 1.3rem;
+      background: linear-gradient(90deg, var(--neon), var(--neon2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 2px;
+    }
+    .logo-sub { font-size: 0.7rem; color: var(--muted); letter-spacing: 3px; text-transform: uppercase; }
+
+    /* ── NAV ── */
+    nav {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      background: rgba(13,20,36,0.6);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--glass-border);
+      padding: 0 16px;
+      gap: 4px;
     }
 
     nav button {
       flex: 1;
-      padding: 14px;
+      max-width: 200px;
+      padding: 14px 16px;
       background: none;
       border: none;
-      color: #94a3b8;
-      font-size: 1rem;
+      color: var(--muted);
+      font-size: 0.9rem;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.2s;
-      border-bottom: 3px solid transparent;
-      font-family: inherit;
+      font-family: 'Heebo', sans-serif;
+      transition: all 0.25s;
+      border-bottom: 2px solid transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      letter-spacing: 0.5px;
     }
 
-    nav button:hover { color: #e2e8f0; background: #263148; }
-    nav button.active { color: #60a5fa; border-bottom-color: #2563eb; background: #1a2744; }
+    nav button:hover { color: var(--text); }
+    nav button.active {
+      color: var(--neon);
+      border-bottom-color: var(--neon);
+      text-shadow: 0 0 12px rgba(0,240,255,0.5);
+    }
 
-    .page { display: none; padding: 24px; max-width: 900px; margin: 0 auto; }
+    .nav-badge {
+      background: var(--neon2);
+      color: #fff;
+      border-radius: 10px;
+      min-width: 20px;
+      height: 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0 5px;
+    }
+
+    nav button.active .nav-badge { background: var(--neon); color: #000; }
+
+    /* ── PAGES ── */
+    .page { display: none; position: relative; z-index: 5; padding: 24px; max-width: 960px; margin: 0 auto; }
     .page.active { display: block; }
 
-    /* ===== CARDS ===== */
+    /* ── GLASS CARD ── */
     .card {
-      background: #1e293b;
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 16px;
-      border: 1px solid #334155;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 22px;
+      margin-bottom: 18px;
+      backdrop-filter: blur(10px);
+      transition: border-color 0.3s;
     }
 
-    .card h2 { font-size: 1.1rem; color: #93c5fd; margin-bottom: 16px; font-weight: 700; }
+    .card:hover { border-color: rgba(0,240,255,0.15); }
 
-    /* ===== FORMS ===== */
-    .form-row {
+    .card-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--neon);
+      margin-bottom: 18px;
       display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      align-items: flex-end;
+      align-items: center;
+      gap: 8px;
     }
 
-    .form-group { display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 120px; }
-    .form-group label { font-size: 0.8rem; color: #94a3b8; font-weight: 600; }
+    .card-title::before {
+      content: '';
+      width: 3px;
+      height: 14px;
+      background: linear-gradient(to bottom, var(--neon), var(--neon2));
+      border-radius: 2px;
+      display: block;
+    }
 
-    input[type="text"], input[type="number"], select, textarea {
-      background: #0f172a;
-      border: 1px solid #475569;
-      border-radius: 8px;
-      color: #e2e8f0;
-      padding: 9px 12px;
+    /* ── FORM ── */
+    .form-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end; margin-bottom: 14px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 130px; }
+    .form-group label { font-size: 0.72rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+
+    input[type="text"], select, textarea {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      color: var(--text);
+      padding: 10px 14px;
       font-size: 0.95rem;
-      font-family: inherit;
+      font-family: 'Heebo', sans-serif;
       outline: none;
-      transition: border-color 0.2s;
+      transition: all 0.2s;
       width: 100%;
     }
 
-    input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:focus {
-      border-color: #2563eb;
+    input[type="text"]:focus, select:focus, textarea:focus {
+      border-color: var(--neon);
+      box-shadow: 0 0 0 3px rgba(0,240,255,0.08), 0 0 20px rgba(0,240,255,0.08);
+      background: rgba(0,240,255,0.04);
     }
 
-    textarea { resize: vertical; min-height: 60px; }
+    select option { background: #0d1424; }
+    textarea { resize: vertical; min-height: 64px; }
 
-    /* ===== BUTTONS ===== */
+    /* ── BUTTONS ── */
     .btn {
-      padding: 9px 18px;
+      padding: 10px 20px;
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
       font-weight: 700;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       cursor: pointer;
-      font-family: inherit;
-      transition: all 0.15s;
+      font-family: 'Heebo', sans-serif;
+      transition: all 0.2s;
       white-space: nowrap;
+      letter-spacing: 0.5px;
     }
 
-    .btn-primary { background: #2563eb; color: #fff; }
-    .btn-primary:hover { background: #1d4ed8; transform: translateY(-1px); }
-    .btn-success { background: #16a34a; color: #fff; }
-    .btn-success:hover { background: #15803d; transform: translateY(-1px); }
-    .btn-warning { background: #d97706; color: #fff; }
-    .btn-warning:hover { background: #b45309; transform: translateY(-1px); }
-    .btn-danger { background: #dc2626; color: #fff; }
-    .btn-danger:hover { background: #b91c1c; }
-    .btn-ghost { background: #334155; color: #e2e8f0; }
-    .btn-ghost:hover { background: #475569; }
-    .btn-sm { padding: 5px 10px; font-size: 0.8rem; }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--neon2), var(--neon));
+      color: #000;
+      box-shadow: 0 0 20px rgba(0,240,255,0.2);
+    }
+    .btn-primary:hover { box-shadow: 0 0 30px rgba(0,240,255,0.4); transform: translateY(-1px); }
 
-    /* ===== PLAYER LIST ===== */
+    .btn-success {
+      background: linear-gradient(135deg, #00b863, var(--neon4));
+      color: #000;
+      box-shadow: 0 0 20px rgba(0,255,136,0.2);
+    }
+    .btn-success:hover { box-shadow: 0 0 30px rgba(0,255,136,0.4); transform: translateY(-1px); }
+
+    .btn-danger { background: rgba(255,47,110,0.15); border: 1px solid rgba(255,47,110,0.3); color: var(--neon3); }
+    .btn-danger:hover { background: rgba(255,47,110,0.25); }
+
+    .btn-ghost { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: var(--text); }
+    .btn-ghost:hover { background: rgba(255,255,255,0.1); }
+
+    .btn-sm { padding: 6px 12px; font-size: 0.8rem; }
+
+    /* ── PLAYER CARDS ── */
     .player-list { display: flex; flex-direction: column; gap: 10px; }
 
     .player-card {
-      background: #0f172a;
-      border: 1px solid #334155;
-      border-radius: 10px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 12px;
       padding: 14px 16px;
       display: flex;
       align-items: flex-start;
-      gap: 12px;
-      transition: border-color 0.2s;
-      position: relative;
+      gap: 14px;
+      transition: all 0.2s;
+      border-right: 3px solid transparent;
     }
 
-    .player-card:hover { border-color: #475569; }
+    .player-card:hover { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.12); }
 
-    .player-card.highlight-green { border-right: 4px solid #22c55e; }
-    .player-card.highlight-yellow { border-right: 4px solid #eab308; }
-    .player-card.highlight-red { border-right: 4px solid #ef4444; }
-    .player-card.highlight-blue { border-right: 4px solid #3b82f6; }
-    .player-card.highlight-none { border-right: 4px solid #334155; }
+    .player-card.hl-green { border-right-color: var(--neon4); }
+    .player-card.hl-yellow { border-right-color: #fbbf24; }
+    .player-card.hl-red { border-right-color: var(--neon3); }
+    .player-card.hl-blue { border-right-color: var(--neon); }
+    .player-card.hl-purple { border-right-color: var(--neon2); }
+    .player-card.hl-none { border-right-color: rgba(255,255,255,0.08); }
 
-    .player-info { flex: 1; }
-    .player-name { font-size: 1rem; font-weight: 700; color: #f1f5f9; }
-    .player-meta { display: flex; gap: 10px; margin-top: 4px; flex-wrap: wrap; }
-    .player-rating { color: #fbbf24; font-size: 0.85rem; }
-    .player-pos { background: #1e3a5f; color: #60a5fa; padding: 2px 8px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
-    .player-note { color: #94a3b8; font-size: 0.82rem; margin-top: 6px; font-style: italic; border-top: 1px solid #1e293b; padding-top: 6px; }
+    .player-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, rgba(123,47,255,0.3), rgba(0,240,255,0.3));
+      border: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: var(--neon);
+      flex-shrink: 0;
+      font-family: 'Exo 2', sans-serif;
+    }
 
+    .player-info { flex: 1; min-width: 0; }
+    .player-name { font-size: 1rem; font-weight: 700; color: #fff; }
+    .player-meta { display: flex; gap: 8px; margin-top: 4px; flex-wrap: wrap; align-items: center; }
+
+    .player-pos {
+      background: rgba(123,47,255,0.2);
+      border: 1px solid rgba(123,47,255,0.3);
+      color: #b48aff;
+      padding: 2px 9px;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .player-rating { display: flex; gap: 2px; direction: ltr; }
+    .star-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.1); }
+    .star-dot.on { background: #fbbf24; box-shadow: 0 0 6px rgba(251,191,36,0.6); }
+
+    .player-note { color: var(--muted); font-size: 0.82rem; margin-top: 6px; font-style: italic; }
     .player-actions { display: flex; gap: 6px; flex-shrink: 0; }
 
-    .stars { display: flex; gap: 2px; direction: ltr; }
-    .star { color: #475569; font-size: 1rem; cursor: pointer; transition: color 0.1s; }
-    .star.filled { color: #fbbf24; }
+    /* ── STARS INPUT ── */
+    .stars-input { display: flex; gap: 4px; direction: ltr; }
+    .star-btn { font-size: 1.3rem; cursor: pointer; color: rgba(255,255,255,0.15); transition: all 0.1s; line-height: 1; }
+    .star-btn.on { color: #fbbf24; text-shadow: 0 0 10px rgba(251,191,36,0.6); }
+    .star-btn:hover { transform: scale(1.2); }
 
-    /* ===== HIGHLIGHT PICKER ===== */
-    .color-picker { display: flex; gap: 6px; align-items: center; }
+    /* ── COLOR PICKER ── */
+    .color-picker { display: flex; gap: 8px; align-items: center; padding: 8px 0; }
     .color-dot {
-      width: 20px; height: 20px;
-      border-radius: 50%;
-      cursor: pointer;
-      border: 2px solid transparent;
-      transition: transform 0.15s, border-color 0.15s;
+      width: 22px; height: 22px; border-radius: 50%; cursor: pointer;
+      border: 2px solid transparent; transition: all 0.15s;
     }
-    .color-dot:hover { transform: scale(1.2); }
-    .color-dot.selected { border-color: #fff; transform: scale(1.2); }
-    .dot-green { background: #22c55e; }
-    .dot-yellow { background: #eab308; }
-    .dot-red { background: #ef4444; }
-    .dot-blue { background: #3b82f6; }
-    .dot-none { background: #475569; }
+    .color-dot:hover { transform: scale(1.25); }
+    .color-dot.selected { border-color: #fff; box-shadow: 0 0 10px rgba(255,255,255,0.3); transform: scale(1.2); }
+    .dot-none { background: rgba(255,255,255,0.15); }
+    .dot-green { background: var(--neon4); box-shadow: 0 0 8px rgba(0,255,136,0.4); }
+    .dot-yellow { background: #fbbf24; box-shadow: 0 0 8px rgba(251,191,36,0.4); }
+    .dot-red { background: var(--neon3); box-shadow: 0 0 8px rgba(255,47,110,0.4); }
+    .dot-blue { background: var(--neon); box-shadow: 0 0 8px rgba(0,240,255,0.4); }
+    .dot-purple { background: var(--neon2); box-shadow: 0 0 8px rgba(123,47,255,0.4); }
 
-    /* ===== IMPORT SECTION ===== */
+    /* ── IMPORT ── */
     .import-area {
-      border: 2px dashed #475569;
-      border-radius: 10px;
-      padding: 20px;
+      border: 2px dashed rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 28px;
       text-align: center;
       cursor: pointer;
-      transition: all 0.2s;
-      color: #64748b;
+      transition: all 0.25s;
+      color: var(--muted);
     }
-    .import-area:hover { border-color: #2563eb; color: #93c5fd; }
+    .import-area:hover { border-color: var(--neon); color: var(--neon); background: rgba(0,240,255,0.03); }
     .import-area input { display: none; }
+    .import-icon { font-size: 2.2rem; margin-bottom: 8px; }
+    .import-main { font-size: 0.95rem; font-weight: 600; }
+    .import-sub { font-size: 0.75rem; margin-top: 4px; }
 
-    /* ===== TODAY PAGE ===== */
+    /* ── TODAY GRID ── */
     .today-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
       gap: 10px;
-      margin-bottom: 16px;
     }
 
     .today-player {
-      background: #0f172a;
-      border: 2px solid #334155;
-      border-radius: 10px;
-      padding: 12px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 14px;
       cursor: pointer;
-      transition: all 0.15s;
+      transition: all 0.2s;
       text-align: center;
       user-select: none;
+      position: relative;
+      overflow: hidden;
     }
 
-    .today-player:hover { border-color: #2563eb; }
-    .today-player.selected { border-color: #22c55e; background: #052e16; }
-    .today-player .tp-name { font-weight: 700; font-size: 0.95rem; }
-    .today-player .tp-rating { color: #fbbf24; font-size: 0.8rem; margin-top: 2px; }
-    .today-player .tp-check { font-size: 1.2rem; margin-bottom: 4px; }
+    .today-player::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0,240,255,0.05), rgba(123,47,255,0.05));
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
 
-    /* ===== TEAMS ===== */
+    .today-player:hover::before { opacity: 1; }
+    .today-player:hover { border-color: rgba(0,240,255,0.3); }
+
+    .today-player.selected {
+      border-color: var(--neon4);
+      background: rgba(0,255,136,0.06);
+      box-shadow: 0 0 20px rgba(0,255,136,0.1);
+    }
+
+    .today-player.selected::before { opacity: 1; background: linear-gradient(135deg, rgba(0,255,136,0.06), rgba(0,240,255,0.04)); }
+
+    .tp-check {
+      width: 28px; height: 28px;
+      border-radius: 8px;
+      border: 2px solid rgba(255,255,255,0.15);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 8px;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+
+    .today-player.selected .tp-check {
+      background: var(--neon4);
+      border-color: var(--neon4);
+      box-shadow: 0 0 12px rgba(0,255,136,0.5);
+      color: #000;
+    }
+
+    .tp-name { font-weight: 700; font-size: 0.92rem; }
+    .tp-pos { font-size: 0.72rem; color: var(--muted); margin-top: 3px; }
+    .tp-stars { display: flex; justify-content: center; gap: 2px; margin-top: 6px; }
+
+    /* ── TEAMS ── */
     .teams-container {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
       gap: 16px;
-      margin-top: 16px;
     }
 
     .team-card {
-      background: #0f172a;
-      border-radius: 12px;
-      padding: 16px;
-      border: 2px solid #334155;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
     }
 
     .team-header {
+      padding: 16px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      margin-bottom: 12px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid #1e293b;
+      justify-content: space-between;
     }
 
     .team-title {
-      font-weight: 800;
+      font-family: 'Exo 2', sans-serif;
+      font-weight: 900;
       font-size: 1rem;
+      letter-spacing: 1px;
     }
 
     .team-avg {
-      font-size: 0.78rem;
-      color: #94a3b8;
-      background: #1e293b;
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.6);
+      background: rgba(0,0,0,0.3);
       padding: 3px 8px;
       border-radius: 20px;
+      font-weight: 600;
     }
+
+    .team-body { padding: 0 16px 16px; }
 
     .team-player-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 7px 0;
-      border-bottom: 1px solid #1a2333;
+      padding: 9px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
     }
 
     .team-player-item:last-child { border-bottom: none; }
-    .tpi-name { font-size: 0.9rem; font-weight: 600; }
-    .tpi-stars { color: #fbbf24; font-size: 0.75rem; }
 
-    .team-colors = ['#3b82f6', '#ef4444', '#22c55e', '#a855f7', '#f59e0b', '#06b6d4'];
-
-    /* ===== SETTINGS ===== */
-    .teams-options {
+    .tpi-num {
+      width: 20px;
+      height: 20px;
+      border-radius: 6px;
       display: flex;
-      gap: 12px;
-      align-items: center;
-      flex-wrap: wrap;
-      margin-bottom: 16px;
-    }
-
-    /* ===== BADGE ===== */
-    .badge {
-      display: inline-flex;
       align-items: center;
       justify-content: center;
-      background: #2563eb;
-      color: #fff;
-      border-radius: 20px;
-      min-width: 22px;
-      height: 22px;
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       font-weight: 700;
-      padding: 0 6px;
+      flex-shrink: 0;
+      margin-left: 8px;
     }
 
-    /* ===== EMPTY STATE ===== */
+    .tpi-name { font-size: 0.9rem; font-weight: 600; flex: 1; }
+    .tpi-dots { display: flex; gap: 2px; }
+
+    /* ── BIG GENERATE BTN ── */
+    .generate-btn-wrap { text-align: center; padding: 20px 0; }
+    .generate-btn {
+      padding: 16px 48px;
+      font-size: 1.1rem;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--neon4), var(--neon));
+      color: #000;
+      border: none;
+      font-weight: 900;
+      font-family: 'Exo 2', sans-serif;
+      cursor: pointer;
+      letter-spacing: 1px;
+      box-shadow: 0 0 40px rgba(0,255,136,0.3);
+      transition: all 0.25s;
+    }
+    .generate-btn:hover { box-shadow: 0 0 60px rgba(0,255,136,0.5); transform: translateY(-2px) scale(1.02); }
+
+    /* ── STATS BAR ── */
+    .stats-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .stat-chip {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .stat-val { font-family: 'Exo 2', sans-serif; font-size: 1.4rem; font-weight: 900; color: var(--neon); }
+    .stat-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+
+    /* ── EMPTY ── */
     .empty {
       text-align: center;
-      color: #475569;
-      padding: 40px 20px;
-      font-size: 0.95rem;
+      color: var(--muted);
+      padding: 48px 20px;
     }
-    .empty .icon { font-size: 3rem; margin-bottom: 10px; }
+    .empty-icon { font-size: 3.5rem; margin-bottom: 12px; opacity: 0.4; }
+    .empty-text { font-size: 0.9rem; }
 
-    /* ===== MODAL ===== */
+    /* ── MODAL ── */
     .modal-overlay {
       display: none;
       position: fixed; inset: 0;
-      background: rgba(0,0,0,0.7);
-      z-index: 100;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(6px);
+      z-index: 200;
       align-items: center;
       justify-content: center;
     }
     .modal-overlay.open { display: flex; }
+
     .modal {
-      background: #1e293b;
-      border-radius: 14px;
-      padding: 24px;
+      background: #0d1424;
+      border: 1px solid rgba(0,240,255,0.2);
+      border-radius: 18px;
+      padding: 28px;
       width: 90%;
       max-width: 500px;
-      border: 1px solid #334155;
+      box-shadow: 0 0 60px rgba(0,240,255,0.1);
     }
-    .modal h3 { margin-bottom: 16px; font-size: 1.1rem; color: #93c5fd; }
-    .modal-actions { display: flex; gap: 10px; margin-top: 16px; justify-content: flex-end; }
 
-    /* ===== SCROLLBAR ===== */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: #0f172a; }
-    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    .modal-title {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--neon);
+      margin-bottom: 20px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
 
-    /* ===== RESPONSIVE ===== */
+    .modal-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; }
+
+    /* ── DIVIDER ── */
+    .divider { height: 1px; background: var(--glass-border); margin: 16px 0; }
+
+    /* ── TOOLTIP SELECT AREA ── */
+    .select-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .select-bar .count-display {
+      margin-right: auto;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .count-display strong { color: var(--neon4); font-family: 'Exo 2', sans-serif; font-size: 1rem; }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+
     @media (max-width: 600px) {
       .form-row { flex-direction: column; }
-      .teams-container { grid-template-columns: 1fr; }
-      header h1 { font-size: 1.4rem; }
+      .teams-container { grid-template-columns: 1fr 1fr; }
+      header { padding: 0 16px; }
+      .page { padding: 16px; }
     }
   </style>
 </head>
 <body>
 
+<div class="bg-orbs">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+</div>
+
+<!-- HEADER -->
 <header>
-  <span class="ball">⚽</span>
-  <div>
-    <h1>כוחות לגדואל</h1>
-    <div class="subtitle">ניהול שחקנים וחלוקת קבוצות</div>
+  <div class="logo">
+    <div class="logo-icon">⚽</div>
+    <div class="logo-text">
+      <div class="logo-title">GADU·EL</div>
+      <div class="logo-sub">Team Manager</div>
+    </div>
   </div>
 </header>
 
+<!-- NAV -->
 <nav>
-  <button class="active" onclick="showPage('players')">שחקנים <span id="badge-players" class="badge" style="margin-right:6px">0</span></button>
-  <button onclick="showPage('today')">משחק היום <span id="badge-today" class="badge" style="margin-right:6px; background:#16a34a">0</span></button>
-  <button onclick="showPage('teams')">כוחות</button>
+  <button class="active" onclick="showPage('players', this)">
+    שחקנים <span class="nav-badge" id="badge-players">0</span>
+  </button>
+  <button onclick="showPage('today', this)">
+    היום <span class="nav-badge" id="badge-today">0</span>
+  </button>
+  <button onclick="showPage('teams', this)">
+    כוחות
+  </button>
 </nav>
 
-<!-- ======================== PAGE: PLAYERS ======================== -->
+<!-- ===================== PAGE: PLAYERS ===================== -->
 <div id="page-players" class="page active">
 
+  <div id="stats-row" class="stats-row"></div>
+
   <div class="card">
-    <h2>הוסף שחקן</h2>
-    <div class="form-row" style="margin-bottom:12px">
+    <div class="card-title">הוסף שחקן</div>
+    <div class="form-row">
       <div class="form-group" style="flex:2">
-        <label>שם שחקן</label>
-        <input type="text" id="new-name" placeholder="שם מלא..." />
+        <label>שם</label>
+        <input type="text" id="new-name" placeholder="שם השחקן..." />
       </div>
       <div class="form-group" style="flex:1">
         <label>עמדה</label>
         <select id="new-pos">
-          <option value="">ללא עמדה</option>
+          <option value="">ללא</option>
           <option value="שוער">שוער</option>
           <option value="הגנה">הגנה</option>
           <option value="קשר">קשר</option>
@@ -365,113 +643,107 @@
         </select>
       </div>
     </div>
-    <div class="form-row" style="margin-bottom:12px">
+    <div class="form-row">
       <div class="form-group">
         <label>דירוג</label>
-        <div class="stars" id="new-stars-input">
-          <span class="star" data-val="1" onclick="setNewRating(1)">★</span>
-          <span class="star" data-val="2" onclick="setNewRating(2)">★</span>
-          <span class="star" data-val="3" onclick="setNewRating(3)">★</span>
-          <span class="star" data-val="4" onclick="setNewRating(4)">★</span>
-          <span class="star" data-val="5" onclick="setNewRating(5)">★</span>
+        <div class="stars-input" id="new-stars">
+          <span class="star-btn" onclick="setNewRating(1)">★</span>
+          <span class="star-btn" onclick="setNewRating(2)">★</span>
+          <span class="star-btn" onclick="setNewRating(3)">★</span>
+          <span class="star-btn" onclick="setNewRating(4)">★</span>
+          <span class="star-btn" onclick="setNewRating(5)">★</span>
         </div>
       </div>
       <div class="form-group">
-        <label>סימון צבע</label>
-        <div class="color-picker" id="new-color-picker">
-          <span class="color-dot dot-none selected" data-color="none" onclick="setNewColor('none', this)" title="ללא"></span>
-          <span class="color-dot dot-green" data-color="green" onclick="setNewColor('green', this)" title="ירוק"></span>
-          <span class="color-dot dot-yellow" data-color="yellow" onclick="setNewColor('yellow', this)" title="צהוב"></span>
-          <span class="color-dot dot-red" data-color="red" onclick="setNewColor('red', this)" title="אדום"></span>
-          <span class="color-dot dot-blue" data-color="blue" onclick="setNewColor('blue', this)" title="כחול"></span>
+        <label>צבע סימון</label>
+        <div class="color-picker" id="new-colors">
+          <span class="color-dot dot-none selected" data-c="none" onclick="setNewColor('none',this)"></span>
+          <span class="color-dot dot-green" data-c="green" onclick="setNewColor('green',this)"></span>
+          <span class="color-dot dot-yellow" data-c="yellow" onclick="setNewColor('yellow',this)"></span>
+          <span class="color-dot dot-red" data-c="red" onclick="setNewColor('red',this)"></span>
+          <span class="color-dot dot-blue" data-c="blue" onclick="setNewColor('blue',this)"></span>
+          <span class="color-dot dot-purple" data-c="purple" onclick="setNewColor('purple',this)"></span>
         </div>
       </div>
     </div>
-    <div class="form-row" style="margin-bottom:14px">
-      <div class="form-group" style="flex:1">
-        <label>הערות על השחקן</label>
-        <textarea id="new-note" placeholder="חוזקות, חולשות, הערות..."></textarea>
+    <div class="form-row">
+      <div class="form-group">
+        <label>הערות</label>
+        <textarea id="new-note" placeholder="חוזקות, חולשות, הערות חשובות..."></textarea>
       </div>
     </div>
     <button class="btn btn-primary" onclick="addPlayer()">+ הוסף שחקן</button>
   </div>
 
   <div class="card">
-    <h2>ייבוא מקובץ CSV</h2>
+    <div class="card-title">ייבוא / ייצוא</div>
     <div class="import-area" onclick="document.getElementById('csv-input').click()">
       <input type="file" id="csv-input" accept=".csv,.txt" onchange="importCSV(event)" />
-      <div style="font-size:2rem; margin-bottom:8px">📂</div>
-      <div>לחץ לייבוא קובץ CSV</div>
-      <div style="font-size:0.8rem; margin-top:4px; color:#475569">פורמט: שם,עמדה,דירוג,הערה (שורה לכל שחקן)</div>
+      <div class="import-icon">📂</div>
+      <div class="import-main">גרור קובץ CSV או לחץ לייבוא</div>
+      <div class="import-sub">פורמט: שם, עמדה, דירוג, הערה</div>
     </div>
-    <div style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap">
+    <div style="display:flex; gap:8px; margin-top:12px; flex-wrap:wrap;">
       <button class="btn btn-ghost btn-sm" onclick="exportCSV()">ייצוא CSV</button>
-      <button class="btn btn-danger btn-sm" onclick="clearAllPlayers()">מחק הכל</button>
+      <button class="btn btn-danger btn-sm" onclick="clearAll()">מחק הכל</button>
     </div>
   </div>
 
   <div class="card">
-    <h2>רשימת שחקנים</h2>
+    <div class="card-title">כל השחקנים</div>
     <div id="player-list" class="player-list"></div>
   </div>
 </div>
 
-<!-- ======================== PAGE: TODAY ======================== -->
+<!-- ===================== PAGE: TODAY ===================== -->
 <div id="page-today" class="page">
   <div class="card">
-    <h2>בחר שחקנים לגדואל היום</h2>
-    <div style="display:flex; gap:10px; margin-bottom:16px; flex-wrap:wrap">
+    <div class="card-title">מי משחק היום?</div>
+    <div class="select-bar">
       <button class="btn btn-ghost btn-sm" onclick="selectAll()">בחר הכל</button>
       <button class="btn btn-ghost btn-sm" onclick="deselectAll()">בטל הכל</button>
-      <span style="margin-right:auto; color:#94a3b8; font-size:0.9rem; align-self:center">
-        נבחרו: <strong id="selected-count">0</strong> שחקנים
-      </span>
+      <div class="count-display">נבחרו: <strong id="sel-count">0</strong> שחקנים</div>
     </div>
     <div id="today-grid" class="today-grid"></div>
   </div>
-  <div style="text-align:center">
-    <button class="btn btn-success" style="font-size:1.1rem; padding:14px 36px;" onclick="goToTeams()">
-      צור כוחות ←
-    </button>
+  <div class="generate-btn-wrap">
+    <button class="generate-btn" onclick="goToTeams()">⚡ צור כוחות</button>
   </div>
 </div>
 
-<!-- ======================== PAGE: TEAMS ======================== -->
+<!-- ===================== PAGE: TEAMS ===================== -->
 <div id="page-teams" class="page">
   <div class="card">
-    <h2>הגדרות חלוקה</h2>
-    <div class="teams-options">
+    <div class="card-title">הגדרות חלוקה</div>
+    <div style="display:flex; gap:12px; align-items:flex-end; flex-wrap:wrap;">
       <div class="form-group" style="flex:0 0 auto">
         <label>מספר קבוצות</label>
-        <select id="num-teams" style="width:80px">
+        <select id="num-teams" style="width:90px">
           <option value="2" selected>2</option>
           <option value="3">3</option>
           <option value="4">4</option>
         </select>
       </div>
-      <div style="align-self:flex-end; display:flex; gap:8px">
-        <button class="btn btn-success" onclick="generateTeams()">צור כוחות</button>
-        <button class="btn btn-ghost" onclick="generateTeams()">ערבב מחדש</button>
-      </div>
-    </div>
-    <div style="color:#64748b; font-size:0.85rem">
-      שחקנים שנבחרו: <strong id="teams-player-count" style="color:#93c5fd">0</strong>
+      <button class="btn btn-success" onclick="generateTeams()">⚡ צור כוחות</button>
+      <button class="btn btn-ghost" onclick="shuffleTeams()">🔀 ערבב</button>
+      <span style="color:var(--muted);font-size:0.85rem;align-self:center">
+        שחקנים: <strong id="teams-count" style="color:var(--neon4)">0</strong>
+      </span>
     </div>
   </div>
-
   <div id="teams-container" class="teams-container"></div>
   <div id="teams-empty" class="empty">
-    <div class="icon">⚽</div>
-    <div>בחר שחקנים בלשונית "משחק היום" ולחץ "צור כוחות"</div>
+    <div class="empty-icon">⚽</div>
+    <div class="empty-text">בחר שחקנים בלשונית "היום" ולחץ "צור כוחות"</div>
   </div>
 </div>
 
-<!-- ======================== EDIT MODAL ======================== -->
+<!-- EDIT MODAL -->
 <div class="modal-overlay" id="edit-modal">
   <div class="modal">
-    <h3>עריכת שחקן</h3>
+    <div class="modal-title">עריכת שחקן</div>
     <input type="hidden" id="edit-id" />
-    <div class="form-row" style="margin-bottom:12px">
+    <div class="form-row">
       <div class="form-group" style="flex:2">
         <label>שם</label>
         <input type="text" id="edit-name" />
@@ -479,7 +751,7 @@
       <div class="form-group" style="flex:1">
         <label>עמדה</label>
         <select id="edit-pos">
-          <option value="">ללא עמדה</option>
+          <option value="">ללא</option>
           <option value="שוער">שוער</option>
           <option value="הגנה">הגנה</option>
           <option value="קשר">קשר</option>
@@ -487,80 +759,127 @@
         </select>
       </div>
     </div>
-    <div class="form-row" style="margin-bottom:12px">
+    <div class="form-row">
       <div class="form-group">
         <label>דירוג</label>
-        <div class="stars" id="edit-stars-input">
-          <span class="star" data-val="1" onclick="setEditRating(1)">★</span>
-          <span class="star" data-val="2" onclick="setEditRating(2)">★</span>
-          <span class="star" data-val="3" onclick="setEditRating(3)">★</span>
-          <span class="star" data-val="4" onclick="setEditRating(4)">★</span>
-          <span class="star" data-val="5" onclick="setEditRating(5)">★</span>
+        <div class="stars-input" id="edit-stars">
+          <span class="star-btn" onclick="setEditRating(1)">★</span>
+          <span class="star-btn" onclick="setEditRating(2)">★</span>
+          <span class="star-btn" onclick="setEditRating(3)">★</span>
+          <span class="star-btn" onclick="setEditRating(4)">★</span>
+          <span class="star-btn" onclick="setEditRating(5)">★</span>
         </div>
       </div>
       <div class="form-group">
-        <label>סימון צבע</label>
-        <div class="color-picker" id="edit-color-picker">
-          <span class="color-dot dot-none" data-color="none" onclick="setEditColor('none', this)" title="ללא"></span>
-          <span class="color-dot dot-green" data-color="green" onclick="setEditColor('green', this)" title="ירוק"></span>
-          <span class="color-dot dot-yellow" data-color="yellow" onclick="setEditColor('yellow', this)" title="צהוב"></span>
-          <span class="color-dot dot-red" data-color="red" onclick="setEditColor('red', this)" title="אדום"></span>
-          <span class="color-dot dot-blue" data-color="blue" onclick="setEditColor('blue', this)" title="כחול"></span>
+        <label>צבע סימון</label>
+        <div class="color-picker" id="edit-colors">
+          <span class="color-dot dot-none" data-c="none" onclick="setEditColor('none',this)"></span>
+          <span class="color-dot dot-green" data-c="green" onclick="setEditColor('green',this)"></span>
+          <span class="color-dot dot-yellow" data-c="yellow" onclick="setEditColor('yellow',this)"></span>
+          <span class="color-dot dot-red" data-c="red" onclick="setEditColor('red',this)"></span>
+          <span class="color-dot dot-blue" data-c="blue" onclick="setEditColor('blue',this)"></span>
+          <span class="color-dot dot-purple" data-c="purple" onclick="setEditColor('purple',this)"></span>
         </div>
       </div>
     </div>
-    <div class="form-group" style="margin-bottom:4px">
+    <div class="form-group">
       <label>הערות</label>
       <textarea id="edit-note"></textarea>
     </div>
     <div class="modal-actions">
-      <button class="btn btn-ghost" onclick="closeEditModal()">ביטול</button>
+      <button class="btn btn-ghost" onclick="closeModal()">ביטול</button>
       <button class="btn btn-primary" onclick="saveEdit()">שמור</button>
     </div>
   </div>
 </div>
 
 <script>
-// ===================== STATE =====================
-let players = JSON.parse(localStorage.getItem('gadu_players') || '[]');
-let selectedToday = new Set(JSON.parse(localStorage.getItem('gadu_today') || '[]'));
-let newRating = 3;
-let newColor = 'none';
-let editRating = 3;
-let editColor = 'none';
-let generatedTeams = [];
+// ── STATE ──
+let players = JSON.parse(localStorage.getItem('ge_players') || '[]');
+let selected = new Set(JSON.parse(localStorage.getItem('ge_today') || '[]'));
+let newRating = 3, newColor = 'none';
+let editRating = 3, editColor = 'none';
 
-const TEAM_COLORS = ['#3b82f6', '#ef4444', '#22c55e', '#a855f7', '#f59e0b', '#06b6d4'];
-const TEAM_NAMES = ['קבוצה כחולה', 'קבוצה אדומה', 'קבוצה ירוקה', 'קבוצה סגולה'];
+const TEAM_COLORS = [
+  { bg: 'rgba(0,240,255,0.08)', header: 'linear-gradient(135deg,rgba(0,240,255,0.18),rgba(123,47,255,0.12))', accent: '#00f0ff', name: 'TEAM CYAN' },
+  { bg: 'rgba(255,47,110,0.08)', header: 'linear-gradient(135deg,rgba(255,47,110,0.18),rgba(123,47,255,0.12))', accent: '#ff2f6e', name: 'TEAM RED' },
+  { bg: 'rgba(0,255,136,0.08)', header: 'linear-gradient(135deg,rgba(0,255,136,0.18),rgba(0,240,255,0.08))', accent: '#00ff88', name: 'TEAM GREEN' },
+  { bg: 'rgba(251,191,36,0.08)', header: 'linear-gradient(135deg,rgba(251,191,36,0.18),rgba(255,47,110,0.08))', accent: '#fbbf24', name: 'TEAM GOLD' },
+];
 
-// ===================== INIT =====================
-renderPlayerList();
-renderTodayGrid();
-updateBadges();
+// ── INIT ──
 setNewRating(3);
+render();
 
-// ===================== NAVIGATION =====================
-function showPage(page) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-  document.getElementById('page-' + page).classList.add('active');
-  event.currentTarget.classList.add('active');
-  if (page === 'today') renderTodayGrid();
-  if (page === 'teams') updateTeamsPageCount();
-}
-
-// ===================== PLAYERS =====================
+// ── SAVE ──
 function save() {
-  localStorage.setItem('gadu_players', JSON.stringify(players));
-  localStorage.setItem('gadu_today', JSON.stringify([...selectedToday]));
+  localStorage.setItem('ge_players', JSON.stringify(players));
+  localStorage.setItem('ge_today', JSON.stringify([...selected]));
   updateBadges();
 }
 
+// ── NAVIGATION ──
+function showPage(page, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  btn.classList.add('active');
+  if (page === 'today') renderToday();
+  if (page === 'teams') document.getElementById('teams-count').textContent = selected.size;
+}
+
+// ── RENDER PLAYERS ──
+function render() {
+  renderStats();
+  renderPlayerList();
+  updateBadges();
+}
+
+function renderStats() {
+  const avg = players.length
+    ? (players.reduce((s,p) => s + (p.rating||3), 0) / players.length).toFixed(1)
+    : 0;
+  document.getElementById('stats-row').innerHTML = `
+    <div class="stat-chip"><div class="stat-val">${players.length}</div><div class="stat-label">שחקנים<br>רשומים</div></div>
+    <div class="stat-chip"><div class="stat-val" style="color:var(--neon4)">${selected.size}</div><div class="stat-label">נבחרו<br>להיום</div></div>
+    <div class="stat-chip"><div class="stat-val" style="color:#fbbf24">${avg}</div><div class="stat-label">ממוצע<br>דירוג</div></div>
+  `;
+}
+
+function renderPlayerList() {
+  const el = document.getElementById('player-list');
+  if (!players.length) {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">👤</div><div class="empty-text">אין שחקנים עדיין</div></div>';
+    return;
+  }
+  el.innerHTML = players.map(p => {
+    const initials = p.name.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
+    const dots = [1,2,3,4,5].map(i => `<span class="star-dot ${i <= (p.rating||3) ? 'on' : ''}"></span>`).join('');
+    return `
+    <div class="player-card hl-${p.color||'none'}">
+      <div class="player-avatar">${initials}</div>
+      <div class="player-info">
+        <div class="player-name">${esc(p.name)}</div>
+        <div class="player-meta">
+          <div class="player-rating">${dots}</div>
+          ${p.pos ? `<span class="player-pos">${esc(p.pos)}</span>` : ''}
+        </div>
+        ${p.note ? `<div class="player-note">${esc(p.note)}</div>` : ''}
+      </div>
+      <div class="player-actions">
+        <button class="btn btn-ghost btn-sm" onclick="openEdit('${p.id}')">עריכה</button>
+        <button class="btn btn-danger btn-sm" onclick="del('${p.id}')">✕</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── ADD PLAYER ──
 function addPlayer() {
   const name = document.getElementById('new-name').value.trim();
-  if (!name) { alert('נא להכניס שם שחקן'); return; }
+  if (!name) { flash('new-name'); return; }
   players.push({
-    id: Date.now().toString(),
+    id: Date.now().toString(36) + Math.random().toString(36).slice(2),
     name,
     pos: document.getElementById('new-pos').value,
     rating: newRating,
@@ -568,99 +887,74 @@ function addPlayer() {
     note: document.getElementById('new-note').value.trim()
   });
   save();
-  renderPlayerList();
+  render();
   document.getElementById('new-name').value = '';
   document.getElementById('new-note').value = '';
   document.getElementById('new-pos').value = '';
   setNewRating(3);
-  setNewColorByVal('none');
+  setNewColorVal('none', '#new-colors');
 }
 
-function deletePlayer(id) {
-  if (!confirm('למחוק את השחקן?')) return;
+function del(id) {
+  if (!confirm('למחוק שחקן זה?')) return;
   players = players.filter(p => p.id !== id);
-  selectedToday.delete(id);
+  selected.delete(id);
   save();
-  renderPlayerList();
+  render();
 }
 
-function clearAllPlayers() {
+function clearAll() {
   if (!confirm('למחוק את כל השחקנים?')) return;
-  players = [];
-  selectedToday.clear();
-  save();
-  renderPlayerList();
+  players = []; selected.clear();
+  save(); render();
 }
 
-function renderPlayerList() {
-  const el = document.getElementById('player-list');
-  if (!players.length) {
-    el.innerHTML = '<div class="empty"><div class="icon">👤</div><div>אין שחקנים עדיין. הוסף שחקנים למעלה.</div></div>';
-    return;
-  }
-  el.innerHTML = players.map(p => `
-    <div class="player-card highlight-${p.color || 'none'}">
-      <div class="player-info">
-        <div class="player-name">${esc(p.name)}</div>
-        <div class="player-meta">
-          <span class="player-rating">${'★'.repeat(p.rating || 0)}${'☆'.repeat(5 - (p.rating || 0))}</span>
-          ${p.pos ? `<span class="player-pos">${esc(p.pos)}</span>` : ''}
-        </div>
-        ${p.note ? `<div class="player-note">${esc(p.note)}</div>` : ''}
-      </div>
-      <div class="player-actions">
-        <button class="btn btn-ghost btn-sm" onclick="openEditModal('${p.id}')">עריכה</button>
-        <button class="btn btn-danger btn-sm" onclick="deletePlayer('${p.id}')">מחק</button>
-      </div>
-    </div>
-  `).join('');
-  updateBadges();
+// ── RATINGS ──
+function setNewRating(v) {
+  newRating = v;
+  updateStars('new-stars', v);
 }
 
-// ===================== RATINGS =====================
-function setNewRating(val) {
-  newRating = val;
-  document.querySelectorAll('#new-stars-input .star').forEach(s => {
-    s.classList.toggle('filled', +s.dataset.val <= val);
+function setEditRating(v) {
+  editRating = v;
+  updateStars('edit-stars', v);
+}
+
+function updateStars(id, v) {
+  document.querySelectorAll(`#${id} .star-btn`).forEach((s,i) => {
+    s.classList.toggle('on', i < v);
   });
 }
 
-function setEditRating(val) {
-  editRating = val;
-  document.querySelectorAll('#edit-stars-input .star').forEach(s => {
-    s.classList.toggle('filled', +s.dataset.val <= val);
-  });
-}
-
-// ===================== COLORS =====================
-function setNewColor(color, el) {
-  newColor = color;
-  document.querySelectorAll('#new-color-picker .color-dot').forEach(d => d.classList.remove('selected'));
+// ── COLORS ──
+function setNewColor(c, el) {
+  newColor = c;
+  document.querySelectorAll('#new-colors .color-dot').forEach(d => d.classList.remove('selected'));
   el.classList.add('selected');
 }
 
-function setNewColorByVal(color) {
-  newColor = color;
-  document.querySelectorAll('#new-color-picker .color-dot').forEach(d => {
-    d.classList.toggle('selected', d.dataset.color === color);
-  });
-}
-
-function setEditColor(color, el) {
-  editColor = color;
-  document.querySelectorAll('#edit-color-picker .color-dot').forEach(d => d.classList.remove('selected'));
+function setEditColor(c, el) {
+  editColor = c;
+  document.querySelectorAll('#edit-colors .color-dot').forEach(d => d.classList.remove('selected'));
   el.classList.add('selected');
 }
 
-function setEditColorByVal(color) {
-  editColor = color;
-  document.querySelectorAll('#edit-color-picker .color-dot').forEach(d => {
-    d.classList.toggle('selected', d.dataset.color === color);
+function setNewColorVal(c) {
+  newColor = c;
+  document.querySelectorAll('#new-colors .color-dot').forEach(d => {
+    d.classList.toggle('selected', d.dataset.c === c);
   });
 }
 
-// ===================== EDIT MODAL =====================
-function openEditModal(id) {
+function setEditColorVal(c) {
+  editColor = c;
+  document.querySelectorAll('#edit-colors .color-dot').forEach(d => {
+    d.classList.toggle('selected', d.dataset.c === c);
+  });
+}
+
+// ── EDIT MODAL ──
+function openEdit(id) {
   const p = players.find(x => x.id === id);
   if (!p) return;
   document.getElementById('edit-id').value = id;
@@ -668,11 +962,11 @@ function openEditModal(id) {
   document.getElementById('edit-pos').value = p.pos || '';
   document.getElementById('edit-note').value = p.note || '';
   setEditRating(p.rating || 3);
-  setEditColorByVal(p.color || 'none');
+  setEditColorVal(p.color || 'none');
   document.getElementById('edit-modal').classList.add('open');
 }
 
-function closeEditModal() {
+function closeModal() {
   document.getElementById('edit-modal').classList.remove('open');
 }
 
@@ -685,106 +979,89 @@ function saveEdit() {
   p.note = document.getElementById('edit-note').value.trim();
   p.rating = editRating;
   p.color = editColor;
-  save();
-  renderPlayerList();
-  closeEditModal();
+  save(); render(); closeModal();
 }
 
-document.getElementById('edit-modal').addEventListener('click', function(e) {
-  if (e.target === this) closeEditModal();
+document.getElementById('edit-modal').addEventListener('click', e => {
+  if (e.target === e.currentTarget) closeModal();
 });
 
-// ===================== CSV IMPORT / EXPORT =====================
-function importCSV(event) {
-  const file = event.target.files[0];
+// ── CSV ──
+function importCSV(e) {
+  const file = e.target.files[0];
   if (!file) return;
   const reader = new FileReader();
-  reader.onload = function(e) {
-    const lines = e.target.result.split('\n').filter(l => l.trim());
+  reader.onload = ev => {
+    const lines = ev.target.result.split('\n').filter(l => l.trim());
     let added = 0;
     for (const line of lines) {
-      const parts = line.split(',').map(s => s.trim());
-      if (!parts[0]) continue;
+      const [name, pos, rating, ...noteParts] = line.split(',').map(s => s.trim());
+      if (!name) continue;
       players.push({
-        id: Date.now().toString() + Math.random(),
-        name: parts[0],
-        pos: parts[1] || '',
-        rating: Math.min(5, Math.max(1, parseInt(parts[2]) || 3)),
-        color: 'none',
-        note: parts[3] || ''
+        id: Date.now().toString(36) + Math.random().toString(36).slice(2),
+        name, pos: pos||'',
+        rating: Math.min(5, Math.max(1, parseInt(rating)||3)),
+        color: 'none', note: noteParts.join(',')
       });
       added++;
     }
-    save();
-    renderPlayerList();
-    alert(`יובאו ${added} שחקנים בהצלחה!`);
+    save(); render();
+    alert(`יובאו ${added} שחקנים!`);
   };
   reader.readAsText(file, 'UTF-8');
-  event.target.value = '';
+  e.target.value = '';
 }
 
 function exportCSV() {
-  if (!players.length) { alert('אין שחקנים לייצוא'); return; }
-  const rows = players.map(p => `${p.name},${p.pos || ''},${p.rating || 3},${p.note || ''}`);
-  const blob = new Blob([rows.join('\n')], { type: 'text/csv;charset=utf-8;' });
+  if (!players.length) { alert('אין שחקנים'); return; }
+  const rows = players.map(p => `${p.name},${p.pos||''},${p.rating||3},${p.note||''}`);
   const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
+  a.href = URL.createObjectURL(new Blob([rows.join('\n')], { type: 'text/csv;charset=utf-8;' }));
   a.download = 'שחקנים_גדואל.csv';
   a.click();
 }
 
-// ===================== TODAY =====================
-function renderTodayGrid() {
+// ── TODAY ──
+function renderToday() {
   const el = document.getElementById('today-grid');
+  document.getElementById('sel-count').textContent = selected.size;
   if (!players.length) {
-    el.innerHTML = '<div class="empty" style="grid-column:1/-1"><div class="icon">👤</div><div>הוסף שחקנים קודם</div></div>';
-    document.getElementById('selected-count').textContent = '0';
+    el.innerHTML = '<div class="empty" style="grid-column:1/-1"><div class="empty-icon">👤</div><div class="empty-text">הוסף שחקנים קודם</div></div>';
     return;
   }
-  el.innerHTML = players.map(p => `
-    <div class="today-player ${selectedToday.has(p.id) ? 'selected' : ''}" onclick="toggleToday('${p.id}', this)">
-      <div class="tp-check">${selectedToday.has(p.id) ? '✅' : '⬜'}</div>
+  el.innerHTML = players.map(p => {
+    const on = selected.has(p.id);
+    const dots = [1,2,3,4,5].map(i => `<span class="star-dot ${i<=(p.rating||3)?'on':''}"></span>`).join('');
+    return `
+    <div class="today-player ${on?'selected':''}" onclick="toggleToday('${p.id}', this)">
+      <div class="tp-check">${on ? '✓' : ''}</div>
       <div class="tp-name">${esc(p.name)}</div>
-      ${p.pos ? `<div style="font-size:0.78rem;color:#64748b;margin-top:2px">${esc(p.pos)}</div>` : ''}
-      <div class="tp-rating">${'★'.repeat(p.rating || 0)}${'☆'.repeat(5 - (p.rating || 0))}</div>
-    </div>
-  `).join('');
-  updateSelectedCount();
+      ${p.pos ? `<div class="tp-pos">${esc(p.pos)}</div>` : ''}
+      <div class="tp-stars">${dots}</div>
+    </div>`;
+  }).join('');
 }
 
 function toggleToday(id, el) {
-  if (selectedToday.has(id)) {
-    selectedToday.delete(id);
+  if (selected.has(id)) {
+    selected.delete(id);
     el.classList.remove('selected');
-    el.querySelector('.tp-check').textContent = '⬜';
+    el.querySelector('.tp-check').textContent = '';
   } else {
-    selectedToday.add(id);
+    selected.add(id);
     el.classList.add('selected');
-    el.querySelector('.tp-check').textContent = '✅';
+    el.querySelector('.tp-check').textContent = '✓';
   }
+  document.getElementById('sel-count').textContent = selected.size;
   save();
-  updateSelectedCount();
+  renderStats();
 }
 
-function selectAll() {
-  players.forEach(p => selectedToday.add(p.id));
-  save();
-  renderTodayGrid();
-}
-
-function deselectAll() {
-  selectedToday.clear();
-  save();
-  renderTodayGrid();
-}
-
-function updateSelectedCount() {
-  document.getElementById('selected-count').textContent = selectedToday.size;
-  updateBadges();
-}
+function selectAll() { players.forEach(p => selected.add(p.id)); save(); renderToday(); renderStats(); }
+function deselectAll() { selected.clear(); save(); renderToday(); renderStats(); }
 
 function goToTeams() {
-  if (selectedToday.size === 0) { alert('בחר לפחות שחקן אחד'); return; }
+  if (!selected.size) { alert('בחר לפחות שחקן אחד'); return; }
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
   document.getElementById('page-teams').classList.add('active');
@@ -792,78 +1069,99 @@ function goToTeams() {
   generateTeams();
 }
 
-// ===================== TEAMS =====================
-function updateTeamsPageCount() {
-  document.getElementById('teams-player-count').textContent = selectedToday.size;
-}
+// ── TEAMS ──
+let lastActive = [];
 
 function generateTeams() {
   const numTeams = parseInt(document.getElementById('num-teams').value);
-  const activePlayers = players.filter(p => selectedToday.has(p.id));
-  document.getElementById('teams-player-count').textContent = activePlayers.length;
+  lastActive = players.filter(p => selected.has(p.id));
+  document.getElementById('teams-count').textContent = lastActive.length;
 
-  if (!activePlayers.length) {
+  if (!lastActive.length) {
     document.getElementById('teams-container').innerHTML = '';
     document.getElementById('teams-empty').style.display = 'block';
     return;
   }
   document.getElementById('teams-empty').style.display = 'none';
 
-  // Shuffle first for randomness
-  const shuffled = [...activePlayers].sort(() => Math.random() - 0.5);
-  // Sort by rating desc for balanced distribution
-  shuffled.sort((a, b) => (b.rating || 3) - (a.rating || 3));
+  const shuffled = [...lastActive].sort(() => Math.random() - 0.5);
+  shuffled.sort((a, b) => (b.rating||3) - (a.rating||3));
 
   const teams = Array.from({ length: numTeams }, () => []);
   const sums = Array(numTeams).fill(0);
+  let dir = 1, idx = 0;
 
-  // Snake draft: 1,2,3,3,2,1,1,2,3...
-  let dir = 1;
-  let i = 0;
   for (const p of shuffled) {
-    teams[i].push(p);
-    sums[i] += p.rating || 3;
-    if (dir === 1 && i === numTeams - 1) dir = -1;
-    else if (dir === -1 && i === 0) dir = 1;
-    else i += dir;
+    teams[idx].push(p);
+    sums[idx] += p.rating || 3;
+    if (dir === 1 && idx === numTeams - 1) dir = -1;
+    else if (dir === -1 && idx === 0) dir = 1;
+    else idx += dir;
   }
 
-  generatedTeams = teams;
+  renderTeams(teams);
+}
+
+function shuffleTeams() {
+  if (!lastActive.length) { generateTeams(); return; }
+  const numTeams = parseInt(document.getElementById('num-teams').value);
+  const shuffled = [...lastActive].sort(() => Math.random() - 0.5);
+  const teams = Array.from({ length: numTeams }, () => []);
+  const sums = Array(numTeams).fill(0);
+  shuffled.sort((a,b) => (b.rating||3)-(a.rating||3));
+  let dir = 1, idx = 0;
+  for (const p of shuffled) {
+    teams[idx].push(p);
+    sums[idx] += p.rating||3;
+    if (dir === 1 && idx === numTeams - 1) dir = -1;
+    else if (dir === -1 && idx === 0) dir = 1;
+    else idx += dir;
+  }
   renderTeams(teams);
 }
 
 function renderTeams(teams) {
-  const container = document.getElementById('teams-container');
-  container.innerHTML = teams.map((team, idx) => {
-    const avg = team.length ? (team.reduce((s, p) => s + (p.rating || 3), 0) / team.length).toFixed(1) : 0;
-    const color = TEAM_COLORS[idx] || '#64748b';
-    const name = TEAM_NAMES[idx] || `קבוצה ${idx + 1}`;
+  document.getElementById('teams-container').innerHTML = teams.map((team, i) => {
+    const cfg = TEAM_COLORS[i] || TEAM_COLORS[0];
+    const avg = team.length
+      ? (team.reduce((s,p) => s+(p.rating||3), 0) / team.length).toFixed(1)
+      : 0;
+    const players_html = team.map((p, n) => {
+      const dots = [1,2,3,4,5].map(j => `<span class="star-dot ${j<=(p.rating||3)?'on':''}"></span>`).join('');
+      return `
+      <div class="team-player-item">
+        <span class="tpi-num" style="background:${cfg.accent}22;color:${cfg.accent}">${n+1}</span>
+        <span class="tpi-name">${esc(p.name)}</span>
+        <span class="tpi-dots">${dots}</span>
+      </div>`;
+    }).join('');
     return `
-      <div class="team-card" style="border-color:${color}">
-        <div class="team-header">
-          <div class="team-title" style="color:${color}">${name}</div>
-          <div class="team-avg">ממוצע: ${avg} ★ | ${team.length} שחקנים</div>
-        </div>
-        ${team.map(p => `
-          <div class="team-player-item">
-            <span class="tpi-name">${esc(p.name)}</span>
-            <span class="tpi-stars">${'★'.repeat(p.rating || 3)}</span>
-          </div>
-        `).join('')}
+    <div class="team-card" style="background:${cfg.bg}; border-color:${cfg.accent}30;">
+      <div class="team-header" style="background:${cfg.header}">
+        <div class="team-title" style="color:${cfg.accent}">${cfg.name}</div>
+        <div class="team-avg">${avg} ★ · ${team.length}👤</div>
       </div>
-    `;
+      <div class="team-body">${players_html}</div>
+    </div>`;
   }).join('');
 }
 
-// ===================== BADGES =====================
+// ── BADGES ──
 function updateBadges() {
   document.getElementById('badge-players').textContent = players.length;
-  document.getElementById('badge-today').textContent = selectedToday.size;
+  document.getElementById('badge-today').textContent = selected.size;
 }
 
-// ===================== UTILS =====================
-function esc(str) {
-  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+// ── UTILS ──
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function flash(id) {
+  const el = document.getElementById(id);
+  el.style.borderColor = 'var(--neon3)';
+  el.style.boxShadow = '0 0 15px rgba(255,47,110,0.3)';
+  setTimeout(() => { el.style.borderColor = ''; el.style.boxShadow = ''; }, 1000);
 }
 </script>
 </body>
