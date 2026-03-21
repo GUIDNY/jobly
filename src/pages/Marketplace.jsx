@@ -175,6 +175,10 @@ export default function Marketplace() {
 
           {loading ? (
             <div className="text-center py-20 text-gray-400">טוען...</div>
+          ) : error ? (
+            <div className="text-center py-20">
+              <p className="text-red-500 text-sm bg-red-50 border border-red-200 rounded-xl px-4 py-3 inline-block">{error?.message || 'שגיאה בטעינת נתונים'}</p>
+            </div>
           ) : filteredBots.length === 0 ? (
             <div className="text-center py-20">
               <p className="text-gray-500 text-lg mb-2">לא נמצאו תוצאות</p>
