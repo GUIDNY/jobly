@@ -34,7 +34,7 @@ export default function MyDashboard() {
     );
   }
 
-  const setUserType = (type) => updateMe({ user_type: type });
+  const setUserType = async (type) => { await updateMe({ user_type: type }); };
 
   return (
     <div dir="rtl" className="max-w-7xl mx-auto px-4 py-8">
