@@ -179,7 +179,7 @@ export default function Layout({ children }) {
             <div className="mt-auto">
               {user ? (
                 <button
-                  onClick={() => { logout(); setDrawerOpen(false); }}
+                  onClick={async () => { await logout(); setDrawerOpen(false); navigate('/'); }}
                   className="w-full flex items-center justify-center gap-2 py-3 rounded-lg border border-red-500/30 text-red-400 hover:bg-red-500/10 transition-colors text-sm"
                 >
                   <LogOut size={16} />
