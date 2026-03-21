@@ -244,19 +244,23 @@ export default function Admin() {
       {/* Users */}
       {tab === 3 && (
         <div className="space-y-3">
-          <div className="bg-white border border-gray-200 rounded-2xl p-4 flex items-center gap-4">
-            <img src={mockUser.avatar_url} alt="" className="w-10 h-10 rounded-full object-cover" />
-            <div className="flex-1">
-              <div className="font-medium text-gray-900 text-sm">{mockUser.full_name}</div>
-              <div className="text-xs text-gray-500">{mockUser.email}</div>
+          {profiles.map(p => (
+            <div key={p.id} className="bg-white border border-gray-200 rounded-2xl p-4 flex items-center gap-4">
+              <img src={p.avatar_url || `https://i.pravatar.cc/40?u=${p.email}`} alt="" className="w-10 h-10 rounded-full object-cover" />
+              <div className="flex-1">
+                <div className="font-medium text-gray-900 text-sm">{p.full_name || p.email}</div>
+                <div className="text-xs text-gray-500">{p.email}</div>
+              </div>
+              {p.is_admin && (
+                <span className="px-2 py-1 bg-orange-100 text-orange-700 text-xs font-semibold rounded-full flex items-center gap-1">
+                  <Shield size={10} /> Admin
+                </span>
+              )}
             </div>
-            <span className="px-2 py-1 bg-orange-100 text-orange-700 text-xs font-semibold rounded-full flex items-center gap-1">
-              <Shield size={10} /> Admin
-            </span>
-          </div>
-          <div className="text-center py-10 text-gray-400 text-sm">
-            משתמשים נוספים יופיעו כאן לאחר חיבור לבסיס נתונים אמיתי
-          </div>
+          ))}
+          {profiles.length === 0 && (
+            <div className="text-center py-10 text-gray-400 text-sm">אין משתמשים עדיין</div>
+          )}
         </div>
       )}
     </div>
