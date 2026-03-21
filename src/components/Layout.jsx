@@ -98,7 +98,7 @@ export default function Layout({ children }) {
                         הפרופיל שלי
                       </Link>
                       <button
-                        onClick={() => { logout(); setUserMenuOpen(false); }}
+                        onClick={async () => { await logout(); setUserMenuOpen(false); navigate('/'); }}
                         className="flex items-center gap-2 w-full px-3 py-2 text-sm text-red-400 hover:text-red-300 hover:bg-gray-100 transition-colors"
                       >
                         <LogOut size={14} />
