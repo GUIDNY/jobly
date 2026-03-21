@@ -48,17 +48,7 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     let mounted = true;
 
-    supabase.auth.getSession().then(async ({ data: { session } }) => {
-      if (!mounted) return;
-      setRawUser(session?.user ?? null);
-      if (session?.user) {
-        await fetchOrCreateProfile(session.user);
-      }
-      if (mounted) setLoading(false);
-    }).catch(() => {
-      if (mounted) setLoading(false);
-    });
-
+    // onAuthStateChange fires immediately with INITIAL_SESSION — no need for getSession()
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
       if (!mounted) return;
       setRawUser(session?.user ?? null);
@@ -67,6 +57,7 @@ export function AuthProvider({ children }) {
       } else {
         setProfile(null);
       }
+      if (mounted) setLoading(false);
     });
 
     return () => {
