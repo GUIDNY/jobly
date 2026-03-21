@@ -4,43 +4,66 @@ import { supabase } from './supabase';
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
+  const [rawUser, setRawUser] = useState(null);
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const fetchProfile = async (userId) => {
+  // שולף פרופיל — אם לא קיים, יוצר אותו
+  const fetchOrCreateProfile = async (authUser) => {
+    if (!authUser) return null;
+
     const { data } = await supabase
       .from('profiles')
       .select('*')
-      .eq('id', userId)
+      .eq('id', authUser.id)
       .single();
-    if (data) setProfile(data);
-    return data;
+
+    if (data) {
+      setProfile(data);
+      return data;
+    }
+
+    // פרופיל לא קיים (הטריגר נכשל) — ניצור אותו ידנית
+    const fullName =
+      authUser.user_metadata?.full_name ||
+      authUser.email?.split('@')[0] ||
+      'משתמש';
+
+    const { data: created, error } = await supabase
+      .from('profiles')
+      .insert({
+        id: authUser.id,
+        email: authUser.email,
+        full_name: fullName,
+        avatar_url: authUser.user_metadata?.avatar_url ?? null,
+      })
+      .select()
+      .single();
+
+    if (created) setProfile(created);
+    return created;
   };
 
   useEffect(() => {
-    // בדיקת session קיים
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-      if (session?.user) fetchProfile(session.user.id).finally(() => setLoading(false));
-      else setLoading(false);
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
+      setRawUser(session?.user ?? null);
+      if (session?.user) {
+        await fetchOrCreateProfile(session.user);
+      }
+      setLoading(false);
     });
 
-    // האזנה לשינויי auth
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-      if (session?.user) fetchProfile(session.user.id);
-      else setProfile(null);
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
+      setRawUser(session?.user ?? null);
+      if (session?.user) {
+        await fetchOrCreateProfile(session.user);
+      } else {
+        setProfile(null);
+      }
     });
 
     return () => subscription.unsubscribe();
   }, []);
-
-  const loginWithGoogle = () =>
-    supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: { redirectTo: window.location.origin },
-    });
 
   const loginWithEmail = (email, password) =>
     supabase.auth.signInWithPassword({ email, password });
@@ -52,36 +75,66 @@ export function AuthProvider({ children }) {
       options: { data: { full_name: fullName } },
     });
 
-  const logout = () => supabase.auth.signOut();
+  const logout = async () => {
+    await supabase.auth.signOut();
+    setProfile(null);
+  };
 
+  // מעדכן פרופיל — upsert כולל email כדי לוודא שיצליח גם אם שורה לא קיימת
   const updateMe = async (data) => {
-    if (!user) return;
-    const { data: updated } = await supabase
+    if (!rawUser) return;
+
+    const { data: updated, error } = await supabase
       .from('profiles')
-      .update(data)
-      .eq('id', user.id)
+      .upsert({
+        id: rawUser.id,
+        email: rawUser.email,
+        ...data,
+      })
       .select()
       .single();
+
     if (updated) setProfile(updated);
     return updated;
   };
 
-  // תמיכה לאחר בקוד שמשתמש ב-user.is_admin, user.full_name וכו'
-  const mergedUser = user ? { ...user, ...profile } : null;
+  // user מאוחד: auth user + פרופיל DB
+  const user = rawUser
+    ? {
+        ...rawUser,
+        id: rawUser.id,
+        email: rawUser.email,
+        full_name:
+          profile?.full_name ||
+          rawUser.user_metadata?.full_name ||
+          rawUser.email?.split('@')[0] ||
+          '',
+        avatar_url:
+          profile?.avatar_url ||
+          rawUser.user_metadata?.avatar_url ||
+          null,
+        // שדות מהפרופיל
+        user_type: profile?.user_type ?? null,
+        is_admin: profile?.is_admin ?? false,
+        bio: profile?.bio ?? '',
+        headline: profile?.headline ?? '',
+        whatsapp: profile?.whatsapp ?? '',
+      }
+    : null;
 
   return (
     <AuthContext.Provider value={{
-      user: mergedUser,
+      user,
       profile,
       loading,
-      loginWithGoogle,
       loginWithEmail,
       signupWithEmail,
       logout,
       updateMe,
-      // backwards compat
-      login: loginWithGoogle,
-      redirectToLogin: loginWithGoogle,
+      // compat
+      loginWithGoogle: () => {},
+      login: () => {},
+      redirectToLogin: () => {},
     }}>
       {children}
     </AuthContext.Provider>
