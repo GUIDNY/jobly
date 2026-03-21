@@ -33,7 +33,16 @@ export default function Admin() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [tab, setTab] = useState(0);
-  const [bots, setBots] = useState(mockBots);
+  const [bots, setBots] = useState([]);
+  const [orders, setOrders] = useState([]);
+  const [profiles, setProfiles] = useState([]);
+
+  useEffect(() => {
+    if (!user?.is_admin) return;
+    getAllBots().then(setBots).catch(() => {});
+    getAllOrders().then(setOrders).catch(() => {});
+    getAllProfiles().then(setProfiles).catch(() => {});
+  }, [user?.is_admin]);
 
   if (!user || !user.is_admin) {
     return (
