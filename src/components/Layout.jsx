@@ -199,6 +199,8 @@ export default function Layout({ children }) {
         </div>
       )}
 
+      {showLogin && <LoginModal onClose={() => setShowLogin(false)} />}
+
       {/* Page Content */}
       <main className="pt-16">
         {children}
