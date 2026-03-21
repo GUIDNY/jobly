@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Search, SlidersHorizontal, X } from 'lucide-react';
+import { Search, X } from 'lucide-react';
 import BotCard from '../components/BotCard';
 import { useBots } from '../lib/useBots';
 import { CATEGORIES } from '../lib/mockData';
