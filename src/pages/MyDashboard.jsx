@@ -6,8 +6,12 @@ import EmployerView from '../components/dashboard/EmployerView';
 import { Briefcase, Users, LogIn } from 'lucide-react';
 
 export default function MyDashboard() {
-  const { user, login, updateMe } = useAuth();
+  const { user, loading, loginWithGoogle, updateMe } = useAuth();
   const navigate = useNavigate();
+
+  if (loading) {
+    return <div dir="rtl" className="max-w-md mx-auto px-4 py-20 text-center text-gray-400">טוען...</div>;
+  }
 
   if (!user) {
     return (
@@ -19,13 +23,12 @@ export default function MyDashboard() {
           <h2 className="text-2xl font-bold text-gray-900 mb-3">התחבר ל-Jobly</h2>
           <p className="text-gray-500 mb-6 text-sm">כדי לגשת לאזור האישי שלך, עליך להתחבר תחילה</p>
           <button
-            onClick={login}
+            onClick={loginWithGoogle}
             className="w-full py-3 bg-orange-500 hover:bg-orange-400 text-gray-900 rounded-xl font-semibold text-sm transition-colors flex items-center justify-center gap-2"
           >
             <LogIn size={16} />
             התחבר עם Google
           </button>
-          <p className="text-gray-600 text-xs mt-4">סימולציה: לחץ להתחבר עם משתמש demo</p>
         </div>
       </div>
     );
