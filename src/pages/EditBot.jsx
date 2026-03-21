@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
 import { getBotById, updateBot, deleteBot } from '../lib/api';
+import { supabase } from '../lib/supabase';
 import { CATEGORIES } from '../lib/mockData';
-import { Save, Trash2, Eye, EyeOff, ChevronLeft, MessageCircle, Plus, X } from 'lucide-react';
+import { Save, Trash2, Eye, EyeOff, ChevronLeft, MessageCircle, Plus, X, Upload, Image } from 'lucide-react';
 import ChatModal from '../components/ChatModal';
 
 export default function EditBot() {
