@@ -1,28 +1,36 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus, Eye, EyeOff, Trash2, BarChart2, Edit, Star, ShoppingBag, Lock } from 'lucide-react';
-import { useBots } from '../../lib/useBots';
-import { updateBot, deleteBot } from '../../lib/botsStore';
+import { getMyBots, updateBot, deleteBot } from '../../lib/api';
 import { useAuth } from '../../lib/AuthContext';
 
 export default function FreelancerView({ user }) {
   const navigate = useNavigate();
-  const allBots = useBots();
   const { updateMe } = useAuth();
   const [activeTab, setActiveTab] = useState('bots');
+  const [myBots, setMyBots] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const myBots = allBots.filter(b => b.owner_email === user.email && b.bot_type === 'freelancer');
+  useEffect(() => {
+    if (!user?.id) return;
+    getMyBots(user.id)
+      .then(data => setMyBots(data.filter(b => b.bot_type === 'freelancer')))
+      .finally(() => setLoading(false));
+  }, [user?.id]);
+
   const isPro = user.role === 'pro';
   const botLimit = isPro ? 3 : 1;
   const canCreate = myBots.length < botLimit;
 
-  const handleTogglePublish = (bot) => {
-    updateBot(bot.id, { is_published: !bot.is_published });
+  const handleTogglePublish = async (bot) => {
+    await updateBot(bot.id, { is_published: !bot.is_published });
+    setMyBots(prev => prev.map(b => b.id === bot.id ? { ...b, is_published: !b.is_published } : b));
   };
 
-  const handleDelete = (botId) => {
+  const handleDelete = async (botId) => {
     if (confirm('האם אתה בטוח שברצונך למחוק את הסוכן?')) {
-      deleteBot(botId);
+      await deleteBot(botId);
+      setMyBots(prev => prev.filter(b => b.id !== botId));
     }
   };
 
