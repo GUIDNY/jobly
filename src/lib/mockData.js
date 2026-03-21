@@ -11,34 +11,7 @@ export const CATEGORIES = [
 
 export const mockBots = [];
 
-export const mockOrders = [
-  {
-    id: 'ord1',
-    bot_id: '1',
-    bot_name: 'אורי כהן — Full Stack Dev',
-    freelancer_email: 'uri@example.com',
-    client_email: 'demo@jobly.co.il',
-    tier: 'standard',
-    price: 1500,
-    status: 'in_progress',
-    created_date: '2024-01-15',
-    rating: null,
-    review: null,
-  },
-  {
-    id: 'ord2',
-    bot_id: '2',
-    bot_name: 'מאיה ברק — UX/UI Designer',
-    freelancer_email: 'maya@example.com',
-    client_email: 'demo@jobly.co.il',
-    tier: 'basic',
-    price: 400,
-    status: 'completed',
-    created_date: '2024-01-01',
-    rating: 5,
-    review: 'עבודה מדהימה!',
-  },
-];
+export const mockOrders = [];
 
 export const mockUser = {
   id: 'user1',
