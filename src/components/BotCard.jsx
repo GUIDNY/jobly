@@ -31,11 +31,17 @@ export default function BotCard({ bot }) {
     >
       {/* Image / Avatar area */}
       <div className="relative h-40 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
-        {bot.gallery_media?.length > 0 ? (
+        {bot.banner_url ? (
           <img
-            src={bot.gallery_media[imgIdx] || bot.gallery_media[0]}
+            src={bot.banner_url}
             alt=""
             className="w-full h-full object-cover transition-all duration-500 group-hover:scale-105"
+          />
+        ) : bot.avatar_url ? (
+          <img
+            src={bot.avatar_url}
+            alt=""
+            className="w-full h-full object-cover object-center transition-all duration-500 group-hover:scale-105 blur-sm scale-110"
           />
         ) : (
           <div className="w-full h-full bg-gradient-to-br from-orange-100 to-purple-900/50" />
