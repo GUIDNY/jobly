@@ -124,7 +124,7 @@ export default function Admin() {
                     <span className="font-medium">{freelancerBots.length}</span>
                   </div>
                   <div className="h-2 bg-gray-100 rounded-full">
-                    <div className="h-2 bg-orange-400 rounded-full" style={{ width: `${(freelancerBots.length / bots.length) * 100}%` }} />
+                    <div className="h-2 bg-orange-400 rounded-full" style={{ width: bots.length ? `${(freelancerBots.length / bots.length) * 100}%` : '0%' }} />
                   </div>
                 </div>
                 <div>
@@ -133,7 +133,7 @@ export default function Admin() {
                     <span className="font-medium">{employerBots.length}</span>
                   </div>
                   <div className="h-2 bg-gray-100 rounded-full">
-                    <div className="h-2 bg-blue-400 rounded-full" style={{ width: `${(employerBots.length / bots.length) * 100}%` }} />
+                    <div className="h-2 bg-blue-400 rounded-full" style={{ width: bots.length ? `${(employerBots.length / bots.length) * 100}%` : '0%' }} />
                   </div>
                 </div>
               </div>
@@ -144,7 +144,7 @@ export default function Admin() {
                 <BarChart2 size={16} className="text-orange-500" /> הזמנות אחרונות
               </h3>
               <div className="space-y-3">
-                {mockOrders.map(o => (
+                {orders.slice(0, 5).map(o => (
                   <div key={o.id} className="flex items-center justify-between text-sm">
                     <span className="text-gray-700 truncate">{o.bot_name}</span>
                     <div className="flex items-center gap-2">
