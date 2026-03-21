@@ -49,7 +49,7 @@ export default function Marketplace() {
       case 'new': bots = [...bots].reverse(); break;
     }
     return bots;
-  }, [allBots, tab, category, q, sort]);
+  }, [allBots, sort]);
 
   const handleSearch = (e) => {
     e.preventDefault();
