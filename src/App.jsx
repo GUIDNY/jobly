@@ -37,6 +37,7 @@ export default function App() {
             <Route path="/Privacy" element={<Privacy />} />
             <Route path="/PrivacyPolicy" element={<Privacy />} />
             <Route path="/Terms" element={<Terms />} />
+            <Route path="/Admin" element={<Admin />} />
           </Routes>
         </Layout>
       </AuthProvider>
