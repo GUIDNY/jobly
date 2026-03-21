@@ -187,7 +187,7 @@ export default function Layout({ children }) {
                 </button>
               ) : (
                 <button
-                  onClick={() => { navigate('/MyDashboard'); setDrawerOpen(false); }}
+                  onClick={() => { setShowLogin(true); setDrawerOpen(false); }}
                   className="w-full flex items-center justify-center gap-2 py-3 rounded-lg bg-orange-500 hover:bg-orange-400 text-gray-900 text-sm font-medium transition-colors"
                 >
                   <LogIn size={16} />
