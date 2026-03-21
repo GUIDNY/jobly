@@ -57,7 +57,7 @@ export default function CreateBot() {
       bot_type: type,
       owner_id: user.id,
       avatar_url: user.avatar_url || user.user_metadata?.avatar_url,
-      is_published: false,
+      is_published: true,
       rating: 0,
       total_orders: 0,
       ...(isFreelancer ? {
