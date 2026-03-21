@@ -140,10 +140,9 @@ export default function MyDashboard() {
     setSettingType(true);
     setSettingError('');
     try {
-      const result = await updateMe({ user_type: type });
-      if (!result) setSettingError('שגיאה בשמירה — נסה שוב');
-    } catch {
-      setSettingError('שגיאה בשמירה — נסה שוב');
+      await updateMe({ user_type: type });
+    } catch (e) {
+      setSettingError(`שגיאה: ${e?.message || 'נסה שוב'}`);
     } finally {
       setSettingType(false);
     }
