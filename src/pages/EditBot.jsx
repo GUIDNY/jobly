@@ -315,6 +315,7 @@ export default function EditBot() {
         </div>
       </div>
     </div>
+  </div>
   );
 }
 
