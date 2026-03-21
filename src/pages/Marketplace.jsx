@@ -15,8 +15,6 @@ const SORT_OPTIONS = [
 
 export default function Marketplace() {
   const [params, setParams] = useSearchParams();
-  const allBots = useBots();
-
   const tab = params.get('tab') || 'freelancer';
   const category = params.get('category') || '';
   const q = params.get('q') || '';
