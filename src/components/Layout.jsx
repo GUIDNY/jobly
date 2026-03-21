@@ -60,12 +60,13 @@ export default function Layout({ children }) {
                     שדרג ל-Pro
                   </Link>
                 )}
-                {user.role === 'admin' && (
+                {user.is_admin && (
                   <Link
-                    to="/ExpertsEdit"
-                    className="p-2 rounded-lg text-gray-500 hover:text-gray-900 hover:bg-gray-100 transition-colors"
+                    to="/Admin"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-orange-50 border border-orange-200 text-orange-600 hover:bg-orange-100 transition-colors text-sm font-medium"
                   >
-                    <Settings size={18} />
+                    <Shield size={14} />
+                    Admin
                   </Link>
                 )}
                 <div className="relative">
