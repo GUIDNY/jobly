@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
-import { createBot } from '../lib/botsStore';
+import { createBot } from '../lib/api';
 import { CATEGORIES } from '../lib/mockData';
 import { Bot, Building2, ChevronLeft } from 'lucide-react';
 
