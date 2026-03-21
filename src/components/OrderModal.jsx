@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { X, Check, CreditCard } from 'lucide-react';
-import { mockOrders } from '../lib/mockData';
 
 export default function OrderModal({ bot, tier, onClose }) {
   const [step, setStep] = useState('confirm'); // confirm | success
