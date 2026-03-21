@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
-import { mockBots, mockOrders, mockUser } from '../lib/mockData';
+import { getAllBots, getAllOrders, getAllProfiles } from '../lib/api';
 import {
   Shield, Users, Briefcase, ShoppingBag, Star, TrendingUp,
   Eye, EyeOff, Trash2, CheckCircle, XCircle, BarChart2,
