@@ -283,10 +283,16 @@ export default function EditBot() {
 
         {/* Preview sidebar */}
         <div className="hidden lg:block">
-          <div className="sticky top-24 bg-gray-50 border border-gray-200 rounded-2xl p-5">
+          <div className="sticky top-24 bg-gray-50 border border-gray-200 rounded-2xl overflow-hidden">
+            {form.banner_url ? (
+              <img src={form.banner_url} alt="" className="w-full h-20 object-cover" />
+            ) : (
+              <div className="w-full h-20 bg-gradient-to-br from-orange-400/20 to-orange-600/20" />
+            )}
+            <div className="p-5">
             <h3 className="text-sm font-semibold text-gray-900 mb-4">תצוגה מקדימה</h3>
             <div className="flex items-center gap-3 mb-3">
-              <img src={form.avatar_url || `https://i.pravatar.cc/48?u=${id}`} alt="" className="w-12 h-12 rounded-xl object-cover" />
+              <img src={form.avatar_url || `https://i.pravatar.cc/48?u=${id}`} alt="" className="w-12 h-12 rounded-xl object-cover ring-2 ring-white -mt-8" />
               <div>
                 <p className="font-semibold text-gray-900 text-sm">{form.name || '—'}</p>
                 <p className="text-xs text-orange-500">{form.role || '—'}</p>
