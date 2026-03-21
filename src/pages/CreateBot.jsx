@@ -55,10 +55,8 @@ export default function CreateBot() {
       ...form,
       skills,
       bot_type: type,
-      owner_email: user.email,
-      owner_name: user.full_name,
-      avatar_url: user.avatar_url,
-      gallery_media: [],
+      owner_id: user.id,
+      avatar_url: user.avatar_url || user.user_metadata?.avatar_url,
       is_published: false,
       rating: 0,
       total_orders: 0,
@@ -66,8 +64,6 @@ export default function CreateBot() {
         pricing_basic: { price: 500, title: 'בסיסי', description: 'שירות בסיסי', delivery_days: 3 },
         pricing_standard: { price: 1500, title: 'סטנדרטי', description: 'שירות מורחב', delivery_days: 7 },
         pricing_premium: { price: 4000, title: 'פרמיום', description: 'שירות פרמיום', delivery_days: 14 },
-        portfolio: [],
-        reviews: [],
         quick_messages: [],
         opening_message: form.opening_message || `שלום! אני ${form.name}. איך אוכל לעזור לך?`,
       } : {
@@ -77,7 +73,7 @@ export default function CreateBot() {
       }),
     };
 
-    const newBot = createBot(botData);
+    const newBot = await createBot(botData);
     setSaving(false);
     navigate(`/EditBot?id=${newBot.id}`);
   };
