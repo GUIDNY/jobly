@@ -40,13 +40,7 @@ export default function Marketplace() {
   };
 
   const filteredBots = useMemo(() => {
-    let bots = allBots.filter(b => b.is_published && b.bot_type === tab);
-    if (category) bots = bots.filter(b => b.category === category);
-    if (q) bots = bots.filter(b =>
-      b.name.toLowerCase().includes(q.toLowerCase()) ||
-      (b.description || '').toLowerCase().includes(q.toLowerCase()) ||
-      (b.skills || []).some(s => s.toLowerCase().includes(q.toLowerCase()))
-    );
+    let bots = [...allBots];
     switch (sort) {
       case 'rating': bots = [...bots].sort((a, b) => (b.rating || 0) - (a.rating || 0)); break;
       case 'price_asc': bots = [...bots].sort((a, b) => (a.pricing_basic?.price || 0) - (b.pricing_basic?.price || 0)); break;
