@@ -93,7 +93,7 @@ export default function OrdersManager() {
                 <div className="text-right shrink-0">
                   <p className="text-xl font-bold text-gray-900">₪{order.price.toLocaleString()}</p>
                   <p className="text-xs text-gray-500">
-                    {order.client_email === user.email ? 'שילמת' : 'קיבלת'}
+                    {order.client_id === user.id ? 'שילמת' : 'קיבלת'}
                   </p>
                 </div>
               </div>
