@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
-import { mockOrders } from '../lib/mockData';
+import { getMyOrders } from '../lib/api';
 import { ShoppingBag, Star, Check, Clock, XCircle, AlertCircle } from 'lucide-react';
 
 const STATUS_MAP = {
