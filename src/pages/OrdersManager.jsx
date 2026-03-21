@@ -17,6 +17,16 @@ export default function OrdersManager() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [filter, setFilter] = useState('all');
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!user?.id) return;
+    getMyOrders(user.id)
+      .then(setOrders)
+      .catch(() => setOrders([]))
+      .finally(() => setLoading(false));
+  }, [user?.id]);
 
   if (!user) {
     return (
@@ -26,10 +36,6 @@ export default function OrdersManager() {
       </div>
     );
   }
-
-  const orders = mockOrders.filter(o =>
-    o.client_email === user.email || o.freelancer_email === user.email
-  );
 
   const filtered = filter === 'all' ? orders : orders.filter(o => o.status === filter);
 
