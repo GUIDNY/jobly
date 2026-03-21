@@ -4,6 +4,7 @@ import FreelancerView from '../components/dashboard/FreelancerView';
 import EmployerView from '../components/dashboard/EmployerView';
 import LoginModal from '../components/LoginModal';
 import { Briefcase, Users, LogIn, UserCircle, Save, Check } from 'lucide-react';
+import ImagePicker from '../components/ImagePicker';
 
 function ProfileEditor({ user, updateMe }) {
   const [form, setForm] = useState({
