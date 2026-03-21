@@ -107,7 +107,7 @@ export default function Admin() {
         <div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
             <StatCard icon={<Bot size={18} />} label="סה״כ בוטים" value={bots.length} sub={`${publishedBots.length} פעילים`} color="orange" />
-            <StatCard icon={<ShoppingBag size={18} />} label="הזמנות" value={mockOrders.length} sub={`${mockOrders.filter(o=>o.status==='completed').length} הושלמו`} color="green" />
+            <StatCard icon={<ShoppingBag size={18} />} label="הזמנות" value={orders.length} sub={`${orders.filter(o=>o.status==='completed').length} הושלמו`} color="green" />
             <StatCard icon={<TrendingUp size={18} />} label="הכנסות" value={`₪${totalRevenue.toLocaleString()}`} color="blue" />
             <StatCard icon={<Star size={18} />} label="דירוג ממוצע" value="4.8" sub="מכל הבוטים" color="purple" />
           </div>
