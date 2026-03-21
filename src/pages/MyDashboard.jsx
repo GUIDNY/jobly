@@ -76,11 +76,17 @@ function ProfileEditor({ user, updateMe }) {
       </div>
 
       <div className="space-y-4">
+        <ImagePicker
+          label="תמונת פרופיל"
+          value={form.avatar_url || ''}
+          onChange={v => setForm(p => ({ ...p, avatar_url: v }))}
+          aspect="avatar"
+          folder={`profiles/${user?.id}`}
+        />
         {field('שם מלא', 'full_name', { placeholder: 'שם מלא' })}
         {field('כותרת (headline)', 'headline', { placeholder: 'למשל: Full Stack Developer' })}
         {field('ביוגרפיה', 'bio', { textarea: true, placeholder: 'ספר על עצמך...' })}
         {field('וואטסאפ', 'whatsapp', { placeholder: '050-0000000', type: 'tel' })}
-        {field('קישור לתמונת פרופיל', 'avatar_url', { placeholder: 'https://...' })}
       </div>
 
       <button
