@@ -22,13 +22,7 @@ export default function MyDashboard() {
           </div>
           <h2 className="text-2xl font-bold text-gray-900 mb-3">התחבר ל-Jobly</h2>
           <p className="text-gray-500 mb-6 text-sm">כדי לגשת לאזור האישי שלך, עליך להתחבר תחילה</p>
-          <button
-            onClick={loginWithGoogle}
-            className="w-full py-3 bg-orange-500 hover:bg-orange-400 text-gray-900 rounded-xl font-semibold text-sm transition-colors flex items-center justify-center gap-2"
-          >
-            <LogIn size={16} />
-            התחבר עם Google
-          </button>
+          <p className="text-gray-500 text-sm">לחץ על כפתור "התחברות" בסרגל הניווט למעלה</p>
         </div>
       </div>
     );
