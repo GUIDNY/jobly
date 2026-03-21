@@ -21,32 +21,33 @@ export default function UserProfile() {
   useEffect(() => {
     const load = async () => {
       setLoading(true);
+      try {
+        // אם זה הפרופיל של המשתמש המחובר
+        if (!emailParam && !idParam && currentUser) {
+          setProfileUser(currentUser);
+          const myBots = await getMyBots(currentUser.id).catch(() => []);
+          setBots(myBots.filter(b => b.is_published));
+          return;
+        }
 
-      // אם זה הפרופיל של המשתמש המחובר
-      if (!emailParam && !idParam && currentUser) {
-        setProfileUser(currentUser);
-        const myBots = await getMyBots(currentUser.id).catch(() => []);
-        setBots(myBots.filter(b => b.is_published));
+        if (!idParam && !emailParam) return;
+
+        // חיפוש לפי id / email
+        let query = supabase.from('profiles').select('*');
+        if (idParam) query = query.eq('id', idParam);
+        else query = query.eq('email', emailParam);
+
+        const { data: profile, error } = await query.single();
+        if (profile && !error) {
+          setProfileUser(profile);
+          const userBots = await getMyBots(profile.id).catch(() => []);
+          setBots(userBots.filter(b => b.is_published));
+        }
+      } catch (e) {
+        console.warn('UserProfile load error:', e.message);
+      } finally {
         setLoading(false);
-        return;
       }
-
-      // חיפוש לפי אימייל
-      let query = supabase.from('profiles').select('*');
-      if (idParam) query = query.eq('id', idParam);
-      else if (emailParam) query = query.eq('email', emailParam);
-      else {
-        setLoading(false);
-        return;
-      }
-
-      const { data: profile } = await query.single();
-      if (profile) {
-        setProfileUser(profile);
-        const userBots = await getMyBots(profile.id).catch(() => []);
-        setBots(userBots.filter(b => b.is_published));
-      }
-      setLoading(false);
     };
 
     load();
