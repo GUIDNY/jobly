@@ -1,14 +1,105 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '../lib/AuthContext';
 import FreelancerView from '../components/dashboard/FreelancerView';
 import EmployerView from '../components/dashboard/EmployerView';
 import LoginModal from '../components/LoginModal';
-import { Briefcase, Users, LogIn } from 'lucide-react';
+import { Briefcase, Users, LogIn, UserCircle, Save, Check } from 'lucide-react';
+
+function ProfileEditor({ user, updateMe }) {
+  const [form, setForm] = useState({
+    full_name: user?.full_name || '',
+    headline: user?.headline || '',
+    bio: user?.bio || '',
+    whatsapp: user?.whatsapp || '',
+    avatar_url: user?.avatar_url || '',
+  });
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+
+  useEffect(() => {
+    setForm({
+      full_name: user?.full_name || '',
+      headline: user?.headline || '',
+      bio: user?.bio || '',
+      whatsapp: user?.whatsapp || '',
+      avatar_url: user?.avatar_url || '',
+    });
+  }, [user?.id]);
+
+  const handleSave = async () => {
+    setSaving(true);
+    setSaved(false);
+    await updateMe(form);
+    setSaving(false);
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2500);
+  };
+
+  const field = (label, key, opts = {}) => (
+    <div key={key}>
+      <label className="block text-sm font-medium text-gray-600 mb-1.5">{label}</label>
+      {opts.textarea ? (
+        <textarea
+          value={form[key]}
+          onChange={e => setForm(p => ({ ...p, [key]: e.target.value }))}
+          rows={4}
+          placeholder={opts.placeholder}
+          className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-orange-400/60 resize-none"
+        />
+      ) : (
+        <input
+          type={opts.type || 'text'}
+          value={form[key]}
+          onChange={e => setForm(p => ({ ...p, [key]: e.target.value }))}
+          placeholder={opts.placeholder}
+          className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-orange-400/60"
+        />
+      )}
+    </div>
+  );
+
+  return (
+    <div className="max-w-2xl">
+      {/* Avatar preview */}
+      <div className="flex items-center gap-4 mb-8 p-5 bg-gray-50 border border-gray-200 rounded-2xl">
+        <img
+          src={form.avatar_url || `https://i.pravatar.cc/80?u=${user?.email}`}
+          alt=""
+          className="w-20 h-20 rounded-2xl object-cover ring-2 ring-orange-400/30 shrink-0"
+        />
+        <div className="flex-1">
+          <p className="font-semibold text-gray-900">{form.full_name || 'שם משתמש'}</p>
+          <p className="text-orange-500 text-sm mt-0.5">{form.headline || 'כותרת'}</p>
+          <p className="text-gray-400 text-xs mt-1">{user?.email}</p>
+        </div>
+      </div>
+
+      <div className="space-y-4">
+        {field('שם מלא', 'full_name', { placeholder: 'שם מלא' })}
+        {field('כותרת (headline)', 'headline', { placeholder: 'למשל: Full Stack Developer' })}
+        {field('ביוגרפיה', 'bio', { textarea: true, placeholder: 'ספר על עצמך...' })}
+        {field('וואטסאפ', 'whatsapp', { placeholder: '050-0000000', type: 'tel' })}
+        {field('קישור לתמונת פרופיל', 'avatar_url', { placeholder: 'https://...' })}
+      </div>
+
+      <button
+        onClick={handleSave}
+        disabled={saving}
+        className="mt-6 flex items-center gap-2 px-6 py-3 bg-orange-500 hover:bg-orange-400 disabled:opacity-60 text-gray-900 rounded-xl font-semibold text-sm transition-colors"
+      >
+        {saved ? <Check size={16} /> : <Save size={16} />}
+        {saving ? 'שומר...' : saved ? 'נשמר!' : 'שמור שינויים'}
+      </button>
+    </div>
+  );
+}
 
 export default function MyDashboard() {
   const { user, loading, updateMe } = useAuth();
   const [settingType, setSettingType] = useState(false);
+  const [settingError, setSettingError] = useState('');
   const [showLogin, setShowLogin] = useState(false);
+  const [pageTab, setPageTab] = useState('dashboard');
 
   if (loading) {
     return (
@@ -47,8 +138,15 @@ export default function MyDashboard() {
 
   const setUserType = async (type) => {
     setSettingType(true);
-    await updateMe({ user_type: type });
-    setSettingType(false);
+    setSettingError('');
+    try {
+      const result = await updateMe({ user_type: type });
+      if (!result) setSettingError('שגיאה בשמירה — נסה שוב');
+    } catch {
+      setSettingError('שגיאה בשמירה — נסה שוב');
+    } finally {
+      setSettingType(false);
+    }
   };
 
   // בחירת תפקיד ראשונית
@@ -59,6 +157,9 @@ export default function MyDashboard() {
           ברוך הבא{user.full_name ? `, ${user.full_name}` : ''}!
         </h2>
         <p className="text-gray-500 mb-8">מה התפקיד שלך ב-Jobly?</p>
+        {settingError && (
+          <p className="text-red-500 text-sm mb-4 bg-red-50 border border-red-200 rounded-xl px-4 py-2">{settingError}</p>
+        )}
         <div className="grid grid-cols-2 gap-4">
           <button
             onClick={() => setUserType('freelancer')}
@@ -97,34 +198,50 @@ export default function MyDashboard() {
 
   return (
     <div dir="rtl" className="max-w-7xl mx-auto px-4 py-8">
-      {/* Toggle bar */}
+      {/* Top tab bar */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex bg-gray-50 border border-gray-200 rounded-xl p-1">
           <button
-            onClick={() => setUserType('freelancer')}
+            onClick={() => setPageTab('dashboard')}
             className={`px-5 py-2.5 rounded-lg text-sm font-medium transition-all flex items-center gap-2 ${
-              user.user_type === 'freelancer' ? 'bg-orange-500 text-gray-900' : 'text-gray-500 hover:text-gray-900'
+              pageTab === 'dashboard' ? 'bg-orange-500 text-gray-900' : 'text-gray-500 hover:text-gray-900'
             }`}
           >
-            <Briefcase size={15} />
-            פרילנסר
+            {user.user_type === 'freelancer' ? <Briefcase size={15} /> : <Users size={15} />}
+            {user.user_type === 'freelancer' ? 'פרילנסר' : 'מעסיק'}
           </button>
           <button
-            onClick={() => setUserType('employer')}
+            onClick={() => setPageTab('profile')}
             className={`px-5 py-2.5 rounded-lg text-sm font-medium transition-all flex items-center gap-2 ${
-              user.user_type === 'employer' ? 'bg-orange-500 text-gray-900' : 'text-gray-500 hover:text-gray-900'
+              pageTab === 'profile' ? 'bg-orange-500 text-gray-900' : 'text-gray-500 hover:text-gray-900'
             }`}
           >
-            <Users size={15} />
-            מעסיק
+            <UserCircle size={15} />
+            פרופיל
           </button>
         </div>
+
+        {/* Switch role */}
+        {pageTab === 'dashboard' && (
+          <button
+            onClick={() => setUserType(user.user_type === 'freelancer' ? 'employer' : 'freelancer')}
+            disabled={settingType}
+            className="text-xs text-gray-400 hover:text-gray-600 transition-colors disabled:opacity-40"
+          >
+            עבור ל{user.user_type === 'freelancer' ? 'מעסיק' : 'פרילנסר'}
+          </button>
+        )}
       </div>
 
-      {user.user_type === 'freelancer'
-        ? <FreelancerView user={user} />
-        : <EmployerView user={user} />
-      }
+      {pageTab === 'profile' && (
+        <ProfileEditor user={user} updateMe={updateMe} />
+      )}
+
+      {pageTab === 'dashboard' && (
+        user.user_type === 'freelancer'
+          ? <FreelancerView user={user} />
+          : <EmployerView user={user} />
+      )}
     </div>
   );
 }
