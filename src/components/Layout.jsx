@@ -90,7 +90,7 @@ export default function Layout({ children }) {
                         <p className="text-xs text-gray-500 truncate">{user.email}</p>
                       </div>
                       <Link
-                        to={`/UserProfile?email=${user.email}`}
+                        to={`/UserProfile?id=${user.id}`}
                         onClick={() => setUserMenuOpen(false)}
                         className="flex items-center gap-2 w-full px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors"
                       >
