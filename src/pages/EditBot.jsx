@@ -157,14 +157,14 @@ export default function EditBot() {
                 value={form.banner_url || ''}
                 onChange={v => handleChange('banner_url', v)}
                 aspect="banner"
-                botId={id}
+                folder={id}
               />
               <ImagePicker
                 label="תמונת פרופיל"
                 value={form.avatar_url || ''}
                 onChange={v => handleChange('avatar_url', v)}
                 aspect="avatar"
-                botId={id}
+                folder={id}
               />
               <Field label="שם" value={form.name || ''} onChange={v => handleChange('name', v)} />
               <Field label="תפקיד/כותרת" value={form.role || ''} onChange={v => handleChange('role', v)} />
