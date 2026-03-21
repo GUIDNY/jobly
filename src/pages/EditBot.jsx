@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
-import { getBotById, updateBot, deleteBot } from '../lib/botsStore';
+import { getBotById, updateBot, deleteBot } from '../lib/api';
 import { CATEGORIES } from '../lib/mockData';
 import { Save, Trash2, Eye, EyeOff, ChevronLeft, MessageCircle, Plus, X } from 'lucide-react';
 import ChatModal from '../components/ChatModal';
@@ -11,17 +11,26 @@ export default function EditBot() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const id = params.get('id');
-  const bot = getBotById(id);
 
+  const [bot, setBot] = useState(null);
   const [form, setForm] = useState({});
   const [saving, setSaving] = useState(false);
   const [showChat, setShowChat] = useState(false);
   const [activeTab, setActiveTab] = useState('profile');
   const [quickMsgInput, setQuickMsgInput] = useState('');
+  const [loadingBot, setLoadingBot] = useState(true);
 
   useEffect(() => {
-    if (bot) setForm({ ...bot });
+    if (!id) return;
+    getBotById(id)
+      .then(data => { setBot(data); setForm({ ...data }); })
+      .catch(() => setBot(null))
+      .finally(() => setLoadingBot(false));
   }, [id]);
+
+  if (loadingBot) {
+    return <div dir="rtl" className="max-w-2xl mx-auto px-4 py-20 text-center text-gray-400">טוען...</div>;
+  }
 
   if (!bot || !user) {
     return (
@@ -32,7 +41,7 @@ export default function EditBot() {
     );
   }
 
-  if (bot.owner_email !== user.email && user.role !== 'admin') {
+  if (bot.owner_id !== user.id && !user.is_admin) {
     navigate('/MyDashboard');
     return null;
   }
@@ -49,22 +58,21 @@ export default function EditBot() {
 
   const handleSave = async () => {
     setSaving(true);
-    await new Promise(r => setTimeout(r, 700));
-    updateBot(id, form);
+    await updateBot(id, form);
     setSaving(false);
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (confirm('מחק את הסוכן לצמיתות?')) {
-      deleteBot(id);
+      await deleteBot(id);
       navigate('/MyDashboard');
     }
   };
 
-  const handleTogglePublish = () => {
+  const handleTogglePublish = async () => {
     const newVal = !form.is_published;
     setForm(prev => ({ ...prev, is_published: newVal }));
-    updateBot(id, { is_published: newVal });
+    await updateBot(id, { is_published: newVal });
   };
 
   const addQuickMsg = () => {
