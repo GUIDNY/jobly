@@ -85,17 +85,16 @@ export function AuthProvider({ children }) {
 
   const updateMe = async (data) => {
     if (!rawUser) return;
-    try {
-      const { data: updated } = await supabase
-        .from('profiles')
-        .upsert({ id: rawUser.id, email: rawUser.email, ...data })
-        .select()
-        .single();
-      if (updated) setProfile(updated);
-      return updated;
-    } catch (e) {
-      console.warn('updateMe error:', e.message);
+    const { error } = await supabase
+      .from('profiles')
+      .upsert({ id: rawUser.id, email: rawUser.email, ...data });
+    if (error) {
+      console.warn('updateMe error:', error.message);
+      throw error;
     }
+    // Update local state immediately without needing a SELECT
+    setProfile(prev => ({ ...(prev || {}), id: rawUser.id, email: rawUser.email, ...data }));
+    return { ...(profile || {}), id: rawUser.id, email: rawUser.email, ...data };
   };
 
   const user = rawUser
