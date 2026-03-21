@@ -132,10 +132,7 @@ export default function EmployerView({ user }) {
               {suggestedBots.length > 0 ? `המלצות AI (${suggestedBots.length})` : 'הפרילנסרים המובילים'}
             </h3>
             <div className="flex flex-col gap-3">
-              {(suggestedBots.length > 0
-                ? suggestedBots
-                : allBots.filter(b => b.bot_type === 'freelancer' && b.is_published).slice(0, 3)
-              ).map(bot => (
+              {(suggestedBots.length > 0 ? suggestedBots : topFreelancers).map(bot => (
                 <div
                   key={bot.id}
                   onClick={() => navigate(`/BotProfile?id=${bot.id}`)}
