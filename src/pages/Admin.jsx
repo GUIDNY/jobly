@@ -146,7 +146,7 @@ export default function Admin() {
               <div className="space-y-3">
                 {orders.slice(0, 5).map(o => (
                   <div key={o.id} className="flex items-center justify-between text-sm">
-                    <span className="text-gray-700 truncate">{o.bot_name}</span>
+                    <span className="text-gray-700 truncate">{o.bots?.name || o.bot_id}</span>
                     <div className="flex items-center gap-2">
                       <span className="text-gray-500">₪{o.price}</span>
                       <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
