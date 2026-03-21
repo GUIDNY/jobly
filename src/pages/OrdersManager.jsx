@@ -28,6 +28,14 @@ export default function OrdersManager() {
       .finally(() => setLoading(false));
   }, [user?.id]);
 
+  if (loading && user) {
+    return (
+      <div dir="rtl" className="flex items-center justify-center min-h-[60vh]">
+        <div className="w-8 h-8 border-2 border-orange-500 border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
   if (!user) {
     return (
       <div dir="rtl" className="max-w-md mx-auto px-4 py-20 text-center">
