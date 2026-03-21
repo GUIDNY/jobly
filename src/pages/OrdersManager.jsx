@@ -72,14 +72,14 @@ export default function OrdersManager() {
               <div key={order.id} className="bg-gray-50 border border-gray-200 rounded-2xl p-5 flex flex-col sm:flex-row sm:items-center gap-4">
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
-                    <h3 className="font-semibold text-gray-900 text-sm">{order.bot_name}</h3>
+                    <h3 className="font-semibold text-gray-900 text-sm">{order.bots?.name || '—'}</h3>
                     <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs border ${status.color}`}>
                       {status.icon}
                       {status.label}
                     </span>
                   </div>
                   <p className="text-xs text-gray-500 mb-2">
-                    חבילה: {TIER_LABELS[order.tier]} | תאריך: {order.created_date}
+                    חבילה: {TIER_LABELS[order.tier] || order.tier} | תאריך: {order.created_at ? new Date(order.created_at).toLocaleDateString('he-IL') : '—'}
                   </p>
                   {order.status === 'completed' && order.rating && (
                     <div className="flex items-center gap-1">
