@@ -3,673 +3,515 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>GADU·EL</title>
-  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Heebo:wght@400;600;700;900&display=swap" rel="stylesheet" />
+  <title>גדואל</title>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
   <style>
-    :root {
-      --bg:      #04060e;
-      --panel:   #080d1c;
-      --panel2:  #0c1228;
-      --border:  #1a2550;
-      --blue:    #1a6fff;
-      --blue2:   #0044cc;
-      --red:     #e8162e;
-      --gold:    #ffaa00;
-      --text:    #c8d8ff;
-      --dim:     #3a4870;
-      --white:   #f0f4ff;
-      --touch:   48px;
-    }
-
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
     body {
       font-family: 'Heebo', system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text);
+      background: #f2f2f7;
+      color: #111;
       min-height: 100vh;
-      overflow-x: hidden;
-      padding-bottom: env(safe-area-inset-bottom);
-    }
-
-    /* ── GRID BACKGROUND ── */
-    body::before {
-      content: '';
-      position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      background-image:
-        linear-gradient(rgba(26,111,255,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(26,111,255,0.04) 1px, transparent 1px);
-      background-size: 48px 48px;
-    }
-    body::after {
-      content: '';
-      position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(26,111,255,0.08) 0%, transparent 70%);
-    }
-
-    /* ── SCANLINES (anime monitor effect) ── */
-    .scanlines {
-      position: fixed; inset: 0; z-index: 1; pointer-events: none;
-      background: repeating-linear-gradient(
-        to bottom,
-        transparent 0px, transparent 3px,
-        rgba(0,0,0,0.06) 3px, rgba(0,0,0,0.06) 4px
-      );
-    }
-
-    /* ── PANEL CORNERS (anime style) ── */
-    .panel {
-      position: relative;
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 18px;
-      margin-bottom: 14px;
-    }
-    .panel::before, .panel::after,
-    .panel > .pc-bl, .panel > .pc-br {
-      content: '';
-      position: absolute;
-      width: 10px; height: 10px;
-      border-color: var(--blue);
-      border-style: solid;
-      z-index: 2;
-    }
-    .panel::before  { top: -1px;    right: -1px;  border-width: 2px 2px 0 0; }
-    .panel::after   { top: -1px;    left:  -1px;  border-width: 2px 0 0 2px; }
-    .panel > .pc-bl { bottom: -1px; left:  -1px;  border-width: 0 0 2px 2px; }
-    .panel > .pc-br { bottom: -1px; right: -1px;  border-width: 0 2px 2px 0; }
-
-    .panel-title {
-      font-family: 'Rajdhani', sans-serif;
-      font-size: 0.72rem; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 4px;
-      color: var(--blue); margin-bottom: 16px;
-      display: flex; align-items: center; gap: 10px;
-    }
-    .panel-title::before {
-      content: '▶'; font-size: 0.55rem;
-    }
-    .panel-title::after {
-      content: ''; flex: 1; height: 1px;
-      background: linear-gradient(to left, transparent, var(--border));
+      -webkit-font-smoothing: antialiased;
     }
 
     /* ── HEADER ── */
     header {
+      background: #fff;
+      border-bottom: 1px solid #e5e5e5;
       position: sticky; top: 0; z-index: 50;
-      height: 58px;
-      display: flex; align-items: center; gap: 14px;
-      padding: 0 16px;
-      background: var(--bg);
-      border-bottom: 2px solid var(--blue2);
+      padding: 0 20px;
+      height: 56px;
+      display: flex; align-items: center; justify-content: space-between;
     }
-
-    .logo-box {
-      width: 36px; height: 36px;
-      background: var(--blue);
-      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1rem; flex-shrink: 0;
-    }
-
-    .logo-text .t1 {
-      font-family: 'Rajdhani', sans-serif;
-      font-weight: 700; font-size: 1.3rem;
-      color: var(--white); letter-spacing: 3px;
-    }
-    .logo-text .t2 {
-      font-size: 0.6rem; color: var(--dim);
-      letter-spacing: 3px; text-transform: uppercase;
-    }
-
-    .header-right {
-      margin-right: auto;
-      display: flex; align-items: center; gap: 6px;
-      font-family: 'Rajdhani', sans-serif;
-      font-size: 0.75rem; color: var(--dim); letter-spacing: 2px;
-    }
-    .status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--blue); animation: pulse 2s infinite; }
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    .logo { font-size: 1.2rem; font-weight: 900; letter-spacing: -0.5px; }
+    .logo span { color: #888; font-weight: 400; }
 
     /* ── NAV ── */
     nav {
-      position: sticky; top: 58px; z-index: 49;
+      background: #fff;
+      border-bottom: 1px solid #e5e5e5;
       display: flex;
-      background: var(--panel);
-      border-bottom: 1px solid var(--border);
+      position: sticky; top: 56px; z-index: 49;
       overflow-x: auto; scrollbar-width: none;
     }
     nav::-webkit-scrollbar { display: none; }
-
     nav button {
-      flex: 1; min-width: 70px; height: 46px;
-      background: none; border: none; border-bottom: 3px solid transparent;
-      color: var(--dim);
-      font-family: 'Rajdhani', sans-serif;
-      font-size: 0.85rem; font-weight: 700; letter-spacing: 2px;
-      text-transform: uppercase;
-      cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;
-      transition: all 0.15s; padding: 0 10px; white-space: nowrap;
+      flex: 1; min-width: 64px; height: 46px;
+      background: none; border: none; border-bottom: 2px solid transparent;
+      font-family: 'Heebo', sans-serif;
+      font-size: 0.88rem; font-weight: 600; color: #888;
+      cursor: pointer; transition: all 0.15s; white-space: nowrap; padding: 0 12px;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
     }
-    nav button:hover { color: var(--text); background: rgba(26,111,255,0.05); }
-    nav button.active { color: var(--white); border-bottom-color: var(--blue); background: rgba(26,111,255,0.08); }
-
-    .nbadge {
-      background: var(--blue2); color: var(--white);
-      border-radius: 3px; min-width: 18px; height: 18px;
+    nav button:hover { color: #111; }
+    nav button.active { color: #111; border-bottom-color: #111; }
+    .nb {
+      background: #111; color: #fff;
+      border-radius: 10px; min-width: 20px; height: 20px;
       display: inline-flex; align-items: center; justify-content: center;
-      font-size: 0.7rem; font-weight: 700; padding: 0 4px;
+      font-size: 0.7rem; font-weight: 700; padding: 0 5px;
     }
-    nav button.active .nbadge { background: var(--blue); }
+    nav button.active .nb { background: #111; }
 
     /* ── PAGES ── */
-    .page { display: none; position: relative; z-index: 5; padding: 16px; max-width: 960px; margin: 0 auto; }
+    .page { display: none; padding: 16px; max-width: 640px; margin: 0 auto; }
     .page.active { display: block; }
 
-    /* ── 3D TILT CARDS ── */
-    .tilt-wrap { perspective: 800px; }
-    .tilt {
-      transition: transform 0.1s ease-out, box-shadow 0.1s ease-out;
-      transform-style: preserve-3d;
-    }
-    .tilt:hover { box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 4px 12px rgba(26,111,255,0.15); }
-
-    /* ── FORMS ── */
-    .form-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end; margin-bottom: 12px; }
-    .fg { display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 120px; }
-    .fg label {
-      font-family: 'Rajdhani', sans-serif;
-      font-size: 0.68rem; font-weight: 700;
-      color: var(--dim); text-transform: uppercase; letter-spacing: 2px;
+    /* ── SECTION ── */
+    .section { margin-bottom: 28px; }
+    .section-title {
+      font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1.5px; color: #888; margin-bottom: 8px; padding: 0 4px;
     }
 
-    input[type="text"], select, textarea {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-top: 1px solid var(--blue2);
-      border-radius: 3px;
-      color: var(--white);
-      padding: 0 12px;
-      height: var(--touch);
-      font-size: 1rem;
-      font-family: 'Heebo', sans-serif;
-      outline: none;
-      transition: all 0.15s;
-      width: 100%;
-      -webkit-appearance: none;
+    /* ── CARD GROUP ── */
+    .group {
+      background: #fff;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
     }
-    textarea { height: auto; min-height: 70px; padding: 10px 12px; resize: vertical; }
-    input:focus, select:focus, textarea:focus {
-      border-color: var(--blue);
-      border-top-color: var(--blue);
-      background: rgba(26,111,255,0.05);
+    .group-row {
+      padding: 0 16px;
+      border-bottom: 1px solid #f0f0f0;
+      display: flex; align-items: center; min-height: 52px;
     }
-    select option { background: var(--panel); }
+    .group-row:last-child { border-bottom: none; }
+
+    /* ── STATS ── */
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+      margin-bottom: 24px;
+    }
+    .stat-card {
+      background: #fff; border-radius: 14px;
+      padding: 16px 12px; text-align: center;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    .stat-val { font-size: 1.8rem; font-weight: 900; line-height: 1; }
+    .stat-lbl { font-size: 0.68rem; color: #888; margin-top: 4px; font-weight: 500; }
 
     /* ── QUICK ADD ── */
-    .quick-add {
-      display: flex; gap: 0; align-items: stretch; margin-bottom: 14px;
-      border: 1px solid var(--blue2); border-radius: 3px; overflow: hidden;
-      position: relative;
+    .quick-row {
+      background: #fff; border-radius: 14px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      display: flex; gap: 0; overflow: hidden;
+      margin-bottom: 10px;
     }
-    .quick-add input {
-      flex: 1; border: none; border-top: 2px solid var(--blue); border-radius: 0;
-      background: var(--panel);
+    .quick-row input {
+      flex: 1; border: none; outline: none;
+      font-family: 'Heebo', sans-serif; font-size: 1rem;
+      padding: 0 16px; height: 52px; background: transparent; color: #111;
     }
-    .quick-add input:focus { background: rgba(26,111,255,0.06); border-color: var(--blue); }
-    .quick-add .btn { border-radius: 0; border: none; border-right: none; }
+    .quick-row input::placeholder { color: #bbb; }
+    .quick-row button {
+      width: 52px; height: 52px; border: none; background: #111; color: #fff;
+      font-size: 1.4rem; cursor: pointer; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Heebo', sans-serif; transition: background 0.15s;
+    }
+    .quick-row button:hover { background: #333; }
+    .quick-row button:active { background: #000; }
 
-    /* ── EXPAND ── */
+    /* ── EXPAND TOGGLE ── */
     .expand-toggle {
-      display: flex; align-items: center; gap: 8px;
-      color: var(--dim); font-size: 0.82rem; font-family: 'Rajdhani', sans-serif;
-      font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
-      cursor: pointer; padding: 4px 0; user-select: none;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 16px; min-height: 52px; cursor: pointer; user-select: none;
+      color: #555; font-size: 0.9rem; font-weight: 600;
     }
-    .expand-toggle:hover { color: var(--blue); }
-    .expand-content { display: none; margin-top: 14px; }
-    .expand-content.open { display: block; }
+    .expand-toggle .arrow { color: #bbb; transition: transform 0.2s; font-size: 0.8rem; }
+    .expand-toggle.open .arrow { transform: rotate(180deg); }
+    .expand-body { display: none; padding: 0 16px 16px; }
+    .expand-body.open { display: block; }
+
+    /* ── FORMS ── */
+    .form-group { margin-bottom: 14px; }
+    .form-label { font-size: 0.75rem; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; display: block; }
+    .form-input {
+      width: 100%; height: 46px; border: 1.5px solid #e8e8e8;
+      border-radius: 10px; padding: 0 14px;
+      font-family: 'Heebo', sans-serif; font-size: 1rem; color: #111;
+      background: #fff; outline: none; transition: border-color 0.15s;
+      -webkit-appearance: none;
+    }
+    .form-input:focus { border-color: #111; }
+    textarea.form-input { height: auto; min-height: 80px; padding: 12px 14px; resize: vertical; }
+    .form-row { display: flex; gap: 10px; }
+    .form-row .form-group { flex: 1; }
+
+    /* ── STARS ── */
+    .stars-wrap { display: flex; align-items: center; gap: 10px; }
+    .stars { display: flex; gap: 4px; direction: ltr; }
+    .star { font-size: 1.6rem; cursor: pointer; color: #ddd; transition: color 0.1s; line-height: 1; }
+    .star.on { color: #f59e0b; }
+    .star:hover { color: #f59e0b; }
+    .star-lbl { font-size: 0.82rem; color: #888; font-weight: 600; }
+
+    /* ── COLOR DOTS ── */
+    .dots-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .color-dot {
+      width: 28px; height: 28px; border-radius: 50%; cursor: pointer;
+      border: 2px solid transparent; transition: all 0.15s;
+    }
+    .color-dot.on { border-color: #111; transform: scale(1.15); }
+    .color-dot:hover { transform: scale(1.1); }
+    .cd-none   { background: #ddd; }
+    .cd-green  { background: #22c55e; }
+    .cd-yellow { background: #f59e0b; }
+    .cd-red    { background: #ef4444; }
+    .cd-blue   { background: #3b82f6; }
+    .cd-purple { background: #a855f7; }
 
     /* ── BUTTONS ── */
     .btn {
-      min-height: var(--touch); padding: 0 18px;
-      border: 1px solid transparent; border-radius: 3px;
-      font-weight: 700; font-size: 0.88rem;
-      cursor: pointer; font-family: 'Heebo', sans-serif;
-      transition: all 0.15s; white-space: nowrap;
+      height: 46px; padding: 0 20px; border-radius: 10px;
+      border: none; font-family: 'Heebo', sans-serif;
+      font-size: 0.92rem; font-weight: 700; cursor: pointer;
       display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-      letter-spacing: 0.5px; position: relative; overflow: hidden;
+      transition: all 0.15s; white-space: nowrap;
     }
-    .btn::after {
-      content: ''; position: absolute; inset: 0;
-      background: rgba(255,255,255,0); transition: background 0.15s;
-    }
-    .btn:hover::after { background: rgba(255,255,255,0.06); }
     .btn:active { transform: scale(0.97); }
+    .btn-black  { background: #111; color: #fff; }
+    .btn-black:hover { background: #333; }
+    .btn-outline { background: #fff; color: #111; border: 1.5px solid #ddd; }
+    .btn-outline:hover { border-color: #999; }
+    .btn-red    { background: #fff; color: #ef4444; border: 1.5px solid #fecaca; }
+    .btn-red:hover { background: #fef2f2; }
+    .btn-green  { background: #111; color: #fff; }
+    .btn-wa     { background: #25d366; color: #fff; }
+    .btn-wa:hover { background: #1fb858; }
+    .btn-sm { height: 36px; padding: 0 14px; font-size: 0.8rem; border-radius: 8px; }
+    .btn-icon { width: 36px; height: 36px; padding: 0; border-radius: 8px; font-size: 1rem; }
 
-    .btn-primary {
-      background: var(--blue); color: var(--white);
-      border-color: #2277ff;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.1), 0 4px 12px rgba(26,111,255,0.2);
+    /* ── BIG BTN ── */
+    .big-btn-wrap { padding: 16px 0 8px; }
+    .big-btn {
+      width: 100%; height: 56px; border-radius: 14px;
+      background: #111; color: #fff; border: none;
+      font-family: 'Heebo', sans-serif; font-size: 1.05rem; font-weight: 700;
+      cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: all 0.15s; letter-spacing: 0.3px;
     }
-    .btn-success {
-      background: #0a6640; color: #00ff88;
-      border-color: #0f8050;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
-    }
-    .btn-danger  { background: rgba(232,22,46,0.12); border-color: rgba(232,22,46,0.3); color: #ff4466; }
-    .btn-danger:hover { background: rgba(232,22,46,0.22); }
-    .btn-ghost   { background: var(--panel2); border-color: var(--border); color: var(--text); }
-    .btn-ghost:hover { border-color: var(--dim); }
-    .btn-wa      { background: #128c3a; color: #fff; border-color: #1aab48; }
-    .btn-wa:hover { background: #0f7530; }
-    .btn-sm { min-height: 36px; padding: 0 12px; font-size: 0.78rem; }
+    .big-btn:hover { background: #333; }
+    .big-btn:active { transform: scale(0.99); }
 
-    /* ── STATS ── */
-    .stats-row { display: flex; gap: 10px; margin-bottom: 14px; }
-    .stat-chip {
-      flex: 1; background: var(--panel); border: 1px solid var(--border);
-      border-top: 2px solid var(--blue); border-radius: 3px;
-      padding: 12px; display: flex; flex-direction: column; align-items: center; gap: 2px;
-    }
-    .stat-val {
-      font-family: 'Rajdhani', sans-serif; font-size: 1.6rem; font-weight: 700; color: var(--white);
-    }
-    .stat-label { font-size: 0.62rem; color: var(--dim); text-transform: uppercase; letter-spacing: 2px; }
-
-    /* ── PLAYER LIST ── */
-    .player-list { display: flex; flex-direction: column; gap: 8px; }
-
-    .player-card {
-      background: var(--panel2);
-      border: 1px solid var(--border);
-      border-right: 3px solid var(--border);
-      border-radius: 3px;
-      padding: 12px 14px;
+    /* ── PLAYER ROWS ── */
+    .player-item {
+      padding: 12px 16px;
+      border-bottom: 1px solid #f0f0f0;
       display: flex; align-items: center; gap: 12px;
-      transition: border-color 0.15s, background 0.15s;
-      cursor: default;
-      transform-style: preserve-3d;
     }
-    .player-card:hover { background: #0f1530; border-color: var(--blue2); }
-    .player-card.hl-green  { border-right-color: #00cc66; }
-    .player-card.hl-yellow { border-right-color: var(--gold); }
-    .player-card.hl-red    { border-right-color: var(--red); }
-    .player-card.hl-blue   { border-right-color: var(--blue); }
-    .player-card.hl-purple { border-right-color: #8833ff; }
+    .player-item:last-child { border-bottom: none; }
 
-    .player-avatar {
-      width: 46px; height: 46px;
-      background: var(--panel); border: 1px solid var(--blue2);
-      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    .avatar {
+      width: 42px; height: 42px; border-radius: 21px;
+      background: #f2f2f7; border: 1px solid #e5e5e5;
       display: flex; align-items: center; justify-content: center;
-      font-family: 'Rajdhani', sans-serif;
-      font-size: 1rem; font-weight: 700; color: var(--blue);
-      flex-shrink: 0;
+      font-weight: 700; font-size: 0.88rem; color: #555; flex-shrink: 0;
     }
+    .player-hl-green .avatar  { background: #dcfce7; color: #166534; }
+    .player-hl-yellow .avatar { background: #fef9c3; color: #92400e; }
+    .player-hl-red .avatar    { background: #fee2e2; color: #991b1b; }
+    .player-hl-blue .avatar   { background: #dbeafe; color: #1e40af; }
+    .player-hl-purple .avatar { background: #f3e8ff; color: #6b21a8; }
 
-    .player-info { flex: 1; min-width: 0; }
-    .player-name { font-size: 1rem; font-weight: 700; color: var(--white); }
-    .player-meta { display: flex; gap: 8px; margin-top: 4px; flex-wrap: wrap; align-items: center; }
+    .player-body { flex: 1; min-width: 0; }
+    .player-name { font-weight: 700; font-size: 0.95rem; }
+    .player-sub  { display: flex; align-items: center; gap: 8px; margin-top: 3px; flex-wrap: wrap; }
+    .player-pos  { font-size: 0.72rem; color: #888; font-weight: 600; }
+    .player-note { font-size: 0.78rem; color: #aaa; margin-top: 3px; font-style: italic; }
 
-    .player-pos {
-      background: rgba(26,111,255,0.12); border: 1px solid rgba(26,111,255,0.25);
-      color: #7ab0ff; padding: 1px 8px; border-radius: 2px;
-      font-size: 0.68rem; font-weight: 700;
-      font-family: 'Rajdhani', sans-serif; letter-spacing: 1px;
-    }
+    .mini-stars { display: flex; gap: 2px; direction: ltr; }
+    .ms { font-size: 0.8rem; color: #ddd; }
+    .ms.on { color: #f59e0b; }
 
-    .player-note { color: var(--dim); font-size: 0.78rem; margin-top: 4px; font-style: italic; }
     .player-actions { display: flex; gap: 6px; flex-shrink: 0; }
 
-    /* ── POWER BAR (replaces dots) ── */
-    .power-bar-wrap { display: flex; align-items: center; gap: 6px; }
-    .power-bar { width: 60px; height: 6px; background: rgba(255,255,255,0.08); border-radius: 1px; overflow: hidden; }
-    .power-fill { height: 100%; border-radius: 1px; transition: width 0.4s; }
-    .power-label { font-family: 'Rajdhani', sans-serif; font-size: 0.7rem; color: var(--dim); letter-spacing: 1px; }
-
-    /* ── STARS INPUT ── */
-    .stars-input { display: flex; gap: 6px; direction: ltr; }
-    .sb { font-size: 1.4rem; cursor: pointer; color: rgba(255,255,255,0.1); transition: all 0.1s; line-height: 1; }
-    .sb.on { color: var(--gold); }
-    .sb:hover { transform: scale(1.15); color: var(--gold); }
-    .rating-lbl { font-family: 'Rajdhani', sans-serif; font-size: 0.72rem; color: var(--dim); letter-spacing: 1px; }
-
-    /* ── COLOR PICKER ── */
-    .cpicker { display: flex; gap: 8px; align-items: center; }
-    .cdot { width: 24px; height: 24px; border-radius: 2px; cursor: pointer; border: 2px solid transparent; transition: all 0.15s; }
-    .cdot:hover { transform: scale(1.2); }
-    .cdot.on  { border-color: var(--white); }
-    .c-none   { background: var(--dim); }
-    .c-green  { background: #00cc66; }
-    .c-yellow { background: var(--gold); }
-    .c-red    { background: var(--red); }
-    .c-blue   { background: var(--blue); }
-    .c-purple { background: #8833ff; }
-
-    /* ── TODAY GRID ── */
-    .today-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; }
-
-    .tp {
-      background: var(--panel2); border: 1px solid var(--border);
-      border-top: 2px solid var(--border);
-      border-radius: 3px; padding: 14px 10px;
-      cursor: pointer; transition: all 0.15s;
-      text-align: center; user-select: none;
-      min-height: 90px; display: flex; flex-direction: column;
-      align-items: center; justify-content: center; gap: 5px;
+    /* ── TODAY ── */
+    .today-list { display: flex; flex-direction: column; }
+    .today-item {
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 16px; border-bottom: 1px solid #f0f0f0;
+      cursor: pointer; user-select: none; transition: background 0.1s;
     }
-    .tp:hover { border-color: var(--blue2); background: #0e1530; }
-    .tp.on { border-color: #00cc66; border-top-color: #00ff88; background: rgba(0,180,80,0.08); }
+    .today-item:last-child { border-bottom: none; }
+    .today-item:hover { background: #fafafa; }
+    .today-item.on { background: #f0fdf4; }
 
-    .tp-check {
-      width: 24px; height: 24px; border-radius: 2px;
-      border: 2px solid var(--border);
+    .checkbox {
+      width: 24px; height: 24px; border-radius: 12px;
+      border: 2px solid #ddd; flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
-      font-size: 0.75rem; transition: all 0.15s; color: var(--bg);
-      font-weight: 900;
+      transition: all 0.15s; font-size: 0.8rem; color: #fff; font-weight: 900;
     }
-    .tp.on .tp-check { background: #00cc66; border-color: #00cc66; }
-    .tp-name { font-weight: 700; font-size: 0.9rem; color: var(--white); }
-    .tp-pos  { font-size: 0.65rem; color: var(--dim); font-family: 'Rajdhani', sans-serif; letter-spacing: 1px; text-transform: uppercase; }
+    .today-item.on .checkbox { background: #22c55e; border-color: #22c55e; }
 
-    /* ── SELECT BAR ── */
-    .sel-bar { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 14px; }
-    .count-chip { margin-right: auto; font-size: 0.82rem; color: var(--dim); font-family: 'Rajdhani', sans-serif; letter-spacing: 1px; }
-    .count-chip strong { color: #00ff88; font-size: 1.1rem; }
+    .today-name { flex: 1; font-weight: 600; font-size: 0.95rem; }
+    .today-pos  { font-size: 0.75rem; color: #aaa; }
+    .today-stars { display: flex; gap: 2px; direction: ltr; flex-shrink: 0; }
 
-    /* ── BIG BUTTON ── */
-    .big-btn-wrap { padding: 20px 0; text-align: center; }
-    .big-btn {
-      padding: 0 52px; height: 58px; font-size: 1rem; font-weight: 700;
-      border-radius: 3px; font-family: 'Rajdhani', sans-serif; letter-spacing: 3px;
-      text-transform: uppercase;
-      background: var(--blue); color: var(--white);
-      border: 1px solid #3388ff;
-      box-shadow: 0 8px 24px rgba(26,111,255,0.25), inset 0 1px 0 rgba(255,255,255,0.15);
-      cursor: pointer; transition: all 0.18s; display: inline-flex; align-items: center; gap: 10px;
-    }
-    .big-btn:hover { background: #2277ff; box-shadow: 0 12px 32px rgba(26,111,255,0.35), inset 0 1px 0 rgba(255,255,255,0.15); transform: translateY(-2px); }
-    .big-btn:active { transform: translateY(0); }
+    .sel-bar { display: flex; align-items: center; gap: 8px; padding: 10px 16px 12px; flex-wrap: wrap; }
+    .sel-count { margin-right: auto; font-size: 0.88rem; color: #888; }
+    .sel-count strong { color: #111; }
 
     /* ── TEAMS ── */
-    .teams-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
+    .teams-stack { display: flex; flex-direction: column; gap: 14px; }
 
     .team-card {
-      background: var(--panel2); border: 1px solid var(--border);
-      border-radius: 3px; overflow: hidden;
-      transform-style: preserve-3d; transition: transform 0.12s, box-shadow 0.12s;
+      background: #fff; border-radius: 14px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06); overflow: hidden;
     }
-    .team-card:hover { box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
 
-    .team-header { padding: 14px 16px; border-bottom: 1px solid var(--border); }
-    .team-name {
-      font-family: 'Rajdhani', sans-serif; font-weight: 700;
-      font-size: 1rem; letter-spacing: 3px; text-transform: uppercase;
+    .team-head {
+      padding: 14px 16px 10px;
+      border-bottom: 1px solid #f0f0f0;
+      display: flex; align-items: center; justify-content: space-between;
     }
-    .team-sub { font-size: 0.68rem; color: var(--dim); font-family: 'Rajdhani', sans-serif; letter-spacing: 1px; margin-top: 3px; }
+    .team-name-txt { font-size: 1rem; font-weight: 900; }
+    .team-meta { font-size: 0.78rem; color: #888; }
 
-    /* Balance bar */
-    .bal-wrap { padding: 10px 16px 6px; }
-    .bal-track { height: 4px; background: rgba(255,255,255,0.06); border-radius: 1px; overflow: hidden; }
-    .bal-fill { height: 100%; border-radius: 1px; transition: width 0.6s ease; }
-    .bal-label { font-family: 'Rajdhani', sans-serif; font-size: 0.62rem; color: var(--dim); letter-spacing: 2px; margin-top: 3px; }
+    .bal-row { padding: 10px 16px 6px; }
+    .bal-bg { height: 5px; background: #f0f0f0; border-radius: 3px; overflow: hidden; }
+    .bal-fg { height: 100%; border-radius: 3px; transition: width 0.5s ease; }
 
-    .team-body { padding: 6px 12px 14px; }
-
-    .tpi {
-      display: flex; align-items: center; gap: 8px;
-      padding: 8px 6px; border-radius: 2px;
-      cursor: pointer; transition: background 0.12s;
-      border: 1px solid transparent;
+    .team-players { padding: 4px 0 8px; }
+    .tplayer {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 16px; cursor: pointer; transition: background 0.12s;
+      border-radius: 8px; margin: 0 8px;
     }
-    .tpi:hover { background: rgba(26,111,255,0.08); }
-    .tpi.swap-src { background: rgba(255,170,0,0.1); border-color: rgba(255,170,0,0.4); }
-
-    .tpi-num {
-      width: 20px; height: 20px; border-radius: 2px;
+    .tplayer:hover { background: #f5f5f5; }
+    .tplayer.swap-src { background: #fffbeb; outline: 2px solid #f59e0b; }
+    .tp-num {
+      width: 24px; height: 24px; border-radius: 12px;
+      background: #f2f2f7; color: #555;
       display: flex; align-items: center; justify-content: center;
-      font-family: 'Rajdhani', sans-serif; font-size: 0.72rem; font-weight: 700;
-      flex-shrink: 0;
+      font-size: 0.72rem; font-weight: 700; flex-shrink: 0;
     }
-    .tpi-name { flex: 1; font-size: 0.88rem; font-weight: 600; color: var(--white); }
-    .tpi-pw { width: 32px; height: 4px; background: rgba(255,255,255,0.08); border-radius: 1px; overflow: hidden; flex-shrink: 0; }
-    .tpi-pwf { height: 100%; border-radius: 1px; }
+    .tp-name { flex: 1; font-weight: 600; font-size: 0.9rem; }
+    .tp-bar { width: 40px; height: 4px; background: #f0f0f0; border-radius: 2px; overflow: hidden; flex-shrink: 0; }
+    .tp-fill { height: 100%; border-radius: 2px; }
 
-    .swap-hint {
-      text-align: center; font-size: 0.78rem; color: var(--gold);
-      font-family: 'Rajdhani', sans-serif; letter-spacing: 2px; text-transform: uppercase;
-      padding: 8px 14px; background: rgba(255,170,0,0.07);
-      border: 1px solid rgba(255,170,0,0.2); border-radius: 3px;
-      margin-bottom: 10px; display: none;
+    .swap-msg {
+      display: none; text-align: center; padding: 10px 16px;
+      font-size: 0.8rem; color: #92400e; background: #fffbeb;
+      border: 1px solid #fde68a; border-radius: 10px; margin-bottom: 10px; font-weight: 600;
     }
-    .swap-hint.show { display: block; }
+    .swap-msg.show { display: block; }
 
-    .teams-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+    .teams-bar { display: flex; gap: 8px; flex-wrap: wrap; padding-top: 8px; }
+    .teams-settings { display: flex; align-items: flex-end; gap: 10px; flex-wrap: wrap; }
 
     /* ── HISTORY ── */
-    .hist-item {
-      background: var(--panel2); border: 1px solid var(--border);
-      border-radius: 3px; padding: 14px 16px; margin-bottom: 10px;
+    .hist-card {
+      background: #fff; border-radius: 14px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      padding: 14px 16px; margin-bottom: 12px;
     }
-    .hist-hdr { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-    .hist-date {
-      font-family: 'Rajdhani', sans-serif; font-weight: 700;
-      font-size: 0.9rem; color: var(--blue); letter-spacing: 2px;
-    }
-    .hist-time { font-size: 0.72rem; color: var(--dim); font-family: 'Rajdhani', sans-serif; }
-    .hist-teams { display: flex; gap: 8px; flex-wrap: wrap; }
-    .hist-team {
-      background: var(--panel); border: 1px solid var(--border);
-      border-radius: 2px; padding: 8px 12px; flex: 1; min-width: 120px;
-    }
-    .hist-team-name { font-family: 'Rajdhani', sans-serif; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 6px; }
-    .hist-player { font-size: 0.8rem; padding: 2px 0; color: var(--dim); }
+    .hist-top { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+    .hist-date { font-weight: 700; font-size: 0.92rem; }
+    .hist-time { font-size: 0.78rem; color: #aaa; }
+    .hist-teams-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .hist-team { flex: 1; min-width: 120px; }
+    .hist-team-name { font-size: 0.72rem; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+    .hist-p { font-size: 0.82rem; color: #555; padding: 1px 0; }
 
     /* ── MODAL ── */
     .overlay {
       display: none; position: fixed; inset: 0;
-      background: rgba(4,6,14,0.88);
-      z-index: 200; align-items: center; justify-content: center; padding: 16px;
+      background: rgba(0,0,0,0.35); z-index: 200;
+      align-items: flex-end; justify-content: center; padding: 0;
     }
     .overlay.open { display: flex; }
     .modal {
-      background: var(--panel); border: 1px solid var(--blue2);
-      border-top: 2px solid var(--blue);
-      border-radius: 4px; padding: 24px; width: 100%; max-width: 480px;
-      box-shadow: 0 0 0 1px rgba(26,111,255,0.1), 0 24px 60px rgba(0,0,0,0.6);
+      background: #fff; border-radius: 20px 20px 0 0;
+      padding: 8px 20px 32px; width: 100%; max-width: 600px;
       max-height: 90vh; overflow-y: auto;
+      animation: slideUp 0.25s ease;
     }
-    .modal-title {
-      font-family: 'Rajdhani', sans-serif; font-size: 0.85rem; font-weight: 700;
-      color: var(--blue); margin-bottom: 18px; letter-spacing: 4px; text-transform: uppercase;
-    }
-    .modal-actions { display: flex; gap: 10px; margin-top: 18px; justify-content: flex-end; }
+    @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+    .modal-handle { width: 36px; height: 4px; background: #ddd; border-radius: 2px; margin: 10px auto 18px; }
+    .modal-title { font-size: 1rem; font-weight: 900; margin-bottom: 18px; }
+    .modal-actions { display: flex; gap: 10px; margin-top: 18px; }
 
     /* ── TOAST ── */
     .toast {
-      position: fixed; bottom: 24px; left: 50%;
+      position: fixed; bottom: 28px; left: 50%;
       transform: translateX(-50%) translateY(80px);
-      background: var(--panel); border: 1px solid var(--blue);
-      border-top: 2px solid var(--blue);
-      color: var(--white); padding: 10px 20px;
-      border-radius: 3px; font-weight: 700; font-size: 0.85rem;
-      font-family: 'Rajdhani', sans-serif; letter-spacing: 1px;
-      z-index: 300; transition: transform 0.25s ease; white-space: nowrap;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+      background: #111; color: #fff;
+      padding: 12px 22px; border-radius: 24px;
+      font-weight: 700; font-size: 0.88rem; z-index: 300;
+      transition: transform 0.25s ease; white-space: nowrap;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.18);
     }
     .toast.show { transform: translateX(-50%) translateY(0); }
 
     /* ── EMPTY ── */
-    .empty { text-align: center; color: var(--dim); padding: 40px 20px; }
-    .empty-icon { font-size: 2.5rem; opacity: 0.25; margin-bottom: 10px; }
-    .empty-text { font-family: 'Rajdhani', sans-serif; letter-spacing: 2px; font-size: 0.85rem; text-transform: uppercase; }
+    .empty { text-align: center; padding: 40px 20px; color: #bbb; }
+    .empty-icon { font-size: 2.5rem; margin-bottom: 10px; }
+    .empty-text { font-size: 0.88rem; font-weight: 600; }
 
     /* ── SCROLLBAR ── */
     ::-webkit-scrollbar { width: 4px; }
-    ::-webkit-scrollbar-track { background: var(--bg); }
-    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+    ::-webkit-scrollbar-thumb { background: #ddd; border-radius: 2px; }
 
-    @media (max-width: 480px) {
-      .teams-grid { grid-template-columns: 1fr 1fr; }
-      .today-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
+    @media (min-width: 640px) {
+      .teams-stack { display: grid; grid-template-columns: 1fr 1fr; }
     }
   </style>
 </head>
 <body>
 
-<div class="scanlines"></div>
-
 <header>
-  <div class="logo-box">⚽</div>
-  <div class="logo-text">
-    <div class="t1">GADU·EL</div>
-    <div class="t2">Team Manager</div>
-  </div>
-  <div class="header-right">
-    <div class="status-dot"></div>
-    ONLINE
-  </div>
+  <div class="logo">גדואל <span>/ כוחות</span></div>
 </header>
 
 <nav>
-  <button class="active" onclick="showPage('players',this)">שחקנים <span class="nbadge" id="bp">0</span></button>
-  <button onclick="showPage('today',this)">היום <span class="nbadge" id="bt">0</span></button>
+  <button class="active" onclick="showPage('players',this)">שחקנים <span class="nb" id="bp">0</span></button>
+  <button onclick="showPage('today',this)">היום <span class="nb" id="bt">0</span></button>
   <button onclick="showPage('teams',this)">כוחות</button>
-  <button onclick="showPage('history',this)">היסטוריה <span class="nbadge" id="bh">0</span></button>
+  <button onclick="showPage('history',this)">היסטוריה <span class="nb" id="bh">0</span></button>
 </nav>
 
 <!-- ═══ PLAYERS ═══ -->
 <div id="page-players" class="page active">
 
-  <div id="stats-row" class="stats-row"></div>
+  <div id="stats-grid" class="stats-grid"></div>
 
-  <!-- Quick add -->
-  <div class="quick-add">
-    <input type="text" id="q-name" placeholder="הוסף שחקן מהיר — Enter לאישור..." onkeydown="if(event.key==='Enter')quickAdd()" />
-    <button class="btn btn-primary" onclick="quickAdd()" style="border-radius:0;min-width:52px">+</button>
-  </div>
-
-  <!-- Full form -->
-  <div class="panel">
-    <div class="pc-bl"></div><div class="pc-br"></div>
-    <div class="panel-title">פרטים מלאים</div>
-    <div class="expand-toggle" onclick="toggleExpand()">
-      <span id="exp-arrow">▶</span>&nbsp;פתח טופס מורחב
+  <div class="section">
+    <div class="section-title">הוסף שחקן</div>
+    <div class="quick-row">
+      <input type="text" id="q-name" placeholder="שם השחקן..." onkeydown="if(event.key==='Enter')quickAdd()" />
+      <button onclick="quickAdd()">+</button>
     </div>
-    <div class="expand-content" id="expand-form">
-      <div class="form-row" style="margin-top:14px">
-        <div class="fg" style="flex:2"><label>שם</label><input type="text" id="f-name" placeholder="שם השחקן..." /></div>
-        <div class="fg" style="flex:1">
-          <label>עמדה</label>
-          <select id="f-pos">
-            <option value="">ללא</option>
-            <option value="שוער">שוער</option>
-            <option value="הגנה">הגנה</option>
-            <option value="קשר">קשר</option>
-            <option value="התקפה">התקפה</option>
-          </select>
-        </div>
+
+    <div class="group">
+      <div class="expand-toggle" id="expand-toggle" onclick="toggleExpand()">
+        <span>פרטים נוספים</span>
+        <span class="arrow">▼</span>
       </div>
-      <div class="form-row">
-        <div class="fg">
-          <label>דירוג</label>
-          <div style="display:flex;align-items:center;gap:8px;padding:6px 0">
-            <div class="stars-input" id="f-stars">
-              <span class="sb" onclick="setRating('f',1)">★</span>
-              <span class="sb" onclick="setRating('f',2)">★</span>
-              <span class="sb" onclick="setRating('f',3)">★</span>
-              <span class="sb" onclick="setRating('f',4)">★</span>
-              <span class="sb" onclick="setRating('f',5)">★</span>
+      <div class="expand-body" id="expand-body">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">שם</label>
+            <input class="form-input" type="text" id="f-name" placeholder="שם מלא..." />
+          </div>
+          <div class="form-group">
+            <label class="form-label">עמדה</label>
+            <select class="form-input" id="f-pos">
+              <option value="">ללא</option>
+              <option value="שוער">שוער</option>
+              <option value="הגנה">הגנה</option>
+              <option value="קשר">קשר</option>
+              <option value="התקפה">התקפה</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">דירוג</label>
+            <div class="stars-wrap">
+              <div class="stars" id="f-stars">
+                <span class="star" onclick="setRating('f',1)">★</span>
+                <span class="star" onclick="setRating('f',2)">★</span>
+                <span class="star" onclick="setRating('f',3)">★</span>
+                <span class="star" onclick="setRating('f',4)">★</span>
+                <span class="star" onclick="setRating('f',5)">★</span>
+              </div>
+              <span class="star-lbl" id="f-rl">טוב</span>
             </div>
-            <span class="rating-lbl" id="f-rl">טוב</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">סימון</label>
+            <div class="dots-row" id="f-colors">
+              <span class="color-dot cd-none on"   data-c="none"   onclick="setColor('f','none',this)"></span>
+              <span class="color-dot cd-green"      data-c="green"  onclick="setColor('f','green',this)"></span>
+              <span class="color-dot cd-yellow"     data-c="yellow" onclick="setColor('f','yellow',this)"></span>
+              <span class="color-dot cd-red"        data-c="red"    onclick="setColor('f','red',this)"></span>
+              <span class="color-dot cd-blue"       data-c="blue"   onclick="setColor('f','blue',this)"></span>
+              <span class="color-dot cd-purple"     data-c="purple" onclick="setColor('f','purple',this)"></span>
+            </div>
           </div>
         </div>
-        <div class="fg">
-          <label>סימון</label>
-          <div class="cpicker" id="f-colors" style="padding:6px 0">
-            <span class="cdot c-none on" data-c="none"   onclick="setColor('f','none',this)"></span>
-            <span class="cdot c-green"   data-c="green"  onclick="setColor('f','green',this)"></span>
-            <span class="cdot c-yellow"  data-c="yellow" onclick="setColor('f','yellow',this)"></span>
-            <span class="cdot c-red"     data-c="red"    onclick="setColor('f','red',this)"></span>
-            <span class="cdot c-blue"    data-c="blue"   onclick="setColor('f','blue',this)"></span>
-            <span class="cdot c-purple"  data-c="purple" onclick="setColor('f','purple',this)"></span>
-          </div>
+        <div class="form-group">
+          <label class="form-label">הערות</label>
+          <textarea class="form-input" id="f-note" placeholder="חוזקות, חולשות..."></textarea>
         </div>
+        <button class="btn btn-black" onclick="addFull()">+ הוסף שחקן</button>
       </div>
-      <div class="fg" style="margin-bottom:14px"><label>הערות</label><textarea id="f-note" placeholder="חוזקות, חולשות, הערות..."></textarea></div>
-      <button class="btn btn-primary" onclick="addFull()">+ הוסף שחקן</button>
     </div>
   </div>
 
-  <!-- List -->
-  <div class="panel">
-    <div class="pc-bl"></div><div class="pc-br"></div>
-    <div class="panel-title">כל השחקנים</div>
-    <div id="player-list" class="player-list"></div>
+  <div class="section">
+    <div class="section-title">כל השחקנים</div>
+    <div class="group" id="player-list"></div>
   </div>
 </div>
 
 <!-- ═══ TODAY ═══ -->
 <div id="page-today" class="page">
-  <div class="panel">
-    <div class="pc-bl"></div><div class="pc-br"></div>
-    <div class="panel-title">מי משחק היום?</div>
-    <div class="sel-bar">
-      <button class="btn btn-ghost btn-sm" onclick="selAll()">בחר הכל</button>
-      <button class="btn btn-ghost btn-sm" onclick="deselAll()">בטל הכל</button>
-      <div class="count-chip">נבחרו: <strong id="sel-count">0</strong></div>
+  <div class="section">
+    <div class="section-title">מי משחק היום?</div>
+    <div class="group">
+      <div class="sel-bar">
+        <button class="btn btn-outline btn-sm" onclick="selAll()">בחר הכל</button>
+        <button class="btn btn-outline btn-sm" onclick="deselAll()">בטל הכל</button>
+        <div class="sel-count">נבחרו: <strong id="sel-count">0</strong></div>
+      </div>
+      <div id="today-list" class="today-list"></div>
     </div>
-    <div id="today-grid" class="today-grid"></div>
   </div>
   <div class="big-btn-wrap">
-    <button class="big-btn" onclick="goTeams()">⚡ צור כוחות</button>
+    <button class="big-btn" onclick="goTeams()">צור כוחות ←</button>
   </div>
 </div>
 
 <!-- ═══ TEAMS ═══ -->
 <div id="page-teams" class="page">
-  <div class="panel">
-    <div class="pc-bl"></div><div class="pc-br"></div>
-    <div class="panel-title">הגדרות חלוקה</div>
-    <div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap">
-      <div class="fg" style="flex:0 0 auto">
-        <label>קבוצות</label>
-        <select id="num-teams" style="width:80px">
-          <option value="2" selected>2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-        </select>
-      </div>
-      <button class="btn btn-success" onclick="genTeams()">⚡ צור</button>
-      <button class="btn btn-ghost" onclick="shuffleTeams()">🔀 ערבב</button>
-      <div style="font-size:0.8rem;color:var(--dim);align-self:center;font-family:'Rajdhani',sans-serif;letter-spacing:1px">
-        שחקנים: <strong style="color:#00ff88" id="tc-count">0</strong>
+  <div class="section">
+    <div class="section-title">הגדרות</div>
+    <div class="group">
+      <div class="group-row" style="gap:12px;flex-wrap:wrap;padding:14px 16px">
+        <div>
+          <label class="form-label" style="display:block;margin-bottom:5px">מספר קבוצות</label>
+          <select class="form-input" id="num-teams" style="width:80px;height:40px">
+            <option value="2" selected>2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+          </select>
+        </div>
+        <div style="display:flex;gap:8px;align-items:flex-end">
+          <button class="btn btn-black" onclick="genTeams()">צור כוחות</button>
+          <button class="btn btn-outline" onclick="shuffleTeams()">ערבב</button>
+        </div>
+        <div style="align-self:center;font-size:0.85rem;color:#888">
+          שחקנים: <strong id="tc-count" style="color:#111">0</strong>
+        </div>
       </div>
     </div>
   </div>
 
-  <div id="swap-hint" class="swap-hint">▶ בחר שחקן בקבוצה אחרת להחלפה · לחץ שוב לביטול</div>
+  <div id="swap-msg" class="swap-msg">לחץ על שחקן בקבוצה אחרת להחלפה · לחץ שוב לביטול</div>
 
-  <div id="teams-grid" class="teams-grid"></div>
+  <div id="teams-stack" class="teams-stack"></div>
   <div id="teams-empty" class="empty">
     <div class="empty-icon">⚽</div>
-    <div class="empty-text">בחר שחקנים בלשונית היום</div>
+    <div class="empty-text">בחר שחקנים בלשונית "היום"</div>
   </div>
 
-  <div id="teams-actions" class="teams-actions" style="display:none">
+  <div id="teams-bar" class="teams-bar" style="display:none">
     <button class="btn btn-wa" onclick="shareWA()">📲 שתף וואטסאפ</button>
-    <button class="btn btn-ghost" onclick="copyTxt()">📋 העתק</button>
-    <button class="btn btn-ghost" onclick="saveHist()">💾 שמור</button>
+    <button class="btn btn-outline" onclick="copyTxt()">📋 העתק</button>
+    <button class="btn btn-outline" onclick="saveHist()">💾 שמור</button>
   </div>
 </div>
 
 <!-- ═══ HISTORY ═══ -->
 <div id="page-history" class="page">
-  <div class="panel">
-    <div class="pc-bl"></div><div class="pc-br"></div>
-    <div class="panel-title">משחקים קודמים</div>
+  <div class="section">
+    <div class="section-title">משחקים קודמים</div>
     <div id="hist-list"></div>
   </div>
 </div>
@@ -677,13 +519,17 @@
 <!-- EDIT MODAL -->
 <div class="overlay" id="edit-modal">
   <div class="modal">
-    <div class="modal-title">// עריכת שחקן</div>
+    <div class="modal-handle"></div>
+    <div class="modal-title">עריכת שחקן</div>
     <input type="hidden" id="e-id" />
     <div class="form-row">
-      <div class="fg" style="flex:2"><label>שם</label><input type="text" id="e-name" /></div>
-      <div class="fg" style="flex:1">
-        <label>עמדה</label>
-        <select id="e-pos">
+      <div class="form-group">
+        <label class="form-label">שם</label>
+        <input class="form-input" type="text" id="e-name" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">עמדה</label>
+        <select class="form-input" id="e-pos">
           <option value="">ללא</option>
           <option value="שוער">שוער</option>
           <option value="הגנה">הגנה</option>
@@ -693,35 +539,38 @@
       </div>
     </div>
     <div class="form-row">
-      <div class="fg">
-        <label>דירוג</label>
-        <div style="display:flex;align-items:center;gap:8px;padding:6px 0">
-          <div class="stars-input" id="e-stars">
-            <span class="sb" onclick="setRating('e',1)">★</span>
-            <span class="sb" onclick="setRating('e',2)">★</span>
-            <span class="sb" onclick="setRating('e',3)">★</span>
-            <span class="sb" onclick="setRating('e',4)">★</span>
-            <span class="sb" onclick="setRating('e',5)">★</span>
+      <div class="form-group">
+        <label class="form-label">דירוג</label>
+        <div class="stars-wrap">
+          <div class="stars" id="e-stars">
+            <span class="star" onclick="setRating('e',1)">★</span>
+            <span class="star" onclick="setRating('e',2)">★</span>
+            <span class="star" onclick="setRating('e',3)">★</span>
+            <span class="star" onclick="setRating('e',4)">★</span>
+            <span class="star" onclick="setRating('e',5)">★</span>
           </div>
-          <span class="rating-lbl" id="e-rl">טוב</span>
+          <span class="star-lbl" id="e-rl">טוב</span>
         </div>
       </div>
-      <div class="fg">
-        <label>סימון</label>
-        <div class="cpicker" id="e-colors" style="padding:6px 0">
-          <span class="cdot c-none"   data-c="none"   onclick="setColor('e','none',this)"></span>
-          <span class="cdot c-green"  data-c="green"  onclick="setColor('e','green',this)"></span>
-          <span class="cdot c-yellow" data-c="yellow" onclick="setColor('e','yellow',this)"></span>
-          <span class="cdot c-red"    data-c="red"    onclick="setColor('e','red',this)"></span>
-          <span class="cdot c-blue"   data-c="blue"   onclick="setColor('e','blue',this)"></span>
-          <span class="cdot c-purple" data-c="purple" onclick="setColor('e','purple',this)"></span>
+      <div class="form-group">
+        <label class="form-label">סימון</label>
+        <div class="dots-row" id="e-colors">
+          <span class="color-dot cd-none"   data-c="none"   onclick="setColor('e','none',this)"></span>
+          <span class="color-dot cd-green"  data-c="green"  onclick="setColor('e','green',this)"></span>
+          <span class="color-dot cd-yellow" data-c="yellow" onclick="setColor('e','yellow',this)"></span>
+          <span class="color-dot cd-red"    data-c="red"    onclick="setColor('e','red',this)"></span>
+          <span class="color-dot cd-blue"   data-c="blue"   onclick="setColor('e','blue',this)"></span>
+          <span class="color-dot cd-purple" data-c="purple" onclick="setColor('e','purple',this)"></span>
         </div>
       </div>
     </div>
-    <div class="fg"><label>הערות</label><textarea id="e-note"></textarea></div>
+    <div class="form-group">
+      <label class="form-label">הערות</label>
+      <textarea class="form-input" id="e-note"></textarea>
+    </div>
     <div class="modal-actions">
-      <button class="btn btn-ghost" onclick="closeModal()">ביטול</button>
-      <button class="btn btn-primary" onclick="saveEdit()">שמור</button>
+      <button class="btn btn-outline" style="flex:1" onclick="closeModal()">ביטול</button>
+      <button class="btn btn-black" style="flex:1" onclick="saveEdit()">שמור</button>
     </div>
   </div>
 </div>
@@ -730,61 +579,38 @@
 
 <script>
 // ═══ STATE ═══
-let players  = JSON.parse(localStorage.getItem('ge3_players') || '[]');
-let selected = new Set(JSON.parse(localStorage.getItem('ge3_today')   || '[]'));
-let history  = JSON.parse(localStorage.getItem('ge3_hist')    || '[]');
-
-let R = { f: 3, e: 3 };
-let C = { f: 'none', e: 'none' };
+let players  = JSON.parse(localStorage.getItem('ge4_players') || '[]');
+let selected = new Set(JSON.parse(localStorage.getItem('ge4_today') || '[]'));
+let history  = JSON.parse(localStorage.getItem('ge4_hist')    || '[]');
+let R = { f:3, e:3 };
+let C = { f:'none', e:'none' };
 
 const RLABELS = ['','חלש','בינוני','טוב','מעולה','מקצוען'];
-const TCOLORS = [
-  { name:'UNIT-01', accent:'#1a6fff', dim:'rgba(26,111,255,0.12)', bar:'rgba(26,111,255,0.15)' },
-  { name:'UNIT-02', accent:'#e8162e', dim:'rgba(232,22,46,0.12)',  bar:'rgba(232,22,46,0.15)'  },
-  { name:'UNIT-03', accent:'#00cc66', dim:'rgba(0,200,90,0.12)',   bar:'rgba(0,200,90,0.15)'   },
-  { name:'UNIT-04', accent:'#ffaa00', dim:'rgba(255,170,0,0.12)',  bar:'rgba(255,170,0,0.15)'  },
-];
+const TNAMES  = ['קבוצה א','קבוצה ב','קבוצה ג','קבוצה ד'];
+const TCOLORS = ['#111','#ef4444','#22c55e','#f59e0b'];
 
 let currentTeams = [];
 let swapSrc = null;
 
-// ═══ INIT ═══
-setRating('f', 3);
+setRating('f',3);
 render();
-
-// 3D tilt effect
-document.addEventListener('mousemove', e => {
-  document.querySelectorAll('.tilt').forEach(card => {
-    const r = card.getBoundingClientRect();
-    const x = e.clientX - r.left - r.width / 2;
-    const y = e.clientY - r.top - r.height / 2;
-    if (Math.abs(x) < r.width && Math.abs(y) < r.height) {
-      const rx = -(y / r.height) * 6;
-      const ry =  (x / r.width)  * 6;
-      card.style.transform = `perspective(600px) rotateX(${rx}deg) rotateY(${ry}deg) translateZ(4px)`;
-    }
-  });
-});
-document.addEventListener('mouseleave', () => {
-  document.querySelectorAll('.tilt').forEach(c => c.style.transform = '');
-});
 
 // ═══ NAV ═══
 function showPage(page, btn) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-  document.getElementById('page-' + page).classList.add('active');
+  document.getElementById('page-'+page).classList.add('active');
   btn.classList.add('active');
-  if (page === 'today')   renderToday();
-  if (page === 'teams')   document.getElementById('tc-count').textContent = selected.size;
-  if (page === 'history') renderHistory();
+  if (page==='today')   renderToday();
+  if (page==='teams')   document.getElementById('tc-count').textContent = selected.size;
+  if (page==='history') renderHistory();
 }
 
 // ═══ PERSIST ═══
 function save() {
-  localStorage.setItem('ge3_players', JSON.stringify(players));
-  localStorage.setItem('ge3_today',   JSON.stringify([...selected]));
-  localStorage.setItem('ge3_hist',    JSON.stringify(history));
+  localStorage.setItem('ge4_players', JSON.stringify(players));
+  localStorage.setItem('ge4_today',   JSON.stringify([...selected]));
+  localStorage.setItem('ge4_hist',    JSON.stringify(history));
   updateBadges();
 }
 function updateBadges() {
@@ -798,48 +624,37 @@ function render() { renderStats(); renderList(); updateBadges(); }
 
 function renderStats() {
   const avg = players.length
-    ? (players.reduce((s, p) => s + (p.rating || 3), 0) / players.length).toFixed(1) : '—';
-  document.getElementById('stats-row').innerHTML = `
-    <div class="stat-chip"><div class="stat-val">${players.length}</div><div class="stat-label">שחקנים</div></div>
-    <div class="stat-chip"><div class="stat-val" style="color:#00ff88">${selected.size}</div><div class="stat-label">היום</div></div>
-    <div class="stat-chip"><div class="stat-val" style="color:var(--gold)">${avg}</div><div class="stat-label">ממוצע</div></div>`;
-}
-
-function pwColor(r) {
-  if (r <= 1) return '#ff4444';
-  if (r <= 2) return '#ffaa00';
-  if (r <= 3) return '#1a6fff';
-  if (r <= 4) return '#00cc66';
-  return '#00ffaa';
+    ? (players.reduce((s,p)=>s+(p.rating||3),0)/players.length).toFixed(1) : '—';
+  document.getElementById('stats-grid').innerHTML = `
+    <div class="stat-card"><div class="stat-val">${players.length}</div><div class="stat-lbl">שחקנים</div></div>
+    <div class="stat-card"><div class="stat-val" style="color:#22c55e">${selected.size}</div><div class="stat-lbl">היום</div></div>
+    <div class="stat-card"><div class="stat-val" style="color:#f59e0b">${avg}</div><div class="stat-lbl">ממוצע</div></div>`;
 }
 
 function renderList() {
   const el = document.getElementById('player-list');
   if (!players.length) {
-    el.innerHTML = '<div class="empty"><div class="empty-icon">◈</div><div class="empty-text">אין שחקנים</div></div>';
+    el.innerHTML = '<div class="empty"><div class="empty-icon">👤</div><div class="empty-text">אין שחקנים עדיין</div></div>';
     return;
   }
   el.innerHTML = players.map(p => {
-    const init = p.name.split(' ').map(w => w[0]).slice(0,2).join('').toUpperCase();
-    const pw   = Math.round(((p.rating||3)/5)*100);
-    const col  = pwColor(p.rating||3);
+    const init = p.name.trim().split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
+    const stars = [1,2,3,4,5].map(i=>`<span class="ms ${i<=(p.rating||3)?'on':''}">★</span>`).join('');
     return `
-    <div class="player-card tilt hl-${p.color||'none'}">
-      <div class="player-avatar">${init}</div>
-      <div class="player-info">
+    <div class="player-item player-hl-${p.color||'none'}">
+      <div class="avatar">${init}</div>
+      <div class="player-body">
         <div class="player-name">${esc(p.name)}</div>
-        <div class="player-meta" style="margin-top:5px">
-          <div class="power-bar-wrap">
-            <div class="power-bar"><div class="power-fill" style="width:${pw}%;background:${col}"></div></div>
-            <span class="power-label" style="color:${col}">${RLABELS[p.rating||3]}</span>
-          </div>
+        <div class="player-sub">
+          <div class="mini-stars">${stars}</div>
+          <span class="player-pos" style="font-size:0.7rem;color:#aaa">${RLABELS[p.rating||3]}</span>
           ${p.pos ? `<span class="player-pos">${esc(p.pos)}</span>` : ''}
         </div>
         ${p.note ? `<div class="player-note">${esc(p.note)}</div>` : ''}
       </div>
       <div class="player-actions">
-        <button class="btn btn-ghost btn-sm" onclick="openEdit('${p.id}')">עריכה</button>
-        <button class="btn btn-danger btn-sm" onclick="del('${p.id}')">✕</button>
+        <button class="btn btn-outline btn-sm" onclick="openEdit('${p.id}')">עריכה</button>
+        <button class="btn btn-red btn-sm btn-icon" onclick="del('${p.id}')">✕</button>
       </div>
     </div>`;
   }).join('');
@@ -848,67 +663,64 @@ function renderList() {
 // ═══ ADD ═══
 function quickAdd() {
   const name = document.getElementById('q-name').value.trim();
-  if (!name) { flash('q-name'); return; }
-  players.push(mkP({ name }));
+  if (!name) return;
+  players.push(mkP({name}));
   save(); render();
   document.getElementById('q-name').value = '';
-  toast('+ ' + name);
+  toast('נוסף: ' + name);
 }
-
 function addFull() {
   const name = document.getElementById('f-name').value.trim();
-  if (!name) { flash('f-name'); return; }
-  players.push(mkP({ name, pos: document.getElementById('f-pos').value, rating: R.f, color: C.f, note: document.getElementById('f-note').value.trim() }));
+  if (!name) return;
+  players.push(mkP({name, pos:document.getElementById('f-pos').value, rating:R.f, color:C.f, note:document.getElementById('f-note').value.trim()}));
   save(); render();
-  ['f-name','f-note'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('f-pos').value = '';
-  setRating('f', 3); setColorVal('f', 'none');
+  ['f-name','f-note'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('f-pos').value='';
+  setRating('f',3); setColorVal('f','none');
   toast('שחקן נוסף!');
 }
-
 function mkP(d) {
-  return { id: Date.now().toString(36) + Math.random().toString(36).slice(2), name: d.name, pos: d.pos||'', rating: d.rating||3, color: d.color||'none', note: d.note||'' };
+  return {id:Date.now().toString(36)+Math.random().toString(36).slice(2), name:d.name, pos:d.pos||'', rating:d.rating||3, color:d.color||'none', note:d.note||''};
 }
-
 function del(id) {
-  if (!confirm('למחוק שחקן זה?')) return;
-  players = players.filter(p => p.id !== id);
+  if (!confirm('למחוק?')) return;
+  players = players.filter(p=>p.id!==id);
   selected.delete(id);
   save(); render();
 }
 
 // ═══ EXPAND ═══
 function toggleExpand() {
-  const c = document.getElementById('expand-form');
-  c.classList.toggle('open');
-  document.getElementById('exp-arrow').textContent = c.classList.contains('open') ? '▼' : '▶';
+  const body    = document.getElementById('expand-body');
+  const toggle  = document.getElementById('expand-toggle');
+  body.classList.toggle('open');
+  toggle.classList.toggle('open');
 }
 
 // ═══ RATINGS / COLORS ═══
 function setRating(pfx, val) {
   R[pfx] = val;
-  document.querySelectorAll(`#${pfx}-stars .sb`).forEach((s,i) => s.classList.toggle('on', i < val));
+  document.querySelectorAll(`#${pfx}-stars .star`).forEach((s,i)=>s.classList.toggle('on', i<val));
   const lbl = document.getElementById(`${pfx}-rl`);
   if (lbl) lbl.textContent = RLABELS[val];
 }
 function setColor(pfx, c, el) {
   C[pfx] = c;
-  document.querySelectorAll(`#${pfx}-colors .cdot`).forEach(d => d.classList.remove('on'));
+  document.querySelectorAll(`#${pfx}-colors .color-dot`).forEach(d=>d.classList.remove('on'));
   el.classList.add('on');
 }
 function setColorVal(pfx, c) {
   C[pfx] = c;
-  document.querySelectorAll(`#${pfx}-colors .cdot`).forEach(d => d.classList.toggle('on', d.dataset.c === c));
+  document.querySelectorAll(`#${pfx}-colors .color-dot`).forEach(d=>d.classList.toggle('on', d.dataset.c===c));
 }
 
 // ═══ EDIT MODAL ═══
 function openEdit(id) {
-  const p = players.find(x => x.id === id);
-  if (!p) return;
+  const p = players.find(x=>x.id===id); if(!p) return;
   document.getElementById('e-id').value = id;
   document.getElementById('e-name').value = p.name;
-  document.getElementById('e-pos').value = p.pos || '';
-  document.getElementById('e-note').value = p.note || '';
+  document.getElementById('e-pos').value = p.pos||'';
+  document.getElementById('e-note').value = p.note||'';
   setRating('e', p.rating||3);
   setColorVal('e', p.color||'none');
   document.getElementById('edit-modal').classList.add('open');
@@ -916,48 +728,47 @@ function openEdit(id) {
 function closeModal() { document.getElementById('edit-modal').classList.remove('open'); }
 function saveEdit() {
   const id = document.getElementById('e-id').value;
-  const p  = players.find(x => x.id === id);
-  if (!p) return;
-  p.name = document.getElementById('e-name').value.trim();
-  p.pos  = document.getElementById('e-pos').value;
-  p.note = document.getElementById('e-note').value.trim();
+  const p  = players.find(x=>x.id===id); if(!p) return;
+  p.name   = document.getElementById('e-name').value.trim();
+  p.pos    = document.getElementById('e-pos').value;
+  p.note   = document.getElementById('e-note').value.trim();
   p.rating = R.e; p.color = C.e;
   save(); render(); closeModal();
 }
-document.getElementById('edit-modal').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
+document.getElementById('edit-modal').addEventListener('click', e=>{if(e.target===e.currentTarget)closeModal();});
 
 // ═══ TODAY ═══
 function renderToday() {
-  const el = document.getElementById('today-grid');
+  const el = document.getElementById('today-list');
   document.getElementById('sel-count').textContent = selected.size;
   if (!players.length) {
-    el.innerHTML = '<div class="empty" style="grid-column:1/-1"><div class="empty-icon">◈</div><div class="empty-text">הוסף שחקנים קודם</div></div>';
+    el.innerHTML = '<div class="empty"><div class="empty-icon">👤</div><div class="empty-text">הוסף שחקנים קודם</div></div>';
     return;
   }
   el.innerHTML = players.map(p => {
     const on = selected.has(p.id);
+    const stars = [1,2,3,4,5].map(i=>`<span class="ms ${i<=(p.rating||3)?'on':''}">★</span>`).join('');
     return `
-    <div class="tp ${on?'on':''}" onclick="toggleSel('${p.id}',this)">
-      <div class="tp-check">${on?'✓':''}</div>
-      <div class="tp-name">${esc(p.name)}</div>
-      ${p.pos ? `<div class="tp-pos">${esc(p.pos)}</div>` : ''}
+    <div class="today-item ${on?'on':''}" onclick="toggleSel('${p.id}',this)">
+      <div class="checkbox">${on?'✓':''}</div>
+      <div class="today-name">${esc(p.name)}</div>
+      ${p.pos?`<div class="today-pos">${esc(p.pos)}</div>`:''}
+      <div class="today-stars">${stars}</div>
     </div>`;
   }).join('');
 }
-
 function toggleSel(id, el) {
-  if (selected.has(id)) { selected.delete(id); el.classList.remove('on'); el.querySelector('.tp-check').textContent = ''; }
-  else { selected.add(id); el.classList.add('on'); el.querySelector('.tp-check').textContent = '✓'; }
+  if (selected.has(id)) { selected.delete(id); el.classList.remove('on'); el.querySelector('.checkbox').textContent=''; }
+  else { selected.add(id); el.classList.add('on'); el.querySelector('.checkbox').textContent='✓'; }
   document.getElementById('sel-count').textContent = selected.size;
   save(); renderStats();
 }
-function selAll()   { players.forEach(p => selected.add(p.id));  save(); renderToday(); renderStats(); }
-function deselAll() { selected.clear();                           save(); renderToday(); renderStats(); }
-
+function selAll()   { players.forEach(p=>selected.add(p.id));  save(); renderToday(); renderStats(); }
+function deselAll() { selected.clear();                         save(); renderToday(); renderStats(); }
 function goTeams() {
   if (!selected.size) { toast('בחר לפחות שחקן אחד'); return; }
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
   document.getElementById('page-teams').classList.add('active');
   document.querySelectorAll('nav button')[2].classList.add('active');
   genTeams();
@@ -965,135 +776,126 @@ function goTeams() {
 
 // ═══ TEAMS ═══
 function buildTeams(list, n) {
-  const s = [...list].sort(() => Math.random() - 0.5);
-  s.sort((a,b) => (b.rating||3) - (a.rating||3));
-  const teams = Array.from({length:n}, ()=>[]);
+  const s = [...list].sort(()=>Math.random()-0.5);
+  s.sort((a,b)=>(b.rating||3)-(a.rating||3));
+  const teams = Array.from({length:n},()=>[]);
   const sums  = Array(n).fill(0);
-  let dir = 1, i = 0;
+  let dir=1,i=0;
   for (const p of s) {
-    teams[i].push(p); sums[i] += p.rating||3;
-    if (dir===1 && i===n-1) dir=-1;
-    else if (dir===-1 && i===0) dir=1;
-    else i+=dir;
+    teams[i].push(p); sums[i]+=p.rating||3;
+    if(dir===1&&i===n-1)dir=-1; else if(dir===-1&&i===0)dir=1; else i+=dir;
   }
   return teams;
 }
-
 function genTeams() {
   const n      = parseInt(document.getElementById('num-teams').value);
-  const active = players.filter(p => selected.has(p.id));
+  const active = players.filter(p=>selected.has(p.id));
   document.getElementById('tc-count').textContent = active.length;
   if (!active.length) {
-    document.getElementById('teams-grid').innerHTML = '';
-    document.getElementById('teams-empty').style.display = 'block';
-    document.getElementById('teams-actions').style.display = 'none';
+    document.getElementById('teams-stack').innerHTML='';
+    document.getElementById('teams-empty').style.display='block';
+    document.getElementById('teams-bar').style.display='none';
     return;
   }
   currentTeams = buildTeams(active, n);
-  swapSrc = null;
-  renderTeams();
+  swapSrc = null; renderTeams();
 }
-
 function shuffleTeams() {
   if (!currentTeams.length) { genTeams(); return; }
   currentTeams = buildTeams(currentTeams.flat(), currentTeams.length);
-  swapSrc = null; renderTeams();
+  swapSrc=null; renderTeams();
 }
-
 function renderTeams() {
-  document.getElementById('teams-empty').style.display = 'none';
-  document.getElementById('teams-actions').style.display = 'flex';
-  const maxAvg = Math.max(...currentTeams.map(t => t.length ? t.reduce((s,p)=>s+(p.rating||3),0)/t.length : 0));
+  document.getElementById('teams-empty').style.display='none';
+  document.getElementById('teams-bar').style.display='flex';
+  const maxAvg = Math.max(...currentTeams.map(t=>t.length?t.reduce((s,p)=>s+(p.rating||3),0)/t.length:0));
 
-  document.getElementById('teams-grid').innerHTML = currentTeams.map((team, ti) => {
-    const cfg = TCOLORS[ti] || TCOLORS[0];
-    const avg = team.length ? (team.reduce((s,p)=>s+(p.rating||3),0)/team.length).toFixed(1) : 0;
-    const barW = maxAvg > 0 ? Math.round((parseFloat(avg)/maxAvg)*100) : 0;
-    const rows = team.map((p, pi) => `
-      <div class="tpi ${swapSrc&&swapSrc.ti===ti&&swapSrc.pi===pi?'swap-src':''}" onclick="doSwap(${ti},${pi})">
-        <span class="tpi-num" style="background:${cfg.dim};color:${cfg.accent}">${pi+1}</span>
-        <span class="tpi-name">${esc(p.name)}</span>
-        <div class="tpi-pw"><div class="tpi-pwf" style="width:${Math.round(((p.rating||3)/5)*100)}%;background:${cfg.accent}"></div></div>
+  document.getElementById('teams-stack').innerHTML = currentTeams.map((team,ti)=>{
+    const col  = TCOLORS[ti]||TCOLORS[0];
+    const name = TNAMES[ti]||`קבוצה ${ti+1}`;
+    const avg  = team.length?(team.reduce((s,p)=>s+(p.rating||3),0)/team.length).toFixed(1):0;
+    const barW = maxAvg>0?Math.round((parseFloat(avg)/maxAvg)*100):0;
+    const rows = team.map((p,pi)=>`
+      <div class="tplayer ${swapSrc&&swapSrc.ti===ti&&swapSrc.pi===pi?'swap-src':''}" onclick="doSwap(${ti},${pi})">
+        <div class="tp-num" style="background:${col}18;color:${col}">${pi+1}</div>
+        <div class="tp-name">${esc(p.name)}</div>
+        <div class="tp-bar"><div class="tp-fill" style="width:${Math.round(((p.rating||3)/5)*100)}%;background:${col}"></div></div>
       </div>`).join('');
     return `
-    <div class="team-card tilt" style="border-top:2px solid ${cfg.accent}">
-      <div class="team-header" style="border-bottom-color:${cfg.accent}22">
-        <div class="team-name" style="color:${cfg.accent}">${cfg.name}</div>
-        <div class="team-sub">${team.length} PLAYERS · AVG ${avg}</div>
+    <div class="team-card">
+      <div class="team-head" style="border-bottom-color:${col}22">
+        <div>
+          <div class="team-name-txt" style="color:${col}">${name}</div>
+          <div class="team-meta">${team.length} שחקנים · ממוצע ${avg}</div>
+        </div>
       </div>
-      <div class="bal-wrap">
-        <div class="bal-track"><div class="bal-fill" style="width:${barW}%;background:${cfg.accent}"></div></div>
-        <div class="bal-label">POWER LEVEL</div>
+      <div class="bal-row">
+        <div class="bal-bg"><div class="bal-fg" style="width:${barW}%;background:${col}"></div></div>
       </div>
-      <div class="team-body">${rows}</div>
+      <div class="team-players">${rows}</div>
     </div>`;
   }).join('');
 
-  document.getElementById('swap-hint').classList.toggle('show', !!swapSrc);
+  document.getElementById('swap-msg').classList.toggle('show', !!swapSrc);
 }
-
-function doSwap(ti, pi) {
-  if (!swapSrc) { swapSrc = {ti,pi}; renderTeams(); return; }
-  if (swapSrc.ti===ti && swapSrc.pi===pi) { swapSrc=null; renderTeams(); return; }
-  const a = currentTeams[swapSrc.ti][swapSrc.pi];
-  const b = currentTeams[ti][pi];
-  currentTeams[swapSrc.ti][swapSrc.pi] = b;
-  currentTeams[ti][pi] = a;
-  swapSrc = null; renderTeams();
+function doSwap(ti,pi) {
+  if (!swapSrc) { swapSrc={ti,pi}; renderTeams(); return; }
+  if (swapSrc.ti===ti&&swapSrc.pi===pi) { swapSrc=null; renderTeams(); return; }
+  const a=currentTeams[swapSrc.ti][swapSrc.pi], b=currentTeams[ti][pi];
+  currentTeams[swapSrc.ti][swapSrc.pi]=b; currentTeams[ti][pi]=a;
+  swapSrc=null; renderTeams();
 }
 
 // ═══ SHARE ═══
 function fmtTeams() {
   const d = new Date().toLocaleDateString('he-IL');
-  let t = `⚽ GADU·EL — ${d}\n${'─'.repeat(24)}\n`;
-  currentTeams.forEach((team, i) => {
-    const cfg = TCOLORS[i]||TCOLORS[0];
-    const avg = team.length ? (team.reduce((s,p)=>s+(p.rating||3),0)/team.length).toFixed(1) : 0;
-    t += `\n[ ${cfg.name} ]\n`;
-    team.forEach((p,n) => { t += `  ${n+1}. ${p.name}\n`; });
-    t += `  ★ ${avg}\n`;
+  let t = `⚽ כוחות גדואל — ${d}\n${'─'.repeat(22)}\n`;
+  currentTeams.forEach((team,i)=>{
+    const avg = team.length?(team.reduce((s,p)=>s+(p.rating||3),0)/team.length).toFixed(1):0;
+    t += `\n${TNAMES[i]||`קבוצה ${i+1}`}\n`;
+    team.forEach((p,n)=>{t+=`  ${n+1}. ${p.name}\n`;});
+    t += `  ממוצע: ${avg}\n`;
   });
-  return t + '\n⚡ GADU·EL Team Manager';
+  return t;
 }
-function shareWA()  { window.open('https://wa.me/?text=' + encodeURIComponent(fmtTeams()), '_blank'); }
+function shareWA()  { window.open('https://wa.me/?text='+encodeURIComponent(fmtTeams()),'_blank'); }
 function copyTxt()  { navigator.clipboard.writeText(fmtTeams()).then(()=>toast('הועתק!')).catch(()=>prompt('העתק:',fmtTeams())); }
 
 // ═══ HISTORY ═══
 function saveHist() {
   const d = new Date();
   history.unshift({
-    id: Date.now().toString(36),
-    date: d.toLocaleDateString('he-IL'),
-    time: d.toLocaleTimeString('he-IL',{hour:'2-digit',minute:'2-digit'}),
-    teams: currentTeams.map((t,i) => ({
-      name: (TCOLORS[i]||TCOLORS[0]).name,
-      color: (TCOLORS[i]||TCOLORS[0]).accent,
-      players: t.map(p=>p.name),
-      avg: t.length?(t.reduce((s,p)=>s+(p.rating||3),0)/t.length).toFixed(1):0
+    id:Date.now().toString(36),
+    date:d.toLocaleDateString('he-IL'),
+    time:d.toLocaleTimeString('he-IL',{hour:'2-digit',minute:'2-digit'}),
+    teams:currentTeams.map((t,i)=>({
+      name:TNAMES[i]||`קבוצה ${i+1}`,
+      color:TCOLORS[i]||TCOLORS[0],
+      players:t.map(p=>p.name),
+      avg:t.length?(t.reduce((s,p)=>s+(p.rating||3),0)/t.length).toFixed(1):0
     }))
   });
-  if (history.length > 30) history = history.slice(0,30);
-  save(); toast('נשמר להיסטוריה!');
+  if (history.length>30) history=history.slice(0,30);
+  save(); toast('נשמר!');
 }
-
 function renderHistory() {
   const el = document.getElementById('hist-list');
   if (!history.length) {
-    el.innerHTML = '<div class="empty"><div class="empty-icon">◈</div><div class="empty-text">אין משחקים קודמים</div></div>';
+    el.innerHTML='<div class="empty"><div class="empty-icon">📋</div><div class="empty-text">אין משחקים קודמים</div></div>';
     return;
   }
-  el.innerHTML = history.map((h,idx) => `
-    <div class="hist-item">
-      <div class="hist-hdr">
-        <span class="hist-date">⚽ ${h.date}</span>
-        <span class="hist-time">${h.time}</span>
-        <button class="btn btn-danger btn-sm" style="margin-right:auto" onclick="delHist(${idx})">✕</button>
+  el.innerHTML = history.map((h,idx)=>`
+    <div class="hist-card">
+      <div class="hist-top">
+        <div class="hist-date">⚽ ${h.date}</div>
+        <div class="hist-time">${h.time}</div>
+        <button class="btn btn-red btn-sm btn-icon" style="margin-right:auto" onclick="delHist(${idx})">✕</button>
       </div>
-      <div class="hist-teams">
+      <div class="hist-teams-row">
         ${h.teams.map(t=>`
-          <div class="hist-team" style="border-right:2px solid ${t.color}">
-            <div class="hist-team-name" style="color:${t.color}">${t.name} · ${t.avg}★</div>
-            ${t.players.map(n=>`<div class="hist-player">· ${esc(n)}</div>`).join('')}
+          <div class="hist-team">
+            <div class="hist-team-name" style="color:${t.color}">${t.name}</div>
+            ${t.players.map(n=>`<div class="hist-p">${esc(n)}</div>`).join('')}
           </div>`).join('')}
       </div>
     </div>`).join('');
@@ -1102,15 +904,11 @@ function delHist(idx) { history.splice(idx,1); save(); renderHistory(); }
 
 // ═══ UTILS ═══
 function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function flash(id) {
-  const el = document.getElementById(id); if(!el) return;
-  el.style.borderColor='var(--red)'; setTimeout(()=>el.style.borderColor='',800);
-}
 let _tt;
 function toast(msg) {
   const el = document.getElementById('toast');
-  el.textContent = msg; el.classList.add('show');
-  clearTimeout(_tt); _tt = setTimeout(()=>el.classList.remove('show'), 2200);
+  el.textContent=msg; el.classList.add('show');
+  clearTimeout(_tt); _tt=setTimeout(()=>el.classList.remove('show'),2000);
 }
 </script>
 </body>
