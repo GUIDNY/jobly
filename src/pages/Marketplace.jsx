@@ -20,7 +20,8 @@ export default function Marketplace() {
   const q = params.get('q') || '';
   const [sort, setSort] = useState('rating');
   const [searchInput, setSearchInput] = useState(q);
-  const [showFilters, setShowFilters] = useState(false);
+
+  const { bots: allBots, loading } = useBots({ botType: tab, category: category || undefined, search: q || undefined });
 
   const setTab = (t) => {
     const p = new URLSearchParams(params);
