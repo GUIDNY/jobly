@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Menu, X, Search, Zap, LogIn, LogOut, User, Settings, ChevronDown } from 'lucide-react';
+import { Menu, X, Search, Zap, LogIn, LogOut, User, Settings, ChevronDown, Shield } from 'lucide-react';
 import { useAuth } from '../lib/AuthContext';
 
 export default function Layout({ children }) {
