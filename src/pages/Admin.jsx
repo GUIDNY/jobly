@@ -221,10 +221,10 @@ export default function Admin() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
-              {mockOrders.map(o => (
+              {orders.map(o => (
                 <tr key={o.id} className="hover:bg-gray-50">
-                  <td className="px-4 py-3 text-gray-900 font-medium">{o.bot_name}</td>
-                  <td className="px-4 py-3 text-gray-500">{o.client_email}</td>
+                  <td className="px-4 py-3 text-gray-900 font-medium">{o.bots?.name || '—'}</td>
+                  <td className="px-4 py-3 text-gray-500">{o.profiles?.email || '—'}</td>
                   <td className="px-4 py-3 text-gray-900">₪{o.price}</td>
                   <td className="px-4 py-3">
                     <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
