@@ -65,7 +65,7 @@ export default function Admin() {
   const freelancerBots = bots.filter(b => b.bot_type === 'freelancer');
   const employerBots = bots.filter(b => b.bot_type === 'employer');
   const publishedBots = bots.filter(b => b.is_published);
-  const totalRevenue = mockOrders.reduce((sum, o) => sum + (o.price || 0), 0);
+  const totalRevenue = orders.reduce((sum, o) => sum + (o.price || 0), 0);
 
   const togglePublish = (id) => {
     setBots(prev => prev.map(b => b.id === id ? { ...b, is_published: !b.is_published } : b));
