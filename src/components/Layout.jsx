@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Menu, X, Search, Zap, LogIn, LogOut, User, Settings, ChevronDown, Shield } from 'lucide-react';
+import { Menu, X, Zap, LogIn, LogOut, User, ChevronDown, Shield } from 'lucide-react';
 import { useAuth } from '../lib/AuthContext';
+import LoginModal from './LoginModal';
 
 export default function Layout({ children }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
-  const { user, logout } = useAuth();
+  const [showLogin, setShowLogin] = useState(false);
+  const { user, logout, loading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
