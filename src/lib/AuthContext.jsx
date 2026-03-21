@@ -10,7 +10,6 @@ export function AuthProvider({ children }) {
 
   const fetchOrCreateProfile = async (authUser) => {
     if (!authUser) return;
-
     try {
       const { data } = await supabase
         .from('profiles')
@@ -23,24 +22,16 @@ export function AuthProvider({ children }) {
         return;
       }
 
-      // פרופיל לא קיים — ניצור
-      const { data: created } = await supabase
-        .from('profiles')
-        .upsert({
-          id: authUser.id,
-          email: authUser.email,
-          full_name:
-            authUser.user_metadata?.full_name ||
-            authUser.email?.split('@')[0] ||
-            '',
-          avatar_url: authUser.user_metadata?.avatar_url || null,
-        })
-        .select()
-        .single();
-
-      if (created) setProfile(created);
+      // פרופיל לא קיים — ניצור בלי לחכות לתשובה
+      const newProfile = {
+        id: authUser.id,
+        email: authUser.email,
+        full_name: authUser.user_metadata?.full_name || authUser.email?.split('@')[0] || '',
+        avatar_url: authUser.user_metadata?.avatar_url || null,
+      };
+      await supabase.from('profiles').upsert(newProfile);
+      setProfile(newProfile);
     } catch (e) {
-      // שגיאה בטעינת פרופיל — לא חוסמים את הטעינה
       console.warn('profile fetch error:', e.message);
     }
   };
