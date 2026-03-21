@@ -1,45 +1,47 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus, Eye, EyeOff, Trash2, Send, Bot, ChevronLeft } from 'lucide-react';
-import { useBots } from '../../lib/useBots';
-import { updateBot, deleteBot } from '../../lib/botsStore';
-import BotCard from '../BotCard';
-
-const AI_SUGGESTIONS_POOL = ['1', '2', '3'];
+import { getMyBots, getBots, updateBot, deleteBot } from '../../lib/api';
 
 export default function EmployerView({ user }) {
   const navigate = useNavigate();
-  const allBots = useBots();
   const [activeTab, setActiveTab] = useState('search');
-  const [searchQuery, setSearchQuery] = useState('');
   const [aiMessages, setAiMessages] = useState([
     { role: 'assistant', content: 'שלום! אני סוכן החיפוש של Jobly. תאר לי את הפרויקט שלך ואמצא עבורך את הפרילנסרים המתאימים ביותר.' }
   ]);
   const [suggestedBots, setSuggestedBots] = useState([]);
+  const [topFreelancers, setTopFreelancers] = useState([]);
   const [inputMsg, setInputMsg] = useState('');
   const [typing, setTyping] = useState(false);
+  const [myJobs, setMyJobs] = useState([]);
 
-  const myJobs = allBots.filter(b => b.owner_email === user.email && b.bot_type === 'employer');
+  useEffect(() => {
+    if (!user?.id) return;
+    getMyBots(user.id).then(data => setMyJobs(data.filter(b => b.bot_type === 'employer')));
+    getBots({ botType: 'freelancer' }).then(data => setTopFreelancers(data.slice(0, 3)));
+  }, [user?.id]);
 
   const sendAiMessage = async () => {
     if (!inputMsg.trim()) return;
-    const userMsg = { role: 'user', content: inputMsg };
-    setAiMessages(prev => [...prev, userMsg]);
+    setAiMessages(prev => [...prev, { role: 'user', content: inputMsg }]);
     setInputMsg('');
     setTyping(true);
-
     await new Promise(r => setTimeout(r, 1500));
-
-    const freelancers = allBots.filter(b => b.bot_type === 'freelancer' && b.is_published);
-    const reply = `חיפשתי עבורך ומצאתי ${freelancers.length} פרילנסרים רלוונטיים. הנה 3 ההמלצות הטובות ביותר:`;
+    const reply = `חיפשתי עבורך ומצאתי ${topFreelancers.length} פרילנסרים רלוונטיים. הנה ההמלצות הטובות ביותר:`;
     setAiMessages(prev => [...prev, { role: 'assistant', content: reply }]);
-    setSuggestedBots(freelancers.slice(0, 3));
+    setSuggestedBots(topFreelancers);
     setTyping(false);
   };
 
-  const handleToggleJob = (bot) => updateBot(bot.id, { is_published: !bot.is_published });
-  const handleDeleteJob = (id) => {
-    if (confirm('מחק את המשרה?')) deleteBot(id);
+  const handleToggleJob = async (bot) => {
+    await updateBot(bot.id, { is_published: !bot.is_published });
+    setMyJobs(prev => prev.map(b => b.id === bot.id ? { ...b, is_published: !b.is_published } : b));
+  };
+  const handleDeleteJob = async (id) => {
+    if (confirm('מחק את המשרה?')) {
+      await deleteBot(id);
+      setMyJobs(prev => prev.filter(b => b.id !== id));
+    }
   };
 
   return (
