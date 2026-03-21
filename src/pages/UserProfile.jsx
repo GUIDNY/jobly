@@ -32,9 +32,9 @@ export default function UserProfile() {
       }
 
       // חיפוש לפי אימייל
-      const query = supabase.from('profiles').select('*');
-      if (idParam) query.eq('id', idParam);
-      else if (emailParam) query.eq('email', emailParam);
+      let query = supabase.from('profiles').select('*');
+      if (idParam) query = query.eq('id', idParam);
+      else if (emailParam) query = query.eq('email', emailParam);
       else {
         setLoading(false);
         return;
