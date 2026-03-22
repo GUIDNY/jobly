@@ -101,6 +101,7 @@ export default function BotProfile() {
               </div>
             </div>
           </div>
+          </div>
 
           {/* Tabs */}
           <div className="flex bg-gray-50 border border-gray-200 rounded-xl p-1 w-fit mb-6">
