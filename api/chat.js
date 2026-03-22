@@ -36,7 +36,7 @@ ${bot.bot_type === 'freelancer' ? `
         'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
       },
       body: JSON.stringify({
-        model: 'llama-3.1-8b-instant',
+        model: 'llama-3.3-70b-versatile',
         messages: groqMessages,
         max_tokens: 300,
         temperature: 0.7,
