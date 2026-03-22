@@ -40,7 +40,7 @@ export default function FreelancerView({ user }) {
       <div className="bg-gray-50 border border-gray-200 rounded-2xl p-6 mb-6 flex items-center gap-5">
         <div className="relative shrink-0">
           <img
-            src={user.avatar_url}
+            src={user.avatar_url || `https://i.pravatar.cc/80?u=${user.email}`}
             alt=""
             className="w-20 h-20 rounded-2xl object-cover ring-2 ring-orange-400/30"
           />
