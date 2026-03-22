@@ -190,6 +190,20 @@ export default function EditBot() {
               )}
               <Field label="הודעת פתיחה" value={form.opening_message || ''} onChange={v => handleChange('opening_message', v)} textarea />
               <Field label="וואטסאפ (יוצג ללקוחות אחרי שיחה)" value={form.whatsapp || ''} onChange={v => handleChange('whatsapp', v)} />
+              {form.whatsapp && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-600 mb-1.5">מתי להציג כפתור וואטסאפ</label>
+                  <select
+                    value={form.whatsapp_exposure?.mode || 'after_pass'}
+                    onChange={e => handleChange('whatsapp_exposure', { mode: e.target.value })}
+                    className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:border-orange-400/50 text-sm"
+                  >
+                    <option value="always">תמיד — חשוף מיד עם פתיחת הצ'אט</option>
+                    <option value="after_pass">אחרי 3 הודעות</option>
+                    <option value="limited">אחרי 2 הודעות</option>
+                  </select>
+                </div>
+              )}
             </div>
           )}
 
