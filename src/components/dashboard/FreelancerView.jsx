@@ -126,8 +126,10 @@ export default function FreelancerView({ user }) {
               {myBots.map(bot => (
                 <div key={bot.id} className="bg-gray-50 border border-gray-200 rounded-2xl overflow-hidden">
                   <div className="relative h-28 bg-gradient-to-br from-gray-100 to-gray-200">
-                    {bot.gallery_media?.[0] ? (
-                      <img src={bot.gallery_media[0]} alt="" className="w-full h-full object-cover" />
+                    {bot.banner_url ? (
+                      <img src={bot.banner_url} alt="" className="w-full h-full object-cover" />
+                    ) : bot.avatar_url ? (
+                      <img src={bot.avatar_url} alt="" className="w-full h-full object-cover blur-sm scale-110" />
                     ) : <div className="w-full h-full bg-gradient-to-br from-orange-50 to-purple-900/30" />}
                     <div className="absolute inset-0 bg-gradient-to-t from-gray-900" />
                     <img
