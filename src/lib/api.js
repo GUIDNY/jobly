@@ -112,6 +112,56 @@ export async function updateOrder(id, updates) {
 }
 
 // =============================================
+// CHAT SESSIONS
+// =============================================
+
+export async function getChatSession(botId, visitorId) {
+  const { data } = await supabase
+    .from('chat_sessions')
+    .select('*')
+    .eq('bot_id', botId)
+    .eq('visitor_id', visitorId)
+    .maybeSingle();
+  return data;
+}
+
+export async function upsertChatSession({ id, botId, visitorId, userId, messages }) {
+  const row = {
+    bot_id: botId,
+    visitor_id: visitorId,
+    messages,
+    updated_at: new Date().toISOString(),
+    ...(userId && { user_id: userId }),
+  };
+  if (id) {
+    const { data } = await supabase.from('chat_sessions').update(row).eq('id', id).select().single();
+    return data;
+  } else {
+    const { data } = await supabase.from('chat_sessions').insert(row).select().single();
+    return data;
+  }
+}
+
+export async function getChatSessionsForBot(botId) {
+  const { data } = await supabase
+    .from('chat_sessions')
+    .select('*')
+    .eq('bot_id', botId)
+    .order('updated_at', { ascending: false });
+  return data || [];
+}
+
+export async function getChatSessionsForBots(botIds) {
+  if (!botIds.length) return [];
+  const { data } = await supabase
+    .from('chat_sessions')
+    .select('*, bots(name, avatar_url)')
+    .in('bot_id', botIds)
+    .order('updated_at', { ascending: false });
+  return data || [];
+}
+
+// =============================================
 // ADMIN
 // =============================================
 
