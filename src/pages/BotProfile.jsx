@@ -64,12 +64,18 @@ export default function BotProfile() {
         {/* Main Content */}
         <div className="lg:col-span-2">
           {/* Header */}
-          <div className="bg-gray-50 border border-gray-200 rounded-2xl p-6 mb-6">
-            <div className="flex items-start gap-5">
+          <div className="bg-gray-50 border border-gray-200 rounded-2xl overflow-hidden mb-6">
+            {/* Banner */}
+            {bot.banner_url ? (
+              <img src={bot.banner_url} alt="" className="w-full h-40 object-cover" />
+            ) : (
+              <div className="w-full h-32 bg-gradient-to-br from-orange-100 via-orange-50 to-purple-100" />
+            )}
+            <div className="p-6 flex items-start gap-5">
               <img
                 src={bot.avatar_url || `https://i.pravatar.cc/100?u=${bot.id}`}
                 alt=""
-                className="w-20 h-20 rounded-2xl object-cover ring-2 ring-orange-400/30 shrink-0"
+                className="w-20 h-20 rounded-2xl object-cover ring-4 ring-white shadow-md shrink-0 -mt-10"
               />
               <div className="flex-1 min-w-0">
                 <h1 className="text-2xl font-bold text-gray-900 mb-1">{bot.name}</h1>
