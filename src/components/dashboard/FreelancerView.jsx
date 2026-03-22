@@ -190,30 +190,68 @@ export default function FreelancerView({ user }) {
         </div>
       )}
 
-      {activeTab === 'portfolio' && !isPro && (
-        <div className="text-center py-16 bg-gray-50/50 border border-gray-100 rounded-2xl">
-          <Lock size={40} className="mx-auto mb-4 text-gray-500" />
-          <h3 className="text-gray-900 font-semibold text-lg mb-2">תיק עבודות זמין ל-Pro</h3>
-          <p className="text-gray-500 text-sm mb-6">שדרג לחשבון Pro לנהל תיק עבודות מרכזי</p>
-          <button onClick={() => navigate('/ProUpgrade')} className="px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-gray-900 rounded-xl text-sm font-medium">
-            שדרג ל-Pro
-          </button>
-        </div>
-      )}
-
-      {activeTab === 'crm' && isPro && (
-        <div className="bg-gray-50 border border-gray-200 rounded-2xl p-8 text-center">
-          <BarChart2 size={40} className="mx-auto mb-4 text-orange-500" />
-          <h3 className="text-gray-900 font-semibold text-lg mb-2">CRM Dashboard</h3>
-          <p className="text-gray-500 text-sm">נתוני ביצועים, שיחות והזמנות</p>
-          <div className="grid grid-cols-3 gap-4 mt-6">
-            {[['שיחות', '127'], ['הזמנות', '23'], ['הכנסה', '₪45,000']].map(([label, val]) => (
-              <div key={label} className="bg-gray-100 rounded-xl p-4">
+      {activeTab === 'crm' && (
+        <div>
+          <div className="grid grid-cols-3 gap-4 mb-6">
+            {[
+              ['סה"כ שיחות', chatSessions.length],
+              ['שיחות היום', chatSessions.filter(s => new Date(s.updated_at) > new Date(Date.now() - 86400000)).length],
+              ['הודעות סה"כ', chatSessions.reduce((acc, s) => acc + (s.messages?.length || 0), 0)],
+            ].map(([label, val]) => (
+              <div key={label} className="bg-gray-50 border border-gray-200 rounded-2xl p-4 text-center">
                 <p className="text-2xl font-bold text-gray-900">{val}</p>
-                <p className="text-xs text-gray-500">{label}</p>
+                <p className="text-xs text-gray-500 mt-1">{label}</p>
               </div>
             ))}
           </div>
+
+          {chatSessions.length === 0 ? (
+            <div className="text-center py-16 bg-gray-50/50 border border-gray-100 rounded-2xl">
+              <MessageSquare size={40} className="mx-auto mb-4 text-gray-300" />
+              <h3 className="text-gray-900 font-semibold text-lg mb-2">אין שיחות עדיין</h3>
+              <p className="text-gray-500 text-sm">שיחות עם הסוכנים שלך יופיעו כאן</p>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-3">
+              {chatSessions.map(session => {
+                const lastMsg = session.messages?.[session.messages.length - 1];
+                const botName = session.bots?.name || '—';
+                const botAvatar = session.bots?.avatar_url;
+                const msgCount = session.messages?.filter(m => m.role === 'user').length || 0;
+                const timeAgo = (() => {
+                  const diff = Date.now() - new Date(session.updated_at).getTime();
+                  if (diff < 60000) return 'עכשיו';
+                  if (diff < 3600000) return `לפני ${Math.floor(diff / 60000)} דק'`;
+                  if (diff < 86400000) return `לפני ${Math.floor(diff / 3600000)} שע'`;
+                  return `לפני ${Math.floor(diff / 86400000)} ימים`;
+                })();
+                return (
+                  <div key={session.id} className="bg-gray-50 border border-gray-200 rounded-xl p-4 flex items-start gap-3">
+                    <img
+                      src={botAvatar || `https://i.pravatar.cc/40?u=${session.bot_id}`}
+                      alt=""
+                      className="w-10 h-10 rounded-xl object-cover shrink-0"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between mb-1">
+                        <p className="font-semibold text-gray-900 text-sm">{botName}</p>
+                        <span className="flex items-center gap-1 text-xs text-gray-400">
+                          <Clock size={11} />
+                          {timeAgo}
+                        </span>
+                      </div>
+                      {lastMsg && (
+                        <p className="text-xs text-gray-500 truncate">
+                          {lastMsg.role === 'user' ? '👤 ' : '🤖 '}{lastMsg.content}
+                        </p>
+                      )}
+                      <p className="text-xs text-orange-500 mt-1">{msgCount} הודעות מהמשתמש</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       )}
     </div>
