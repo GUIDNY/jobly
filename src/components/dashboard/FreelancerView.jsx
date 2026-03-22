@@ -71,28 +71,27 @@ export default function FreelancerView({ user }) {
 
       {/* Tabs */}
       <div className="flex bg-gray-50 border border-gray-200 rounded-xl p-1 w-fit mb-6">
-        {['bots', 'portfolio'].map(t => (
+        {['bots', 'crm'].map(t => (
           <button
             key={t}
             onClick={() => setActiveTab(t)}
-            className={`px-5 py-2 rounded-lg text-sm font-medium transition-all ${
+            className={`px-5 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-1.5 ${
               activeTab === t ? 'bg-orange-500 text-gray-900' : 'text-gray-500 hover:text-gray-900'
             }`}
           >
-            {t === 'bots' ? 'הסוכנים שלי' : 'תיק עבודות'}
-            {t === 'portfolio' && !isPro && <Lock size={12} className="inline mr-1 opacity-60" />}
+            {t === 'bots' ? 'הסוכנים שלי' : (
+              <>
+                <MessageSquare size={14} />
+                שיחות
+                {chatSessions.length > 0 && (
+                  <span className="bg-orange-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
+                    {chatSessions.length > 9 ? '9+' : chatSessions.length}
+                  </span>
+                )}
+              </>
+            )}
           </button>
         ))}
-        {isPro && (
-          <button
-            onClick={() => setActiveTab('crm')}
-            className={`px-5 py-2 rounded-lg text-sm font-medium transition-all ${
-              activeTab === 'crm' ? 'bg-orange-500 text-gray-900' : 'text-gray-500 hover:text-gray-900'
-            }`}
-          >
-            CRM
-          </button>
-        )}
       </div>
 
       {activeTab === 'bots' && (
