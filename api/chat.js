@@ -22,30 +22,31 @@ ${bot.bot_type === 'freelancer' ? `
 ענה תמיד בעברית. היה קצר וממוקד (2-3 משפטים).`;
 
   try {
-    const geminiMessages = messages
-      .filter(m => m.role !== 'system')
-      .map(m => ({
-        role: m.role === 'assistant' ? 'model' : 'user',
-        parts: [{ text: m.content }],
-      }));
+    const groqMessages = [
+      { role: 'system', content: systemPrompt },
+      ...messages
+        .filter(m => m.role !== 'system')
+        .map(m => ({ role: m.role, content: m.content })),
+    ];
 
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          system_instruction: { parts: [{ text: systemPrompt }] },
-          contents: geminiMessages,
-          generationConfig: { maxOutputTokens: 300, temperature: 0.7 },
-        }),
-      }
-    );
+    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: 'llama-3.1-8b-instant',
+        messages: groqMessages,
+        max_tokens: 300,
+        temperature: 0.7,
+      }),
+    });
 
     const data = await response.json();
-    const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+    const text = data.choices?.[0]?.message?.content;
 
-    if (!text) throw new Error('No response from Gemini');
+    if (!text) throw new Error(data.error?.message || 'No response from Groq');
     res.status(200).json({ reply: text });
   } catch (e) {
     res.status(500).json({ error: e.message });
