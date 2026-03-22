@@ -189,6 +189,7 @@ export default function EditBot() {
                 </>
               )}
               <Field label="הודעת פתיחה" value={form.opening_message || ''} onChange={v => handleChange('opening_message', v)} textarea />
+              <Field label="וואטסאפ (יוצג ללקוחות אחרי שיחה)" value={form.whatsapp || ''} onChange={v => handleChange('whatsapp', v)} />
             </div>
           )}
 
