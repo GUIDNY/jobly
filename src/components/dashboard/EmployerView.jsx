@@ -22,15 +22,38 @@ export default function EmployerView({ user }) {
   }, [user?.id]);
 
   const sendAiMessage = async () => {
-    if (!inputMsg.trim()) return;
-    setAiMessages(prev => [...prev, { role: 'user', content: inputMsg }]);
+    if (!inputMsg.trim() || typing) return;
+    const newMessages = [...aiMessages, { role: 'user', content: inputMsg }];
+    setAiMessages(newMessages);
     setInputMsg('');
     setTyping(true);
-    await new Promise(r => setTimeout(r, 1500));
-    const reply = `חיפשתי עבורך ומצאתי ${topFreelancers.length} פרילנסרים רלוונטיים. הנה ההמלצות הטובות ביותר:`;
-    setAiMessages(prev => [...prev, { role: 'assistant', content: reply }]);
-    setSuggestedBots(topFreelancers);
-    setTyping(false);
+    try {
+      const systemBot = {
+        name: 'סוכן חיפוש Jobly',
+        role: 'עוזר חיפוש פרילנסרים',
+        bot_type: 'freelancer',
+        instructions: `אתה סוכן חיפוש חכם של פלטפורמת Jobly.
+עזור למעסיקים למצוא פרילנסרים מתאימים.
+שאל על סוג הפרויקט, תקציב, ציר זמן וכישורים נדרשים.
+ענה בעברית, בצורה ידידותית ומקצועית.
+לאחר שאספת מידע, הסבר אילו סוגי פרילנסרים מתאימים.`,
+      };
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: newMessages, bot: systemBot }),
+      });
+      const data = await res.json();
+      const reply = data.reply || 'מצטער, לא הצלחתי להגיב. נסה שוב.';
+      setAiMessages(prev => [...prev, { role: 'assistant', content: reply }]);
+      if (newMessages.filter(m => m.role === 'user').length >= 2) {
+        setSuggestedBots(topFreelancers);
+      }
+    } catch {
+      setAiMessages(prev => [...prev, { role: 'assistant', content: 'שגיאה בחיבור. נסה שוב.' }]);
+    } finally {
+      setTyping(false);
+    }
   };
 
   const handleToggleJob = async (bot) => {
