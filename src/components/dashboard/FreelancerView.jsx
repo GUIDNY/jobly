@@ -9,12 +9,19 @@ export default function FreelancerView({ user }) {
   const { updateMe } = useAuth();
   const [activeTab, setActiveTab] = useState('bots');
   const [myBots, setMyBots] = useState([]);
+  const [chatSessions, setChatSessions] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!user?.id) return;
     getMyBots(user.id)
-      .then(data => setMyBots(data.filter(b => b.bot_type === 'freelancer')))
+      .then(data => {
+        const bots = data.filter(b => b.bot_type === 'freelancer');
+        setMyBots(bots);
+        if (bots.length > 0) {
+          getChatSessionsForBots(bots.map(b => b.id)).then(setChatSessions);
+        }
+      })
       .finally(() => setLoading(false));
   }, [user?.id]);
 
