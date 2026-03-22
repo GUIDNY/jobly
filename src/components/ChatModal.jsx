@@ -32,41 +32,28 @@ export default function ChatModal({ bot, onClose }) {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, typing]);
 
-  const buildReply = (userText) => {
-    const count = msgCount.current;
-    if (isFreelancer) {
-      const replies = [
-        `תודה על ההודעה! ${bot.instructions ? 'בהתאם להתמחות שלי — ' : ''}אשמח לעזור. מה בדיוק אתה מחפש?`,
-        'בהחלט! יש לי ניסיון רב בתחום. מה גודל הפרויקט שלך?',
-        `המחירים שלי מתחילים מ-₪${bot.pricing_basic?.price?.toLocaleString() || '500'}. מה התקציב שלך?`,
-        'אני זמין להתחיל בקרוב. נדבר ישירות כדי לתאם פרטים?',
-        'נשמע מצוין! בוא נקדם את זה. אשמח לתת לך הצעת מחיר מותאמת.',
-      ];
-      return replies[count % replies.length];
-    } else {
-      const replies = [
-        'תודה! ספר לי על הניסיון הרלוונטי שלך.',
-        `מצוין! מה הפרויקטים הכי משמעותיים שעבדת עליהם?`,
-        'יש לך ניסיון בעבודת צוות ו-agile?',
-        'נשמע מרשים! מה המשכורת הרצויה לך?',
-        `תודה על הזמן! הפרטים שלך יועברו לצוות גיוס של ${bot.company_name || 'החברה'}.`,
-      ];
-      return replies[count % replies.length];
-    }
-  };
-
   const sendMessage = async (text) => {
     if (!text.trim() || typing) return;
-    setMessages(prev => [...prev, { role: 'user', content: text }]);
+    const newMessages = [...messages, { role: 'user', content: text }];
+    setMessages(newMessages);
     setInput('');
     setTyping(true);
 
-    await new Promise(r => setTimeout(r, 1000 + Math.random() * 700));
-
-    const reply = buildReply(text);
-    msgCount.current++;
-    setTyping(false);
-    setMessages(prev => [...prev, { role: 'assistant', content: reply }]);
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: newMessages, bot }),
+      });
+      const data = await res.json();
+      const reply = data.reply || 'מצטער, לא הצלחתי להגיב. נסה שוב.';
+      msgCount.current++;
+      setMessages(prev => [...prev, { role: 'assistant', content: reply }]);
+    } catch {
+      setMessages(prev => [...prev, { role: 'assistant', content: 'שגיאה בחיבור. נסה שוב.' }]);
+    } finally {
+      setTyping(false);
+    }
 
     // WhatsApp reveal logic
     if (whatsappNum && !showWhatsapp) {
