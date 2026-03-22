@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Eye, EyeOff, Trash2, BarChart2, Edit, Star, ShoppingBag, Lock } from 'lucide-react';
-import { getMyBots, updateBot, deleteBot } from '../../lib/api';
+import { Plus, Eye, EyeOff, Trash2, MessageSquare, Edit, Star, ShoppingBag, Clock } from 'lucide-react';
+import { getMyBots, updateBot, deleteBot, getChatSessionsForBots } from '../../lib/api';
 import { useAuth } from '../../lib/AuthContext';
 
 export default function FreelancerView({ user }) {
