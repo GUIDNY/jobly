@@ -372,6 +372,10 @@ function Step1({ form, update, slugStatus, slugSuggestions, dbCardId }) {
     const file = e.target.files?.[0];
     if (!file) return;
     update('avatar_url', URL.createObjectURL(file));
+    // Auto-switch to image background style when photo is uploaded
+    if (form.background_style === 'gradient' || form.background_style === 'solid') {
+      update('background_style', 'image');
+    }
     if (user) {
       setUploadingImg(true);
       try {
