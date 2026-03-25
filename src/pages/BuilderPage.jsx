@@ -5,6 +5,7 @@ import { useAuth } from '../lib/AuthContext';
 import PhoneMockup from '../components/PhoneMockup';
 import CardPreview from '../components/CardPreview';
 import AuthModal from '../components/AuthModal';
+import UpgradeModal from '../components/UpgradeModal';
 import {
   loadDraft, clearDraft, toSlug, checkSlugAvailable, suggestSlugs,
   createCard, updateCard, uploadCardImage, getCardById,
