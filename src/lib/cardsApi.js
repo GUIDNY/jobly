@@ -1,0 +1,186 @@
+import { supabase } from './supabase';
+
+// Hebrew to English transliteration for slugs
+const hebrewMap = {
+  'א': 'a', 'ב': 'b', 'ג': 'g', 'ד': 'd', 'ה': 'h', 'ו': 'v', 'ז': 'z',
+  'ח': 'h', 'ט': 't', 'י': 'y', 'כ': 'k', 'ך': 'k', 'ל': 'l', 'מ': 'm',
+  'ם': 'm', 'נ': 'n', 'ן': 'n', 'ס': 's', 'ע': 'a', 'פ': 'p', 'ף': 'f',
+  'צ': 'tz', 'ץ': 'tz', 'ק': 'k', 'ר': 'r', 'ש': 'sh', 'ת': 't',
+};
+
+export function toSlug(text) {
+  if (!text) return '';
+  let result = '';
+  for (const char of text) {
+    if (hebrewMap[char]) {
+      result += hebrewMap[char];
+    } else if (/[a-zA-Z0-9]/.test(char)) {
+      result += char.toLowerCase();
+    } else if (/\s/.test(char)) {
+      result += '-';
+    }
+    // skip special chars
+  }
+  return result
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '')
+    .slice(0, 40);
+}
+
+export async function checkSlugAvailable(slug, excludeId = null) {
+  if (!slug || slug.length < 2) return false;
+  let query = supabase.from('cards').select('id').eq('slug', slug);
+  if (excludeId) query = query.neq('id', excludeId);
+  const { data } = await query;
+  return !data || data.length === 0;
+}
+
+export async function suggestSlugs(baseSlug) {
+  const suggestions = [
+    `${baseSlug}1`,
+    `${baseSlug}-il`,
+    `${baseSlug}-tlv`,
+    `${baseSlug}-pro`,
+  ];
+  const available = [];
+  for (const s of suggestions) {
+    const ok = await checkSlugAvailable(s);
+    if (ok) available.push(s);
+    if (available.length >= 3) break;
+  }
+  return available;
+}
+
+export async function getMyCards(userId) {
+  const { data, error } = await supabase
+    .from('cards')
+    .select('*, card_services(*)')
+    .eq('user_id', userId)
+    .order('created_at', { ascending: false });
+  if (error) throw error;
+  return data || [];
+}
+
+export async function getCardBySlug(slug) {
+  const { data, error } = await supabase
+    .from('cards')
+    .select('*, card_services(*)')
+    .eq('slug', slug)
+    .single();
+  if (error) throw error;
+  return data;
+}
+
+export async function getCardById(id) {
+  const { data, error } = await supabase
+    .from('cards')
+    .select('*, card_services(*)')
+    .eq('id', id)
+    .single();
+  if (error) throw error;
+  return data;
+}
+
+export async function createCard(userId, cardData) {
+  const { services, ...rest } = cardData;
+  const { data, error } = await supabase
+    .from('cards')
+    .insert({ ...rest, user_id: userId })
+    .select()
+    .single();
+  if (error) throw error;
+
+  if (services && services.length > 0) {
+    const serviceRows = services
+      .filter(s => s.title?.trim())
+      .map((s, i) => ({ ...s, card_id: data.id, order_index: i }));
+    if (serviceRows.length > 0) {
+      await supabase.from('card_services').insert(serviceRows);
+    }
+  }
+  return data;
+}
+
+export async function updateCard(cardId, cardData) {
+  const { services, card_services, ...rest } = cardData;
+  const { data, error } = await supabase
+    .from('cards')
+    .update({ ...rest, updated_at: new Date().toISOString() })
+    .eq('id', cardId)
+    .select()
+    .single();
+  if (error) throw error;
+
+  // Replace services if provided
+  if (services !== undefined) {
+    await supabase.from('card_services').delete().eq('card_id', cardId);
+    const serviceRows = (services || [])
+      .filter(s => s.title?.trim())
+      .map((s, i) => ({
+        card_id: cardId,
+        title: s.title || '',
+        description: s.description || '',
+        image_url: s.image_url || '',
+        order_index: i,
+      }));
+    if (serviceRows.length > 0) {
+      await supabase.from('card_services').insert(serviceRows);
+    }
+  }
+  return data;
+}
+
+export async function deleteCard(cardId) {
+  const { error } = await supabase.from('cards').delete().eq('id', cardId);
+  if (error) throw error;
+}
+
+export async function publishCard(cardId) {
+  const { data, error } = await supabase
+    .from('cards')
+    .update({ is_published: true, updated_at: new Date().toISOString() })
+    .eq('id', cardId)
+    .select()
+    .single();
+  if (error) throw error;
+  return data;
+}
+
+export async function incrementViews(cardId) {
+  await supabase.rpc('increment_card_views', { card_id: cardId }).catch(() => {
+    // Fallback: just ignore if RPC doesn't exist
+  });
+}
+
+export async function uploadCardImage(userId, file) {
+  const ext = file.name.split('.').pop();
+  const path = `${userId}/${Date.now()}.${ext}`;
+  const { data, error } = await supabase.storage
+    .from('card-images')
+    .upload(path, file, { upsert: true });
+  if (error) throw error;
+  const { data: { publicUrl } } = supabase.storage
+    .from('card-images')
+    .getPublicUrl(data.path);
+  return publicUrl;
+}
+
+// LocalStorage helpers for pre-auth data
+const LS_KEY = 'mycard_draft';
+
+export function saveDraft(data) {
+  localStorage.setItem(LS_KEY, JSON.stringify(data));
+}
+
+export function loadDraft() {
+  try {
+    const raw = localStorage.getItem(LS_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
+
+export function clearDraft() {
+  localStorage.removeItem(LS_KEY);
+}
