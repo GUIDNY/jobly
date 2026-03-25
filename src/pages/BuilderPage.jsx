@@ -751,31 +751,39 @@ function Step4({ form, update, onPublish, publishing, published, slug }) {
         </div>
       </div>
 
-      {/* Color */}
-      <div className="bg-white rounded-3xl p-6 card-shadow">
-        <h2 className="text-base font-bold text-gray-900 mb-3">צבע ראשי</h2>
-        <div className="flex flex-wrap gap-2.5 items-center">
-          {COLORS.map(color => (
-            <button
-              key={color}
-              onClick={() => update('primary_color', color)}
-              className="w-9 h-9 rounded-full transition-transform hover:scale-110 flex-shrink-0"
-              style={{
-                background: color,
-                outline: form.primary_color === color ? `3px solid ${color}` : 'none',
-                outlineOffset: '2px',
-              }}
-            />
-          ))}
-          <label className="w-9 h-9 rounded-full overflow-hidden cursor-pointer border-2 border-dashed border-gray-300 flex items-center justify-center hover:border-gray-400 transition-colors relative">
-            <input type="color" value={form.primary_color} onChange={e => update('primary_color', e.target.value)} className="opacity-0 absolute inset-0 cursor-pointer" />
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-          </label>
+      {/* Color + Background */}
+      <div className="bg-white rounded-3xl p-6 card-shadow space-y-5">
+        <div>
+          <h2 className="text-base font-bold text-gray-900 mb-3">צבע ראשי</h2>
+          <div className="flex flex-wrap gap-2.5 items-center">
+            {COLORS.map(color => (
+              <button
+                key={color}
+                onClick={() => update('primary_color', color)}
+                className="w-9 h-9 rounded-full transition-transform hover:scale-110 flex-shrink-0"
+                style={{
+                  background: color,
+                  outline: form.primary_color === color ? `3px solid ${color}` : 'none',
+                  outlineOffset: '2px',
+                }}
+              />
+            ))}
+            <label className="w-9 h-9 rounded-full overflow-hidden cursor-pointer border-2 border-dashed border-gray-300 flex items-center justify-center hover:border-gray-400 transition-colors relative">
+              <input type="color" value={form.primary_color} onChange={e => update('primary_color', e.target.value)} className="opacity-0 absolute inset-0 cursor-pointer" />
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+            </label>
+          </div>
         </div>
-        <div className="mt-3 flex items-center gap-2 p-3 rounded-xl" style={{ background: form.primary_color + '15' }}>
-          <div className="w-5 h-5 rounded-full flex-shrink-0" style={{ background: form.primary_color }} />
-          <span className="text-sm text-gray-600">הצבע שנבחר: <span className="font-mono text-xs">{form.primary_color}</span></span>
-        </div>
+
+        <div className="h-px bg-gray-50" />
+
+        {/* Background style picker */}
+        <BgStylePicker
+          value={form.background_style || 'gradient'}
+          onChange={v => update('background_style', v)}
+          primaryColor={form.primary_color}
+          avatarUrl={form.avatar_url}
+        />
       </div>
 
       {/* Publish */}
