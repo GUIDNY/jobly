@@ -834,6 +834,7 @@ function Step4({ form, update, onPublish, publishing, published, slug, publishEr
             </a>
           </div>
         ) : (
+          <>
           {publishError && (
             <div className="mb-3 px-4 py-3 bg-red-50 border border-red-100 rounded-xl text-sm text-red-600 font-medium">
               {publishError}
