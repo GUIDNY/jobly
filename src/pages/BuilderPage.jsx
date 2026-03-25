@@ -115,21 +115,27 @@ export default function BuilderPage() {
 
   const handleSave = async () => {
     if (!user) { setAuthOpen(true); return; }
-    if (!form.business_name.trim()) return;
+    if (!form.business_name.trim()) { setSaveError('נא למלא שם עסק'); return; }
+    if (!form.slug || form.slug.length < 2) { setSaveError('כתובת הדף חסרה — מלא שם עסק'); return; }
+    if (slugStatus === 'taken') { setSaveError('הכתובת תפוסה — בחר כתובת אחרת'); return; }
 
     setSaving(true);
+    setSaveError('');
+    setSaveSuccess(false);
     try {
       const payload = { ...form, services: form.services };
       if (dbCardId) {
         await updateCard(dbCardId, payload);
       } else {
-        if (slugStatus === 'taken') return;
         const card = await createCard(user.id, payload);
         setDbCardId(card.id);
         clearDraft();
       }
+      setSaveSuccess(true);
+      setTimeout(() => setSaveSuccess(false), 3000);
     } catch (err) {
       console.error('Save error:', err);
+      setSaveError(err?.message || 'שגיאה בשמירה — נסה שוב');
     } finally {
       setSaving(false);
     }
@@ -137,16 +143,19 @@ export default function BuilderPage() {
 
   const handlePublish = async () => {
     if (!user) { setAuthOpen(true); return; }
-    if (!form.business_name.trim()) return;
+    if (!form.business_name.trim()) { setPublishError('נא למלא שם עסק'); return; }
+    if (!form.slug || form.slug.length < 2) { setPublishError('כתובת הדף חסרה — מלא שם עסק'); return; }
+    if (slugStatus === 'taken') { setPublishError('הכתובת תפוסה — בחר כתובת אחרת'); return; }
+    if (slugStatus === 'checking') { setPublishError('ממתין לבדיקת זמינות הכתובת...'); return; }
 
     setPublishing(true);
+    setPublishError('');
     try {
       const payload = { ...form, is_published: true, services: form.services };
       let card;
       if (dbCardId) {
         card = await updateCard(dbCardId, payload);
       } else {
-        if (slugStatus === 'taken') return;
         card = await createCard(user.id, { ...payload, is_published: true });
         setDbCardId(card.id);
         clearDraft();
@@ -154,6 +163,7 @@ export default function BuilderPage() {
       setPublished(true);
     } catch (err) {
       console.error('Publish error:', err);
+      setPublishError(err?.message || 'שגיאה בפרסום — נסה שוב');
     } finally {
       setPublishing(false);
     }
