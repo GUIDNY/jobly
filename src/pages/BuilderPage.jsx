@@ -360,6 +360,11 @@ export default function BuilderPage() {
         onClose={() => { setAuthOpen(false); if (!user) navigate('/'); }}
         onSuccess={() => setAuthOpen(false)}
       />
+      <UpgradeModal
+        isOpen={upgradeOpen}
+        onClose={() => setUpgradeOpen(false)}
+        cardName={form.business_name}
+      />
     </div>
   );
 }
