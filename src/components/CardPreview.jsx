@@ -1,4 +1,18 @@
-// Live preview of the card, used inside PhoneMockup and on CardPage
+import { motion, AnimatePresence } from 'framer-motion';
+
+// ─── Background style helpers (used also in picker thumbnails) ────────────────
+export function resolveHeaderTheme(bgStyle, color, avatarUrl) {
+  switch (bgStyle) {
+    case 'glass':
+      return { textColor: '#1e1b4b', subColor: `${color}cc`, starColor: color, badgeBg: `${color}18`, isLight: true };
+    case 'dark':
+      return { textColor: '#ffffff', subColor: 'rgba(255,255,255,0.65)', starColor: '#fbbf24', badgeBg: 'rgba(255,255,255,0.1)', isLight: false };
+    default:
+      return { textColor: '#ffffff', subColor: 'rgba(255,255,255,0.82)', starColor: 'rgba(255,255,255,0.9)', badgeBg: 'rgba(255,255,255,0.18)', isLight: false };
+  }
+}
+
+// ─── Main CardPreview ─────────────────────────────────────────────────────────
 export default function CardPreview({ data = {}, compact = false }) {
   const {
     business_name = '',
@@ -13,6 +27,7 @@ export default function CardPreview({ data = {}, compact = false }) {
     booking_url = '',
     template = 1,
     primary_color = '#4F46E5',
+    background_style = 'gradient',
     card_services = [],
   } = data;
 
@@ -27,173 +42,122 @@ export default function CardPreview({ data = {}, compact = false }) {
   if (template === 2) return <Template2 {...{ placeholderName, placeholderDesc, avatar_url, phone, waLink, callLink, primary_color, instagram, facebook, tiktok, location_url, booking_url, card_services, compact }} />;
   if (template === 3) return <Template3 {...{ placeholderName, placeholderDesc, avatar_url, phone, waLink, callLink, primary_color, instagram, facebook, tiktok, location_url, booking_url, card_services, compact }} />;
 
-  // Template 1 — Premium Gradient Header
   const hasPhone = !!phone;
   const hasServices = card_services && card_services.length > 0;
   const hasSocial = instagram || facebook || tiktok || location_url;
+  const theme = resolveHeaderTheme(background_style, primary_color, avatar_url);
 
-  // Placeholder services shown when no real services — makes preview feel like a real page
   const displayServices = hasServices ? card_services : compact ? [
     { title: 'תספורת גבר', description: 'קצר, קלאסי, מודרני' },
     { title: 'צביעה', description: 'כל הגוונים, תוצאה מושלמת' },
   ] : [];
 
+  // Button colors depend on the card content bg (always white below header)
+  const waButtonStyle = {
+    background: 'linear-gradient(135deg, #22c55e, #16a34a)',
+    boxShadow: '0 4px 14px -4px rgba(34,197,94,0.45)',
+    padding: compact ? '10px 14px' : '13px 16px',
+    fontSize: compact ? 12 : 14,
+  };
+  const callButtonStyle = {
+    border: '1.5px solid #e5e7eb',
+    color: '#374151',
+    padding: compact ? '9px 14px' : '12px 16px',
+    fontSize: compact ? 12 : 14,
+  };
+
   return (
-    <div className="bg-white min-h-full overflow-y-auto" dir="rtl" style={{ fontFamily: "'Heebo', sans-serif" }}>
-
-      {/* Header with gradient + avatar */}
-      <div
-        className="relative flex flex-col items-center"
-        style={{
-          background: `linear-gradient(160deg, ${primary_color} 0%, ${primary_color}dd 100%)`,
-          paddingTop: compact ? 28 : 36,
-          paddingBottom: compact ? 36 : 44,
-        }}
-      >
-        {/* Decorative circles */}
-        <div className="absolute top-0 left-0 w-32 h-32 rounded-full opacity-10" style={{ background: 'white', transform: 'translate(-40%, -40%)' }} />
-        <div className="absolute bottom-0 right-0 w-24 h-24 rounded-full opacity-10" style={{ background: 'white', transform: 'translate(30%, 30%)' }} />
-
-        {/* Avatar */}
-        <div
-          className="rounded-full overflow-hidden border-white shadow-xl relative z-10"
-          style={{
-            width: compact ? 72 : 88,
-            height: compact ? 72 : 88,
-            borderWidth: compact ? 3 : 4,
-            borderStyle: 'solid',
-            borderColor: 'white',
-          }}
+    <div className="min-h-full overflow-y-auto" dir="rtl"
+      style={{ fontFamily: "'Heebo', sans-serif", background: background_style === 'dark' ? '#0a0a12' : '#ffffff' }}
+    >
+      {/* ── Animated Header ── */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={`${background_style}-${primary_color}`}
+          initial={{ opacity: 0.6, scale: 1.01 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.25 }}
         >
-          {avatar_url ? (
-            <img src={avatar_url} alt="" className="w-full h-full object-cover" />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.25)' }}>
-              <svg viewBox="0 0 24 24" fill="white" style={{ width: compact ? 32 : 40, height: compact ? 32 : 40 }}>
-                <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
-              </svg>
-            </div>
-          )}
-        </div>
+          <CardHeader
+            bgStyle={background_style}
+            color={primary_color}
+            avatarUrl={avatar_url}
+            name={placeholderName}
+            desc={placeholderDesc}
+            theme={theme}
+            compact={compact}
+          />
+        </motion.div>
+      </AnimatePresence>
 
-        {/* Name + desc */}
-        <h1
-          className="text-white font-black text-center px-5 mt-3 leading-tight relative z-10"
-          style={{ fontSize: compact ? 17 : 21 }}
-        >
-          {placeholderName}
-        </h1>
-        <p
-          className="text-center px-6 mt-1 relative z-10"
-          style={{ color: 'rgba(255,255,255,0.82)', fontSize: compact ? 11 : 13, lineHeight: 1.4 }}
-        >
-          {placeholderDesc}
-        </p>
-
-        {/* Rating / trust badge */}
-        <div
-          className="flex items-center gap-1 mt-3 px-3 py-1 rounded-full relative z-10"
-          style={{ background: 'rgba(255,255,255,0.18)', backdropFilter: 'blur(8px)' }}
-        >
-          {[1,2,3,4,5].map(s => (
-            <svg key={s} width="10" height="10" viewBox="0 0 24 24" fill="rgba(255,255,255,0.9)"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          ))}
-          <span style={{ color: 'rgba(255,255,255,0.9)', fontSize: 10, marginRight: 2 }}>מצוין</span>
-        </div>
-      </div>
-
-      {/* Buttons area */}
-      <div style={{ padding: compact ? '14px 14px 0' : '18px 16px 0' }}>
+      {/* ── Buttons ── */}
+      <div style={{ padding: compact ? '14px 14px 0' : '18px 16px 0', background: background_style === 'dark' ? '#0a0a12' : '#fff' }}>
         {hasPhone ? (
           <div className="space-y-2">
-            <a
-              href={waLink}
-              target="_blank"
-              rel="noopener noreferrer"
+            <a href={waLink} target="_blank" rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 w-full rounded-2xl text-white font-bold"
-              style={{
-                background: 'linear-gradient(135deg, #22c55e, #16a34a)',
-                boxShadow: '0 4px 14px -4px rgba(34,197,94,0.5)',
-                padding: compact ? '10px 14px' : '13px 16px',
-                fontSize: compact ? 12 : 14,
-              }}
-            >
-              <WhatsAppIcon size={compact ? 15 : 17} />
-              <span>שלח WhatsApp</span>
+              style={waButtonStyle}>
+              <WhatsAppIcon size={compact ? 15 : 17} /><span>שלח WhatsApp</span>
             </a>
-            <a
-              href={callLink}
+            <a href={callLink}
               className="flex items-center justify-center gap-2 w-full rounded-2xl font-semibold"
-              style={{
-                border: '1.5px solid #e5e7eb',
-                color: '#374151',
-                padding: compact ? '9px 14px' : '12px 16px',
-                fontSize: compact ? 12 : 14,
-              }}
-            >
-              <PhoneIcon size={compact ? 13 : 15} />
-              <span>התקשר עכשיו</span>
+              style={background_style === 'dark'
+                ? { border: `1.5px solid ${primary_color}55`, color: '#e2e8f0', ...callButtonStyle, borderColor: `${primary_color}55` }
+                : callButtonStyle}>
+              <PhoneIcon size={compact ? 13 : 15} /><span>התקשר עכשיו</span>
             </a>
           </div>
         ) : (
-          /* Placeholder buttons when no phone - greyed out to show the layout */
           <div className="space-y-2">
-            <div className="flex items-center justify-center gap-2 w-full rounded-2xl font-bold" style={{ background: '#dcfce7', color: '#86efac', padding: compact ? '10px 14px' : '13px 16px', fontSize: compact ? 12 : 14 }}>
-              <WhatsAppIcon size={compact ? 15 : 17} />
-              <span>שלח WhatsApp</span>
+            <div className="flex items-center justify-center gap-2 w-full rounded-2xl font-bold"
+              style={{ background: '#dcfce7', color: '#86efac', padding: compact ? '10px 14px' : '13px 16px', fontSize: compact ? 12 : 14 }}>
+              <WhatsAppIcon size={compact ? 15 : 17} /><span>שלח WhatsApp</span>
             </div>
-            <div className="flex items-center justify-center gap-2 w-full rounded-2xl font-semibold" style={{ border: '1.5px solid #f3f4f6', color: '#d1d5db', padding: compact ? '9px 14px' : '12px 16px', fontSize: compact ? 12 : 14 }}>
-              <PhoneIcon size={compact ? 13 : 15} />
-              <span>התקשר עכשיו</span>
+            <div className="flex items-center justify-center gap-2 w-full rounded-2xl font-semibold"
+              style={{ border: '1.5px solid #f3f4f6', color: '#d1d5db', padding: compact ? '9px 14px' : '12px 16px', fontSize: compact ? 12 : 14 }}>
+              <PhoneIcon size={compact ? 13 : 15} /><span>התקשר עכשיו</span>
             </div>
           </div>
         )}
-
         {booking_url && (
-          <a
-            href={booking_url}
-            target="_blank"
-            rel="noopener noreferrer"
+          <a href={booking_url} target="_blank" rel="noopener noreferrer"
             className="flex items-center justify-center gap-2 w-full rounded-2xl font-semibold text-white mt-2"
-            style={{ background: primary_color, padding: compact ? '9px 14px' : '12px 16px', fontSize: compact ? 12 : 14 }}
-          >
-            <CalendarIcon size={compact ? 13 : 15} />
-            <span>קבע תור</span>
+            style={{ background: primary_color, padding: compact ? '9px 14px' : '12px 16px', fontSize: compact ? 12 : 14 }}>
+            <CalendarIcon size={compact ? 13 : 15} /><span>קבע תור</span>
           </a>
         )}
       </div>
 
-      {/* Services section */}
+      {/* ── Services ── */}
       {displayServices.length > 0 && (
-        <div style={{ padding: compact ? '14px 14px 0' : '18px 16px 0' }}>
+        <div style={{ padding: compact ? '14px 14px 0' : '18px 16px 0', background: background_style === 'dark' ? '#0a0a12' : '#fff' }}>
           <div className="flex items-center justify-between mb-2">
-            <h2 className="font-black text-gray-800" style={{ fontSize: compact ? 12 : 14 }}>השירותים שלנו</h2>
-            {!hasServices && (
-              <span className="text-gray-300" style={{ fontSize: 9 }}>דוגמה</span>
-            )}
+            <h2 className="font-black" style={{ fontSize: compact ? 12 : 14, color: background_style === 'dark' ? '#e2e8f0' : '#1f2937' }}>
+              השירותים שלנו
+            </h2>
+            {!hasServices && <span style={{ color: '#6b7280', fontSize: 9 }}>דוגמה</span>}
           </div>
           <div className="space-y-2">
             {displayServices.map((svc, i) => (
-              <div
-                key={i}
-                className="flex items-center gap-3 rounded-xl"
+              <div key={i} className="flex items-center gap-3 rounded-xl"
                 style={{
-                  background: '#f9fafb',
-                  border: '1px solid #f3f4f6',
+                  background: background_style === 'dark' ? '#13132a' : '#f9fafb',
+                  border: `1px solid ${background_style === 'dark' ? '#1e1e3a' : '#f3f4f6'}`,
                   padding: compact ? '8px 10px' : '10px 12px',
                   opacity: !hasServices ? 0.45 : 1,
-                }}
-              >
-                {svc.image_url ? (
-                  <img src={svc.image_url} alt="" className="w-10 h-10 rounded-lg object-cover flex-shrink-0" />
-                ) : (
-                  <div className="rounded-lg flex-shrink-0 flex items-center justify-center" style={{ width: compact ? 32 : 38, height: compact ? 32 : 38, background: primary_color + '18' }}>
-                    <svg viewBox="0 0 24 24" style={{ width: compact ? 14 : 17, height: compact ? 14 : 17, fill: primary_color }}><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>
-                  </div>
-                )}
+                }}>
+                {svc.image_url
+                  ? <img src={svc.image_url} alt="" className="w-10 h-10 rounded-lg object-cover flex-shrink-0" />
+                  : <div className="rounded-lg flex-shrink-0 flex items-center justify-center"
+                      style={{ width: compact ? 32 : 38, height: compact ? 32 : 38, background: primary_color + '20' }}>
+                      <svg viewBox="0 0 24 24" style={{ width: compact ? 14 : 17, height: compact ? 14 : 17, fill: primary_color }}>
+                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/>
+                      </svg>
+                    </div>
+                }
                 <div className="min-w-0">
-                  <p className="font-bold text-gray-800 truncate" style={{ fontSize: compact ? 11 : 13 }}>{svc.title}</p>
-                  {svc.description && <p className="text-gray-400 truncate mt-0.5" style={{ fontSize: compact ? 9 : 11 }}>{svc.description}</p>}
+                  <p className="font-bold truncate" style={{ fontSize: compact ? 11 : 13, color: background_style === 'dark' ? '#e2e8f0' : '#1f2937' }}>{svc.title}</p>
+                  {svc.description && <p className="truncate mt-0.5" style={{ fontSize: compact ? 9 : 11, color: background_style === 'dark' ? '#6b7280' : '#9ca3af' }}>{svc.description}</p>}
                 </div>
               </div>
             ))}
@@ -201,9 +165,9 @@ export default function CardPreview({ data = {}, compact = false }) {
         </div>
       )}
 
-      {/* Social links */}
+      {/* ── Social ── */}
       {hasSocial && (
-        <div className="flex gap-2.5 justify-center" style={{ padding: compact ? '12px 14px 0' : '16px 16px 0' }}>
+        <div className="flex gap-2.5 justify-center" style={{ padding: compact ? '12px 14px 0' : '16px 16px 0', background: background_style === 'dark' ? '#0a0a12' : '#fff' }}>
           {instagram && <SocialBtn href={`https://instagram.com/${instagram.replace('@', '')}`} color="#E1306C"><InstagramIcon size={compact ? 14 : 18} /></SocialBtn>}
           {facebook && <SocialBtn href={facebook.startsWith('http') ? facebook : `https://facebook.com/${facebook}`} color="#1877F2"><FacebookIcon size={compact ? 14 : 18} /></SocialBtn>}
           {tiktok && <SocialBtn href={`https://tiktok.com/@${tiktok.replace('@', '')}`} color="#000"><TikTokIcon size={compact ? 14 : 18} /></SocialBtn>}
@@ -211,11 +175,172 @@ export default function CardPreview({ data = {}, compact = false }) {
         </div>
       )}
 
-      {/* Footer */}
-      <div className="text-center text-gray-300 pb-4 mt-3" style={{ fontSize: compact ? 9 : 11 }}>
-        נוצר עם <span style={{ color: '#c4b5fd' }}>MyCard</span>
+      {/* ── Footer ── */}
+      <div className="text-center pb-5 mt-3" style={{ fontSize: compact ? 9 : 11, color: background_style === 'dark' ? '#374151' : '#d1d5db', background: background_style === 'dark' ? '#0a0a12' : '#fff' }}>
+        נוצר עם <span style={{ color: background_style === 'dark' ? '#6366f1' : '#c4b5fd' }}>MyCard</span>
       </div>
     </div>
+  );
+}
+
+// ─── Card Header (the visual centerpiece) ─────────────────────────────────────
+function CardHeader({ bgStyle, color, avatarUrl, name, desc, theme, compact }) {
+  const avatarSize  = compact ? 72 : 88;
+  const avatarBorder = compact ? 3 : 4;
+  const pt = compact ? 28 : 36;
+  const pb = compact ? 40 : 48;
+
+  const avatarEl = (
+    <div className="relative z-10 rounded-full overflow-hidden shadow-xl flex-shrink-0"
+      style={{
+        width: avatarSize, height: avatarSize,
+        borderWidth: avatarBorder, borderStyle: 'solid',
+        borderColor: bgStyle === 'glass' ? color : 'white',
+        boxShadow: bgStyle === 'glass'
+          ? `0 4px 20px ${color}44`
+          : '0 8px 24px rgba(0,0,0,0.25)',
+      }}>
+      {avatarUrl
+        ? <img src={avatarUrl} alt="" className="w-full h-full object-cover" />
+        : <div className="w-full h-full flex items-center justify-center"
+            style={{ background: bgStyle === 'glass' ? `${color}20` : 'rgba(255,255,255,0.22)' }}>
+            <svg viewBox="0 0 24 24" fill={bgStyle === 'glass' ? color : 'white'}
+              style={{ width: compact ? 30 : 38, height: compact ? 30 : 38, opacity: bgStyle === 'glass' ? 0.7 : 1 }}>
+              <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
+            </svg>
+          </div>
+      }
+    </div>
+  );
+
+  // ── gradient ──────────────────────────────────────────────────────────────
+  if (bgStyle === 'gradient') {
+    return (
+      <div className="relative flex flex-col items-center overflow-hidden"
+        style={{ background: `linear-gradient(160deg, ${color} 0%, ${color}aa 100%)`, paddingTop: pt, paddingBottom: pb }}>
+        <Orb top="-40%" right="-20%" size={180} />
+        <Orb bottom="-30%" left="-10%" size={140} />
+        {avatarEl}
+        <HeaderText name={name} desc={desc} theme={theme} compact={compact} />
+        <RatingBadge theme={theme} compact={compact} />
+      </div>
+    );
+  }
+
+  // ── glass ─────────────────────────────────────────────────────────────────
+  if (bgStyle === 'glass') {
+    return (
+      <div className="relative flex flex-col items-center overflow-hidden"
+        style={{ paddingTop: pt, paddingBottom: pb, background: `linear-gradient(160deg, ${color}18 0%, ${color}08 100%)` }}>
+        {/* Color blobs */}
+        <div className="absolute pointer-events-none" style={{ top: -30, right: -30, width: 120, height: 120, borderRadius: '50%', background: color, opacity: 0.18, filter: 'blur(28px)' }} />
+        <div className="absolute pointer-events-none" style={{ bottom: -20, left: -20, width: 100, height: 100, borderRadius: '50%', background: color, opacity: 0.12, filter: 'blur(20px)' }} />
+        {/* Frosted glass plate */}
+        <div className="absolute inset-0 pointer-events-none" style={{ backdropFilter: 'blur(2px)', WebkitBackdropFilter: 'blur(2px)', background: 'rgba(255,255,255,0.55)', borderBottom: `1px solid ${color}22` }} />
+        {/* Content */}
+        <div className="relative z-10 flex flex-col items-center w-full">
+          {avatarEl}
+          <HeaderText name={name} desc={desc} theme={theme} compact={compact} />
+          <RatingBadge theme={theme} compact={compact} />
+        </div>
+      </div>
+    );
+  }
+
+  // ── dark ──────────────────────────────────────────────────────────────────
+  if (bgStyle === 'dark') {
+    return (
+      <div className="relative flex flex-col items-center overflow-hidden"
+        style={{ background: 'linear-gradient(160deg, #080812 0%, #13132a 100%)', paddingTop: pt, paddingBottom: pb }}>
+        {/* Subtle color glow */}
+        <div className="absolute pointer-events-none" style={{ top: '10%', left: '50%', transform: 'translateX(-50%)', width: 200, height: 200, borderRadius: '50%', background: color, opacity: 0.12, filter: 'blur(40px)' }} />
+        {/* Grid lines (subtle) */}
+        <div className="absolute inset-0 pointer-events-none" style={{ opacity: 0.04, backgroundImage: 'linear-gradient(rgba(255,255,255,.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.5) 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
+        {avatarEl}
+        <HeaderText name={name} desc={desc} theme={theme} compact={compact} />
+        <RatingBadge theme={theme} compact={compact} />
+      </div>
+    );
+  }
+
+  // ── solid ─────────────────────────────────────────────────────────────────
+  if (bgStyle === 'solid') {
+    return (
+      <div className="relative flex flex-col items-center overflow-hidden"
+        style={{ background: color, paddingTop: pt, paddingBottom: pb }}>
+        {avatarEl}
+        <HeaderText name={name} desc={desc} theme={theme} compact={compact} />
+        <RatingBadge theme={theme} compact={compact} />
+      </div>
+    );
+  }
+
+  // ── image ─────────────────────────────────────────────────────────────────
+  if (bgStyle === 'image') {
+    return (
+      <div className="relative flex flex-col items-center overflow-hidden"
+        style={{ paddingTop: pt, paddingBottom: pb, minHeight: compact ? 160 : 200 }}>
+        {/* Background image or fallback */}
+        {avatarUrl
+          ? <div className="absolute inset-0" style={{ backgroundImage: `url(${avatarUrl})`, backgroundSize: 'cover', backgroundPosition: 'center top' }} />
+          : <div className="absolute inset-0" style={{ background: `linear-gradient(160deg, ${color} 0%, ${color}99 100%)` }} />
+        }
+        {/* Dark overlay for readability */}
+        <div className="absolute inset-0" style={{ background: avatarUrl ? 'linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.65) 100%)' : 'rgba(0,0,0,0.2)' }} />
+        {/* Avatar is hidden in image mode (it IS the background) */}
+        {!avatarUrl && (
+          <div className="relative z-10 rounded-full overflow-hidden shadow-xl"
+            style={{ width: avatarSize, height: avatarSize, borderWidth: avatarBorder, borderStyle: 'solid', borderColor: 'rgba(255,255,255,0.6)', background: 'rgba(255,255,255,0.18)' }}>
+            <div className="w-full h-full flex items-center justify-center">
+              <svg viewBox="0 0 24 24" fill="white" style={{ width: compact ? 30 : 38, height: compact ? 30 : 38, opacity: 0.8 }}>
+                <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
+              </svg>
+            </div>
+          </div>
+        )}
+        <HeaderText name={name} desc={desc} theme={theme} compact={compact} addShadow />
+        <RatingBadge theme={theme} compact={compact} />
+      </div>
+    );
+  }
+
+  return null;
+}
+
+function HeaderText({ name, desc, theme, compact, addShadow }) {
+  const shadow = addShadow ? '0 1px 8px rgba(0,0,0,0.5)' : undefined;
+  return (
+    <>
+      <h1 className="font-black text-center px-5 mt-3 leading-tight relative z-10"
+        style={{ fontSize: compact ? 17 : 21, color: theme.textColor, textShadow: shadow }}>
+        {name}
+      </h1>
+      <p className="text-center px-6 mt-1 relative z-10"
+        style={{ color: theme.subColor, fontSize: compact ? 11 : 13, lineHeight: 1.4, textShadow: shadow }}>
+        {desc}
+      </p>
+    </>
+  );
+}
+
+function RatingBadge({ theme, compact }) {
+  return (
+    <div className="flex items-center gap-1 mt-3 px-3 py-1 rounded-full relative z-10"
+      style={{ background: theme.badgeBg, backdropFilter: 'blur(8px)' }}>
+      {[1,2,3,4,5].map(s => (
+        <svg key={s} width="9" height="9" viewBox="0 0 24 24" fill={theme.starColor}>
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+        </svg>
+      ))}
+      <span style={{ color: theme.starColor, fontSize: compact ? 8 : 9, marginRight: 2 }}>מצוין</span>
+    </div>
+  );
+}
+
+function Orb({ top, bottom, left, right, size }) {
+  return (
+    <div className="absolute rounded-full pointer-events-none"
+      style={{ top, bottom, left, right, width: size, height: size, background: 'rgba(255,255,255,0.1)' }} />
   );
 }
 
