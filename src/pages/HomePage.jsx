@@ -5,6 +5,7 @@ import { useAuth } from '../lib/AuthContext';
 import PhoneMockup from '../components/PhoneMockup';
 import CardPreview from '../components/CardPreview';
 import AuthModal from '../components/AuthModal';
+import BgStylePicker from '../components/BgStylePicker';
 import { saveDraft, uploadCardImage, toSlug, checkSlugAvailable, suggestSlugs } from '../lib/cardsApi';
 
 const DEFAULTS = {
@@ -14,6 +15,7 @@ const DEFAULTS = {
   avatar_url: '',
   template: 1,
   primary_color: '#4F46E5',
+  background_style: 'gradient',
   whatsapp_message: 'היי, הגעתי דרך הכרטיס שלך ורוצה לקבוע תור',
   card_services: [],
 };
