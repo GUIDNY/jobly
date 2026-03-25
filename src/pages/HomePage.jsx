@@ -159,6 +159,14 @@ export default function HomePage() {
   const handleAuthSuccess = () => { saveDraft({ ...form, slug }); navigate('/builder'); };
   const slugDisplay = slug || 'שם-העסק';
 
+  // Hero phone preview — shows a nice image bg when user hasn't uploaded their own photo yet
+  const HERO_DEMO_IMG = 'https://images.pexels.com/photos/1319460/pexels-photo-1319460.jpeg?auto=compress&cs=tinysrgb&w=400';
+  const heroPreviewData = {
+    ...form,
+    avatar_url: form.avatar_url || HERO_DEMO_IMG,
+    background_style: form.avatar_url ? form.background_style : 'image',
+  };
+
   return (
     <div className="min-h-screen overflow-x-hidden" style={{ background: '#fafbff' }} dir="rtl">
 
