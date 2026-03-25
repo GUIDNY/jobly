@@ -43,7 +43,6 @@ export default function BuilderPage() {
   const [publishing, setPublishing] = useState(false);
   const [published, setPublished] = useState(false);
   const [publishError, setPublishError] = useState('');
-  const [upgradeOpen, setUpgradeOpen] = useState(false);
   const [slugStatus, setSlugStatus] = useState('idle'); // idle | checking | available | taken
   const [slugSuggestions, setSlugSuggestions] = useState([]);
   const [showPreview, setShowPreview] = useState(false);
