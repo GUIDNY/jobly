@@ -275,6 +275,16 @@ export default function HomePage() {
                   </div>
                 </div>
 
+                {/* Background style divider */}
+                <div className="border-t border-gray-50 px-5 py-4">
+                  <BgStylePicker
+                    value={form.background_style}
+                    onChange={v => update('background_style', v)}
+                    primaryColor={form.primary_color}
+                    avatarUrl={form.avatar_url}
+                  />
+                </div>
+
                 {/* Slug block */}
                 <div className="border-t border-gray-50 px-5 py-3.5 flex items-center justify-between gap-3" style={{ background: '#fafafa' }}>
                   <div className="flex items-center gap-2 min-w-0">
