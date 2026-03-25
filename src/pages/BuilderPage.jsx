@@ -853,6 +853,7 @@ function Step4({ form, update, onPublish, publishing, published, slug, publishEr
               </span>
             ) : 'פרסם את הדף שלי'}
           </button>
+          </>
         )}
       </div>
     </div>
