@@ -38,8 +38,11 @@ export default function BuilderPage() {
   const [authOpen, setAuthOpen] = useState(false);
   const [loading, setLoading] = useState(!!cardId);
   const [saving, setSaving] = useState(false);
+  const [saveSuccess, setSaveSuccess] = useState(false);
+  const [saveError, setSaveError] = useState('');
   const [publishing, setPublishing] = useState(false);
   const [published, setPublished] = useState(false);
+  const [publishError, setPublishError] = useState('');
   const [slugStatus, setSlugStatus] = useState('idle'); // idle | checking | available | taken
   const [slugSuggestions, setSlugSuggestions] = useState([]);
   const [showPreview, setShowPreview] = useState(false);
