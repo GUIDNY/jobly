@@ -215,6 +215,8 @@ export default function BuilderPage() {
             >
               הדפים שלי
             </button>
+            {saveError && <span className="text-xs text-red-500 font-medium hidden sm:block">{saveError}</span>}
+            {saveSuccess && <span className="text-xs text-green-600 font-medium hidden sm:block">נשמר ✓</span>}
             <button
               onClick={handleSave}
               disabled={saving}
