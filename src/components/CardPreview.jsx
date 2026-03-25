@@ -27,93 +27,174 @@ export default function CardPreview({ data = {}, compact = false }) {
   if (template === 2) return <Template2 {...{ placeholderName, placeholderDesc, avatar_url, phone, waLink, callLink, primary_color, instagram, facebook, tiktok, location_url, booking_url, card_services, compact }} />;
   if (template === 3) return <Template3 {...{ placeholderName, placeholderDesc, avatar_url, phone, waLink, callLink, primary_color, instagram, facebook, tiktok, location_url, booking_url, card_services, compact }} />;
 
-  // Default: Template 1 - Gradient Header
+  // Template 1 — Premium Gradient Header
+  const hasPhone = !!phone;
+  const hasServices = card_services && card_services.length > 0;
+  const hasSocial = instagram || facebook || tiktok || location_url;
+
+  // Placeholder services shown when no real services — makes preview feel like a real page
+  const displayServices = hasServices ? card_services : compact ? [
+    { title: 'תספורת גבר', description: 'קצר, קלאסי, מודרני' },
+    { title: 'צביעה', description: 'כל הגוונים, תוצאה מושלמת' },
+  ] : [];
+
   return (
-    <div className="bg-white h-full overflow-y-auto" dir="rtl">
-      {/* Gradient header */}
+    <div className="bg-white min-h-full overflow-y-auto" dir="rtl" style={{ fontFamily: "'Heebo', sans-serif" }}>
+
+      {/* Header with gradient + avatar */}
       <div
-        className="relative flex flex-col items-center pb-10 pt-6"
-        style={{ background: `linear-gradient(160deg, ${primary_color} 0%, ${primary_color}cc 100%)` }}
+        className="relative flex flex-col items-center"
+        style={{
+          background: `linear-gradient(160deg, ${primary_color} 0%, ${primary_color}dd 100%)`,
+          paddingTop: compact ? 28 : 36,
+          paddingBottom: compact ? 36 : 44,
+        }}
       >
-        <div className="w-20 h-20 rounded-full border-4 border-white overflow-hidden bg-white/30 shadow-lg">
+        {/* Decorative circles */}
+        <div className="absolute top-0 left-0 w-32 h-32 rounded-full opacity-10" style={{ background: 'white', transform: 'translate(-40%, -40%)' }} />
+        <div className="absolute bottom-0 right-0 w-24 h-24 rounded-full opacity-10" style={{ background: 'white', transform: 'translate(30%, 30%)' }} />
+
+        {/* Avatar */}
+        <div
+          className="rounded-full overflow-hidden border-white shadow-xl relative z-10"
+          style={{
+            width: compact ? 72 : 88,
+            height: compact ? 72 : 88,
+            borderWidth: compact ? 3 : 4,
+            borderStyle: 'solid',
+            borderColor: 'white',
+          }}
+        >
           {avatar_url ? (
             <img src={avatar_url} alt="" className="w-full h-full object-cover" />
           ) : (
-            <div className="w-full h-full flex items-center justify-center text-3xl bg-white/20">
-              <svg viewBox="0 0 24 24" className="w-10 h-10 text-white fill-current">
+            <div className="w-full h-full flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.25)' }}>
+              <svg viewBox="0 0 24 24" fill="white" style={{ width: compact ? 32 : 40, height: compact ? 32 : 40 }}>
                 <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
               </svg>
             </div>
           )}
         </div>
-        <h1 className={`text-white font-bold mt-3 text-center px-4 ${compact ? 'text-lg' : 'text-xl'}`}>
+
+        {/* Name + desc */}
+        <h1
+          className="text-white font-black text-center px-5 mt-3 leading-tight relative z-10"
+          style={{ fontSize: compact ? 17 : 21 }}
+        >
           {placeholderName}
         </h1>
-        <p className={`text-white/80 mt-1 text-center px-6 ${compact ? 'text-xs' : 'text-sm'}`}>
+        <p
+          className="text-center px-6 mt-1 relative z-10"
+          style={{ color: 'rgba(255,255,255,0.82)', fontSize: compact ? 11 : 13, lineHeight: 1.4 }}
+        >
           {placeholderDesc}
         </p>
+
+        {/* Rating / trust badge */}
+        <div
+          className="flex items-center gap-1 mt-3 px-3 py-1 rounded-full relative z-10"
+          style={{ background: 'rgba(255,255,255,0.18)', backdropFilter: 'blur(8px)' }}
+        >
+          {[1,2,3,4,5].map(s => (
+            <svg key={s} width="10" height="10" viewBox="0 0 24 24" fill="rgba(255,255,255,0.9)"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          ))}
+          <span style={{ color: 'rgba(255,255,255,0.9)', fontSize: 10, marginRight: 2 }}>מצוין</span>
+        </div>
       </div>
 
-      {/* Action buttons */}
-      <div className={`px-4 space-y-2.5 ${compact ? 'mt-3' : 'mt-4'}`}>
-        {phone && (
-          <a
-            href={waLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 w-full rounded-xl text-white font-medium shadow-sm"
-            style={{
-              background: '#25D366',
-              padding: compact ? '10px 16px' : '13px 16px',
-              fontSize: compact ? '13px' : '15px',
-            }}
-          >
-            <WhatsAppIcon size={compact ? 16 : 18} />
-            <span>שלח הודעה ב-WhatsApp</span>
-          </a>
+      {/* Buttons area */}
+      <div style={{ padding: compact ? '14px 14px 0' : '18px 16px 0' }}>
+        {hasPhone ? (
+          <div className="space-y-2">
+            <a
+              href={waLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 w-full rounded-2xl text-white font-bold"
+              style={{
+                background: 'linear-gradient(135deg, #22c55e, #16a34a)',
+                boxShadow: '0 4px 14px -4px rgba(34,197,94,0.5)',
+                padding: compact ? '10px 14px' : '13px 16px',
+                fontSize: compact ? 12 : 14,
+              }}
+            >
+              <WhatsAppIcon size={compact ? 15 : 17} />
+              <span>שלח WhatsApp</span>
+            </a>
+            <a
+              href={callLink}
+              className="flex items-center justify-center gap-2 w-full rounded-2xl font-semibold"
+              style={{
+                border: '1.5px solid #e5e7eb',
+                color: '#374151',
+                padding: compact ? '9px 14px' : '12px 16px',
+                fontSize: compact ? 12 : 14,
+              }}
+            >
+              <PhoneIcon size={compact ? 13 : 15} />
+              <span>התקשר עכשיו</span>
+            </a>
+          </div>
+        ) : (
+          /* Placeholder buttons when no phone - greyed out to show the layout */
+          <div className="space-y-2">
+            <div className="flex items-center justify-center gap-2 w-full rounded-2xl font-bold" style={{ background: '#dcfce7', color: '#86efac', padding: compact ? '10px 14px' : '13px 16px', fontSize: compact ? 12 : 14 }}>
+              <WhatsAppIcon size={compact ? 15 : 17} />
+              <span>שלח WhatsApp</span>
+            </div>
+            <div className="flex items-center justify-center gap-2 w-full rounded-2xl font-semibold" style={{ border: '1.5px solid #f3f4f6', color: '#d1d5db', padding: compact ? '9px 14px' : '12px 16px', fontSize: compact ? 12 : 14 }}>
+              <PhoneIcon size={compact ? 13 : 15} />
+              <span>התקשר עכשיו</span>
+            </div>
+          </div>
         )}
-        {phone && (
-          <a
-            href={callLink}
-            className="flex items-center justify-center gap-2 w-full rounded-xl font-medium border-2 border-gray-200 text-gray-700"
-            style={{ padding: compact ? '9px 16px' : '12px 16px', fontSize: compact ? '13px' : '15px' }}
-          >
-            <PhoneIcon size={compact ? 14 : 16} />
-            <span>התקשר</span>
-          </a>
-        )}
+
         {booking_url && (
           <a
             href={booking_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 w-full rounded-xl font-medium text-white"
-            style={{
-              background: primary_color,
-              padding: compact ? '9px 16px' : '12px 16px',
-              fontSize: compact ? '13px' : '15px',
-            }}
+            className="flex items-center justify-center gap-2 w-full rounded-2xl font-semibold text-white mt-2"
+            style={{ background: primary_color, padding: compact ? '9px 14px' : '12px 16px', fontSize: compact ? 12 : 14 }}
           >
-            <CalendarIcon size={compact ? 14 : 16} />
+            <CalendarIcon size={compact ? 13 : 15} />
             <span>קבע תור</span>
           </a>
         )}
       </div>
 
-      {/* Services */}
-      {card_services && card_services.length > 0 && (
-        <div className={`px-4 ${compact ? 'mt-4' : 'mt-6'}`}>
-          <h2 className={`font-bold text-gray-800 mb-2.5 ${compact ? 'text-sm' : 'text-base'}`}>השירותים שלנו</h2>
+      {/* Services section */}
+      {displayServices.length > 0 && (
+        <div style={{ padding: compact ? '14px 14px 0' : '18px 16px 0' }}>
+          <div className="flex items-center justify-between mb-2">
+            <h2 className="font-black text-gray-800" style={{ fontSize: compact ? 12 : 14 }}>השירותים שלנו</h2>
+            {!hasServices && (
+              <span className="text-gray-300" style={{ fontSize: 9 }}>דוגמה</span>
+            )}
+          </div>
           <div className="space-y-2">
-            {card_services.map((svc, i) => (
-              <div key={i} className="bg-gray-50 rounded-xl p-3 border border-gray-100">
-                {svc.image_url && (
-                  <img src={svc.image_url} alt={svc.title} className="w-full h-24 object-cover rounded-lg mb-2" />
+            {displayServices.map((svc, i) => (
+              <div
+                key={i}
+                className="flex items-center gap-3 rounded-xl"
+                style={{
+                  background: '#f9fafb',
+                  border: '1px solid #f3f4f6',
+                  padding: compact ? '8px 10px' : '10px 12px',
+                  opacity: !hasServices ? 0.45 : 1,
+                }}
+              >
+                {svc.image_url ? (
+                  <img src={svc.image_url} alt="" className="w-10 h-10 rounded-lg object-cover flex-shrink-0" />
+                ) : (
+                  <div className="rounded-lg flex-shrink-0 flex items-center justify-center" style={{ width: compact ? 32 : 38, height: compact ? 32 : 38, background: primary_color + '18' }}>
+                    <svg viewBox="0 0 24 24" style={{ width: compact ? 14 : 17, height: compact ? 14 : 17, fill: primary_color }}><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>
+                  </div>
                 )}
-                <p className={`font-semibold text-gray-800 ${compact ? 'text-xs' : 'text-sm'}`}>{svc.title}</p>
-                {svc.description && (
-                  <p className={`text-gray-500 mt-0.5 ${compact ? 'text-xs' : 'text-xs'}`}>{svc.description}</p>
-                )}
+                <div className="min-w-0">
+                  <p className="font-bold text-gray-800 truncate" style={{ fontSize: compact ? 11 : 13 }}>{svc.title}</p>
+                  {svc.description && <p className="text-gray-400 truncate mt-0.5" style={{ fontSize: compact ? 9 : 11 }}>{svc.description}</p>}
+                </div>
               </div>
             ))}
           </div>
@@ -121,34 +202,18 @@ export default function CardPreview({ data = {}, compact = false }) {
       )}
 
       {/* Social links */}
-      {(instagram || facebook || tiktok || location_url) && (
-        <div className={`px-4 flex gap-3 justify-center ${compact ? 'mt-4 mb-4' : 'mt-5 mb-6'}`}>
-          {instagram && (
-            <SocialBtn href={`https://instagram.com/${instagram.replace('@', '')}`} color="#E1306C">
-              <InstagramIcon size={compact ? 16 : 20} />
-            </SocialBtn>
-          )}
-          {facebook && (
-            <SocialBtn href={facebook.startsWith('http') ? facebook : `https://facebook.com/${facebook}`} color="#1877F2">
-              <FacebookIcon size={compact ? 16 : 20} />
-            </SocialBtn>
-          )}
-          {tiktok && (
-            <SocialBtn href={`https://tiktok.com/@${tiktok.replace('@', '')}`} color="#000000">
-              <TikTokIcon size={compact ? 16 : 20} />
-            </SocialBtn>
-          )}
-          {location_url && (
-            <SocialBtn href={location_url} color="#4285F4">
-              <MapPinIcon size={compact ? 16 : 20} />
-            </SocialBtn>
-          )}
+      {hasSocial && (
+        <div className="flex gap-2.5 justify-center" style={{ padding: compact ? '12px 14px 0' : '16px 16px 0' }}>
+          {instagram && <SocialBtn href={`https://instagram.com/${instagram.replace('@', '')}`} color="#E1306C"><InstagramIcon size={compact ? 14 : 18} /></SocialBtn>}
+          {facebook && <SocialBtn href={facebook.startsWith('http') ? facebook : `https://facebook.com/${facebook}`} color="#1877F2"><FacebookIcon size={compact ? 14 : 18} /></SocialBtn>}
+          {tiktok && <SocialBtn href={`https://tiktok.com/@${tiktok.replace('@', '')}`} color="#000"><TikTokIcon size={compact ? 14 : 18} /></SocialBtn>}
+          {location_url && <SocialBtn href={location_url} color="#4285F4"><MapPinIcon size={compact ? 14 : 18} /></SocialBtn>}
         </div>
       )}
 
       {/* Footer */}
-      <div className={`text-center text-gray-300 ${compact ? 'text-xs pb-4' : 'text-xs pb-6'}`}>
-        נוצר עם MyCard
+      <div className="text-center text-gray-300 pb-4 mt-3" style={{ fontSize: compact ? 9 : 11 }}>
+        נוצר עם <span style={{ color: '#c4b5fd' }}>MyCard</span>
       </div>
     </div>
   );
