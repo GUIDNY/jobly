@@ -824,21 +824,58 @@ function Step4({ form, update, onPublish, publishing, published, slug, publishEr
           <p className="text-sm text-orange-600 bg-orange-50 rounded-xl px-4 py-3 mb-4">הגדר שם עסק וכתובת דף בשלב 1</p>
         )}
         {published ? (
-          <div className="bg-green-50 border border-green-100 rounded-2xl p-4 text-center">
-            <div className="text-3xl mb-2">🎉</div>
-            <p className="font-bold text-green-700">הדף שלך פורסם!</p>
-            <p className="text-sm text-green-600 mt-1">
-              <span className="font-mono">{slug}.mycard.co.il</span>
-            </p>
-            <a
-              href={`/c/${slug}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 mt-3 px-4 py-2 bg-green-500 text-white rounded-xl text-sm font-medium hover:bg-green-600 transition-colors"
-            >
-              פתח את הדף שלי
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            </a>
+          <div className="space-y-3">
+            {/* Success state */}
+            <div className="rounded-2xl overflow-hidden" style={{ background: 'linear-gradient(135deg,#1e1b4b,#4F46E5)' }}>
+              <div className="px-5 py-5 text-center">
+                <div className="text-4xl mb-2">🎉</div>
+                <p className="text-xl font-black text-white mb-1">האתר שלך מוכן!</p>
+                <p className="text-white/70 text-sm mb-4">עכשיו שתף אותו עם לקוחות</p>
+                <div className="bg-white/10 rounded-xl px-4 py-2.5 mb-4 flex items-center justify-center gap-2">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+                  <span className="text-white font-mono text-sm">{slug}.mycard.co.il</span>
+                </div>
+                <div className="flex gap-2">
+                  <a
+                    href={`/c/${slug}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 py-2.5 rounded-xl bg-white text-indigo-700 font-bold text-sm flex items-center justify-center gap-1.5"
+                  >
+                    פתח את הדף
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                  </a>
+                  <button
+                    onClick={() => navigator.clipboard.writeText(`${window.location.origin}/c/${slug}`)}
+                    className="px-4 py-2.5 rounded-xl bg-white/20 text-white text-sm font-semibold"
+                  >
+                    העתק קישור
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Upsell teaser — only for free users */}
+            {!isPro && (
+              <motion.button
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                onClick={onUpgrade}
+                className="w-full rounded-2xl border-2 border-dashed border-indigo-200 hover:border-indigo-400 p-4 text-right transition-all group"
+                style={{ background: '#f5f3ff' }}
+              >
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-bold text-indigo-700">ראה מי ביקר בדף שלך</p>
+                    <p className="text-xs text-indigo-400 mt-0.5">סטטיסטיקות · הסרת לוגו · ₪49/חודש</p>
+                  </div>
+                  <div className="w-9 h-9 rounded-xl bg-indigo-100 group-hover:bg-indigo-200 flex items-center justify-center transition-colors flex-shrink-0">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4F46E5" strokeWidth="2.5" strokeLinecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                  </div>
+                </div>
+              </motion.button>
+            )}
           </div>
         ) : (
           <>
