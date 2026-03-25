@@ -22,7 +22,7 @@ const DEFAULT_CARD = {
   business_name: '', description: '', phone: '', avatar_url: '',
   whatsapp_message: 'היי, הגעתי דרך הכרטיס שלך ורוצה לקבוע תור',
   instagram: '', facebook: '', tiktok: '', location_url: '', booking_url: '',
-  template: 1, primary_color: '#4F46E5',
+  template: 1, primary_color: '#4F46E5', background_style: 'gradient',
   services: [],
   slug: '',
 };
