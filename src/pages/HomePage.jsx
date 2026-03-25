@@ -30,6 +30,8 @@ const DEMOS = [
     phone: '0501234567',
     primary_color: '#0F172A',
     template: 1,
+    background_style: 'image',
+    avatar_url: 'https://images.pexels.com/photos/1319460/pexels-photo-1319460.jpeg?auto=compress&cs=tinysrgb&w=400',
     card_services: [
       { title: 'תספורת גבר', description: '₪60 · 30 דקות' },
       { title: 'עיצוב זקן', description: '₪40 · 20 דקות' },
@@ -42,6 +44,8 @@ const DEMOS = [
     phone: '0521234567',
     primary_color: '#DB2777',
     template: 1,
+    background_style: 'image',
+    avatar_url: 'https://images.pexels.com/photos/3997379/pexels-photo-3997379.jpeg?auto=compress&cs=tinysrgb&w=400',
     card_services: [
       { title: 'ג׳ל מלא', description: '₪120 · 60 דקות' },
       { title: 'עיצוב ארט', description: '₪150 · 75 דקות' },
@@ -54,6 +58,8 @@ const DEMOS = [
     phone: '0531234567',
     primary_color: '#16A34A',
     template: 1,
+    background_style: 'image',
+    avatar_url: 'https://images.pexels.com/photos/1552242/pexels-photo-1552242.jpeg?auto=compress&cs=tinysrgb&w=400',
     card_services: [
       { title: 'אימון אישי', description: '₪180 · 60 דקות' },
       { title: 'תוכנית תזונה', description: '₪300 · חד פעמי' },
