@@ -88,6 +88,9 @@ export function AuthProvider({ children }) {
     return { ...(profile || {}), id: rawUser.id, email: rawUser.email, ...data };
   };
 
+  const isPro = profile?.plan === 'pro' &&
+    (!profile?.plan_expires_at || new Date(profile.plan_expires_at) > new Date());
+
   const user = rawUser
     ? {
         ...rawUser,
@@ -105,12 +108,19 @@ export function AuthProvider({ children }) {
         bio: profile?.bio ?? '',
         headline: profile?.headline ?? '',
         whatsapp: profile?.whatsapp ?? '',
+        plan: profile?.plan ?? 'free',
       }
     : null;
 
+  // Used only for testing — marks the current user as pro in the DB
+  const activatePro = async () => {
+    if (!rawUser) return;
+    await updateMe({ plan: 'pro', plan_expires_at: null });
+  };
+
   return (
     <AuthContext.Provider value={{
-      user, profile, loading,
+      user, profile, loading, isPro, activatePro,
       loginWithEmail, signupWithEmail, logout, updateMe,
       loginWithGoogle: () => {}, login: () => {}, redirectToLogin: () => {},
     }}>
