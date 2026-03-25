@@ -830,6 +830,11 @@ function Step4({ form, update, onPublish, publishing, published, slug, publishEr
             </a>
           </div>
         ) : (
+          {publishError && (
+            <div className="mb-3 px-4 py-3 bg-red-50 border border-red-100 rounded-xl text-sm text-red-600 font-medium">
+              {publishError}
+            </div>
+          )}
           <button
             onClick={onPublish}
             disabled={publishing || !slug}
@@ -841,7 +846,7 @@ function Step4({ form, update, onPublish, publishing, published, slug, publishEr
                 <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
                 מפרסם...
               </span>
-            ) : '🚀 פרסם את הדף שלי'}
+            ) : 'פרסם את הדף שלי'}
           </button>
         )}
       </div>
