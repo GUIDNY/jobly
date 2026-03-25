@@ -283,7 +283,7 @@ export default function BuilderPage() {
               {step === 1 && <Step1 form={form} update={update} slugStatus={slugStatus} slugSuggestions={slugSuggestions} dbCardId={dbCardId} />}
               {step === 2 && <Step2 form={form} update={update} userId={user?.id} />}
               {step === 3 && <Step3 form={form} update={update} />}
-              {step === 4 && <Step4 form={form} update={update} onPublish={handlePublish} publishing={publishing} published={published} slug={form.slug} publishError={publishError} />}
+              {step === 4 && <Step4 form={form} update={update} onPublish={handlePublish} publishing={publishing} published={published} slug={form.slug} publishError={publishError} onUpgrade={() => setUpgradeOpen(true)} isPro={isPro} />}
             </motion.div>
           </AnimatePresence>
 
