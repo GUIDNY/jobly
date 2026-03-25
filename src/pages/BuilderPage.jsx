@@ -9,6 +9,7 @@ import {
   loadDraft, clearDraft, toSlug, checkSlugAvailable, suggestSlugs,
   createCard, updateCard, uploadCardImage, getCardById,
 } from '../lib/cardsApi';
+import BgStylePicker from '../components/BgStylePicker';
 
 const STEPS = [
   { id: 1, label: 'פרטים בסיסיים' },
