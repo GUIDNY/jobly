@@ -29,7 +29,7 @@ const DEFAULT_CARD = {
 
 export default function BuilderPage() {
   const { cardId } = useParams();
-  const { user, isPro } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   const [step, setStep] = useState(1);
