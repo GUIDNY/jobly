@@ -344,7 +344,7 @@ export default function HomePage() {
                 <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
                 <span className="text-sm font-semibold text-gray-400">תצוגה מקדימה — חיה</span>
               </div>
-              <PhoneMockup><CardPreview data={form} compact /></PhoneMockup>
+              <PhoneMockup><CardPreview data={heroPreviewData} compact /></PhoneMockup>
               {/* Browser bar */}
               <div className="mt-3 w-[260px] bg-white rounded-2xl border border-gray-200 px-3 py-2.5 flex items-center gap-2" style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.06)' }}>
                 <div className="flex gap-1 flex-shrink-0">
