@@ -51,34 +51,53 @@ export async function suggestSlugs(baseSlug) {
   return available;
 }
 
+// Fetch services for one or more card IDs and attach them to the cards array
+async function attachServices(cards) {
+  if (!cards || cards.length === 0) return cards;
+  const ids = cards.map(c => c.id);
+  const { data: services } = await supabase
+    .from('card_services')
+    .select('*')
+    .in('card_id', ids)
+    .order('order_index', { ascending: true });
+  const byCard = {};
+  (services || []).forEach(s => {
+    if (!byCard[s.card_id]) byCard[s.card_id] = [];
+    byCard[s.card_id].push(s);
+  });
+  return cards.map(c => ({ ...c, card_services: byCard[c.id] || [] }));
+}
+
 export async function getMyCards(userId) {
   const { data, error } = await supabase
     .from('cards')
-    .select('*, card_services(*)')
+    .select('*')
     .eq('user_id', userId)
     .order('created_at', { ascending: false });
   if (error) throw error;
-  return data || [];
+  return attachServices(data || []);
 }
 
 export async function getCardBySlug(slug) {
   const { data, error } = await supabase
     .from('cards')
-    .select('*, card_services(*)')
+    .select('*')
     .eq('slug', slug)
     .single();
   if (error) throw error;
-  return data;
+  const [card] = await attachServices([data]);
+  return card;
 }
 
 export async function getCardById(id) {
   const { data, error } = await supabase
     .from('cards')
-    .select('*, card_services(*)')
+    .select('*')
     .eq('id', id)
     .single();
   if (error) throw error;
-  return data;
+  const [card] = await attachServices([data]);
+  return card;
 }
 
 export async function createCard(userId, cardData) {
