@@ -194,7 +194,7 @@ export default function HomePage() {
       <nav className="sticky top-0 z-40 bg-white border-b border-gray-100">
         <div className="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: '#111827' }}><LogoMark size={20} color="white" /></div>
+            <LogoMark size={36} />
             <span className="font-black text-gray-900 text-lg tracking-tight">Vizzit</span>
           </div>
           <div className="flex items-center gap-1">
