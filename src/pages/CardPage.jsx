@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { getCardBySlug } from '../lib/cardsApi';
 import CardPreview from '../components/CardPreview';
+import LogoMark from '../components/LogoMark';
 import { supabase } from '../lib/supabase';
 
 export default function CardPage() {
