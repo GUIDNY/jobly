@@ -127,7 +127,7 @@ export default function CardPreview({ data = {}, compact = false, showActions = 
             <CalendarIcon size={compact ? 13 : 15} /><span>קבע תור</span>
           </a>
         )}
-      </div>
+      </div>}
 
       {/* ── Services ── */}
       {displayServices.length > 0 && (
