@@ -105,7 +105,35 @@ export default function CardPreview({ data = {}, compact = false, showActions = 
             <CalendarIcon size={compact ? 13 : 15} /><span>קבע תור</span>
           </a>
         )}
-      </div>}
+    </div>
+  );
+
+  return (
+    <div className="min-h-full overflow-y-auto" dir="rtl"
+      style={{ fontFamily: "'Heebo', sans-serif", background: background_style === 'dark' ? '#0a0a12' : '#ffffff' }}
+    >
+      {/* ── Animated Header ── */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={`${background_style}-${primary_color}`}
+          initial={{ opacity: 0.6, scale: 1.01 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.25 }}
+        >
+          <CardHeader
+            bgStyle={background_style}
+            color={primary_color}
+            avatarUrl={avatar_url}
+            name={placeholderName}
+            desc={placeholderDesc}
+            theme={theme}
+            compact={compact}
+          />
+        </motion.div>
+      </AnimatePresence>
+
+      {/* WhatsApp — top position (default) */}
+      {whatsapp_position === 'top' && actionButtons}
 
       {/* ── Services ── */}
       {displayServices.length > 0 && (
