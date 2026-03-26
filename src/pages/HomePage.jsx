@@ -470,17 +470,22 @@ export default function HomePage() {
             </h2>
           </motion.div>
 
-          <div className="flex flex-col sm:flex-row items-end justify-center gap-6 md:gap-10">
+          <div className="flex flex-col sm:flex-row items-end justify-center gap-2 md:gap-6">
             {DEMOS.map((demo, i) => (
               <motion.div key={i}
                 className="flex flex-col items-center"
-                style={{ transform: i === 1 ? 'translateY(-20px)' : 'none' }}
-                initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: i === 1 ? -20 : 0 }} viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}>
-                <PhoneMockup small>
-                  <CardPreview data={demo} compact />
-                </PhoneMockup>
-                <p className="mt-3 text-xs font-semibold text-gray-400">{demo.business_name}</p>
+                initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                style={{ marginBottom: i === 1 ? 20 : 0 }}>
+                {/* Scale the phone down for the showcase */}
+                <div style={{ width: 195, height: 450, overflow: 'hidden', position: 'relative' }}>
+                  <div style={{ transform: 'scale(0.75)', transformOrigin: 'top center', position: 'absolute', top: 0, left: -32 }}>
+                    <PhoneMockup>
+                      <CardPreview data={demo} compact />
+                    </PhoneMockup>
+                  </div>
+                </div>
+                <p className="mt-2 text-xs font-semibold text-gray-400">{demo.business_name}</p>
               </motion.div>
             ))}
           </div>
