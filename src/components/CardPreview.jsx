@@ -68,33 +68,10 @@ export default function CardPreview({ data = {}, compact = false, showActions = 
     fontSize: compact ? 12 : 14,
   };
 
-  return (
-    <div className="min-h-full overflow-y-auto" dir="rtl"
-      style={{ fontFamily: "'Heebo', sans-serif", background: background_style === 'dark' ? '#0a0a12' : '#ffffff' }}
-    >
-      {/* ── Animated Header ── */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={`${background_style}-${primary_color}`}
-          initial={{ opacity: 0.6, scale: 1.01 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.25 }}
-        >
-          <CardHeader
-            bgStyle={background_style}
-            color={primary_color}
-            avatarUrl={avatar_url}
-            name={placeholderName}
-            desc={placeholderDesc}
-            theme={theme}
-            compact={compact}
-          />
-        </motion.div>
-      </AnimatePresence>
-
-      {/* ── Buttons ── */}
-      {showActions && <div style={{ padding: compact ? '14px 14px 0' : '18px 16px 0', background: background_style === 'dark' ? '#0a0a12' : '#fff' }}>
-        {hasPhone ? (
+  // ── Action buttons block (reused in top or bottom position) ──
+  const actionButtons = showActions && (
+    <div style={{ padding: compact ? '14px 14px 0' : '18px 16px 0', background: background_style === 'dark' ? '#0a0a12' : '#fff' }}>
+      {hasPhone ? (
           <div className="space-y-2">
             <a href={waLink} target="_blank" rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 w-full rounded-2xl text-white font-bold"
