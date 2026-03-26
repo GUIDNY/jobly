@@ -90,7 +90,7 @@ export default function AuthModal({ isOpen, onClose, onSuccess }) {
                 M
               </div>
               <h2 className="text-xl font-bold text-gray-900">
-                {mode === 'login' ? 'ברוך הבא ל-MyCard' : 'צור חשבון חינמי'}
+                {mode === 'login' ? 'ברוך הבא ל-Vizzit' : 'צור חשבון חינמי'}
               </h2>
               <p className="text-sm text-gray-500 mt-1">
                 {mode === 'login' ? 'התחבר כדי לשמור ולפרסם את הדף שלך' : 'תוך שניות הדף שלך יהיה חי'}
