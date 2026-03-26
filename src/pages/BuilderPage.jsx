@@ -599,6 +599,14 @@ function Step2({ form, update, userId }) {
                 className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 bg-white resize-none"
                 maxLength={100}
               />
+              <input
+                type="text"
+                value={svc.price || ''}
+                onChange={e => updateService(i, 'price', e.target.value)}
+                placeholder="מחיר (למשל: ₪120 · 45 דק׳)"
+                className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 bg-white"
+                maxLength={30}
+              />
               {/* Service image */}
               <div className="flex items-center gap-3">
                 <button
