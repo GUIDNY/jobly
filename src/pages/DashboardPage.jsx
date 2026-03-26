@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../lib/AuthContext';
 import AuthModal from '../components/AuthModal';
+import LogoMark from '../components/LogoMark';
 import { getMyCards, deleteCard } from '../lib/cardsApi';
 
 export default function DashboardPage() {
