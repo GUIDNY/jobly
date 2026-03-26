@@ -196,7 +196,7 @@ export default function BuilderPage() {
       <nav className="sticky top-0 z-30 bg-white border-b border-gray-100">
         <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <button onClick={() => navigate('/')} className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}><LogoMark size={20} color="white" /></button>
+            <button onClick={() => navigate('/')} className="flex items-center justify-center flex-shrink-0"><LogoMark size={32} /></button>
             <span className="font-bold text-gray-900 hidden sm:block">Vizzit</span>
             <span className="text-gray-300 hidden sm:block mx-2">/</span>
             <span className="text-sm text-gray-500 hidden sm:block">
@@ -469,7 +469,7 @@ function Step1({ form, update, slugStatus, slugSuggestions, dbCardId }) {
           כתובת הדף שלך
         </label>
         <div className="flex items-center gap-2 bg-gray-50 border rounded-xl px-4 py-3" style={{ borderColor: sc.border }}>
-          <span className="text-xs text-gray-400 whitespace-nowrap flex-shrink-0">vizzit.co.il/</span>
+          <span className="text-xs text-gray-400 whitespace-nowrap flex-shrink-0">vizzit.online/c/</span>
           <input
             type="text"
             value={form.slug}
