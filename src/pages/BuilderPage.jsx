@@ -65,6 +65,7 @@ export default function BuilderPage() {
           setForm({
             ...DEFAULT_CARD, ...rest,
             services: card_services?.map(s => ({ title: s.title, description: s.description, image_url: s.image_url })) || [],
+            services_layout: rest.services_layout || 'list',
           });
           setDbCardId(card.id);
           setIsLive(!!card.is_published);
