@@ -130,7 +130,7 @@ export default function CardPage() {
                 <LogoMark size={14} color="white" />
               </div>
               <span className="text-xs text-gray-400">כרטיס כזה גם לך —</span>
-              <span className="text-xs font-bold text-indigo-600 group-hover:text-indigo-800 transition-colors">
+              <span className="text-xs font-bold transition-colors" style={{ color: '#5BC4C8' }}>
                 Vizzit בחינם →
               </span>
             </a>
