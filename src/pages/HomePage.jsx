@@ -6,6 +6,7 @@ import PhoneMockup from '../components/PhoneMockup';
 import CardPreview from '../components/CardPreview';
 import AuthModal from '../components/AuthModal';
 import BgStylePicker from '../components/BgStylePicker';
+import LogoMark from '../components/LogoMark';
 import { saveDraft, uploadCardImage, toSlug, checkSlugAvailable, suggestSlugs } from '../lib/cardsApi';
 
 const DEFAULTS = {
