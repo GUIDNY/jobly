@@ -25,6 +25,7 @@ const DEFAULT_CARD = {
   instagram: '', facebook: '', tiktok: '', location_url: '', booking_url: '',
   template: 1, primary_color: '#4F46E5', background_style: 'gradient',
   services: [], services_layout: 'list', whatsapp_position: 'bottom',
+  title_align: 'center', name_size: 'md',
   slug: '',
 };
 
