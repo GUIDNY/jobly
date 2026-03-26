@@ -131,7 +131,7 @@ export default function CardPage() {
               </div>
               <span className="text-xs text-gray-400">כרטיס כזה גם לך —</span>
               <span className="text-xs font-bold text-indigo-600 group-hover:text-indigo-800 transition-colors">
-                MyCard בחינם →
+                Vizzit בחינם →
               </span>
             </a>
           </div>
@@ -166,7 +166,7 @@ export default function CardPage() {
             <LogoMark size={12} color="white" />
           </div>
           <div>
-            <p className="text-[10px] font-black text-gray-800 leading-tight">MyCard</p>
+            <p className="text-[10px] font-black text-gray-800 leading-tight">Vizzit</p>
             <p className="text-[9px] text-indigo-400 font-medium leading-tight group-hover:text-indigo-600 transition-colors">
               צור כרטיס בחינם
             </p>
