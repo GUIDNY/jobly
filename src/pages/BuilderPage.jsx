@@ -833,7 +833,7 @@ function Step4({ form, update, onPublish, publishing, published, isLive, slug, p
                 </div>
                 <div className="flex gap-2">
                   <a
-                    href={`/c/${slug}`}
+                    href={`/${slug}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex-1 py-2.5 rounded-xl bg-white text-indigo-700 font-bold text-sm flex items-center justify-center gap-1.5"
