@@ -38,7 +38,7 @@ export default function DashboardPage() {
   };
 
   const handleCopyLink = (slug) => {
-    navigator.clipboard.writeText(`${window.location.origin}/c/${slug}`);
+    navigator.clipboard.writeText(`https://vizzit.online/${slug}`);
     setCopied(slug);
     setTimeout(() => setCopied(null), 2000);
   };
