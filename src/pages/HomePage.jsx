@@ -308,10 +308,10 @@ export default function HomePage() {
                 {/* Slug */}
                 <div className="border-t border-gray-100 px-4 py-3 flex items-center justify-between gap-3 bg-gray-50/50">
                   <div className="flex items-center gap-2 min-w-0">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6366f1" strokeWidth="2.5" strokeLinecap="round" className="flex-shrink-0"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#5BC4C8" strokeWidth="2.5" strokeLinecap="round" className="flex-shrink-0"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
                     <span className="text-xs font-mono text-gray-600 truncate">
                       <span className="text-gray-400">vizzit.co.il/</span>
-                      <motion.span key={slugDisplay} initial={{ opacity: 0.4 }} animate={{ opacity: 1 }} className="font-bold text-indigo-600">{slugDisplay}</motion.span>
+                      <motion.span key={slugDisplay} initial={{ opacity: 0.4 }} animate={{ opacity: 1 }} className="font-bold" style={{ color: '#5BC4C8' }}>{slugDisplay}</motion.span>
                     </span>
                   </div>
                   {slugStatus === 'checking' && <svg className="animate-spin w-3 h-3 text-gray-400 flex-shrink-0" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>}
@@ -319,7 +319,7 @@ export default function HomePage() {
                   {slugStatus === 'taken' && (
                     <div className="flex items-center gap-1.5 flex-shrink-0">
                       <span className="text-[10px] font-bold text-orange-500 bg-orange-50 px-2 py-0.5 rounded-full">תפוס</span>
-                      {slugSuggestions[0] && <button onClick={() => {}} className="text-[10px] text-indigo-500 font-mono hover:underline">{slugSuggestions[0]}</button>}
+                      {slugSuggestions[0] && <button onClick={() => {}} className="text-[10px] font-mono hover:underline" style={{ color: '#5BC4C8' }}>{slugSuggestions[0]}</button>}
                     </div>
                   )}
                 </div>
