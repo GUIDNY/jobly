@@ -46,7 +46,8 @@ const DEMOS = [
     phone: '0501234567',
     primary_color: '#111827',
     template: 1,
-    background_style: 'dark',
+    background_style: 'image',
+    avatar_url: 'https://images.pexels.com/photos/1805600/pexels-photo-1805600.jpeg?auto=compress&cs=tinysrgb&w=600',
     card_services: [
       { title: 'תספורת גבר', description: '₪60 · 30 דקות' },
       { title: 'עיצוב זקן', description: '₪40 · 20 דקות' },
