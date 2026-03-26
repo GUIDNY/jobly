@@ -130,6 +130,8 @@ export default function CardPreview({ data = {}, compact = false, showActions = 
             desc={placeholderDesc}
             theme={theme}
             compact={compact}
+            titleAlign={title_align}
+            nameSize={name_size}
           />
         </motion.div>
       </AnimatePresence>
