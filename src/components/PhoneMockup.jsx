@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 
-export default function PhoneMockup({ children, className = '' }) {
+export default function PhoneMockup({ children, className = '', overlay = null }) {
   return (
     <div className={`relative mx-auto select-none ${className}`} style={{ width: '260px' }}>
       {/* Phone outer body */}
