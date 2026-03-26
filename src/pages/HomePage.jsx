@@ -507,7 +507,7 @@ export default function HomePage() {
                   animate={{ y: [0, i === 1 ? -10 : i === 0 ? -7 : -13, 0] }}
                   transition={{ duration: 3 + i * 0.6, repeat: Infinity, ease: 'easeInOut', delay: i * 0.8 }}
                 >
-                  <div style={{ width: 195, height: 450, overflow: 'hidden', position: 'relative' }}>
+                  <div style={{ width: 195, height: 450, position: 'relative' }}>
                     <div style={{ transform: 'scale(0.75)', transformOrigin: 'top center', position: 'absolute', top: 0, left: -32 }}>
                       <PhoneMockup>
                         <CardPreview data={demo} compact />
