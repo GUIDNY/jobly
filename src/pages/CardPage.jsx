@@ -36,7 +36,7 @@ export default function CardPage() {
       <div className="min-h-screen flex items-center justify-center" style={{ background: '#f8fafc' }}>
         <div className="text-center">
           <div className="w-14 h-14 rounded-2xl mx-auto mb-4 flex items-center justify-center shadow-lg"
-            style={{ background: 'linear-gradient(135deg, #4F46E5, #7C3AED)' }}>
+            style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
             <LogoMark size={30} color="white" />
           </div>
           <div className="flex gap-1.5 justify-center mt-2">
@@ -65,7 +65,7 @@ export default function CardPage() {
           <p className="text-gray-400 text-sm mb-7">הדף שחיפשת אינו קיים או שטרם פורסם.</p>
           <button onClick={() => navigate('/')}
             className="px-6 py-3 rounded-2xl text-white font-bold text-sm"
-            style={{ background: 'linear-gradient(135deg, #4F46E5, #7C3AED)' }}>
+            style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
             צור כרטיס משלך →
           </button>
         </div>
@@ -126,7 +126,7 @@ export default function CardPage() {
               className="group flex items-center gap-2.5 bg-white/85 backdrop-blur-sm border border-white/80 rounded-2xl px-5 py-2.5 transition-all hover:shadow-md"
               style={{ boxShadow: '0 2px 16px rgba(0,0,0,0.07)' }}>
               <div className="w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0"
-                style={{ background: 'linear-gradient(135deg, #4F46E5, #7C3AED)' }}>
+                style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
                 <LogoMark size={14} color="white" />
               </div>
               <span className="text-xs text-gray-400">כרטיס כזה גם לך —</span>
@@ -160,9 +160,9 @@ export default function CardPage() {
       <div className="md:hidden fixed top-3 left-3 z-10">
         <a href="/"
           className="flex items-center gap-1.5 bg-white/95 backdrop-blur-sm border border-indigo-100 rounded-xl px-3 py-1.5 shadow-sm hover:shadow-md transition-all group"
-          style={{ boxShadow: '0 2px 12px rgba(79,70,229,0.12)' }}>
+          style={{ boxShadow: '0 2px 12px rgba(91,196,200,0.12)' }}>
           <div className="w-5 h-5 rounded-md flex items-center justify-center flex-shrink-0"
-            style={{ background: 'linear-gradient(135deg, #4F46E5, #7C3AED)' }}>
+            style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
             <LogoMark size={12} color="white" />
           </div>
           <div>

@@ -62,7 +62,7 @@ export default function UpgradeModal({ isOpen, onClose, viewsCount = 0, cardName
 
             {/* Header */}
             <div className="relative overflow-hidden px-6 pt-5 pb-6"
-              style={{ background: 'linear-gradient(135deg, #1e1b4b 0%, #4F46E5 60%, #7C3AED 100%)' }}>
+              style={{ background: 'linear-gradient(135deg, #1e1b4b 0%, #4F46E5 60%, #5BC4C8 100%)' }}>
               {/* Background orb */}
               <div className="absolute top-0 left-0 w-48 h-48 rounded-full opacity-20"
                 style={{ background: 'radial-gradient(circle, #a78bfa, transparent)', transform: 'translate(-30%, -30%)' }} />
@@ -115,7 +115,7 @@ export default function UpgradeModal({ isOpen, onClose, viewsCount = 0, cardName
 
             {/* Price + CTA */}
             <div className="px-6 pb-6">
-              <div className="rounded-2xl overflow-hidden" style={{ background: 'linear-gradient(135deg, #4F46E5, #7C3AED)', boxShadow: '0 8px 32px -8px rgba(79,70,229,0.5)' }}>
+              <div className="rounded-2xl overflow-hidden" style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)', boxShadow: '0 8px 32px -8px rgba(91,196,200,0.5)' }}>
                 <div className="px-5 py-4">
                   {/* Price */}
                   <div className="flex items-baseline gap-1.5 mb-1">

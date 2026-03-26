@@ -21,7 +21,7 @@ const DEFAULTS = {
   card_services: [],
 };
 
-const COLORS = ['#111827', '#4F46E5', '#7C3AED', '#DB2777', '#DC2626', '#16A34A', '#0284C7', '#EA580C'];
+const COLORS = ['#111827', '#4F46E5', '#5BC4C8', '#DB2777', '#DC2626', '#16A34A', '#0284C7', '#EA580C'];
 
 // Static hero phone demo — placeholder state shown until user enters their own data
 const HERO_DEMO = {
@@ -234,7 +234,7 @@ export default function HomePage() {
                 </div>
                 <h1 className="text-[40px] md:text-[54px] font-black text-gray-900 leading-[1.08] tracking-tight">
                   הדרך החכמה<br />
-                  <span style={{ background: 'linear-gradient(135deg, #4F46E5, #7C3AED)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                  <span style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                     לקבל יותר לקוחות
                   </span>
                 </h1>

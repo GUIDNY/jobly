@@ -86,7 +86,7 @@ export default function AuthModal({ isOpen, onClose, onSuccess }) {
 
             {/* Logo/Title */}
             <div className="text-center mb-6">
-              <div className="w-12 h-12 rounded-2xl mx-auto mb-3 flex items-center justify-center text-white font-bold text-lg" style={{ background: 'linear-gradient(135deg, #4F46E5, #7C3AED)' }}>
+              <div className="w-12 h-12 rounded-2xl mx-auto mb-3 flex items-center justify-center text-white font-bold text-lg" style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
                 M
               </div>
               <h2 className="text-xl font-bold text-gray-900">
@@ -169,7 +169,7 @@ export default function AuthModal({ isOpen, onClose, onSuccess }) {
                 type="submit"
                 disabled={loading}
                 className="w-full py-3.5 rounded-xl text-white font-semibold text-sm transition-all disabled:opacity-70 mt-1"
-                style={{ background: 'linear-gradient(135deg, #4F46E5, #7C3AED)' }}
+                style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}
               >
                 {loading ? (
                   <span className="flex items-center justify-center gap-2">

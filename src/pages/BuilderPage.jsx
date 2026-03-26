@@ -196,7 +196,7 @@ export default function BuilderPage() {
       <nav className="sticky top-0 z-30 bg-white border-b border-gray-100">
         <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <button onClick={() => navigate('/')} className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, #4F46E5, #7C3AED)' }}><LogoMark size={20} color="white" /></button>
+            <button onClick={() => navigate('/')} className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}><LogoMark size={20} color="white" /></button>
             <span className="font-bold text-gray-900 hidden sm:block">Vizzit</span>
             <span className="text-gray-300 hidden sm:block mx-2">/</span>
             <span className="text-sm text-gray-500 hidden sm:block">
@@ -244,7 +244,7 @@ export default function BuilderPage() {
                     className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 transition-all"
                     style={
                       step === s.id
-                        ? { background: '#4F46E5', color: 'white' }
+                        ? { background: 'linear-gradient(135deg, #F4938C, #5BC4C8)', color: 'white' }
                         : step > s.id
                         ? { background: '#10B981', color: 'white' }
                         : { background: '#f3f4f6', color: '#9ca3af' }
@@ -254,7 +254,7 @@ export default function BuilderPage() {
                   </div>
                   <span
                     className="text-sm font-medium whitespace-nowrap"
-                    style={{ color: step === s.id ? '#4F46E5' : step > s.id ? '#10B981' : '#9ca3af' }}
+                    style={{ color: step === s.id ? '#F4938C' : step > s.id ? '#10B981' : '#9ca3af' }}
                   >
                     {s.label}
                   </span>
@@ -301,7 +301,7 @@ export default function BuilderPage() {
               <button
                 onClick={() => setStep(s => Math.min(4, s + 1))}
                 className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium text-white transition-all"
-                style={{ background: 'linear-gradient(135deg, #4F46E5, #7C3AED)' }}
+                style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}
               >
                 הבא
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><polyline points="15 18 9 12 15 6"/></svg>
@@ -311,7 +311,7 @@ export default function BuilderPage() {
                 onClick={handlePublish}
                 disabled={publishing}
                 className="flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-semibold text-white transition-all disabled:opacity-70"
-                style={{ background: published ? '#10B981' : 'linear-gradient(135deg, #4F46E5, #7C3AED)' }}
+                style={{ background: published ? '#10B981' : 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}
               >
                 {publishing ? 'מפרסם...' : published ? '✓ פורסם!' : isLive ? 'עדכן ופרסם' : 'פרסם עכשיו'}
               </button>
@@ -739,7 +739,7 @@ const TEMPLATES = [
   { id: 3, name: 'מינימליסטי', desc: 'נקי ופשוט' },
 ];
 
-const COLORS = ['#4F46E5', '#7C3AED', '#DB2777', '#DC2626', '#EA580C', '#16A34A', '#0284C7', '#0F172A', '#B45309', '#0891B2'];
+const COLORS = ['#4F46E5', '#5BC4C8', '#DB2777', '#DC2626', '#EA580C', '#16A34A', '#0284C7', '#0F172A', '#B45309', '#0891B2'];
 
 function Step4({ form, update, onPublish, publishing, published, isLive, slug, publishError }) {
   return (
@@ -821,7 +821,7 @@ function Step4({ form, update, onPublish, publishing, published, isLive, slug, p
         {published ? (
           <div className="space-y-3">
             {/* Success state */}
-            <div className="rounded-2xl overflow-hidden" style={{ background: 'linear-gradient(135deg,#1e1b4b,#4F46E5)' }}>
+            <div className="rounded-2xl overflow-hidden" style={{ background: 'linear-gradient(135deg, #1a3535, #5BC4C8)' }}>
               <div className="px-5 py-5 text-center">
                 <div className="text-4xl mb-2">🎉</div>
                 <p className="text-xl font-black text-white mb-1">האתר שלך מוכן!</p>
@@ -867,7 +867,7 @@ function Step4({ form, update, onPublish, publishing, published, isLive, slug, p
             onClick={onPublish}
             disabled={publishing || !slug}
             className="w-full py-4 rounded-2xl text-white font-bold text-base transition-all disabled:opacity-60"
-            style={{ background: 'linear-gradient(135deg, #4F46E5, #7C3AED)', boxShadow: '0 8px 24px -4px rgba(79,70,229,0.4)' }}
+            style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)', boxShadow: '0 8px 24px -4px rgba(91,196,200,0.4)' }}
           >
             {publishing ? (
               <span className="flex items-center justify-center gap-2">

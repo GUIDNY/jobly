@@ -50,7 +50,7 @@ export default function DashboardPage() {
       <nav className="sticky top-0 z-30 bg-white border-b border-gray-100">
         <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <button onClick={() => navigate('/')} className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #4F46E5, #7C3AED)' }}><LogoMark size={20} color="white" /></button>
+            <button onClick={() => navigate('/')} className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}><LogoMark size={20} color="white" /></button>
             <span className="font-bold text-gray-900">Vizzit</span>
           </div>
           <button onClick={logout} className="text-sm text-gray-500 hover:text-gray-700 px-3 py-1.5 rounded-lg hover:bg-gray-100 transition-colors">התנתק</button>
@@ -69,7 +69,7 @@ export default function DashboardPage() {
             whileTap={{ scale: 0.97 }}
             onClick={() => navigate('/builder')}
             className="flex items-center gap-1.5 px-4 py-2.5 rounded-2xl text-white font-semibold text-sm"
-            style={{ background: 'linear-gradient(135deg, #4F46E5, #7C3AED)', boxShadow: '0 4px 14px -2px rgba(79,70,229,0.35)' }}
+            style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)', boxShadow: '0 4px 14px -2px rgba(91,196,200,0.35)' }}
           >
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
             דף חדש
@@ -216,7 +216,7 @@ function EmptyState({ onCreateClick }) {
       <h3 className="text-xl font-bold text-gray-800 mb-2">עדיין אין לך דפים</h3>
       <p className="text-gray-500 text-sm mb-6 max-w-xs mx-auto">צור את כרטיס הביקור הדיגיטלי הראשון שלך</p>
       <button onClick={onCreateClick} className="px-6 py-3 rounded-2xl text-white font-semibold text-sm"
-        style={{ background: 'linear-gradient(135deg, #4F46E5, #7C3AED)', boxShadow: '0 4px 14px -2px rgba(79,70,229,0.35)' }}>
+        style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)', boxShadow: '0 4px 14px -2px rgba(91,196,200,0.35)' }}>
         צור דף ראשון
       </button>
     </motion.div>
