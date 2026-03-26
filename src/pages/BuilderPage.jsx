@@ -811,9 +811,9 @@ function Step4({ form, update, onPublish, publishing, published, isLive, slug, p
       <div className="bg-white rounded-3xl p-6 card-shadow">
         <h2 className="text-base font-bold text-gray-900 mb-2">פרסם את הדף</h2>
         {slug ? (
-          <div className="flex items-center gap-2 bg-indigo-50 rounded-xl px-4 py-3 mb-4">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4F46E5" strokeWidth="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
-            <span className="text-sm text-indigo-700 font-mono">{slug}.vizzit.co.il</span>
+          <div className="flex items-center gap-2 rounded-xl px-4 py-3 mb-4" style={{ background: '#f0fafa' }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5BC4C8" strokeWidth="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+            <span className="text-sm font-mono" style={{ color: '#2a9aa0' }}>{slug}.vizzit.co.il</span>
           </div>
         ) : (
           <p className="text-sm text-orange-600 bg-orange-50 rounded-xl px-4 py-3 mb-4">הגדר שם עסק וכתובת דף בשלב 1</p>
