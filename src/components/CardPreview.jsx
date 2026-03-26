@@ -13,7 +13,7 @@ export function resolveHeaderTheme(bgStyle, color, avatarUrl) {
 }
 
 // ─── Main CardPreview ─────────────────────────────────────────────────────────
-export default function CardPreview({ data = {}, compact = false, showActions = true }) {
+export default function CardPreview({ data = {}, compact = false, showActions = true, showSocial = true }) {
   const {
     business_name = '',
     description = '',
