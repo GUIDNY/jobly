@@ -367,28 +367,35 @@ export default function HomePage() {
                   </AnimatePresence>
                 </PhoneMockup>
 
-                {/* Upload overlay — subtle ring on the avatar */}
+                {/* Upload overlay — transparent ring, camera badge at bottom */}
                 {!form.avatar_url && (
                   <motion.button
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     onClick={() => fileInputRef.current?.click()}
-                    className="absolute z-20 cursor-pointer rounded-full flex flex-col items-center justify-center gap-0.5"
+                    className="absolute z-20 cursor-pointer rounded-full"
                     style={{
                       top: 128, left: '50%',
                       transform: 'translate(-50%, -50%)',
-                      width: 76, height: 76,
-                      background: 'rgba(0,0,0,0.18)',
-                      backdropFilter: 'blur(2px)',
-                      border: '2px dashed rgba(255,255,255,0.7)',
+                      width: 80, height: 80,
+                      background: 'transparent',
+                      border: '2px dashed rgba(255,255,255,0.65)',
                     }}
                   >
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round">
-                      <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/>
-                      <circle cx="12" cy="13" r="4"/>
-                    </svg>
-                    <span className="text-[8px] font-semibold text-white/90 leading-tight">העלה תמונה</span>
+                    {/* Camera badge at bottom-center of avatar */}
+                    <div className="absolute flex flex-col items-center gap-0.5"
+                      style={{ bottom: -20, left: '50%', transform: 'translateX(-50%)', whiteSpace: 'nowrap' }}>
+                      <div className="w-6 h-6 rounded-full flex items-center justify-center"
+                        style={{ background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(4px)' }}>
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round">
+                          <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/>
+                          <circle cx="12" cy="13" r="4"/>
+                        </svg>
+                      </div>
+                      <span className="text-[9px] font-bold text-white"
+                        style={{ textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}>העלה תמונה</span>
+                    </div>
                   </motion.button>
                 )}
               </div>
