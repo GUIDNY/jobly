@@ -180,14 +180,15 @@ export default function CardPreview({ data = {}, compact = false, showActions = 
               ))}
             </div>
           ) : (
-            /* ── List layout (default) ── */
-            <div className="space-y-2">
+            /* ── List layout (default) — grid with per-service full/half ── */
+            <div className="grid grid-cols-2 gap-2">
               {displayServices.map((svc, i) => {
                 const svcWaLink = hasPhone
                   ? `https://wa.me/972${phone.replace(/^0/, '')}?text=${encodeURIComponent(`היי, אני מעוניין/ת בשירות: ${svc.title}`)}`
                   : null;
+                const isHalf = svc.size === 'half';
                 return (
-                <div key={i} className="rounded-xl"
+                <div key={i} className={`rounded-xl ${isHalf ? 'col-span-1' : 'col-span-2'}`}
                   style={{
                     background: background_style === 'dark' ? '#13132a' : '#f9fafb',
                     border: `1px solid ${background_style === 'dark' ? '#1e1e3a' : '#f3f4f6'}`,
