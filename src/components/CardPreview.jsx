@@ -417,10 +417,31 @@ function Orb({ top, bottom, left, right, size }) {
 }
 
 // Template 2: Photo Hero (full bleed image)
-function Template2({ placeholderName, placeholderDesc, avatar_url, phone, waLink, callLink, primary_color, instagram, facebook, tiktok, location_url, booking_url, card_services, compact }) {
+function Template2({ placeholderName, placeholderDesc, avatar_url, phone, waLink, callLink, primary_color, instagram, facebook, tiktok, location_url, booking_url, card_services, compact, showActions = true, whatsapp_position = 'bottom', title_align = 'center', name_size = 'md' }) {
+  const actionBar = showActions && phone && (
+    <div className={`px-4 space-y-2.5 ${compact ? 'mt-3' : 'mt-4'}`}>
+      <a href={waLink} target="_blank" rel="noopener noreferrer"
+        className="flex items-center justify-center gap-2 w-full rounded-xl text-white font-medium"
+        style={{ background: '#25D366', padding: compact ? '10px' : '13px', fontSize: compact ? '13px' : '15px' }}>
+        <WhatsAppIcon size={compact ? 16 : 18} /><span>WhatsApp</span>
+      </a>
+      <a href={callLink}
+        className="flex items-center justify-center gap-2 w-full rounded-xl font-medium border-2 border-gray-200 text-gray-700"
+        style={{ padding: compact ? '9px' : '12px', fontSize: compact ? '13px' : '15px' }}>
+        <PhoneIcon size={compact ? 14 : 16} /><span>התקשר</span>
+      </a>
+      {booking_url && (
+        <a href={booking_url} target="_blank" rel="noopener noreferrer"
+          className="flex items-center justify-center gap-2 w-full rounded-xl font-medium text-white"
+          style={{ background: primary_color, padding: compact ? '9px' : '12px', fontSize: compact ? '13px' : '15px' }}>
+          <CalendarIcon size={compact ? 14 : 16} /><span>קבע תור</span>
+        </a>
+      )}
+    </div>
+  );
+  const [compactSize, fullSize] = NAME_SIZES[name_size] || NAME_SIZES.md;
   return (
     <div className="bg-white h-full overflow-y-auto" dir="rtl">
-      {/* Full hero image */}
       <div className="relative h-48 bg-gray-200 overflow-hidden">
         {avatar_url ? (
           <img src={avatar_url} alt="" className="w-full h-full object-cover" />
@@ -433,34 +454,13 @@ function Template2({ placeholderName, placeholderDesc, avatar_url, phone, waLink
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
         <div className="absolute bottom-0 right-0 left-0 p-4 text-white">
-          <h1 className={`font-bold ${compact ? 'text-base' : 'text-xl'}`}>{placeholderName}</h1>
-          <p className={`text-white/80 ${compact ? 'text-xs' : 'text-sm'} mt-0.5`}>{placeholderDesc}</p>
+          <h1 className="font-bold" style={{ fontSize: compact ? compactSize : fullSize, textAlign: title_align }}>{placeholderName}</h1>
+          <p className="text-white/80 mt-0.5" style={{ fontSize: compact ? 11 : 13, textAlign: title_align }}>{placeholderDesc}</p>
         </div>
       </div>
-      <div className={`px-4 space-y-2.5 ${compact ? 'mt-3' : 'mt-4'}`}>
-        {phone && (
-          <a href={waLink} target="_blank" rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 w-full rounded-xl text-white font-medium"
-            style={{ background: '#25D366', padding: compact ? '10px' : '13px', fontSize: compact ? '13px' : '15px' }}>
-            <WhatsAppIcon size={compact ? 16 : 18} /><span>WhatsApp</span>
-          </a>
-        )}
-        {phone && (
-          <a href={callLink}
-            className="flex items-center justify-center gap-2 w-full rounded-xl font-medium border-2 border-gray-200 text-gray-700"
-            style={{ padding: compact ? '9px' : '12px', fontSize: compact ? '13px' : '15px' }}>
-            <PhoneIcon size={compact ? 14 : 16} /><span>התקשר</span>
-          </a>
-        )}
-        {booking_url && (
-          <a href={booking_url} target="_blank" rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 w-full rounded-xl font-medium text-white"
-            style={{ background: primary_color, padding: compact ? '9px' : '12px', fontSize: compact ? '13px' : '15px' }}>
-            <CalendarIcon size={compact ? 14 : 16} /><span>קבע תור</span>
-          </a>
-        )}
-      </div>
-      <ServicesList services={card_services} compact={compact} />
+      {whatsapp_position === 'top' && actionBar}
+      <ServicesList services={card_services} compact={compact} phone={phone} />
+      {whatsapp_position === 'bottom' && actionBar}
       <SocialRow {...{ instagram, facebook, tiktok, location_url, compact }} />
       <div className="text-center text-gray-300 text-xs pb-6">נוצר עם Vizzit</div>
     </div>
