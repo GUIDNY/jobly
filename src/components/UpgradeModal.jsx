@@ -5,7 +5,7 @@ const UPGRADE_URL = import.meta.env.VITE_UPGRADE_URL || null;
 
 const FEATURES = [
   { icon: '📊', text: 'סטטיסטיקות מלאות — כניסות, לחיצות ו-WhatsApp' },
-  { icon: '✨', text: 'הסרת לוגו MyCard מהכרטיס שלך' },
+  { icon: '✨', text: 'הסרת לוגו Vizzit מהכרטיס שלך' },
   { icon: '∞', text: 'שירותים ללא הגבלה' },
   { icon: '⚡', text: 'תמיכה מועדפת בוואטסאפ' },
 ];
@@ -20,7 +20,7 @@ export default function UpgradeModal({ isOpen, onClose, viewsCount = 0, cardName
         ? (document.querySelector('meta[name="user-email"]')?.content || '')
         : '';
       const msg = encodeURIComponent(
-        `היי, רוצה לשדרג את MyCard שלי לפרו (49₪/חודש)${email ? `. המייל שלי: ${email}` : ''}`
+        `היי, רוצה לשדרג את Vizzit שלי לפרו (49₪/חודש)${email ? `. המייל שלי: ${email}` : ''}`
       );
       window.open(`https://wa.me/972500000000?text=${msg}`, '_blank');
     }
