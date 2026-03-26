@@ -101,7 +101,7 @@ export async function getCardById(id) {
 }
 
 export async function createCard(userId, cardData) {
-  const { services, card_services, ...rest } = cardData;
+  const { services, card_services, services_layout, ...rest } = cardData;
   const { data, error } = await supabase
     .from('cards')
     .insert({ ...rest, user_id: userId })
