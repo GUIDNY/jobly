@@ -252,7 +252,7 @@ export default function CardPreview({ data = {}, compact = false, showActions = 
 }
 
 // ─── Card Header (the visual centerpiece) ─────────────────────────────────────
-function CardHeader({ bgStyle, color, avatarUrl, name, desc, theme, compact }) {
+function CardHeader({ bgStyle, color, avatarUrl, name, desc, theme, compact, titleAlign = 'center', nameSize = 'md' }) {
   const avatarSize  = compact ? 72 : 88;
   const avatarBorder = compact ? 3 : 4;
   const pt = compact ? 28 : 36;
