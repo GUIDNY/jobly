@@ -79,6 +79,7 @@ export default function CardPage() {
     : null;
 
   const hasSocial = card.instagram || card.facebook || card.tiktok || card.location_url;
+  const hasActions = !!card.phone;
 
   return (
     <>
@@ -86,7 +87,7 @@ export default function CardPage() {
       <div className="hidden md:block fixed inset-0 pointer-events-none"
         style={{ background: `linear-gradient(145deg, ${color}18 0%, #f1f5f9 50%, #e8edf5 100%)` }} />
 
-      {/* ── Card (mobile: full screen, desktop: centered card) ── */}
+      {/* ── Card content ── */}
       <motion.div
         className="relative md:flex md:min-h-screen md:items-center md:justify-center md:py-12 md:px-6"
         initial={{ opacity: 0, y: 14 }}
@@ -94,10 +95,10 @@ export default function CardPage() {
         transition={{ duration: 0.35, ease: 'easeOut' }}
       >
         <div className="w-full md:max-w-[400px] bg-white md:rounded-[2.5rem] md:overflow-hidden"
-          style={{ paddingBottom: hasSocial ? '72px' : '0' }}>
+          style={{ paddingBottom: (hasActions || hasSocial) ? '160px' : '16px' }}>
           <style>{`.md-card { box-shadow: 0 32px 80px -16px ${color}30, 0 8px 24px -6px rgba(0,0,0,0.12); }`}</style>
           <div className="md-card md:rounded-[2.5rem] md:overflow-hidden">
-            <CardPreview data={card} compact={false} showActions={true} showSocial={false} />
+            <CardPreview data={card} compact={false} showActions={false} showSocial={false} />
           </div>
         </div>
 
@@ -113,57 +114,82 @@ export default function CardPage() {
         </div>
       </motion.div>
 
-      {/* ── Fixed social bar (all screens) ── */}
-      {hasSocial && (
-        <div className="fixed bottom-0 left-0 right-0 z-20 flex justify-center gap-3 py-3"
-          style={{ background: 'rgba(255,255,255,0.97)', backdropFilter: 'blur(12px)', borderTop: '1px solid rgba(0,0,0,0.07)' }}>
-          {card.instagram && (
-            <a href={`https://instagram.com/${card.instagram.replace('@','')}`} target="_blank" rel="noopener noreferrer"
-              className="w-10 h-10 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform"
-              style={{ background: '#E1306C', boxShadow: '0 4px 10px #E1306C44' }}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-            </a>
-          )}
-          {card.facebook && (
-            <a href={card.facebook.startsWith('http') ? card.facebook : `https://facebook.com/${card.facebook}`} target="_blank" rel="noopener noreferrer"
-              className="w-10 h-10 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform"
-              style={{ background: '#1877F2', boxShadow: '0 4px 10px #1877F244' }}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-            </a>
-          )}
-          {card.tiktok && (
-            <a href={`https://tiktok.com/@${card.tiktok.replace('@','')}`} target="_blank" rel="noopener noreferrer"
-              className="w-10 h-10 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform"
-              style={{ background: '#010101', boxShadow: '0 4px 10px #00000033' }}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.28 8.28 0 004.84 1.55V6.79a4.84 4.84 0 01-1.07-.1z"/></svg>
-            </a>
-          )}
-          {card.location_url && (
-            <a href={card.location_url} target="_blank" rel="noopener noreferrer"
-              className="w-10 h-10 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform"
-              style={{ background: '#4285F4', boxShadow: '0 4px 10px #4285F444' }}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            </a>
-          )}
-        </div>
-      )}
+      {/* ── Fixed bottom bar (all screens) ── */}
+      <div className="fixed bottom-0 left-0 right-0 z-20"
+        style={{ background: 'rgba(255,255,255,0.98)', backdropFilter: 'blur(16px)', borderTop: '1px solid rgba(0,0,0,0.07)' }}>
 
-      {/* ── Mobile branding badge ── */}
-      <div className="md:hidden fixed top-3 left-3 z-10">
-        <a href="/"
-          className="flex items-center gap-1.5 bg-white/95 backdrop-blur-sm border border-indigo-100 rounded-xl px-3 py-1.5 shadow-sm hover:shadow-md transition-all group"
-          style={{ boxShadow: '0 2px 12px rgba(91,196,200,0.12)' }}>
-          <div className="w-5 h-5 rounded-md flex items-center justify-center flex-shrink-0"
-            style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
-            <LogoMark size={12} color="white" />
+        {/* Action buttons */}
+        {hasActions && (
+          <div className="flex gap-2.5 px-4 pt-3 pb-2 max-w-[420px] mx-auto" dir="rtl">
+            {waLink && (
+              <a href={waLink} target="_blank" rel="noopener noreferrer"
+                className="flex-1 flex items-center justify-center gap-2 py-3 rounded-2xl text-white font-bold text-sm"
+                style={{ background: '#25D366', boxShadow: '0 4px 14px -2px #25D36655' }}>
+                <WAIcon />
+                שלח WhatsApp
+              </a>
+            )}
+            <a href={`tel:${card.phone}`}
+              className="flex items-center justify-center gap-2 px-4 py-3 rounded-2xl font-bold text-sm border-2"
+              style={{ borderColor: color, color }}>
+              <PhoneIcon />
+              התקשר
+            </a>
+            {card.booking_url && (
+              <a href={card.booking_url} target="_blank" rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 px-4 py-3 rounded-2xl font-bold text-sm text-white"
+                style={{ background: '#1a1a2e' }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                קבע תור
+              </a>
+            )}
           </div>
-          <div>
-            <p className="text-[10px] font-black text-gray-800 leading-tight">Vizzit</p>
-            <p className="text-[9px] text-indigo-400 font-medium leading-tight group-hover:text-indigo-600 transition-colors">
-              צור כרטיס בחינם
-            </p>
+        )}
+
+        {/* Social icons */}
+        {hasSocial && (
+          <div className="flex justify-center gap-3 px-4 py-2 max-w-[420px] mx-auto">
+            {card.instagram && (
+              <a href={`https://instagram.com/${card.instagram.replace('@','')}`} target="_blank" rel="noopener noreferrer"
+                className="w-9 h-9 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform"
+                style={{ background: '#E1306C', boxShadow: '0 3px 8px #E1306C44' }}>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+              </a>
+            )}
+            {card.facebook && (
+              <a href={card.facebook.startsWith('http') ? card.facebook : `https://facebook.com/${card.facebook}`} target="_blank" rel="noopener noreferrer"
+                className="w-9 h-9 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform"
+                style={{ background: '#1877F2', boxShadow: '0 3px 8px #1877F244' }}>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+              </a>
+            )}
+            {card.tiktok && (
+              <a href={`https://tiktok.com/@${card.tiktok.replace('@','')}`} target="_blank" rel="noopener noreferrer"
+                className="w-9 h-9 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform"
+                style={{ background: '#010101', boxShadow: '0 3px 8px #00000033' }}>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.28 8.28 0 004.84 1.55V6.79a4.84 4.84 0 01-1.07-.1z"/></svg>
+              </a>
+            )}
+            {card.location_url && (
+              <a href={card.location_url} target="_blank" rel="noopener noreferrer"
+                className="w-9 h-9 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform"
+                style={{ background: '#4285F4', boxShadow: '0 3px 8px #4285F444' }}>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              </a>
+            )}
           </div>
-        </a>
+        )}
+
+        {/* Vizzit branding — very bottom */}
+        <div className="flex justify-center pb-3 pt-1">
+          <a href="/" className="flex items-center gap-1.5 opacity-60 hover:opacity-100 transition-opacity">
+            <div className="w-4 h-4 rounded-md flex items-center justify-center flex-shrink-0"
+              style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
+              <LogoMark size={9} color="white" />
+            </div>
+            <span className="text-[10px] text-gray-500">נוצר עם <strong>Vizzit</strong> בחינם</span>
+          </a>
+        </div>
       </div>
     </>
   );
