@@ -31,6 +31,8 @@ export default function CardPreview({ data = {}, compact = false, showActions = 
     card_services = [],
     services_layout = 'list',
     whatsapp_position = 'bottom',
+    title_align = 'center',
+    name_size = 'md',
   } = data;
 
   const waLink = phone
