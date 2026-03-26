@@ -16,6 +16,7 @@ export default function App() {
           <Route path="/builder/:cardId" element={<BuilderPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/c/:slug" element={<CardPage />} />
+          <Route path="/:slug" element={<CardPage />} />
           {/* Fallback */}
           <Route path="*" element={<HomePage />} />
         </Routes>
