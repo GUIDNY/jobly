@@ -499,17 +499,22 @@ export default function HomePage() {
             {DEMOS.map((demo, i) => (
               <motion.div key={i}
                 className="flex flex-col items-center"
-                initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                style={{ marginBottom: i === 1 ? 20 : 0 }}>
-                {/* Scale the phone down for the showcase */}
-                <div style={{ width: 195, height: 450, overflow: 'hidden', position: 'relative' }}>
-                  <div style={{ transform: 'scale(0.75)', transformOrigin: 'top center', position: 'absolute', top: 0, left: -32 }}>
-                    <PhoneMockup>
-                      <CardPreview data={demo} compact />
-                    </PhoneMockup>
+                initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+                transition={{ delay: i * 0.12, duration: 0.5 }}
+                style={{ marginBottom: i === 1 ? 20 : 0 }}
+              >
+                <motion.div
+                  animate={{ y: [0, i === 1 ? -10 : i === 0 ? -7 : -13, 0] }}
+                  transition={{ duration: 3 + i * 0.6, repeat: Infinity, ease: 'easeInOut', delay: i * 0.8 }}
+                >
+                  <div style={{ width: 195, height: 450, overflow: 'hidden', position: 'relative' }}>
+                    <div style={{ transform: 'scale(0.75)', transformOrigin: 'top center', position: 'absolute', top: 0, left: -32 }}>
+                      <PhoneMockup>
+                        <CardPreview data={demo} compact />
+                      </PhoneMockup>
+                    </div>
                   </div>
-                </div>
+                </motion.div>
                 <p className="mt-2 text-xs font-semibold text-gray-400">{demo.business_name}</p>
               </motion.div>
             ))}
