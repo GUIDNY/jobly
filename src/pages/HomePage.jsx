@@ -404,7 +404,7 @@ export default function HomePage() {
                 <div className="flex-1 bg-gray-50 border border-gray-100 rounded-md px-2 py-1 min-w-0">
                   <motion.p key={slugDisplay} initial={{ opacity: 0.5 }} animate={{ opacity: 1 }}
                     className="text-xs font-mono text-gray-500 truncate text-left">
-                    {slugDisplay}.vizzit.co.il
+                    vizzit.online/c/{slugDisplay}
                   </motion.p>
                 </div>
               </div>
