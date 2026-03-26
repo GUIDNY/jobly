@@ -195,7 +195,7 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: '#111827' }}><LogoMark size={20} color="white" /></div>
-            <span className="font-black text-gray-900 text-lg tracking-tight">MyCard</span>
+            <span className="font-black text-gray-900 text-lg tracking-tight">Vizzit</span>
           </div>
           <div className="flex items-center gap-1">
             {user ? (
@@ -448,7 +448,7 @@ export default function HomePage() {
         <div className="max-w-5xl mx-auto">
           <motion.div className="text-center mb-14"
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">למה MyCard</p>
+            <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">למה Vizzit</p>
             <h2 className="text-4xl font-black text-gray-900 leading-tight tracking-tight">
               כל מה שלקוח צריך<br />כדי לפנות אליך
             </h2>
@@ -546,7 +546,7 @@ export default function HomePage() {
           <motion.div className="text-center mb-12"
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">מה אומרים עליהם</p>
-            <h2 className="text-4xl font-black text-gray-900 tracking-tight">בעלי עסקים אוהבים MyCard</h2>
+            <h2 className="text-4xl font-black text-gray-900 tracking-tight">בעלי עסקים אוהבים Vizzit</h2>
           </motion.div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -596,10 +596,10 @@ export default function HomePage() {
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <div className="w-7 h-7 rounded-lg flex items-center justify-center bg-white"><LogoMark size={18} color="#111827" /></div>
-            <span className="font-black text-white text-base">MyCard</span>
+            <span className="font-black text-white text-base">Vizzit</span>
           </div>
           <p className="text-gray-600 text-xs text-center">כרטיס ביקור דיגיטלי לבעלי עסקים ישראלים</p>
-          <p className="text-gray-700 text-xs">© 2025 MyCard</p>
+          <p className="text-gray-700 text-xs">© 2025 Vizzit</p>
         </div>
       </footer>
 
