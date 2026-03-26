@@ -62,6 +62,7 @@ const DEMOS = [
     primary_color: '#DB2777',
     template: 1,
     background_style: 'image',
+    whatsapp_position: 'bottom',
     avatar_url: 'https://images.pexels.com/photos/3997379/pexels-photo-3997379.jpeg?auto=compress&cs=tinysrgb&w=600',
     card_services: [
       { title: 'ג׳ל מלא', description: '₪120 · 60 דקות' },
