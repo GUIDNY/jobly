@@ -151,10 +151,15 @@ export async function updateCard(cardId, cardData) {
         title: s.title || '',
         description: s.description || '',
         image_url: s.image_url || '',
+        price: s.price || '',
         order_index: i,
       }));
     if (serviceRows.length > 0) {
-      await supabase.from('card_services').insert(serviceRows);
+      const { error } = await supabase.from('card_services').insert(serviceRows);
+      if (error) {
+        const rowsNoPrice = serviceRows.map(({ price, ...row }) => row);
+        await supabase.from('card_services').insert(rowsNoPrice);
+      }
     }
   }
   return data;
