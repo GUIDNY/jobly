@@ -309,11 +309,11 @@ export default function BuilderPage() {
             ) : (
               <button
                 onClick={handlePublish}
-                disabled={publishing || published}
+                disabled={publishing}
                 className="flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-semibold text-white transition-all disabled:opacity-70"
                 style={{ background: published ? '#10B981' : 'linear-gradient(135deg, #4F46E5, #7C3AED)' }}
               >
-                {publishing ? 'מפרסם...' : published ? '✓ פורסם!' : 'פרסם עכשיו'}
+                {publishing ? 'מפרסם...' : published ? '✓ פורסם!' : isLive ? 'עדכן ופרסם' : 'פרסם עכשיו'}
               </button>
             )}
           </div>
