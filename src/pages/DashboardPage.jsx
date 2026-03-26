@@ -112,7 +112,7 @@ export default function DashboardPage() {
                       )}
                       <div className="min-w-0">
                         <p className="text-white font-bold text-sm truncate">{card.business_name || 'ללא שם'}</p>
-                        <p className="text-white/60 text-[11px] truncate">{card.slug}.vizzit.co.il</p>
+                        <p className="text-white/60 text-[11px] truncate">vizzit.online/{card.slug}</p>
                       </div>
                     </div>
                     <span className="text-[11px] px-2 py-0.5 rounded-full font-bold flex-shrink-0"
