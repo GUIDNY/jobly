@@ -21,7 +21,6 @@ export default function CardPage() {
           setNotFound(true);
         } else {
           setCard(data);
-          // Track view (fire and forget)
           supabase.from('cards')
             .update({ views_count: (data.views_count || 0) + 1 })
             .eq('id', data.id)
@@ -34,13 +33,18 @@ export default function CardPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-white">
+      <div className="min-h-screen flex items-center justify-center" style={{ background: '#f8fafc' }}>
         <div className="text-center">
-          <div className="w-12 h-12 rounded-2xl mx-auto mb-4 flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #4F46E5, #7C3AED)' }}><LogoMark size={28} color="white" /></div>
-          <svg className="animate-spin w-6 h-6 text-indigo-400 mx-auto" viewBox="0 0 24 24" fill="none">
-            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-          </svg>
+          <div className="w-14 h-14 rounded-2xl mx-auto mb-4 flex items-center justify-center shadow-lg"
+            style={{ background: 'linear-gradient(135deg, #4F46E5, #7C3AED)' }}>
+            <LogoMark size={30} color="white" />
+          </div>
+          <div className="flex gap-1.5 justify-center mt-2">
+            {[0, 1, 2].map(i => (
+              <div key={i} className="w-1.5 h-1.5 rounded-full bg-indigo-300 animate-bounce"
+                style={{ animationDelay: `${i * 0.15}s` }} />
+            ))}
+          </div>
         </div>
       </div>
     );
@@ -48,77 +52,124 @@ export default function CardPage() {
 
   if (notFound) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 p-4" dir="rtl">
-        <div className="text-center max-w-sm">
-          <div className="text-6xl mb-4">🔍</div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">הדף לא נמצא</h1>
-          <p className="text-gray-500 mb-6">הדף שחיפשת אינו קיים או שטרם פורסם.</p>
-          <button
-            onClick={() => navigate('/')}
-            className="px-6 py-3 rounded-2xl text-white font-semibold text-sm"
-            style={{ background: 'linear-gradient(135deg, #4F46E5, #7C3AED)' }}
-          >
-            צור כרטיס משלך
+      <div className="min-h-screen flex flex-col items-center justify-center p-6 dir-rtl" dir="rtl"
+        style={{ background: '#f8fafc' }}>
+        <div className="text-center max-w-xs">
+          <div className="w-16 h-16 rounded-3xl mx-auto mb-5 flex items-center justify-center"
+            style={{ background: '#f1f5f9' }}>
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="1.5">
+              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+            </svg>
+          </div>
+          <h1 className="text-2xl font-black text-gray-900 mb-2">הדף לא נמצא</h1>
+          <p className="text-gray-400 text-sm mb-7">הדף שחיפשת אינו קיים או שטרם פורסם.</p>
+          <button onClick={() => navigate('/')}
+            className="px-6 py-3 rounded-2xl text-white font-bold text-sm"
+            style={{ background: 'linear-gradient(135deg, #4F46E5, #7C3AED)' }}>
+            צור כרטיס משלך →
           </button>
         </div>
       </div>
     );
   }
 
+  const color = card.primary_color || '#4F46E5';
   const waLink = card.phone
     ? `https://wa.me/972${card.phone.replace(/^0/, '')}?text=${encodeURIComponent(card.whatsapp_message || '')}`
     : null;
 
   return (
-    <div className="min-h-screen bg-white" dir="rtl">
-      {/* Full screen card on mobile, centered on desktop */}
-      <div className="max-w-md mx-auto min-h-screen">
+    <div className="min-h-screen" dir="rtl">
+
+      {/* ── Desktop background ── */}
+      <div className="hidden md:block fixed inset-0 pointer-events-none"
+        style={{ background: `linear-gradient(145deg, ${color}14 0%, #f1f5f9 55%, #e8edf5 100%)` }} />
+      <div className="hidden md:block fixed inset-0 pointer-events-none"
+        style={{ backgroundImage: `radial-gradient(ellipse at 15% 85%, ${color}10 0%, transparent 55%), radial-gradient(ellipse at 85% 15%, rgba(124,58,237,0.07) 0%, transparent 55%)` }} />
+
+      {/* ── Content ── */}
+      <div className="relative md:min-h-screen md:flex md:flex-col md:items-center md:justify-center md:py-14 md:px-6">
+
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
+          className="w-full md:max-w-[400px]"
+          initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-          className="min-h-screen"
+          transition={{ duration: 0.35, ease: 'easeOut' }}
         >
-          <CardPreview data={card} compact={false} />
+          {/* Card shell */}
+          <div className="bg-white md:rounded-[2.5rem] md:overflow-hidden"
+            style={{ boxShadow: `0 32px 80px -16px ${color}30, 0 8px 24px -6px rgba(0,0,0,0.12)` }}>
+
+            <CardPreview data={card} compact={false} />
+
+            {/* Desktop inline action bar */}
+            {card.phone && (
+              <div className="hidden md:block border-t border-gray-100 p-4 bg-white">
+                <div className="flex gap-2.5">
+                  <a href={waLink} target="_blank" rel="noopener noreferrer"
+                    className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-2xl text-white font-bold text-sm transition-opacity hover:opacity-90"
+                    style={{ background: 'linear-gradient(135deg, #22c55e, #16a34a)', boxShadow: '0 4px 14px -4px rgba(34,197,94,0.45)' }}>
+                    <WAIcon /> WhatsApp
+                  </a>
+                  <a href={`tel:${card.phone}`}
+                    className="flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl font-semibold text-sm border-2 border-gray-200 text-gray-700 hover:bg-gray-50 transition-colors">
+                    <PhoneIcon /> התקשר
+                  </a>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Desktop "create your card" CTA */}
+          <div className="hidden md:flex items-center justify-center mt-5">
+            <a href="/"
+              className="group flex items-center gap-2.5 bg-white/85 backdrop-blur-sm border border-white/80 rounded-2xl px-5 py-2.5 transition-all hover:shadow-md"
+              style={{ boxShadow: '0 2px 16px rgba(0,0,0,0.07)' }}>
+              <div className="w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0"
+                style={{ background: 'linear-gradient(135deg, #4F46E5, #7C3AED)' }}>
+                <LogoMark size={14} color="white" />
+              </div>
+              <span className="text-xs text-gray-400">כרטיס כזה גם לך —</span>
+              <span className="text-xs font-bold text-indigo-600 group-hover:text-indigo-800 transition-colors">
+                MyCard בחינם →
+              </span>
+            </a>
+          </div>
         </motion.div>
       </div>
 
-      {/* Sticky action bar */}
+      {/* ── Mobile: fixed action bar ── */}
       {card.phone && (
-        <div className="fixed bottom-0 left-0 right-0 z-20 bg-white/90 backdrop-blur-sm border-t border-gray-100 p-3 max-w-md mx-auto" style={{ left: '50%', transform: 'translateX(-50%)', width: '100%', maxWidth: '28rem' }}>
+        <div className="md:hidden fixed bottom-0 z-20 bg-white/93 backdrop-blur-md border-t border-gray-100 p-3"
+          style={{ left: '50%', transform: 'translateX(-50%)', width: '100%', maxWidth: '28rem' }}>
           <div className="flex gap-2">
-            <a
-              href={waLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 flex items-center justify-center gap-2 py-3 rounded-2xl text-white font-semibold text-sm"
-              style={{ background: '#25D366' }}
-            >
-              <WAIcon />
-              WhatsApp
+            <a href={waLink} target="_blank" rel="noopener noreferrer"
+              className="flex-1 flex items-center justify-center gap-2 py-3 rounded-2xl text-white font-bold text-sm"
+              style={{ background: '#25D366' }}>
+              <WAIcon /> WhatsApp
             </a>
-            <a
-              href={`tel:${card.phone}`}
-              className="flex items-center justify-center gap-2 px-5 py-3 rounded-2xl font-semibold text-sm border-2 border-gray-200 text-gray-700 bg-white"
-            >
-              <PhoneIcon />
-              התקשר
+            <a href={`tel:${card.phone}`}
+              className="flex items-center justify-center gap-2 px-5 py-3 rounded-2xl font-semibold text-sm border-2 border-gray-200 text-gray-700 bg-white">
+              <PhoneIcon /> התקשר
             </a>
           </div>
         </div>
       )}
 
-      {/* MyCard branding badge — free plan watermark */}
-      <div className="fixed top-3 left-3 z-10">
-        <a
-          href="/"
+      {/* ── Mobile branding badge ── */}
+      <div className="md:hidden fixed top-3 left-3 z-10">
+        <a href="/"
           className="flex items-center gap-1.5 bg-white/95 backdrop-blur-sm border border-indigo-100 rounded-xl px-3 py-1.5 shadow-sm hover:shadow-md transition-all group"
-          style={{ boxShadow: '0 2px 12px rgba(79,70,229,0.12)' }}
-        >
-          <div className="w-5 h-5 rounded-md flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, #4F46E5, #7C3AED)' }}><LogoMark size={12} color="white" /></div>
+          style={{ boxShadow: '0 2px 12px rgba(79,70,229,0.12)' }}>
+          <div className="w-5 h-5 rounded-md flex items-center justify-center flex-shrink-0"
+            style={{ background: 'linear-gradient(135deg, #4F46E5, #7C3AED)' }}>
+            <LogoMark size={12} color="white" />
+          </div>
           <div>
             <p className="text-[10px] font-black text-gray-800 leading-tight">MyCard</p>
-            <p className="text-[9px] text-indigo-400 font-medium leading-tight group-hover:text-indigo-600 transition-colors">צור כרטיס בחינם</p>
+            <p className="text-[9px] text-indigo-400 font-medium leading-tight group-hover:text-indigo-600 transition-colors">
+              צור כרטיס בחינם
+            </p>
           </div>
         </a>
       </div>
