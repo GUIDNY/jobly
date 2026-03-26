@@ -289,7 +289,7 @@ function CardHeader({ bgStyle, color, avatarUrl, name, desc, theme, compact, tit
         <Orb top="-40%" right="-20%" size={180} />
         <Orb bottom="-30%" left="-10%" size={140} />
         {avatarEl}
-        <HeaderText name={name} desc={desc} theme={theme} compact={compact} />
+        <HeaderText name={name} desc={desc} theme={theme} compact={compact} titleAlign={titleAlign} nameSize={nameSize} />
         <RatingBadge theme={theme} compact={compact} />
       </div>
     );
@@ -308,7 +308,7 @@ function CardHeader({ bgStyle, color, avatarUrl, name, desc, theme, compact, tit
         {/* Content */}
         <div className="relative z-10 flex flex-col items-center w-full">
           {avatarEl}
-          <HeaderText name={name} desc={desc} theme={theme} compact={compact} />
+          <HeaderText name={name} desc={desc} theme={theme} compact={compact} titleAlign={titleAlign} nameSize={nameSize} />
           <RatingBadge theme={theme} compact={compact} />
         </div>
       </div>
@@ -325,7 +325,7 @@ function CardHeader({ bgStyle, color, avatarUrl, name, desc, theme, compact, tit
         {/* Grid lines (subtle) */}
         <div className="absolute inset-0 pointer-events-none" style={{ opacity: 0.04, backgroundImage: 'linear-gradient(rgba(255,255,255,.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.5) 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
         {avatarEl}
-        <HeaderText name={name} desc={desc} theme={theme} compact={compact} />
+        <HeaderText name={name} desc={desc} theme={theme} compact={compact} titleAlign={titleAlign} nameSize={nameSize} />
         <RatingBadge theme={theme} compact={compact} />
       </div>
     );
@@ -337,7 +337,7 @@ function CardHeader({ bgStyle, color, avatarUrl, name, desc, theme, compact, tit
       <div className="relative flex flex-col items-center overflow-hidden"
         style={{ background: color, paddingTop: pt, paddingBottom: pb }}>
         {avatarEl}
-        <HeaderText name={name} desc={desc} theme={theme} compact={compact} />
+        <HeaderText name={name} desc={desc} theme={theme} compact={compact} titleAlign={titleAlign} nameSize={nameSize} />
         <RatingBadge theme={theme} compact={compact} />
       </div>
     );
