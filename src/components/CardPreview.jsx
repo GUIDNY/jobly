@@ -390,7 +390,7 @@ function Template2({ placeholderName, placeholderDesc, avatar_url, phone, waLink
       </div>
       <ServicesList services={card_services} compact={compact} />
       <SocialRow {...{ instagram, facebook, tiktok, location_url, compact }} />
-      <div className="text-center text-gray-300 text-xs pb-6">נוצר עם MyCard</div>
+      <div className="text-center text-gray-300 text-xs pb-6">נוצר עם Vizzit</div>
     </div>
   );
 }
@@ -445,7 +445,7 @@ function Template3({ placeholderName, placeholderDesc, avatar_url, phone, waLink
         )}
       </div>
       <ServicesList services={card_services} compact={compact} fullWidth />
-      <div className="text-center text-gray-300 text-xs mt-4 pb-2">נוצר עם MyCard</div>
+      <div className="text-center text-gray-300 text-xs mt-4 pb-2">נוצר עם Vizzit</div>
     </div>
   );
 }
