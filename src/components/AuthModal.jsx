@@ -104,7 +104,7 @@ export default function AuthModal({ isOpen, onClose, onSuccess }) {
                   key={m}
                   onClick={() => { setMode(m); reset(); }}
                   className="flex-1 py-2 rounded-lg text-sm font-medium transition-all"
-                  style={mode === m ? { background: 'white', color: '#4F46E5', boxShadow: '0 1px 4px rgba(0,0,0,0.1)' } : { color: '#6b7280' }}
+                  style={mode === m ? { background: 'white', color: '#5BC4C8', boxShadow: '0 1px 4px rgba(0,0,0,0.1)' } : { color: '#6b7280' }}
                 >
                   {m === 'login' ? 'התחברות' : 'הרשמה'}
                 </button>
