@@ -228,9 +228,9 @@ export default function HomePage() {
             >
               {/* Headline */}
               <div className="mb-7">
-                <div className="inline-flex items-center gap-2 bg-indigo-50 border border-indigo-100 rounded-full px-3 py-1 mb-5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse" />
-                  <span className="text-xs font-bold text-indigo-600 tracking-wide">כרטיס ביקור דיגיטלי</span>
+                <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 mb-5" style={{ background: '#f0fafa', border: '1px solid #b2e5e7' }}>
+                  <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: '#5BC4C8' }} />
+                  <span className="text-xs font-bold tracking-wide" style={{ color: '#2a9aa0' }}>כרטיס ביקור דיגיטלי</span>
                 </div>
                 <h1 className="text-[40px] md:text-[54px] font-black text-gray-900 leading-[1.08] tracking-tight">
                   הדרך החכמה<br />
