@@ -32,6 +32,7 @@ const HERO_DEMO = {
   template: 1,
   background_style: 'gradient',
   avatar_url: '',
+  whatsapp_position: 'bottom',
   card_services: [
     { title: 'שירות לדוגמה', description: '₪100 · 45 דקות' },
     { title: 'שירות נוסף', description: '₪150 · 60 דקות' },
