@@ -542,6 +542,30 @@ function Step2({ form, update, userId }) {
       </div>
       <p className="text-sm text-gray-500">הוסף עד 5 שירותים שאתה מציע</p>
 
+      {/* Layout picker */}
+      <div>
+        <p className="text-xs font-semibold text-gray-500 mb-2">סגנון תצוגת שירותים</p>
+        <div className="grid grid-cols-2 gap-2">
+          {[
+            { value: 'list', label: 'רשימה', icon: (
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+            )},
+            { value: 'grid', label: 'רשת עם תמונות', icon: (
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            )},
+          ].map(opt => (
+            <button key={opt.value} onClick={() => update('services_layout', opt.value)}
+              className="flex items-center gap-2 px-3 py-2.5 rounded-xl border-2 text-sm font-medium transition-all"
+              style={form.services_layout === opt.value
+                ? { borderColor: '#5BC4C8', background: '#f0fafa', color: '#2a9aa0' }
+                : { borderColor: '#e5e7eb', color: '#6b7280' }}>
+              {opt.icon}
+              {opt.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
       <AnimatePresence>
         {form.services.map((svc, i) => (
           <motion.div
