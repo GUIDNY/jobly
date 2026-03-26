@@ -370,6 +370,29 @@ export default function HomePage() {
                     </motion.div>
                   </AnimatePresence>
                 </PhoneMockup>
+
+                {/* Upload overlay — shown when user hasn't uploaded a photo yet */}
+                {!form.avatar_url && (
+                  <motion.button
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0 }}
+                    onClick={() => fileInputRef.current?.click()}
+                    className="absolute z-20 flex flex-col items-center gap-1.5 cursor-pointer"
+                    style={{ top: 82, left: '50%', transform: 'translateX(-50%)' }}
+                    title="העלה תמונה"
+                  >
+                    <div className="flex flex-col items-center gap-1 bg-white/90 backdrop-blur-sm border border-white/60 rounded-2xl px-4 py-2.5 shadow-lg"
+                      style={{ boxShadow: '0 4px 20px rgba(91,91,214,0.25)' }}>
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5B5BD6" strokeWidth="2" strokeLinecap="round">
+                        <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/>
+                        <circle cx="12" cy="13" r="4"/>
+                      </svg>
+                      <span className="text-xs font-bold text-gray-800 whitespace-nowrap">העלה תמונה</span>
+                    </div>
+                    <div className="w-px h-3 bg-white/60" />
+                  </motion.button>
+                )}
               </div>
 
               {/* URL bar */}
