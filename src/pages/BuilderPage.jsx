@@ -465,6 +465,49 @@ function Step1({ form, update, slugStatus, slugSuggestions, dbCardId }) {
         <p className="text-xs text-gray-400 mt-1 text-left">{form.description.length}/160</p>
       </div>
 
+      {/* Text styling */}
+      <div>
+        <p className="text-xs font-semibold text-gray-500 mb-2">סגנון טקסט</p>
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <p className="text-[11px] text-gray-400 mb-1.5">יישור שם</p>
+            <div className="flex gap-1">
+              {[
+                { value: 'right', icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="12" x2="9" y2="12"/><line x1="21" y1="18" x2="3" y2="18"/></svg> },
+                { value: 'center', icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="21" y1="6" x2="3" y2="6"/><line x1="18" y1="12" x2="6" y2="12"/><line x1="21" y1="18" x2="3" y2="18"/></svg> },
+                { value: 'left', icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="21" y1="6" x2="3" y2="6"/><line x1="15" y1="12" x2="3" y2="12"/><line x1="21" y1="18" x2="3" y2="18"/></svg> },
+              ].map(opt => (
+                <button key={opt.value} onClick={() => update('title_align', opt.value)}
+                  className="flex-1 flex items-center justify-center py-2 rounded-lg border-2 transition-all"
+                  style={form.title_align === opt.value
+                    ? { borderColor: '#5BC4C8', background: '#f0fafa', color: '#2a9aa0' }
+                    : { borderColor: '#e5e7eb', color: '#9ca3af' }}>
+                  {opt.icon}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div>
+            <p className="text-[11px] text-gray-400 mb-1.5">גודל שם</p>
+            <div className="flex gap-1">
+              {[
+                { value: 'sm', label: 'S' },
+                { value: 'md', label: 'M' },
+                { value: 'lg', label: 'L' },
+              ].map(opt => (
+                <button key={opt.value} onClick={() => update('name_size', opt.value)}
+                  className="flex-1 py-2 rounded-lg border-2 text-xs font-bold transition-all"
+                  style={form.name_size === opt.value
+                    ? { borderColor: '#5BC4C8', background: '#f0fafa', color: '#2a9aa0' }
+                    : { borderColor: '#e5e7eb', color: '#9ca3af' }}>
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Slug */}
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1.5">
