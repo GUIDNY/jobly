@@ -182,11 +182,11 @@ export default function HomePage() {
   const handleAuthSuccess = () => { saveDraft({ ...form, slug }); navigate('/builder'); };
   const slugDisplay = slug || 'שם-העסק';
 
-  // Hero phone: if user has their own data, show it. Otherwise rotate demo.
+  // Hero phone: show user's live preview once they start filling in data, else show static demo
   const hasUserData = !!(form.business_name || form.avatar_url);
   const heroPhoneData = hasUserData
     ? { ...form, card_services: form.card_services || [] }
-    : HERO_DEMOS[heroDemo];
+    : HERO_DEMO;
 
   return (
     <div className="min-h-screen overflow-x-hidden" style={{ background: '#ffffff' }} dir="rtl">
