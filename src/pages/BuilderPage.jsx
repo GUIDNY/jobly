@@ -650,6 +650,30 @@ function Step2({ form, update, userId }) {
                 className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 bg-white"
                 maxLength={30}
               />
+              {/* Size picker */}
+              <div>
+                <p className="text-xs font-medium text-gray-500 mb-1.5">גודל כרטיס השירות</p>
+                <div className="grid grid-cols-2 gap-2">
+                  {[
+                    { value: 'full', label: 'רוחב מלא', icon: (
+                      <svg width="18" height="12" viewBox="0 0 18 12" fill="currentColor"><rect x="0" y="2" width="18" height="8" rx="2"/></svg>
+                    )},
+                    { value: 'half', label: 'חצי מסך', icon: (
+                      <svg width="18" height="12" viewBox="0 0 18 12" fill="currentColor"><rect x="0" y="2" width="7" height="8" rx="2"/><rect x="11" y="2" width="7" height="8" rx="2"/></svg>
+                    )},
+                  ].map(opt => (
+                    <button key={opt.value}
+                      onClick={() => updateService(i, 'size', opt.value)}
+                      className="flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-medium border-2 transition-all"
+                      style={(svc.size || 'full') === opt.value
+                        ? { borderColor: '#5BC4C8', background: '#f0fafa', color: '#2a9aa0' }
+                        : { borderColor: '#e5e7eb', color: '#6b7280' }}>
+                      {opt.icon}
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
               {/* Service image */}
               <div className="flex items-center gap-3">
                 <button
