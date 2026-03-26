@@ -848,27 +848,6 @@ function Step4({ form, update, onPublish, publishing, published, slug, publishEr
               </div>
             </div>
 
-            {/* Upsell teaser — only for free users */}
-            {!isPro && (
-              <motion.button
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-                onClick={onUpgrade}
-                className="w-full rounded-2xl border-2 border-dashed border-indigo-200 hover:border-indigo-400 p-4 text-right transition-all group"
-                style={{ background: '#f5f3ff' }}
-              >
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-bold text-indigo-700">ראה מי ביקר בדף שלך</p>
-                    <p className="text-xs text-indigo-400 mt-0.5">סטטיסטיקות · הסרת לוגו · ₪49/חודש</p>
-                  </div>
-                  <div className="w-9 h-9 rounded-xl bg-indigo-100 group-hover:bg-indigo-200 flex items-center justify-center transition-colors flex-shrink-0">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4F46E5" strokeWidth="2.5" strokeLinecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-                  </div>
-                </div>
-              </motion.button>
-            )}
           </div>
         ) : (
           <>
