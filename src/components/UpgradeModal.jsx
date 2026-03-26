@@ -62,7 +62,7 @@ export default function UpgradeModal({ isOpen, onClose, viewsCount = 0, cardName
 
             {/* Header */}
             <div className="relative overflow-hidden px-6 pt-5 pb-6"
-              style={{ background: 'linear-gradient(135deg, #1e1b4b 0%, #4F46E5 60%, #5BC4C8 100%)' }}>
+              style={{ background: 'linear-gradient(135deg, #1a3535 0%, #F4938C 60%, #5BC4C8 100%)' }}>
               {/* Background orb */}
               <div className="absolute top-0 left-0 w-48 h-48 rounded-full opacity-20"
                 style={{ background: 'radial-gradient(circle, #a78bfa, transparent)', transform: 'translate(-30%, -30%)' }} />
