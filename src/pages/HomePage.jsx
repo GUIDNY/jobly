@@ -310,7 +310,7 @@ export default function HomePage() {
                   <div className="flex items-center gap-2 min-w-0">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6366f1" strokeWidth="2.5" strokeLinecap="round" className="flex-shrink-0"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
                     <span className="text-xs font-mono text-gray-600 truncate">
-                      <span className="text-gray-400">mycard.co.il/</span>
+                      <span className="text-gray-400">vizzit.co.il/</span>
                       <motion.span key={slugDisplay} initial={{ opacity: 0.4 }} animate={{ opacity: 1 }} className="font-bold text-indigo-600">{slugDisplay}</motion.span>
                     </span>
                   </div>
@@ -404,7 +404,7 @@ export default function HomePage() {
                 <div className="flex-1 bg-gray-50 border border-gray-100 rounded-md px-2 py-1 min-w-0">
                   <motion.p key={slugDisplay} initial={{ opacity: 0.5 }} animate={{ opacity: 1 }}
                     className="text-xs font-mono text-gray-500 truncate text-left">
-                    {slugDisplay}.mycard.co.il
+                    {slugDisplay}.vizzit.co.il
                   </motion.p>
                 </div>
               </div>
