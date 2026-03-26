@@ -13,7 +13,7 @@ export function resolveHeaderTheme(bgStyle, color, avatarUrl) {
 }
 
 // ─── Main CardPreview ─────────────────────────────────────────────────────────
-export default function CardPreview({ data = {}, compact = false }) {
+export default function CardPreview({ data = {}, compact = false, showActions = true }) {
   const {
     business_name = '',
     description = '',
@@ -29,6 +29,7 @@ export default function CardPreview({ data = {}, compact = false }) {
     primary_color = '#4F46E5',
     background_style = 'gradient',
     card_services = [],
+    services_layout = 'list',
   } = data;
 
   const waLink = phone
