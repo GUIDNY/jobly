@@ -296,7 +296,7 @@ function TrustBullets() {
 }
 
 // ─── Services Section ─────────────────────────────────────────────────────────
-function ServicesSection({ services, waLink, color }) {
+function ServicesSection({ services, phone, color }) {
   return (
     <div className="bg-white rounded-3xl overflow-hidden" style={{ boxShadow: '0 4px 24px rgba(0,0,0,0.07)' }}>
       <div className="px-5 pt-5 pb-3 flex items-center justify-between">
@@ -305,8 +305,8 @@ function ServicesSection({ services, waLink, color }) {
       </div>
       <div className="divide-y divide-gray-50">
         {services.map((svc, i) => {
-          const svcWaLink = waLink
-            ? waLink.replace(/text=.*/, `text=${encodeURIComponent(`היי, אני מעוניין/ת בשירות: ${svc.title}`)}`)
+          const svcWaLink = phone
+            ? `https://wa.me/972${phone.replace(/^0/, '')}?text=${encodeURIComponent(`היי, אני מעוניין/ת בשירות: ${svc.title}`)}`
             : null;
           return (
             <div key={i} className="px-5 py-4">
