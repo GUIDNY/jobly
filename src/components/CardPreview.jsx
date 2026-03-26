@@ -235,34 +235,50 @@ export default function CardPreview({ data = {}, compact = false, showActions = 
                       )}
                     </div>
                   ) : (
-                    /* ── Full width: horizontal card ── */
-                    <div style={{ padding: compact ? '8px 10px' : '10px 12px' }}>
-                      <div className="flex items-center gap-3">
-                        {svc.image_url
-                          ? <img src={svc.image_url} alt="" className="w-10 h-10 rounded-lg object-cover flex-shrink-0" />
-                          : <div className="rounded-lg flex-shrink-0 flex items-center justify-center"
-                              style={{ width: compact ? 32 : 38, height: compact ? 32 : 38, background: primary_color + '20' }}>
-                              <svg viewBox="0 0 24 24" style={{ width: compact ? 14 : 17, height: compact ? 14 : 17, fill: primary_color }}>
-                                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/>
-                              </svg>
+                    /* ── Full width: big card ── */
+                    <div>
+                      {svc.image_url ? (
+                        <div className="relative" style={{ height: compact ? 80 : 120 }}>
+                          <img src={svc.image_url} alt="" className="w-full h-full object-cover" />
+                          <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%)' }} />
+                          <div className="absolute bottom-0 right-0 left-0 p-2.5 flex items-end justify-between">
+                            <div className="min-w-0">
+                              <p className="text-white font-bold truncate" style={{ fontSize: compact ? 11 : 14 }}>{svc.title}</p>
+                              {svc.description && <p className="truncate" style={{ fontSize: compact ? 8.5 : 11, color: 'rgba(255,255,255,0.75)' }}>{svc.description}</p>}
                             </div>
-                        }
-                        <div className="min-w-0 flex-1">
-                          <p className="font-bold truncate" style={{ fontSize: compact ? 11 : 13, color: background_style === 'dark' ? '#e2e8f0' : '#1f2937' }}>{svc.title}</p>
-                          {svc.description && <p className="truncate mt-0.5" style={{ fontSize: compact ? 9 : 11, color: background_style === 'dark' ? '#6b7280' : '#9ca3af' }}>{svc.description}</p>}
+                            {svc.price && (
+                              <span className="flex-shrink-0 font-bold rounded-lg px-2 py-1 ml-2"
+                                style={{ fontSize: compact ? 9 : 11, background: 'rgba(255,255,255,0.2)', color: '#fff', backdropFilter: 'blur(4px)' }}>
+                                {svc.price}
+                              </span>
+                            )}
+                          </div>
                         </div>
-                        {svc.price && (
-                          <span className="flex-shrink-0 font-bold rounded-lg px-2 py-1"
-                            style={{ fontSize: compact ? 9 : 11, background: primary_color + '18', color: primary_color }}>
-                            {svc.price}
-                          </span>
-                        )}
-                      </div>
+                      ) : (
+                        <div className="flex items-center gap-3" style={{ padding: compact ? '10px 12px' : '14px 14px' }}>
+                          <div className="rounded-xl flex-shrink-0 flex items-center justify-center"
+                            style={{ width: compact ? 40 : 52, height: compact ? 40 : 52, background: primary_color + '18' }}>
+                            <svg viewBox="0 0 24 24" style={{ width: compact ? 18 : 24, height: compact ? 18 : 24, fill: primary_color }}>
+                              <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/>
+                            </svg>
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <p className="font-bold" style={{ fontSize: compact ? 12 : 15, color: background_style === 'dark' ? '#e2e8f0' : '#1f2937' }}>{svc.title}</p>
+                            {svc.description && <p className="mt-0.5" style={{ fontSize: compact ? 9 : 12, color: background_style === 'dark' ? '#6b7280' : '#9ca3af' }}>{svc.description}</p>}
+                          </div>
+                          {svc.price && (
+                            <span className="flex-shrink-0 font-bold rounded-xl px-2.5 py-1.5"
+                              style={{ fontSize: compact ? 10 : 12, background: primary_color + '18', color: primary_color }}>
+                              {svc.price}
+                            </span>
+                          )}
+                        </div>
+                      )}
                       {svcWaLink && hasServices && !compact && (
                         <a href={svcWaLink} target="_blank" rel="noopener noreferrer"
-                          className="flex items-center justify-center gap-1.5 w-full mt-2 rounded-lg font-semibold"
-                          style={{ background: '#22c55e18', color: '#16a34a', fontSize: 11, padding: '6px 0' }}>
-                          <WhatsAppIcon size={11} /> הזמן שירות זה
+                          className="flex items-center justify-center gap-1.5 w-full rounded-b-xl font-semibold"
+                          style={{ background: '#22c55e18', color: '#16a34a', fontSize: 12, padding: '8px 0' }}>
+                          <WhatsAppIcon size={12} /> הזמן שירות זה
                         </a>
                       )}
                     </div>
