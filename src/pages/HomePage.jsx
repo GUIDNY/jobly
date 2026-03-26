@@ -350,7 +350,7 @@ export default function HomePage() {
               <div className="flex items-center gap-2 mb-4">
                 <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
                 <span className="text-sm font-medium text-gray-400">
-                  {hasUserData ? 'תצוגה מקדימה חיה' : 'דוגמאות לעסקים'}
+                  {hasUserData ? 'תצוגה מקדימה חיה' : 'דוגמת כרטיס'}
                 </span>
               </div>
 
@@ -358,28 +358,17 @@ export default function HomePage() {
                 <PhoneMockup>
                   <AnimatePresence mode="wait">
                     <motion.div
-                      key={hasUserData ? 'user' : heroDemo}
+                      key={hasUserData ? 'user' : 'demo'}
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
-                      transition={{ duration: 0.4 }}
+                      transition={{ duration: 0.35 }}
                       className="h-full"
                     >
                       <CardPreview data={heroPhoneData} compact />
                     </motion.div>
                   </AnimatePresence>
                 </PhoneMockup>
-
-                {/* Demo indicator dots */}
-                {!hasUserData && (
-                  <div className="flex justify-center gap-1.5 mt-3">
-                    {HERO_DEMOS.map((_, i) => (
-                      <button key={i} onClick={() => setHeroDemo(i)}
-                        className="rounded-full transition-all"
-                        style={{ width: heroDemo === i ? 16 : 6, height: 6, background: heroDemo === i ? '#111827' : '#d1d5db' }} />
-                    ))}
-                  </div>
-                )}
               </div>
 
               {/* URL bar */}
