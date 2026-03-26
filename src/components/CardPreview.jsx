@@ -524,19 +524,34 @@ function Template3({ placeholderName, placeholderDesc, avatar_url, phone, waLink
   );
 }
 
-function ServicesList({ services, compact, fullWidth }) {
+function ServicesList({ services, compact, fullWidth, phone }) {
   if (!services || services.length === 0) return null;
   return (
     <div className={`px-4 ${compact ? 'mt-4' : 'mt-6'} ${fullWidth ? 'w-full' : ''}`}>
       <h2 className={`font-bold text-gray-800 mb-2.5 ${compact ? 'text-sm' : 'text-base'}`}>השירותים שלנו</h2>
       <div className="space-y-2">
-        {services.map((svc, i) => (
-          <div key={i} className="bg-gray-50 rounded-xl p-3 border border-gray-100">
-            {svc.image_url && <img src={svc.image_url} alt={svc.title} className="w-full h-24 object-cover rounded-lg mb-2" />}
-            <p className={`font-semibold text-gray-800 ${compact ? 'text-xs' : 'text-sm'}`}>{svc.title}</p>
-            {svc.description && <p className="text-gray-500 text-xs mt-0.5">{svc.description}</p>}
-          </div>
-        ))}
+        {services.map((svc, i) => {
+          const svcWaLink = phone
+            ? `https://wa.me/972${phone.replace(/^0/, '')}?text=${encodeURIComponent(`היי, אני מעוניין/ת בשירות: ${svc.title}`)}`
+            : null;
+          return (
+            <div key={i} className="bg-gray-50 rounded-xl p-3 border border-gray-100">
+              {svc.image_url && <img src={svc.image_url} alt={svc.title} className="w-full h-24 object-cover rounded-lg mb-2" />}
+              <div className="flex items-center justify-between gap-2">
+                <p className={`font-semibold text-gray-800 ${compact ? 'text-xs' : 'text-sm'}`}>{svc.title}</p>
+                {svc.price && <span className="text-xs font-bold text-green-700 bg-green-50 px-2 py-0.5 rounded-lg flex-shrink-0">{svc.price}</span>}
+              </div>
+              {svc.description && <p className="text-gray-500 text-xs mt-0.5">{svc.description}</p>}
+              {svcWaLink && !compact && (
+                <a href={svcWaLink} target="_blank" rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-1.5 w-full mt-2 rounded-lg font-semibold text-xs py-1.5"
+                  style={{ background: '#22c55e18', color: '#16a34a' }}>
+                  <WhatsAppIcon size={11} /> הזמן שירות זה
+                </a>
+              )}
+            </div>
+          );
+        })}
       </div>
     </div>
   );
