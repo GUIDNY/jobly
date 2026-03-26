@@ -115,7 +115,7 @@ export default function CardPage() {
           className="flex items-center gap-1.5 bg-white/95 backdrop-blur-sm border border-indigo-100 rounded-xl px-3 py-1.5 shadow-sm hover:shadow-md transition-all group"
           style={{ boxShadow: '0 2px 12px rgba(79,70,229,0.12)' }}
         >
-          <div className="w-5 h-5 rounded-md flex items-center justify-center text-white font-bold text-xs flex-shrink-0" style={{ background: 'linear-gradient(135deg, #4F46E5, #7C3AED)' }}>M</div>
+          <div className="w-5 h-5 rounded-md flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, #4F46E5, #7C3AED)' }}><LogoMark size={12} color="white" /></div>
           <div>
             <p className="text-[10px] font-black text-gray-800 leading-tight">MyCard</p>
             <p className="text-[9px] text-indigo-400 font-medium leading-tight group-hover:text-indigo-600 transition-colors">צור כרטיס בחינם</p>
