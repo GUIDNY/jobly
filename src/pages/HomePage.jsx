@@ -22,8 +22,23 @@ const DEFAULTS = {
 
 const COLORS = ['#111827', '#4F46E5', '#7C3AED', '#DB2777', '#DC2626', '#16A34A', '#0284C7', '#EA580C'];
 
-// Rotating hero phone demos
-const HERO_DEMOS = [
+// Static hero phone demo — shown until user enters their own data
+const HERO_DEMO = {
+  business_name: 'נגה נייל ארט',
+  description: 'עיצוב ציפורניים מקצועי',
+  phone: '0521234567',
+  primary_color: '#DB2777',
+  template: 1,
+  background_style: 'image',
+  avatar_url: 'https://images.pexels.com/photos/3997379/pexels-photo-3997379.jpeg?auto=compress&cs=tinysrgb&w=600',
+  card_services: [
+    { title: 'ג׳ל מלא', description: '₪120 · 60 דקות' },
+    { title: 'עיצוב ארט', description: '₪150 · 75 דקות' },
+  ],
+};
+
+// Demo phones for the showcase section
+const DEMOS = [
   {
     business_name: 'המספרה של אבי',
     description: 'תספורות גבר ועיצוב זקן',
@@ -43,7 +58,7 @@ const HERO_DEMOS = [
     primary_color: '#DB2777',
     template: 1,
     background_style: 'image',
-    avatar_url: 'https://images.pexels.com/photos/3997379/pexels-photo-3997379.jpeg?auto=compress&cs=tinysrgb&w=400',
+    avatar_url: 'https://images.pexels.com/photos/3997379/pexels-photo-3997379.jpeg?auto=compress&cs=tinysrgb&w=600',
     card_services: [
       { title: 'ג׳ל מלא', description: '₪120 · 60 דקות' },
       { title: 'עיצוב ארט', description: '₪150 · 75 דקות' },
@@ -56,22 +71,10 @@ const HERO_DEMOS = [
     primary_color: '#16A34A',
     template: 1,
     background_style: 'image',
-    avatar_url: 'https://images.pexels.com/photos/1552242/pexels-photo-1552242.jpeg?auto=compress&cs=tinysrgb&w=400',
+    avatar_url: 'https://images.pexels.com/photos/1552242/pexels-photo-1552242.jpeg?auto=compress&cs=tinysrgb&w=600',
     card_services: [
       { title: 'אימון אישי', description: '₪180 · 60 דקות' },
       { title: 'תוכנית תזונה', description: '₪300 · חד פעמי' },
-    ],
-  },
-  {
-    business_name: 'ספא לילה',
-    description: 'טיפולי פנים ועיצוב גבות',
-    phone: '0541234567',
-    primary_color: '#7C3AED',
-    template: 1,
-    background_style: 'gradient',
-    card_services: [
-      { title: 'טיפול פנים', description: '₪200 · 60 דקות' },
-      { title: 'עיצוב גבות', description: '₪80 · 30 דקות' },
     ],
   },
 ];
