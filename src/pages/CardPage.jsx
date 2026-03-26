@@ -100,7 +100,7 @@ export default function CardPage() {
           <div className="bg-white md:rounded-[2.5rem] md:overflow-hidden"
             style={{ boxShadow: `0 32px 80px -16px ${color}30, 0 8px 24px -6px rgba(0,0,0,0.12)` }}>
 
-            <CardPreview data={card} compact={false} showActions={false} />
+            <CardPreview data={card} compact={false} showActions={false} showSocial={false} />
 
             {/* Desktop inline action bar */}
             {card.phone && (
