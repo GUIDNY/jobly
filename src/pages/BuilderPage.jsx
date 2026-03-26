@@ -741,7 +741,7 @@ const TEMPLATES = [
 
 const COLORS = ['#4F46E5', '#7C3AED', '#DB2777', '#DC2626', '#EA580C', '#16A34A', '#0284C7', '#0F172A', '#B45309', '#0891B2'];
 
-function Step4({ form, update, onPublish, publishing, published, slug, publishError }) {
+function Step4({ form, update, onPublish, publishing, published, isLive, slug, publishError }) {
   return (
     <div className="space-y-4">
       {/* Template selection */}
