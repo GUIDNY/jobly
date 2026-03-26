@@ -374,54 +374,20 @@ export default function HomePage() {
                 </span>
               </div>
 
-              <div className="relative">
-                <PhoneMockup>
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={hasUserData ? 'user' : 'demo'}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.35 }}
-                      className="h-full"
-                    >
-                      <CardPreview data={heroPhoneData} compact />
-                    </motion.div>
-                  </AnimatePresence>
-                </PhoneMockup>
-
-                {/* Upload overlay — transparent ring, camera badge at bottom */}
-                {!form.avatar_url && (
-                  <motion.button
+              <PhoneMockup overlay={phoneUploadOverlay}>
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={hasUserData ? 'user' : 'demo'}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    onClick={() => fileInputRef.current?.click()}
-                    className="absolute z-20 cursor-pointer rounded-full"
-                    style={{
-                      top: 128, left: '50%',
-                      transform: 'translate(-50%, -50%)',
-                      width: 80, height: 80,
-                      background: 'transparent',
-                      border: 'none',
-                    }}
+                    transition={{ duration: 0.35 }}
+                    className="h-full"
                   >
-                    {/* Camera badge at bottom-center of avatar */}
-                    <div className="absolute flex flex-col items-center gap-0.5"
-                      style={{ bottom: -20, left: '50%', transform: 'translateX(-50%)', whiteSpace: 'nowrap' }}>
-                      <div className="w-6 h-6 rounded-full flex items-center justify-center"
-                        style={{ background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(4px)' }}>
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round">
-                          <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/>
-                          <circle cx="12" cy="13" r="4"/>
-                        </svg>
-                      </div>
-                      <span className="text-[9px] font-bold text-white"
-                        style={{ textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}>העלה תמונה</span>
-                    </div>
-                  </motion.button>
-                )}
-              </div>
+                    <CardPreview data={heroPhoneData} compact />
+                  </motion.div>
+                </AnimatePresence>
+              </PhoneMockup>
 
               {/* URL bar */}
               <div className="mt-3 w-[260px] bg-white rounded-xl border border-gray-200 px-3 py-2 flex items-center gap-2" style={{ boxShadow: '0 1px 8px rgba(0,0,0,0.06)' }}>
