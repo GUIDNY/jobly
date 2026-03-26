@@ -470,7 +470,7 @@ function Step1({ form, update, slugStatus, slugSuggestions, dbCardId }) {
           כתובת הדף שלך
         </label>
         <div className="flex items-center gap-2 bg-gray-50 border rounded-xl px-4 py-3" style={{ borderColor: sc.border }}>
-          <span className="text-xs text-gray-400 whitespace-nowrap flex-shrink-0">vizzit.online/c/</span>
+          <span className="text-xs text-gray-400 whitespace-nowrap flex-shrink-0">vizzit.online/</span>
           <input
             type="text"
             value={form.slug}
@@ -814,7 +814,7 @@ function Step4({ form, update, onPublish, publishing, published, isLive, slug, p
         {slug ? (
           <div className="flex items-center gap-2 rounded-xl px-4 py-3 mb-4" style={{ background: '#f0fafa' }}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5BC4C8" strokeWidth="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
-            <span className="text-sm font-mono" style={{ color: '#2a9aa0' }}>vizzit.online/c/{slug}</span>
+            <span className="text-sm font-mono" style={{ color: '#2a9aa0' }}>vizzit.online/{slug}</span>
           </div>
         ) : (
           <p className="text-sm text-orange-600 bg-orange-50 rounded-xl px-4 py-3 mb-4">הגדר שם עסק וכתובת דף בשלב 1</p>
@@ -829,7 +829,7 @@ function Step4({ form, update, onPublish, publishing, published, isLive, slug, p
                 <p className="text-white/70 text-sm mb-4">עכשיו שתף אותו עם לקוחות</p>
                 <div className="bg-white/10 rounded-xl px-4 py-2.5 mb-4 flex items-center justify-center gap-2">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
-                  <span className="text-white font-mono text-sm">vizzit.online/c/{slug}</span>
+                  <span className="text-white font-mono text-sm">vizzit.online/{slug}</span>
                 </div>
                 <div className="flex gap-2">
                   <a
@@ -842,7 +842,7 @@ function Step4({ form, update, onPublish, publishing, published, isLive, slug, p
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                   </a>
                   <button
-                    onClick={() => navigator.clipboard.writeText(`https://vizzit.online/c/${slug}`)}
+                    onClick={() => navigator.clipboard.writeText(`https://vizzit.online/${slug}`)}
                     className="px-4 py-2.5 rounded-xl bg-white/20 text-white text-sm font-semibold"
                   >
                     העתק קישור
