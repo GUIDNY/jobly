@@ -380,7 +380,7 @@ export default function HomePage() {
                       transform: 'translate(-50%, -50%)',
                       width: 80, height: 80,
                       background: 'transparent',
-                      border: '2px dashed rgba(255,255,255,0.65)',
+                      border: 'none',
                     }}
                   >
                     {/* Camera badge at bottom-center of avatar */}
