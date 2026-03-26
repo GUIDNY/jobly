@@ -147,7 +147,7 @@ export default function DashboardPage() {
                       </button>
                       {card.is_published ? (
                         <div className="grid grid-cols-2 gap-1.5">
-                          <a href={`/c/${card.slug}`} target="_blank" rel="noopener noreferrer"
+                          <a href={`/${card.slug}`} target="_blank" rel="noopener noreferrer"
                             className="flex items-center justify-center py-2.5 rounded-xl text-xs font-semibold bg-indigo-50 text-indigo-600 hover:bg-indigo-100 transition-colors">
                             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                           </a>
