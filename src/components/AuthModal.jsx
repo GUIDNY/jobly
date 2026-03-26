@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import LogoMark from './LogoMark';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../lib/AuthContext';
 
