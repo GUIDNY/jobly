@@ -468,7 +468,29 @@ function Template2({ placeholderName, placeholderDesc, avatar_url, phone, waLink
 }
 
 // Template 3: Minimal / Linktree style
-function Template3({ placeholderName, placeholderDesc, avatar_url, phone, waLink, callLink, primary_color, instagram, facebook, tiktok, location_url, booking_url, card_services, compact }) {
+function Template3({ placeholderName, placeholderDesc, avatar_url, phone, waLink, callLink, primary_color, instagram, facebook, tiktok, location_url, booking_url, card_services, compact, showActions = true, whatsapp_position = 'bottom', title_align = 'center', name_size = 'md' }) {
+  const [compactSize, fullSize] = NAME_SIZES[name_size] || NAME_SIZES.md;
+  const actionBar = showActions && phone && (
+    <div className="w-full space-y-2.5">
+      <a href={waLink} target="_blank" rel="noopener noreferrer"
+        className="flex items-center justify-center gap-2 w-full rounded-2xl text-white font-medium shadow-sm"
+        style={{ background: '#25D366', padding: compact ? '10px' : '13px', fontSize: compact ? '13px' : '15px' }}>
+        <WhatsAppIcon size={compact ? 16 : 18} /><span>WhatsApp</span>
+      </a>
+      <a href={callLink}
+        className="flex items-center justify-center gap-2 w-full rounded-2xl font-medium bg-white border border-gray-200 text-gray-700 shadow-sm"
+        style={{ padding: compact ? '9px' : '12px', fontSize: compact ? '13px' : '15px' }}>
+        <PhoneIcon size={compact ? 14 : 16} /><span>התקשר</span>
+      </a>
+      {booking_url && (
+        <a href={booking_url} target="_blank" rel="noopener noreferrer"
+          className="flex items-center justify-center gap-2 w-full rounded-2xl font-medium text-white shadow-sm"
+          style={{ background: primary_color, padding: compact ? '9px' : '12px', fontSize: compact ? '13px' : '15px' }}>
+          <CalendarIcon size={compact ? 14 : 16} /><span>קבע תור</span>
+        </a>
+      )}
+    </div>
+  );
   return (
     <div className="min-h-full overflow-y-auto flex flex-col items-center py-6 px-4" dir="rtl"
       style={{ background: `linear-gradient(160deg, ${primary_color}15 0%, #f8fafc 60%)` }}>
@@ -483,40 +505,20 @@ function Template3({ placeholderName, placeholderDesc, avatar_url, phone, waLink
           </div>
         )}
       </div>
-      <h1 className={`font-bold text-gray-900 mt-3 text-center ${compact ? 'text-base' : 'text-xl'}`}>{placeholderName}</h1>
-      <p className={`text-gray-500 mt-1 text-center ${compact ? 'text-xs' : 'text-sm'}`}>{placeholderDesc}</p>
-
-      <div className="w-full space-y-2.5 mt-5">
-        {phone && (
-          <a href={waLink} target="_blank" rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 w-full rounded-2xl text-white font-medium shadow-sm"
-            style={{ background: '#25D366', padding: compact ? '10px' : '13px', fontSize: compact ? '13px' : '15px' }}>
-            <WhatsAppIcon size={compact ? 16 : 18} /><span>WhatsApp</span>
-          </a>
-        )}
-        {phone && (
-          <a href={callLink}
-            className="flex items-center justify-center gap-2 w-full rounded-2xl font-medium bg-white border border-gray-200 text-gray-700 shadow-sm"
-            style={{ padding: compact ? '9px' : '12px', fontSize: compact ? '13px' : '15px' }}>
-            <PhoneIcon size={compact ? 14 : 16} /><span>התקשר</span>
-          </a>
-        )}
-        {booking_url && (
-          <a href={booking_url} target="_blank" rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 w-full rounded-2xl font-medium text-white shadow-sm"
-            style={{ background: primary_color, padding: compact ? '9px' : '12px', fontSize: compact ? '13px' : '15px' }}>
-            <CalendarIcon size={compact ? 14 : 16} /><span>קבע תור</span>
-          </a>
-        )}
-        {instagram && (
+      <h1 className="font-bold text-gray-900 mt-3 w-full" style={{ fontSize: compact ? compactSize : fullSize, textAlign: title_align }}>{placeholderName}</h1>
+      <p className="text-gray-500 mt-1 w-full" style={{ fontSize: compact ? 11 : 13, textAlign: title_align }}>{placeholderDesc}</p>
+      {whatsapp_position === 'top' && <div className="w-full mt-5">{actionBar}</div>}
+      {instagram && (
+        <div className="w-full mt-5">
           <a href={`https://instagram.com/${instagram.replace('@', '')}`} target="_blank" rel="noopener noreferrer"
             className="flex items-center justify-center gap-2 w-full rounded-2xl font-medium text-white shadow-sm"
             style={{ background: '#E1306C', padding: compact ? '9px' : '12px', fontSize: compact ? '13px' : '15px' }}>
             <InstagramIcon size={compact ? 14 : 16} /><span>Instagram</span>
           </a>
-        )}
-      </div>
-      <ServicesList services={card_services} compact={compact} fullWidth />
+        </div>
+      )}
+      <ServicesList services={card_services} compact={compact} fullWidth phone={phone} />
+      {whatsapp_position === 'bottom' && <div className="w-full mt-4">{actionBar}</div>}
       <div className="text-center text-gray-300 text-xs mt-4 pb-2">נוצר עם Vizzit</div>
     </div>
   );
