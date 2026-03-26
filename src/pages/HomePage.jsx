@@ -367,7 +367,7 @@ export default function HomePage() {
                   </AnimatePresence>
                 </PhoneMockup>
 
-                {/* Upload overlay — sits directly on the avatar circle */}
+                {/* Upload overlay — subtle ring on the avatar */}
                 {!form.avatar_url && (
                   <motion.button
                     initial={{ opacity: 0 }}
@@ -378,18 +378,17 @@ export default function HomePage() {
                     style={{
                       top: 128, left: '50%',
                       transform: 'translate(-50%, -50%)',
-                      width: 72, height: 72,
-                      background: 'rgba(0,0,0,0.52)',
-                      backdropFilter: 'blur(4px)',
-                      border: '2.5px solid rgba(255,255,255,0.32)',
+                      width: 76, height: 76,
+                      background: 'rgba(0,0,0,0.18)',
+                      backdropFilter: 'blur(2px)',
+                      border: '2px dashed rgba(255,255,255,0.7)',
                     }}
                   >
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round">
                       <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/>
                       <circle cx="12" cy="13" r="4"/>
                     </svg>
-                    <span className="text-[9px] font-bold text-white leading-tight">העלה</span>
-                    <span className="text-[9px] font-bold text-white leading-tight">תמונה</span>
+                    <span className="text-[8px] font-semibold text-white/90 leading-tight">העלה תמונה</span>
                   </motion.button>
                 )}
               </div>
