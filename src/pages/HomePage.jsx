@@ -459,6 +459,34 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── DEMO PHONES ─────────────────────────────────────────────────────── */}
+      <section className="py-20 px-5 bg-white border-t border-gray-100">
+        <div className="max-w-5xl mx-auto">
+          <motion.div className="text-center mb-14"
+            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+            <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">דוגמאות אמיתיות</p>
+            <h2 className="text-4xl font-black text-gray-900 leading-tight tracking-tight">
+              ככה זה נראה ללקוחות שלך
+            </h2>
+          </motion.div>
+
+          <div className="flex flex-col sm:flex-row items-end justify-center gap-6 md:gap-10">
+            {DEMOS.map((demo, i) => (
+              <motion.div key={i}
+                className="flex flex-col items-center"
+                style={{ transform: i === 1 ? 'translateY(-20px)' : 'none' }}
+                initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: i === 1 ? -20 : 0 }} viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}>
+                <PhoneMockup small>
+                  <CardPreview data={demo} compact />
+                </PhoneMockup>
+                <p className="mt-3 text-xs font-semibold text-gray-400">{demo.business_name}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── TESTIMONIALS ────────────────────────────────────────────────────── */}
       <section className="py-20 px-5 bg-white border-t border-gray-100">
         <div className="max-w-5xl mx-auto">
