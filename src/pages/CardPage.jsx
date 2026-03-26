@@ -78,7 +78,10 @@ export default function CardPage() {
     ? `https://wa.me/972${card.phone.replace(/^0/, '')}?text=${encodeURIComponent(card.whatsapp_message || '')}`
     : null;
 
+  const hasSocial = card.instagram || card.facebook || card.tiktok || card.location_url;
+
   return (
+    <>
       {/* ── Desktop background ── */}
       <div className="hidden md:block fixed inset-0 pointer-events-none"
         style={{ background: `linear-gradient(145deg, ${color}18 0%, #f1f5f9 50%, #e8edf5 100%)` }} />
@@ -90,8 +93,8 @@ export default function CardPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.35, ease: 'easeOut' }}
       >
-        <div className="w-full md:max-w-[400px] bg-white md:rounded-[2.5rem] md:overflow-hidden pb-16"
-          style={{ boxShadow: '0 0 0 0 transparent', ['--md-shadow']: `0 32px 80px -16px ${color}30, 0 8px 24px -6px rgba(0,0,0,0.12)` }}>
+        <div className="w-full md:max-w-[400px] bg-white md:rounded-[2.5rem] md:overflow-hidden"
+          style={{ paddingBottom: hasSocial ? '72px' : '0' }}>
           <style>{`.md-card { box-shadow: 0 32px 80px -16px ${color}30, 0 8px 24px -6px rgba(0,0,0,0.12); }`}</style>
           <div className="md-card md:rounded-[2.5rem] md:overflow-hidden">
             <CardPreview data={card} compact={false} showActions={true} showSocial={false} />
@@ -111,7 +114,7 @@ export default function CardPage() {
       </motion.div>
 
       {/* ── Fixed social bar (all screens) ── */}
-      {(card.instagram || card.facebook || card.tiktok || card.location_url) && (
+      {hasSocial && (
         <div className="fixed bottom-0 left-0 right-0 z-20 flex justify-center gap-3 py-3"
           style={{ background: 'rgba(255,255,255,0.97)', backdropFilter: 'blur(12px)', borderTop: '1px solid rgba(0,0,0,0.07)' }}>
           {card.instagram && (
@@ -162,7 +165,7 @@ export default function CardPage() {
           </div>
         </a>
       </div>
-    </div>
+    </>
   );
 }
 
