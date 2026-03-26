@@ -110,29 +110,22 @@ export default function CardPage() {
 
         <div className="px-4 md:px-0 space-y-4 pb-32">
 
-          {/* ── PRIMARY CTA ── */}
-          {waLink && (
-            <FadeIn delay={0.1}>
-              <PrimaryCTA waLink={waLink} phone={card.phone} color={color} />
-            </FadeIn>
-          )}
-
           {/* ── TRUST BULLETS ── */}
-          <FadeIn delay={0.15}>
+          <FadeIn delay={0.1}>
             <TrustBullets />
           </FadeIn>
 
           {/* ── SERVICES ── */}
           {services.length > 0 && (
-            <FadeIn delay={0.2}>
+            <FadeIn delay={0.15}>
               <ServicesSection services={services} phone={card.phone} color={color} />
             </FadeIn>
           )}
 
-          {/* ── SECOND CTA ── */}
-          {waLink && services.length > 0 && (
-            <FadeIn delay={0.25}>
-              <SecondCTA waLink={waLink} />
+          {/* ── CTA (after services, or first if no services) ── */}
+          {waLink && (
+            <FadeIn delay={0.2}>
+              <PrimaryCTA waLink={waLink} phone={card.phone} color={color} />
             </FadeIn>
           )}
 
