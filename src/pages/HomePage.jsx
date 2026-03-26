@@ -23,18 +23,18 @@ const DEFAULTS = {
 
 const COLORS = ['#111827', '#4F46E5', '#7C3AED', '#DB2777', '#DC2626', '#16A34A', '#0284C7', '#EA580C'];
 
-// Static hero phone demo — shown until user enters their own data
+// Static hero phone demo — placeholder state shown until user enters their own data
 const HERO_DEMO = {
-  business_name: 'נגה נייל ארט',
-  description: 'עיצוב ציפורניים מקצועי',
-  phone: '0521234567',
-  primary_color: '#DB2777',
+  business_name: 'שם העסק שלך',
+  description: 'תיאור קצר של העסק שלך',
+  phone: '',
+  primary_color: '#5B5BD6',
   template: 1,
-  background_style: 'image',
-  avatar_url: 'https://images.pexels.com/photos/3997379/pexels-photo-3997379.jpeg?auto=compress&cs=tinysrgb&w=600',
+  background_style: 'gradient',
+  avatar_url: '',
   card_services: [
-    { title: 'ג׳ל מלא', description: '₪120 · 60 דקות' },
-    { title: 'עיצוב ארט', description: '₪150 · 75 דקות' },
+    { title: 'שירות לדוגמה', description: '₪100 · 45 דקות' },
+    { title: 'שירות נוסף', description: '₪150 · 60 דקות' },
   ],
 };
 
