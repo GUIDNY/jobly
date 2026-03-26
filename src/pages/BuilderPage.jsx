@@ -841,7 +841,7 @@ function Step4({ form, update, onPublish, publishing, published, isLive, slug, p
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                   </a>
                   <button
-                    onClick={() => navigator.clipboard.writeText(`${window.location.origin}/c/${slug}`)}
+                    onClick={() => navigator.clipboard.writeText(`https://vizzit.online/c/${slug}`)}
                     className="px-4 py-2.5 rounded-xl bg-white/20 text-white text-sm font-semibold"
                   >
                     העתק קישור
