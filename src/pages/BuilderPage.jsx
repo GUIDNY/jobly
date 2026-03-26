@@ -197,7 +197,7 @@ export default function BuilderPage() {
         <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <button onClick={() => navigate('/')} className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, #4F46E5, #7C3AED)' }}><LogoMark size={20} color="white" /></button>
-            <span className="font-bold text-gray-900 hidden sm:block">MyCard</span>
+            <span className="font-bold text-gray-900 hidden sm:block">Vizzit</span>
             <span className="text-gray-300 hidden sm:block mx-2">/</span>
             <span className="text-sm text-gray-500 hidden sm:block">
               {cardId ? 'עריכת דף' : 'יצירת דף חדש'}
