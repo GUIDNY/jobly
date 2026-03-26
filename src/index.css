@@ -34,7 +34,7 @@ body {
     transform: scaleX(-1);
   }
   .text-gradient {
-    background: linear-gradient(135deg, #4F46E5, #7C3AED);
+    background: linear-gradient(135deg, #F4938C, #5BC4C8);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
