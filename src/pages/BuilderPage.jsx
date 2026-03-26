@@ -67,7 +67,7 @@ export default function BuilderPage() {
             services: card_services?.map(s => ({ title: s.title, description: s.description, image_url: s.image_url })) || [],
           });
           setDbCardId(card.id);
-          setPublished(card.is_published);
+          setIsLive(!!card.is_published);
         })
         .catch(() => navigate('/dashboard'))
         .finally(() => setLoading(false));
