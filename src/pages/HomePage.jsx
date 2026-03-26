@@ -28,7 +28,7 @@ const HERO_DEMO = {
   business_name: 'שם העסק שלך',
   description: 'תיאור קצר של העסק שלך',
   phone: '',
-  primary_color: '#5B5BD6',
+  primary_color: '#5BC4C8',
   template: 1,
   background_style: 'gradient',
   avatar_url: '',
