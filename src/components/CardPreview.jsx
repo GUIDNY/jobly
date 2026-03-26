@@ -366,7 +366,7 @@ function CardHeader({ bgStyle, color, avatarUrl, name, desc, theme, compact, tit
             </div>
           </div>
         )}
-        <HeaderText name={name} desc={desc} theme={theme} compact={compact} addShadow />
+        <HeaderText name={name} desc={desc} theme={theme} compact={compact} titleAlign={titleAlign} nameSize={nameSize} addShadow />
         <RatingBadge theme={theme} compact={compact} />
       </div>
     );
