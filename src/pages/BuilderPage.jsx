@@ -43,6 +43,7 @@ export default function BuilderPage() {
   const [saveError, setSaveError] = useState('');
   const [publishing, setPublishing] = useState(false);
   const [published, setPublished] = useState(false);
+  const [isLive, setIsLive] = useState(false);
   const [publishError, setPublishError] = useState('');
   const [slugStatus, setSlugStatus] = useState('idle'); // idle | checking | available | taken
   const [slugSuggestions, setSlugSuggestions] = useState([]);
