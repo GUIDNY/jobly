@@ -92,7 +92,7 @@ export default function CardPreview({ data = {}, compact = false, showActions = 
       </AnimatePresence>
 
       {/* ── Buttons ── */}
-      <div style={{ padding: compact ? '14px 14px 0' : '18px 16px 0', background: background_style === 'dark' ? '#0a0a12' : '#fff' }}>
+      {showActions && <div style={{ padding: compact ? '14px 14px 0' : '18px 16px 0', background: background_style === 'dark' ? '#0a0a12' : '#fff' }}>
         {hasPhone ? (
           <div className="space-y-2">
             <a href={waLink} target="_blank" rel="noopener noreferrer"
