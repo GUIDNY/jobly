@@ -36,7 +36,7 @@ export default function CardPage() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">
         <div className="text-center">
-          <div className="w-12 h-12 rounded-2xl mx-auto mb-4 flex items-center justify-center text-white font-bold text-lg" style={{ background: 'linear-gradient(135deg, #4F46E5, #7C3AED)' }}>M</div>
+          <div className="w-12 h-12 rounded-2xl mx-auto mb-4 flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #4F46E5, #7C3AED)' }}><LogoMark size={28} color="white" /></div>
           <svg className="animate-spin w-6 h-6 text-indigo-400 mx-auto" viewBox="0 0 24 24" fill="none">
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
