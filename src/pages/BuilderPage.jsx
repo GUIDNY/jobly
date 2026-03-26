@@ -753,7 +753,7 @@ function Step4({ form, update, onPublish, publishing, published, isLive, slug, p
               key={t.id}
               onClick={() => update('template', t.id)}
               className="p-3 rounded-2xl border-2 text-center transition-all hover:bg-indigo-50"
-              style={form.template === t.id ? { borderColor: '#4F46E5', background: '#eff6ff' } : { borderColor: '#e5e7eb' }}
+              style={form.template === t.id ? { borderColor: '#5BC4C8', background: '#f0fafa' } : { borderColor: '#e5e7eb' }}
             >
               <div
                 className="w-full h-16 rounded-xl mb-2 flex items-end justify-center overflow-hidden"
