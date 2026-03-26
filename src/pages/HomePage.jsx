@@ -99,7 +99,7 @@ const FEATURES = [
       </svg>
     ),
     title: 'כתובת אישית',
-    desc: 'שם-העסק.mycard.co.il — שתף ללקוחות, שים בביו.',
+    desc: 'שם-העסק.vizzit.co.il — שתף ללקוחות, שים בביו.',
   },
   {
     icon: (
