@@ -348,18 +348,50 @@ export default function HomePage() {
                 </span>
               </div>
 
-              <PhoneMockup overlay={phoneUploadOverlay}>
+              <PhoneMockup>
                 <AnimatePresence mode="wait">
-                  <motion.div
-                    key={hasUserData ? 'user' : 'demo'}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.35 }}
-                    className="h-full"
-                  >
-                    <CardPreview data={heroPhoneData} compact />
-                  </motion.div>
+                  {!form.avatar_url ? (
+                    /* ── Upload screen: fill entire phone ── */
+                    <motion.button
+                      key="upload"
+                      initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      onClick={() => fileInputRef.current?.click()}
+                      className="w-full h-full flex flex-col items-center justify-center gap-4 cursor-pointer"
+                      style={{ background: `linear-gradient(160deg, ${form.primary_color} 0%, ${form.primary_color}99 100%)` }}
+                      dir="rtl"
+                    >
+                      {/* Upload circle */}
+                      <div className="flex flex-col items-center gap-3">
+                        <div className="w-24 h-24 rounded-full border-2 border-dashed border-white/50 flex items-center justify-center"
+                          style={{ background: 'rgba(255,255,255,0.12)' }}>
+                          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round">
+                            <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/>
+                            <circle cx="12" cy="13" r="4"/>
+                          </svg>
+                        </div>
+                        <div className="text-center">
+                          <p className="text-white font-black text-base leading-tight">הוסף תמונה</p>
+                          <p className="text-white/60 text-xs mt-1">לחץ להעלאה</p>
+                        </div>
+                      </div>
+                      {/* Preview of how it'll look */}
+                      <div className="flex flex-col items-center gap-1 opacity-40">
+                        <div className="h-px w-16 bg-white/40" />
+                        <p className="text-white/70 text-[10px]">הכרטיס שלך יופיע כאן</p>
+                      </div>
+                    </motion.button>
+                  ) : (
+                    /* ── Card preview after upload ── */
+                    <motion.div
+                      key="card"
+                      initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}
+                      transition={{ duration: 0.4, ease: 'easeOut' }}
+                      className="h-full"
+                    >
+                      <CardPreview data={heroPhoneData} compact />
+                    </motion.div>
+                  )}
                 </AnimatePresence>
               </PhoneMockup>
 
