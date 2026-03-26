@@ -138,31 +138,65 @@ export default function CardPreview({ data = {}, compact = false, showActions = 
             </h2>
             {!hasServices && <span style={{ color: '#6b7280', fontSize: 9 }}>דוגמה</span>}
           </div>
-          <div className="space-y-2">
-            {displayServices.map((svc, i) => (
-              <div key={i} className="flex items-center gap-3 rounded-xl"
-                style={{
-                  background: background_style === 'dark' ? '#13132a' : '#f9fafb',
-                  border: `1px solid ${background_style === 'dark' ? '#1e1e3a' : '#f3f4f6'}`,
-                  padding: compact ? '8px 10px' : '10px 12px',
-                  opacity: !hasServices ? 0.45 : 1,
-                }}>
-                {svc.image_url
-                  ? <img src={svc.image_url} alt="" className="w-10 h-10 rounded-lg object-cover flex-shrink-0" />
-                  : <div className="rounded-lg flex-shrink-0 flex items-center justify-center"
-                      style={{ width: compact ? 32 : 38, height: compact ? 32 : 38, background: primary_color + '20' }}>
-                      <svg viewBox="0 0 24 24" style={{ width: compact ? 14 : 17, height: compact ? 14 : 17, fill: primary_color }}>
-                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/>
-                      </svg>
+
+          {services_layout === 'grid' ? (
+            /* ── Grid layout ── */
+            <div className="grid grid-cols-2 gap-2" style={{ opacity: !hasServices ? 0.45 : 1 }}>
+              {displayServices.map((svc, i) => (
+                <div key={i} className="rounded-xl overflow-hidden relative"
+                  style={{ height: compact ? 72 : 90, background: background_style === 'dark' ? '#13132a' : primary_color + '12' }}>
+                  {svc.image_url ? (
+                    <>
+                      <img src={svc.image_url} alt="" className="w-full h-full object-cover" />
+                      <div className="absolute inset-0 flex flex-col justify-end p-1.5"
+                        style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.72) 0%, transparent 55%)' }}>
+                        <p className="text-white font-bold leading-tight truncate" style={{ fontSize: compact ? 9 : 11 }}>{svc.title}</p>
+                        {svc.description && <p className="truncate" style={{ fontSize: compact ? 7.5 : 9, color: 'rgba(255,255,255,0.72)' }}>{svc.description}</p>}
+                      </div>
+                    </>
+                  ) : (
+                    <div className="w-full h-full flex flex-col items-center justify-center gap-1 px-1">
+                      <div className="rounded-lg flex items-center justify-center"
+                        style={{ width: compact ? 24 : 30, height: compact ? 24 : 30, background: primary_color + '25' }}>
+                        <svg viewBox="0 0 24 24" style={{ width: compact ? 12 : 15, height: compact ? 12 : 15, fill: primary_color }}>
+                          <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/>
+                        </svg>
+                      </div>
+                      <p className="font-bold text-center px-0.5 truncate w-full" style={{ fontSize: compact ? 9 : 11, color: background_style === 'dark' ? '#e2e8f0' : '#1f2937' }}>{svc.title}</p>
+                      {svc.description && <p className="text-center truncate w-full px-0.5" style={{ fontSize: compact ? 7.5 : 9, color: '#9ca3af' }}>{svc.description}</p>}
                     </div>
-                }
-                <div className="min-w-0">
-                  <p className="font-bold truncate" style={{ fontSize: compact ? 11 : 13, color: background_style === 'dark' ? '#e2e8f0' : '#1f2937' }}>{svc.title}</p>
-                  {svc.description && <p className="truncate mt-0.5" style={{ fontSize: compact ? 9 : 11, color: background_style === 'dark' ? '#6b7280' : '#9ca3af' }}>{svc.description}</p>}
+                  )}
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          ) : (
+            /* ── List layout (default) ── */
+            <div className="space-y-2">
+              {displayServices.map((svc, i) => (
+                <div key={i} className="flex items-center gap-3 rounded-xl"
+                  style={{
+                    background: background_style === 'dark' ? '#13132a' : '#f9fafb',
+                    border: `1px solid ${background_style === 'dark' ? '#1e1e3a' : '#f3f4f6'}`,
+                    padding: compact ? '8px 10px' : '10px 12px',
+                    opacity: !hasServices ? 0.45 : 1,
+                  }}>
+                  {svc.image_url
+                    ? <img src={svc.image_url} alt="" className="w-10 h-10 rounded-lg object-cover flex-shrink-0" />
+                    : <div className="rounded-lg flex-shrink-0 flex items-center justify-center"
+                        style={{ width: compact ? 32 : 38, height: compact ? 32 : 38, background: primary_color + '20' }}>
+                        <svg viewBox="0 0 24 24" style={{ width: compact ? 14 : 17, height: compact ? 14 : 17, fill: primary_color }}>
+                          <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/>
+                        </svg>
+                      </div>
+                  }
+                  <div className="min-w-0">
+                    <p className="font-bold truncate" style={{ fontSize: compact ? 11 : 13, color: background_style === 'dark' ? '#e2e8f0' : '#1f2937' }}>{svc.title}</p>
+                    {svc.description && <p className="truncate mt-0.5" style={{ fontSize: compact ? 9 : 11, color: background_style === 'dark' ? '#6b7280' : '#9ca3af' }}>{svc.description}</p>}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
 
