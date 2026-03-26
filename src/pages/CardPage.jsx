@@ -125,7 +125,7 @@ export default function CardPage() {
           {/* ── SERVICES ── */}
           {services.length > 0 && (
             <FadeIn delay={0.2}>
-              <ServicesSection services={services} waLink={waLink} color={color} />
+              <ServicesSection services={services} phone={card.phone} color={color} />
             </FadeIn>
           )}
 
