@@ -118,13 +118,14 @@ export async function createCard(userId, cardData) {
         description: s.description || '',
         image_url: s.image_url || '',
         price: s.price || '',
+        size: s.size || 'full',
         order_index: i,
       }));
     if (serviceRows.length > 0) {
       const { error } = await supabase.from('card_services').insert(serviceRows);
       if (error) {
-        const rowsNoPrice = serviceRows.map(({ price, ...row }) => row);
-        await supabase.from('card_services').insert(rowsNoPrice);
+        const rowsNoExtras = serviceRows.map(({ price, size, ...row }) => row);
+        await supabase.from('card_services').insert(rowsNoExtras);
       }
     }
   }
