@@ -24,7 +24,7 @@ const DEFAULT_CARD = {
   whatsapp_message: 'היי, הגעתי דרך הכרטיס שלך ורוצה לקבוע תור',
   instagram: '', facebook: '', tiktok: '', location_url: '', booking_url: '',
   template: 1, primary_color: '#4F46E5', background_style: 'gradient',
-  services: [], services_layout: 'list', whatsapp_position: 'top',
+  services: [], services_layout: 'list', whatsapp_position: 'bottom',
   slug: '',
 };
 
