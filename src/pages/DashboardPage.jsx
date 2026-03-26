@@ -50,7 +50,7 @@ export default function DashboardPage() {
       <nav className="sticky top-0 z-30 bg-white border-b border-gray-100">
         <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <button onClick={() => navigate('/')} className="w-8 h-8 rounded-xl flex items-center justify-center text-white font-bold text-sm" style={{ background: 'linear-gradient(135deg, #4F46E5, #7C3AED)' }}>M</button>
+            <button onClick={() => navigate('/')} className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #4F46E5, #7C3AED)' }}><LogoMark size={20} color="white" /></button>
             <span className="font-bold text-gray-900">MyCard</span>
           </div>
           <button onClick={logout} className="text-sm text-gray-500 hover:text-gray-700 px-3 py-1.5 rounded-lg hover:bg-gray-100 transition-colors">התנתק</button>
