@@ -54,21 +54,26 @@ export default function PhoneMockup({ children, className = '', overlay = null }
           </div>
 
           {/* App content */}
-          <div
-            className="overflow-y-auto bg-white"
-            style={{ height: '470px' }}
-          >
-            <AnimatePresence mode="wait">
-              <motion.div
-                key="content"
-                initial={{ opacity: 0.8 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.15 }}
-                className="h-full"
-              >
-                {children}
-              </motion.div>
-            </AnimatePresence>
+          <div className="relative" style={{ height: '470px' }}>
+            <div className="overflow-y-auto bg-white h-full">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key="content"
+                  initial={{ opacity: 0.8 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.15 }}
+                  className="h-full"
+                >
+                  {children}
+                </motion.div>
+              </AnimatePresence>
+            </div>
+            {/* Non-scrolling overlay layer */}
+            {overlay && (
+              <div className="absolute inset-0 pointer-events-none">
+                {overlay}
+              </div>
+            )}
           </div>
         </div>
 
