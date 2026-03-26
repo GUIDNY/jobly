@@ -136,18 +136,10 @@ export default function HomePage() {
   const [slug, setSlug] = useState('');
   const [slugStatus, setSlugStatus] = useState('idle');
   const [slugSuggestions, setSlugSuggestions] = useState([]);
-  const [heroDemo, setHeroDemo] = useState(0);
-
   const fileInputRef = useRef(null);
   const slugTimer = useRef(null);
 
   const update = useCallback((field, value) => setForm(prev => ({ ...prev, [field]: value })), []);
-
-  // Rotate hero demo phone
-  useEffect(() => {
-    const t = setInterval(() => setHeroDemo(i => (i + 1) % HERO_DEMOS.length), 3500);
-    return () => clearInterval(t);
-  }, []);
 
   // Slug from business name
   useEffect(() => {
