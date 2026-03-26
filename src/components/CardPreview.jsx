@@ -152,32 +152,45 @@ export default function CardPreview({ data = {}, compact = false, showActions = 
           {services_layout === 'grid' ? (
             /* ── Grid layout ── */
             <div className="grid grid-cols-2 gap-2" style={{ opacity: !hasServices ? 0.45 : 1 }}>
-              {displayServices.map((svc, i) => (
-                <div key={i} className="rounded-xl overflow-hidden relative"
-                  style={{ height: compact ? 72 : 90, background: background_style === 'dark' ? '#13132a' : primary_color + '12' }}>
+              {displayServices.map((svc, i) => {
+                const isFull = (svc.size || 'half') === 'full';
+                const halfH = compact ? 72 : 90;
+                const fullH = compact ? 144 : 200;
+                return (
+                <div key={i}
+                  className={`rounded-xl overflow-hidden relative ${isFull ? 'col-span-2' : 'col-span-1'}`}
+                  style={{ height: isFull ? fullH : halfH, background: background_style === 'dark' ? '#13132a' : primary_color + '12' }}>
                   {svc.image_url ? (
                     <>
                       <img src={svc.image_url} alt="" className="w-full h-full object-cover" />
-                      <div className="absolute inset-0 flex flex-col justify-end p-1.5"
-                        style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.72) 0%, transparent 55%)' }}>
-                        <p className="text-white font-bold leading-tight truncate" style={{ fontSize: compact ? 9 : 11 }}>{svc.title}</p>
-                        {svc.description && <p className="truncate" style={{ fontSize: compact ? 7.5 : 9, color: 'rgba(255,255,255,0.72)' }}>{svc.description}</p>}
+                      <div className="absolute inset-0 flex flex-col justify-end"
+                        style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.72) 0%, transparent 55%)', padding: isFull ? '12px 14px' : '6px' }}>
+                        <p className="text-white font-bold leading-tight truncate" style={{ fontSize: isFull ? (compact ? 13 : 16) : (compact ? 9 : 11) }}>{svc.title}</p>
+                        {svc.description && <p className="truncate" style={{ fontSize: isFull ? (compact ? 10 : 12) : (compact ? 7.5 : 9), color: 'rgba(255,255,255,0.72)' }}>{svc.description}</p>}
+                        {isFull && svc.price && (
+                          <span className="mt-1.5 self-start font-bold rounded-lg px-2.5 py-1"
+                            style={{ fontSize: compact ? 10 : 12, background: 'rgba(255,255,255,0.2)', color: '#fff', backdropFilter: 'blur(4px)' }}>
+                            {svc.price}
+                          </span>
+                        )}
                       </div>
                     </>
                   ) : (
                     <div className="w-full h-full flex flex-col items-center justify-center gap-1 px-1">
                       <div className="rounded-lg flex items-center justify-center"
-                        style={{ width: compact ? 24 : 30, height: compact ? 24 : 30, background: primary_color + '25' }}>
-                        <svg viewBox="0 0 24 24" style={{ width: compact ? 12 : 15, height: compact ? 12 : 15, fill: primary_color }}>
+                        style={{ width: isFull ? (compact ? 36 : 48) : (compact ? 24 : 30), height: isFull ? (compact ? 36 : 48) : (compact ? 24 : 30), background: primary_color + '25' }}>
+                        <svg viewBox="0 0 24 24" style={{ width: isFull ? (compact ? 18 : 24) : (compact ? 12 : 15), height: isFull ? (compact ? 18 : 24) : (compact ? 12 : 15), fill: primary_color }}>
                           <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/>
                         </svg>
                       </div>
-                      <p className="font-bold text-center px-0.5 truncate w-full" style={{ fontSize: compact ? 9 : 11, color: background_style === 'dark' ? '#e2e8f0' : '#1f2937' }}>{svc.title}</p>
-                      {svc.description && <p className="text-center truncate w-full px-0.5" style={{ fontSize: compact ? 7.5 : 9, color: '#9ca3af' }}>{svc.description}</p>}
+                      <p className="font-bold text-center px-0.5 truncate w-full" style={{ fontSize: isFull ? (compact ? 12 : 15) : (compact ? 9 : 11), color: background_style === 'dark' ? '#e2e8f0' : '#1f2937' }}>{svc.title}</p>
+                      {svc.description && <p className="text-center truncate w-full px-0.5" style={{ fontSize: isFull ? (compact ? 9 : 11) : (compact ? 7.5 : 9), color: '#9ca3af' }}>{svc.description}</p>}
+                      {isFull && svc.price && <span className="font-bold rounded-lg px-2 py-0.5 mt-1" style={{ fontSize: compact ? 9 : 11, background: primary_color + '18', color: primary_color }}>{svc.price}</span>}
                     </div>
                   )}
                 </div>
-              ))}
+                );
+              })}
             </div>
           ) : (
             /* ── List layout (default) — grid with per-service full/half ── */
