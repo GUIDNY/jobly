@@ -344,7 +344,7 @@ export default function HomePage() {
               <div className="flex items-center gap-2 mb-4">
                 <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
                 <span className="text-sm font-medium text-gray-400">
-                  {hasUserData ? 'תצוגה מקדימה חיה' : 'דוגמת כרטיס'}
+                  {form.avatar_url ? 'תצוגה מקדימה חיה' : 'התחל מהתמונה שלך'}
                 </span>
               </div>
 
