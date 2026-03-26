@@ -511,7 +511,7 @@ function Step2({ form, update, userId }) {
 
   const addService = () => {
     if (form.services.length >= 5) return;
-    update('services', [...form.services, { title: '', description: '', image_url: '' }]);
+    update('services', [...form.services, { title: '', description: '', image_url: '', price: '' }]);
   };
 
   const updateService = (i, field, value) => {
