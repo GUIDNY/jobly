@@ -183,34 +183,8 @@ export default function HomePage() {
   const handleAuthSuccess = () => { saveDraft({ ...form, slug }); navigate('/builder'); };
   const slugDisplay = slug || 'שם-העסק';
 
-  // Hero phone: show user's live preview once they start filling in data, else show static demo
-  const hasUserData = !!(form.business_name || form.avatar_url);
-  const heroPhoneData = hasUserData
-    ? { ...form, card_services: form.card_services || [] }
-    : { ...HERO_DEMO, background_style: form.background_style, primary_color: form.primary_color };
-
-  // Upload overlay — inside phone, fixed (non-scrolling) over the avatar circle
-  // Avatar center within the 470px content area: paddingTop(28) + avatarHalf(36) = 64px
-  const phoneUploadOverlay = !form.avatar_url ? (
-    <motion.button
-      initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-      onClick={() => fileInputRef.current?.click()}
-      className="pointer-events-auto rounded-full flex flex-col items-center justify-center gap-0.5"
-      style={{
-        position: 'absolute',
-        top: 64, left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 72, height: 72,
-        background: 'rgba(0,0,0,0.22)',
-      }}
-    >
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round">
-        <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/>
-        <circle cx="12" cy="13" r="4"/>
-      </svg>
-      <span className="text-[9px] font-semibold text-white leading-tight" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.4)' }}>העלה תמונה</span>
-    </motion.button>
-  ) : null;
+  // Hero phone content
+  const heroPhoneData = { ...form, card_services: form.card_services || [] };
 
   return (
     <div className="min-h-screen overflow-x-hidden" style={{ background: '#ffffff' }} dir="rtl">
