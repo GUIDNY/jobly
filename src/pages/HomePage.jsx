@@ -76,6 +76,7 @@ const DEMOS = [
     primary_color: '#16A34A',
     template: 1,
     background_style: 'image',
+    whatsapp_position: 'bottom',
     avatar_url: 'https://images.pexels.com/photos/1552242/pexels-photo-1552242.jpeg?auto=compress&cs=tinysrgb&w=600',
     card_services: [
       { title: 'אימון אישי', description: '₪180 · 60 דקות' },
