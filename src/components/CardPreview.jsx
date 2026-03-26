@@ -375,16 +375,20 @@ function CardHeader({ bgStyle, color, avatarUrl, name, desc, theme, compact, tit
   return null;
 }
 
-function HeaderText({ name, desc, theme, compact, addShadow }) {
+const NAME_SIZES = { sm: [14, 17], md: [17, 21], lg: [20, 26] };
+
+function HeaderText({ name, desc, theme, compact, addShadow, titleAlign = 'center', nameSize = 'md' }) {
   const shadow = addShadow ? '0 1px 8px rgba(0,0,0,0.5)' : undefined;
+  const [compactSize, fullSize] = NAME_SIZES[nameSize] || NAME_SIZES.md;
+  const align = titleAlign || 'center';
   return (
     <>
-      <h1 className="font-black text-center px-5 mt-3 leading-tight relative z-10"
-        style={{ fontSize: compact ? 17 : 21, color: theme.textColor, textShadow: shadow }}>
+      <h1 className="font-black px-5 mt-3 leading-tight relative z-10 w-full"
+        style={{ fontSize: compact ? compactSize : fullSize, color: theme.textColor, textShadow: shadow, textAlign: align }}>
         {name}
       </h1>
-      <p className="text-center px-6 mt-1 relative z-10"
-        style={{ color: theme.subColor, fontSize: compact ? 11 : 13, lineHeight: 1.4, textShadow: shadow }}>
+      <p className="px-6 mt-1 relative z-10 w-full"
+        style={{ color: theme.subColor, fontSize: compact ? 11 : 13, lineHeight: 1.4, textShadow: shadow, textAlign: align }}>
         {desc}
       </p>
     </>
