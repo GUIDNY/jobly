@@ -414,12 +414,30 @@ export default function HomePage() {
       </section>
 
       {/* ── SOCIAL PROOF STRIP ──────────────────────────────────────────────── */}
-      <section className="border-b border-gray-100 py-5 bg-white">
+      <section className="border-y border-gray-100 py-8 bg-white">
         <div className="max-w-5xl mx-auto px-5">
-          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
-            <span className="text-xs font-semibold text-gray-400 uppercase tracking-widest">אלפי עסקים בישראל:</span>
-            {['💈 מספרות', '💅 נייל ארט', '🏋️ מאמני כושר', '🛠️ בעלי מקצוע', '🌿 קוסמטיקאיות', '🍕 מסעדות'].map((b, i) => (
-              <span key={i} className="text-xs font-medium text-gray-500">{b}</span>
+          <p className="text-center text-xs font-semibold text-gray-400 uppercase tracking-widest mb-6">
+            אלפי עסקים בישראל כבר משתמשים
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            {[
+              { emoji: '💈', label: 'מספרות' },
+              { emoji: '💅', label: 'נייל ארט' },
+              { emoji: '🏋️', label: 'מאמני כושר' },
+              { emoji: '🛠️', label: 'בעלי מקצוע' },
+              { emoji: '🌿', label: 'קוסמטיקאיות' },
+              { emoji: '🍕', label: 'מסעדות' },
+              { emoji: '📸', label: 'צלמים' },
+              { emoji: '🎨', label: 'מעצבים' },
+            ].map((b, i) => (
+              <motion.div key={i}
+                initial={{ opacity: 0, scale: 0.85 }} whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }} transition={{ delay: i * 0.05 }}
+                className="flex items-center gap-2 bg-gray-50 border border-gray-100 rounded-2xl px-4 py-2.5 hover:border-gray-200 hover:bg-gray-100 transition-colors"
+              >
+                <span className="text-lg leading-none">{b.emoji}</span>
+                <span className="text-xs font-semibold text-gray-600">{b.label}</span>
+              </motion.div>
             ))}
           </div>
         </div>
