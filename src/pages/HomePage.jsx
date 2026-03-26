@@ -229,24 +229,20 @@ export default function HomePage() {
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}
             >
               {/* Headline */}
-              <h1 className="text-[38px] md:text-[52px] font-black text-gray-900 leading-[1.1] tracking-tight mb-4">
-                הדרך החכמה<br />
-                <span style={{ color: '#4F46E5' }}>לקבל יותר לקוחות</span>
-              </h1>
-              <p className="text-gray-500 text-lg leading-relaxed mb-8 max-w-md">
-                כרטיס ביקור דיגיטלי שלקוחות לוחצים עליו — ופונים אליך ישירות בוואטסאפ.
-              </p>
-
-              {/* Feature checkmarks */}
-              <div className="flex flex-col gap-2.5 mb-8">
-                {['מותאם לנייד לחלוטין', 'כפתור WhatsApp מובנה', 'כתובת אישית mycard.co.il', 'מוכן תוך 2 דקות'].map((f, i) => (
-                  <div key={i} className="flex items-center gap-2.5">
-                    <div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: '#111827' }}>
-                      <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>
-                    </div>
-                    <span className="text-sm font-medium text-gray-700">{f}</span>
-                  </div>
-                ))}
+              <div className="mb-7">
+                <div className="inline-flex items-center gap-2 bg-indigo-50 border border-indigo-100 rounded-full px-3 py-1 mb-5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse" />
+                  <span className="text-xs font-bold text-indigo-600 tracking-wide">כרטיס ביקור דיגיטלי</span>
+                </div>
+                <h1 className="text-[40px] md:text-[54px] font-black text-gray-900 leading-[1.08] tracking-tight">
+                  הדרך החכמה<br />
+                  <span style={{ background: 'linear-gradient(135deg, #4F46E5, #7C3AED)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                    לקבל יותר לקוחות
+                  </span>
+                </h1>
+                <p className="text-gray-400 text-base leading-relaxed mt-4 max-w-sm">
+                  לקוחות רואים את הכרטיס שלך — ופונים אליך ישירות בוואטסאפ. בחינם, תוך דקות.
+                </p>
               </div>
 
               {/* Builder card */}
