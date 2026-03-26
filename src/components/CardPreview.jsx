@@ -43,8 +43,8 @@ export default function CardPreview({ data = {}, compact = false, showActions = 
   const placeholderName = business_name || 'שם העסק';
   const placeholderDesc = description || 'תיאור קצר על העסק שלך';
 
-  if (template === 2) return <Template2 {...{ placeholderName, placeholderDesc, avatar_url, phone, waLink, callLink, primary_color, instagram, facebook, tiktok, location_url, booking_url, card_services, compact, showActions, services_layout, whatsapp_position }} />;
-  if (template === 3) return <Template3 {...{ placeholderName, placeholderDesc, avatar_url, phone, waLink, callLink, primary_color, instagram, facebook, tiktok, location_url, booking_url, card_services, compact, showActions, services_layout, whatsapp_position }} />;
+  if (template === 2) return <Template2 {...{ placeholderName, placeholderDesc, avatar_url, phone, waLink, callLink, primary_color, instagram, facebook, tiktok, location_url, booking_url, card_services, compact, showActions, services_layout, whatsapp_position, title_align, name_size }} />;
+  if (template === 3) return <Template3 {...{ placeholderName, placeholderDesc, avatar_url, phone, waLink, callLink, primary_color, instagram, facebook, tiktok, location_url, booking_url, card_services, compact, showActions, services_layout, whatsapp_position, title_align, name_size }} />;
 
   const hasPhone = !!phone;
   const hasServices = card_services && card_services.length > 0;
