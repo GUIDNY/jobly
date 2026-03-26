@@ -231,7 +231,7 @@ export default function CardPreview({ data = {}, compact = false, showActions = 
       )}
 
       {/* ── Social ── */}
-      {hasSocial && (
+      {showSocial && hasSocial && (
         <div className="flex gap-2.5 justify-center" style={{ padding: compact ? '12px 14px 0' : '16px 16px 0', background: background_style === 'dark' ? '#0a0a12' : '#fff' }}>
           {instagram && <SocialBtn href={`https://instagram.com/${instagram.replace('@', '')}`} color="#E1306C"><InstagramIcon size={compact ? 14 : 18} /></SocialBtn>}
           {facebook && <SocialBtn href={facebook.startsWith('http') ? facebook : `https://facebook.com/${facebook}`} color="#1877F2"><FacebookIcon size={compact ? 14 : 18} /></SocialBtn>}
