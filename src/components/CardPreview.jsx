@@ -304,6 +304,9 @@ export default function CardPreview({ data = {}, compact = false, showActions = 
         </div>
       )}
 
+      {/* WhatsApp — bottom position */}
+      {whatsapp_position === 'bottom' && actionButtons}
+
       {/* ── Social ── */}
       {showSocial && hasSocial && (
         <div className="flex gap-2.5 justify-center" style={{ padding: compact ? '12px 14px 0' : '16px 16px 0', background: background_style === 'dark' ? '#0a0a12' : '#fff' }}>
@@ -313,9 +316,6 @@ export default function CardPreview({ data = {}, compact = false, showActions = 
           {location_url && <SocialBtn href={location_url} color="#4285F4"><MapPinIcon size={compact ? 14 : 18} /></SocialBtn>}
         </div>
       )}
-
-      {/* WhatsApp — bottom position */}
-      {whatsapp_position === 'bottom' && actionButtons}
 
       {/* ── Footer ── */}
       <div className="text-center pb-5 mt-3" style={{ fontSize: compact ? 9 : 11, color: background_style === 'dark' ? '#374151' : '#d1d5db', background: background_style === 'dark' ? '#0a0a12' : '#fff' }}>
