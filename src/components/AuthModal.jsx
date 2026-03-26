@@ -87,8 +87,8 @@ export default function AuthModal({ isOpen, onClose, onSuccess }) {
 
             {/* Logo/Title */}
             <div className="text-center mb-6">
-              <div className="w-12 h-12 rounded-2xl mx-auto mb-3 flex items-center justify-center text-white font-bold text-lg" style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
-                M
+              <div className="w-12 h-12 rounded-2xl mx-auto mb-3 flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
+                <LogoMark size={28} color="white" />
               </div>
               <h2 className="text-xl font-bold text-gray-900">
                 {mode === 'login' ? 'ברוך הבא ל-Vizzit' : 'צור חשבון חינמי'}
