@@ -548,7 +548,7 @@ export default function HomePage() {
       <footer className="bg-black py-8 px-5">
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-lg flex items-center justify-center text-black font-black text-xs bg-white">M</div>
+            <div className="w-7 h-7 rounded-lg flex items-center justify-center bg-white"><LogoMark size={18} color="#111827" /></div>
             <span className="font-black text-white text-base">MyCard</span>
           </div>
           <p className="text-gray-600 text-xs text-center">כרטיס ביקור דיגיטלי לבעלי עסקים ישראלים</p>
