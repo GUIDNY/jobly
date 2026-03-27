@@ -585,6 +585,7 @@ function Step2({ form, update, userId, onUploadingChange }) {
 
   const handleServiceImage = async (i, file) => {
     if (!file) return;
+    setUploadError('');
     updateService(i, 'image_url', URL.createObjectURL(file));
     if (userId) {
       setUploading(i, true);
@@ -593,6 +594,7 @@ function Step2({ form, update, userId, onUploadingChange }) {
         updateService(i, 'image_url', url);
       } catch (err) {
         console.error(err);
+        setUploadError(err?.message || 'שגיאה בהעלאת תמונה');
         updateService(i, 'image_url', '');
       } finally {
         setUploading(i, false);
