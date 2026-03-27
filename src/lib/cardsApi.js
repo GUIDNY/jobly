@@ -123,10 +123,7 @@ export async function createCard(userId, cardData) {
       }));
     if (serviceRows.length > 0) {
       const { error } = await supabase.from('card_services').insert(serviceRows);
-      if (error) {
-        const rowsNoExtras = serviceRows.map(({ price, size, ...row }) => row);
-        await supabase.from('card_services').insert(rowsNoExtras);
-      }
+      if (error) throw error;
     }
   }
   return data;
@@ -158,10 +155,7 @@ export async function updateCard(cardId, cardData) {
       }));
     if (serviceRows.length > 0) {
       const { error } = await supabase.from('card_services').insert(serviceRows);
-      if (error) {
-        const rowsNoExtras = serviceRows.map(({ price, size, ...row }) => row);
-        await supabase.from('card_services').insert(rowsNoExtras);
-      }
+      if (error) throw error;
     }
   }
   return data;
