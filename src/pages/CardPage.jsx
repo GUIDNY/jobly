@@ -122,7 +122,7 @@ export default function CardPage() {
       ══════════════════════════════════════════ */}
       <div className="hidden md:flex flex-col min-h-screen" style={{ background: '#f1f5f9' }} dir="rtl">
 
-        {/* ── Top nav ── */}
+        {/* ── Top nav — logo + social only, no WA (WA is in sidebar) ── */}
         <nav className="sticky top-0 z-30 bg-white/90 backdrop-blur border-b border-gray-100">
           <div className="max-w-6xl mx-auto px-8 h-14 flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -134,23 +134,14 @@ export default function CardPage() {
               }
               <span className="font-bold text-gray-900 text-sm">{card.business_name}</span>
             </div>
-            <div className="flex items-center gap-3">
-              {hasSocial && (
-                <div className="flex items-center gap-2">
-                  {card.instagram && <a href={`https://instagram.com/${card.instagram.replace('@','')}`} target="_blank" rel="noopener noreferrer" className="w-7 h-7 rounded-full flex items-center justify-center text-white transition-transform hover:scale-110" style={{ background: '#E1306C' }}><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>}
-                  {card.facebook && <a href={card.facebook.startsWith('http') ? card.facebook : `https://facebook.com/${card.facebook}`} target="_blank" rel="noopener noreferrer" className="w-7 h-7 rounded-full flex items-center justify-center text-white transition-transform hover:scale-110" style={{ background: '#1877F2' }}><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>}
-                  {card.tiktok && <a href={`https://tiktok.com/@${card.tiktok.replace('@','')}`} target="_blank" rel="noopener noreferrer" className="w-7 h-7 rounded-full flex items-center justify-center text-white transition-transform hover:scale-110" style={{ background: '#010101' }}><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.28 8.28 0 004.84 1.55V6.79a4.84 4.84 0 01-1.07-.1z"/></svg></a>}
-                  {card.location_url && <a href={card.location_url} target="_blank" rel="noopener noreferrer" className="w-7 h-7 rounded-full flex items-center justify-center text-white transition-transform hover:scale-110" style={{ background: '#4285F4' }}><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></a>}
-                </div>
-              )}
-              {waLink && (
-                <a href={waLink} target="_blank" rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl text-white font-semibold text-sm"
-                  style={{ background: '#25D366' }}>
-                  <WAIcon /> WhatsApp
-                </a>
-              )}
-            </div>
+            {hasSocial && (
+              <div className="flex items-center gap-2">
+                {card.instagram && <a href={`https://instagram.com/${card.instagram.replace('@','')}`} target="_blank" rel="noopener noreferrer" className="w-7 h-7 rounded-full flex items-center justify-center text-white transition-transform hover:scale-110" style={{ background: '#E1306C' }}><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>}
+                {card.facebook && <a href={card.facebook.startsWith('http') ? card.facebook : `https://facebook.com/${card.facebook}`} target="_blank" rel="noopener noreferrer" className="w-7 h-7 rounded-full flex items-center justify-center text-white transition-transform hover:scale-110" style={{ background: '#1877F2' }}><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>}
+                {card.tiktok && <a href={`https://tiktok.com/@${card.tiktok.replace('@','')}`} target="_blank" rel="noopener noreferrer" className="w-7 h-7 rounded-full flex items-center justify-center text-white transition-transform hover:scale-110" style={{ background: '#010101' }}><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.28 8.28 0 004.84 1.55V6.79a4.84 4.84 0 01-1.07-.1z"/></svg></a>}
+                {card.location_url && <a href={card.location_url} target="_blank" rel="noopener noreferrer" className="w-7 h-7 rounded-full flex items-center justify-center text-white transition-transform hover:scale-110" style={{ background: '#4285F4' }}><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></a>}
+              </div>
+            )}
           </div>
         </nav>
 
@@ -189,7 +180,7 @@ export default function CardPage() {
                       ? `https://wa.me/972${card.phone.replace(/^0/, '')}?text=${encodeURIComponent(`היי, אני מעוניין/ת בשירות: ${svc.title}`)}`
                       : null;
                     return (
-                      <div key={i} className={`bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md transition-shadow ${isFull ? 'col-span-2' : 'col-span-1'}`}>
+                      <div key={i} className={`bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md transition-shadow group ${isFull ? 'col-span-2' : 'col-span-1'}`}>
                         {svc.image_url && (
                           <div className="relative" style={{ height: isFull ? 220 : 160 }}>
                             <img src={svc.image_url} alt={svc.title} className="w-full h-full object-cover" />
@@ -209,9 +200,9 @@ export default function CardPage() {
                           </div>
                           {svcWaLink && (
                             <a href={svcWaLink} target="_blank" rel="noopener noreferrer"
-                              className="flex-shrink-0 flex items-center gap-1.5 px-4 py-2 rounded-xl text-white font-semibold text-sm whitespace-nowrap"
-                              style={{ background: '#25D366' }}>
-                              <WAIcon /> הזמן
+                              className="flex-shrink-0 font-semibold text-sm transition-colors whitespace-nowrap"
+                              style={{ color }}>
+                              לקביעת תור ←
                             </a>
                           )}
                         </div>
@@ -223,54 +214,56 @@ export default function CardPage() {
             )}
           </div>
 
-          {/* Sticky action sidebar */}
-          <div className="w-72 flex-shrink-0 sticky top-20">
-            <div className="bg-white rounded-3xl p-6 shadow-lg border border-gray-100 space-y-3">
-              <p className="font-black text-gray-900 text-lg text-center">{card.business_name}</p>
-              {card.description && <p className="text-gray-500 text-sm text-center leading-relaxed">{card.description}</p>}
-              <div className="border-t border-gray-100 pt-3 space-y-2.5">
-                {waLink && (
-                  <a href={waLink} target="_blank" rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 w-full py-3.5 rounded-2xl text-white font-bold text-sm"
-                    style={{ background: '#25D366', boxShadow: '0 4px 16px #25D36640' }}>
-                    <WAIcon /> שלח WhatsApp
-                  </a>
-                )}
+          {/* ── Sticky action sidebar ── */}
+          <div className="w-72 flex-shrink-0 sticky top-20 space-y-4">
+
+            {/* Main CTA card */}
+            {waLink && (
+              <div className="bg-white rounded-3xl p-6 shadow-lg border border-gray-100">
+                <p className="font-black text-gray-900 text-base text-center mb-1">{card.business_name}</p>
+                {card.description && <p className="text-gray-400 text-xs text-center mb-4 leading-relaxed">{card.description}</p>}
+                <a href={waLink} target="_blank" rel="noopener noreferrer"
+                  className="flex flex-col items-center justify-center gap-0.5 w-full py-4 rounded-2xl text-white font-bold"
+                  style={{ background: 'linear-gradient(135deg, #22c55e, #16a34a)', boxShadow: '0 6px 24px #22c55e44' }}>
+                  <span className="flex items-center gap-2 text-base"><WAIcon /> קבע תור עכשיו ב-WhatsApp</span>
+                  <span className="text-green-100 text-xs font-normal">מענה תוך דקות ⚡</span>
+                </a>
                 {card.phone && (
                   <a href={`tel:${card.phone}`}
-                    className="flex items-center justify-center gap-2 w-full py-3.5 rounded-2xl font-bold text-sm border-2"
-                    style={{ borderColor: color, color }}>
+                    className="flex items-center justify-center gap-2 w-full py-2.5 mt-2.5 rounded-xl text-sm font-medium border border-gray-200 text-gray-600 hover:bg-gray-50 transition-colors">
                     <PhoneIcon /> התקשר עכשיו
                   </a>
                 )}
                 {card.booking_url && (
                   <a href={card.booking_url} target="_blank" rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 w-full py-3.5 rounded-2xl font-bold text-sm text-white"
-                    style={{ background: '#1a1a2e' }}>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                    קבע תור
+                    className="flex items-center justify-center gap-2 w-full py-2.5 mt-2 rounded-xl text-sm font-medium text-gray-600 border border-gray-200 hover:bg-gray-50 transition-colors">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    קבע תור אונליין
                   </a>
                 )}
               </div>
-              {hasSocial && (
-                <div className="border-t border-gray-100 pt-3 flex justify-center gap-2.5">
-                  {card.instagram && <a href={`https://instagram.com/${card.instagram.replace('@','')}`} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform" style={{ background: '#E1306C' }}><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>}
-                  {card.facebook && <a href={card.facebook.startsWith('http') ? card.facebook : `https://facebook.com/${card.facebook}`} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform" style={{ background: '#1877F2' }}><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>}
-                  {card.tiktok && <a href={`https://tiktok.com/@${card.tiktok.replace('@','')}`} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform" style={{ background: '#010101' }}><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.28 8.28 0 004.84 1.55V6.79a4.84 4.84 0 01-1.07-.1z"/></svg></a>}
-                  {card.location_url && <a href={card.location_url} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform" style={{ background: '#4285F4' }}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></a>}
-                </div>
-              )}
+            )}
+
+            {/* Vizzit branding */}
+            <div className="text-center">
+              <a href="/" className="inline-flex items-center gap-1.5 opacity-40 hover:opacity-80 transition-opacity">
+                <div className="w-4 h-4 rounded-md flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}><LogoMark size={9} color="white" /></div>
+                <span className="text-xs text-gray-500">נוצר עם <strong>Vizzit</strong></span>
+              </a>
             </div>
           </div>
         </div>
 
-        {/* ── Footer ── */}
-        <div className="border-t border-gray-200 py-5 text-center">
-          <a href="/" className="inline-flex items-center gap-2 opacity-50 hover:opacity-100 transition-opacity">
-            <div className="w-5 h-5 rounded-md flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}><LogoMark size={11} color="white" /></div>
-            <span className="text-sm text-gray-500">נוצר עם <strong>Vizzit</strong></span>
-          </a>
-        </div>
+        {/* ── Sticky bottom WA (desktop) — appears when sidebar scrolls out ── */}
+        {waLink && (
+          <div className="hidden md:block fixed bottom-6 left-1/2 -translate-x-1/2 z-30">
+            <a href={waLink} target="_blank" rel="noopener noreferrer"
+              className="flex items-center gap-2 px-5 py-3 rounded-2xl text-white font-semibold text-sm shadow-xl"
+              style={{ background: 'linear-gradient(135deg, #22c55e, #16a34a)', boxShadow: '0 8px 28px #22c55e55' }}>
+              <WAIcon /> קבע תור ב-WhatsApp
+            </a>
+          </div>
+        )}
       </div>
     </>
   );
