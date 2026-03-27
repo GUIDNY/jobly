@@ -80,6 +80,9 @@ export default function CardPage() {
 
   const hasSocial = card.instagram || card.facebook || card.tiktok || card.location_url;
   const hasActions = !!card.phone;
+  // Calculate fixed bottom bar height: buttons (48px each + gaps) + social row + branding
+  const btnCount = hasActions ? (2 + (card.booking_url ? 1 : 0)) : 0;
+  const fixedBarHeight = (btnCount * 48 + Math.max(btnCount - 1, 0) * 8 + (hasActions ? 28 : 0)) + (hasSocial ? 52 : 0) + 36;
 
   return (
     <>
