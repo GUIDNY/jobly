@@ -312,7 +312,7 @@ export default function BuilderPage() {
             ) : (
               <button
                 onClick={handlePublish}
-                disabled={publishing}
+                disabled={publishing || imagesUploading}
                 className="flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-semibold text-white transition-all disabled:opacity-70"
                 style={{ background: published ? '#10B981' : 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}
               >
