@@ -368,7 +368,7 @@ export default function BuilderPage() {
 }
 
 // ─── Step 1: Basic Info ───────────────────────────────────────────────────────
-function Step1({ form, update, slugStatus, slugSuggestions, dbCardId }) {
+function Step1({ form, update, slugStatus, slugSuggestions, dbCardId, onUploadingChange }) {
   const fileInputRef = useRef(null);
   const [uploadingImg, setUploadingImg] = useState(false);
   const { user } = useAuth();
@@ -383,11 +383,15 @@ function Step1({ form, update, slugStatus, slugSuggestions, dbCardId }) {
     }
     if (user) {
       setUploadingImg(true);
+      onUploadingChange?.(true);
       try {
         const url = await uploadCardImage(user.id, file);
         update('avatar_url', url);
+      } catch {
+        update('avatar_url', '');
       } finally {
         setUploadingImg(false);
+        onUploadingChange?.(false);
       }
     }
   };
