@@ -609,6 +609,7 @@ function Step2({ form, update, userId, onUploadingChange }) {
         <span className="text-xs text-gray-400">{form.services.length}/5 שירותים</span>
       </div>
       <p className="text-sm text-gray-500">הוסף עד 5 שירותים שאתה מציע</p>
+      {uploadError && <p className="text-xs text-red-500 bg-red-50 px-3 py-2 rounded-xl">{uploadError}</p>}
 
       {/* Layout picker */}
       <div>
