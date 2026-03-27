@@ -533,7 +533,7 @@ function Template2({ placeholderName, placeholderDesc, avatar_url, phone, waLink
       <ServicesList services={card_services} compact={compact} phone={phone} />
       {whatsapp_position === 'bottom' && actionBar}
       <SocialRow {...{ instagram, facebook, tiktok, location_url, compact }} />
-      <div className="text-center text-gray-300 text-xs pb-6">נוצר עם Vizzit</div>
+      <div className="pb-4" />
     </div>
   );
 }
