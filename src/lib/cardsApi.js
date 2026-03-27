@@ -189,12 +189,34 @@ export async function incrementViews(cardId) {
   });
 }
 
+function compressImage(file, maxPx = 1200, quality = 0.82) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      let { width, height } = img;
+      if (width > maxPx || height > maxPx) {
+        if (width > height) { height = Math.round(height * maxPx / width); width = maxPx; }
+        else { width = Math.round(width * maxPx / height); height = maxPx; }
+      }
+      const canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+      canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+      canvas.toBlob(blob => resolve(blob || file), 'image/jpeg', quality);
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); resolve(file); };
+    img.src = url;
+  });
+}
+
 export async function uploadCardImage(userId, file) {
-  const ext = file.name.split('.').pop();
-  const path = `${userId}/${Date.now()}.${ext}`;
+  const compressed = await compressImage(file);
+  const path = `${userId}/${Date.now()}.jpg`;
   const { data, error } = await supabase.storage
     .from('card-images')
-    .upload(path, file, { upsert: true });
+    .upload(path, compressed, { upsert: true, contentType: 'image/jpeg' });
   if (error) throw error;
   const { data: { publicUrl } } = supabase.storage
     .from('card-images')
