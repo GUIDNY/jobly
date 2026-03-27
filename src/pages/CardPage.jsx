@@ -190,7 +190,7 @@ export default function CardPage() {
               style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
               <LogoMark size={9} color="white" />
             </div>
-            <span className="text-[10px] text-gray-500">נוצר עם <strong>Vizzit</strong> בחינם</span>
+            <span className="text-[10px] text-gray-500">נוצר עם <strong>Vizzit</strong></span>
           </a>
         </div>
       </div>
