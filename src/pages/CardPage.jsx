@@ -98,7 +98,7 @@ export default function CardPage() {
         transition={{ duration: 0.35, ease: 'easeOut' }}
       >
         <div className="w-full md:max-w-[400px] bg-white md:rounded-[2.5rem] md:overflow-hidden"
-          style={{ paddingBottom: (hasActions || hasSocial) ? '160px' : '16px' }}>
+          style={{ paddingBottom: `${fixedBarHeight + 24}px` }}>
           <style>{`.md-card { box-shadow: 0 32px 80px -16px ${color}30, 0 8px 24px -6px rgba(0,0,0,0.12); }`}</style>
           <div className="md-card md:rounded-[2.5rem] md:overflow-hidden">
             <CardPreview data={card} compact={false} showActions={false} showSocial={false} />
