@@ -1009,7 +1009,7 @@ function Step4({ form, update, onPublish, publishing, published, isLive, slug, p
           )}
           <button
             onClick={onPublish}
-            disabled={publishing || !slug}
+            disabled={publishing || !slug || imagesUploading}
             className="w-full py-4 rounded-2xl text-white font-bold text-base transition-all disabled:opacity-60"
             style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)', boxShadow: '0 8px 24px -4px rgba(91,196,200,0.4)' }}
           >
