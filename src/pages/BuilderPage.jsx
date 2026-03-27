@@ -557,6 +557,7 @@ function Step1({ form, update, slugStatus, slugSuggestions, dbCardId, onUploadin
 function Step2({ form, update, userId, onUploadingChange }) {
   const fileRefs = useRef({});
   const [uploadingSet, setUploadingSet] = useState(new Set());
+  const [uploadError, setUploadError] = useState('');
 
   const setUploading = (i, val) => {
     setUploadingSet(prev => {
