@@ -317,10 +317,7 @@ export default function CardPreview({ data = {}, compact = false, showActions = 
         </div>
       )}
 
-      {/* ── Footer ── */}
-      <div className="text-center pb-5 mt-3" style={{ fontSize: compact ? 9 : 11, color: background_style === 'dark' ? '#374151' : '#d1d5db', background: background_style === 'dark' ? '#0a0a12' : '#fff' }}>
-        נוצר עם <span style={{ color: background_style === 'dark' ? '#6366f1' : '#c4b5fd' }}>Vizzit</span>
-      </div>
+      <div style={{ paddingBottom: compact ? 8 : 16, background: background_style === 'dark' ? '#0a0a12' : '#fff' }} />
     </div>
   );
 }
