@@ -224,10 +224,10 @@ export default function BuilderPage() {
             {saveSuccess && <span className="text-xs text-green-600 font-medium hidden sm:block">נשמר ✓</span>}
             <button
               onClick={handleSave}
-              disabled={saving}
+              disabled={saving || imagesUploading}
               className="px-4 py-2 rounded-xl text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors disabled:opacity-60"
             >
-              {saving ? 'שומר...' : 'שמור טיוטה'}
+              {imagesUploading ? 'מעלה תמונה...' : saving ? 'שומר...' : 'שמור טיוטה'}
             </button>
           </div>
         </div>
