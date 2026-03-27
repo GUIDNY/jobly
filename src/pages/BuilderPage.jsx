@@ -549,8 +549,18 @@ function Step1({ form, update, slugStatus, slugSuggestions, dbCardId }) {
 }
 
 // ─── Step 2: Services ─────────────────────────────────────────────────────────
-function Step2({ form, update, userId }) {
+function Step2({ form, update, userId, onUploadingChange }) {
   const fileRefs = useRef({});
+  const [uploadingSet, setUploadingSet] = useState(new Set());
+
+  const setUploading = (i, val) => {
+    setUploadingSet(prev => {
+      const next = new Set(prev);
+      val ? next.add(i) : next.delete(i);
+      onUploadingChange?.(next.size > 0);
+      return next;
+    });
+  };
 
   const addService = () => {
     if (form.services.length >= 5) return;
@@ -571,10 +581,16 @@ function Step2({ form, update, userId }) {
     if (!file) return;
     updateService(i, 'image_url', URL.createObjectURL(file));
     if (userId) {
+      setUploading(i, true);
       try {
         const url = await uploadCardImage(userId, file);
         updateService(i, 'image_url', url);
-      } catch (err) { console.error(err); }
+      } catch (err) {
+        console.error(err);
+        updateService(i, 'image_url', '');
+      } finally {
+        setUploading(i, false);
+      }
     }
   };
 
