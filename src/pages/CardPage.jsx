@@ -120,7 +120,12 @@ export default function CardPage() {
       {/* ══════════════════════════════════════════
           DESKTOP LAYOUT
       ══════════════════════════════════════════ */}
-      <div className="hidden md:flex flex-col min-h-screen" style={{ background: '#f1f5f9' }} dir="rtl">
+      <style>{`
+        @keyframes pulse-wa { 0%,100%{box-shadow:0 0 0 0 #22c55e66} 50%{box-shadow:0 0 0 10px #22c55e00} }
+        .wa-pulse { animation: pulse-wa 2.2s infinite; }
+        .svc-card:hover .svc-cta { color: #16a34a; }
+      `}</style>
+      <div className="hidden md:flex flex-col min-h-screen" style={{ background: '#f0f4f8' }} dir="rtl">
 
         {/* ── Top nav — logo + social only, no WA (WA is in sidebar) ── */}
         <nav className="sticky top-0 z-30 bg-white/90 backdrop-blur border-b border-gray-100">
