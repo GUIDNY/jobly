@@ -40,6 +40,7 @@ export default function BuilderPage() {
   const [authOpen, setAuthOpen] = useState(false);
   const [loading, setLoading] = useState(!!cardId);
   const [saving, setSaving] = useState(false);
+  const [imagesUploading, setImagesUploading] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [saveError, setSaveError] = useState('');
   const [publishing, setPublishing] = useState(false);
