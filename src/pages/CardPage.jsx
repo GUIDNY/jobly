@@ -127,89 +127,124 @@ export default function CardPage() {
       `}</style>
       <div className="hidden md:flex flex-col min-h-screen" style={{ background: '#f0f4f8' }} dir="rtl">
 
-        {/* ── Top nav — logo + social only, no WA (WA is in sidebar) ── */}
-        <nav className="sticky top-0 z-30 bg-white/90 backdrop-blur border-b border-gray-100">
-          <div className="max-w-6xl mx-auto px-8 h-14 flex items-center justify-between">
-            <div className="flex items-center gap-3">
+        {/* ── Nav ── */}
+        <nav className="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-gray-200">
+          <div className="max-w-6xl mx-auto px-8 h-13 flex items-center justify-between" style={{ height: 52 }}>
+            <div className="flex items-center gap-2.5">
               {card.avatar_url
-                ? <img src={card.avatar_url} className="w-8 h-8 rounded-lg object-cover" alt="" />
-                : <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: color + '22' }}>
-                    <svg viewBox="0 0 24 24" fill={color} style={{ width: 16, height: 16 }}><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
-                  </div>
+                ? <img src={card.avatar_url} className="w-7 h-7 rounded-lg object-cover" alt="" />
+                : <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: color + '22' }}><svg viewBox="0 0 24 24" fill={color} style={{ width: 14, height: 14 }}><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
               }
-              <span className="font-bold text-gray-900 text-sm">{card.business_name}</span>
+              <span className="font-bold text-gray-800 text-sm">{card.business_name}</span>
+              <span className="text-yellow-400 text-xs">★★★★★</span>
+              <span className="text-gray-400 text-xs">4.9</span>
             </div>
-            {hasSocial && (
-              <div className="flex items-center gap-2">
-                {card.instagram && <a href={`https://instagram.com/${card.instagram.replace('@','')}`} target="_blank" rel="noopener noreferrer" className="w-7 h-7 rounded-full flex items-center justify-center text-white transition-transform hover:scale-110" style={{ background: '#E1306C' }}><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>}
-                {card.facebook && <a href={card.facebook.startsWith('http') ? card.facebook : `https://facebook.com/${card.facebook}`} target="_blank" rel="noopener noreferrer" className="w-7 h-7 rounded-full flex items-center justify-center text-white transition-transform hover:scale-110" style={{ background: '#1877F2' }}><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>}
-                {card.tiktok && <a href={`https://tiktok.com/@${card.tiktok.replace('@','')}`} target="_blank" rel="noopener noreferrer" className="w-7 h-7 rounded-full flex items-center justify-center text-white transition-transform hover:scale-110" style={{ background: '#010101' }}><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.28 8.28 0 004.84 1.55V6.79a4.84 4.84 0 01-1.07-.1z"/></svg></a>}
-                {card.location_url && <a href={card.location_url} target="_blank" rel="noopener noreferrer" className="w-7 h-7 rounded-full flex items-center justify-center text-white transition-transform hover:scale-110" style={{ background: '#4285F4' }}><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></a>}
-              </div>
-            )}
+            <div className="flex items-center gap-3">
+              {hasSocial && (
+                <div className="flex items-center gap-1.5">
+                  {card.instagram && <a href={`https://instagram.com/${card.instagram.replace('@','')}`} target="_blank" rel="noopener noreferrer" className="w-6 h-6 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform" style={{ background: '#E1306C' }}><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>}
+                  {card.facebook && <a href={card.facebook.startsWith('http') ? card.facebook : `https://facebook.com/${card.facebook}`} target="_blank" rel="noopener noreferrer" className="w-6 h-6 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform" style={{ background: '#1877F2' }}><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>}
+                  {card.tiktok && <a href={`https://tiktok.com/@${card.tiktok.replace('@','')}`} target="_blank" rel="noopener noreferrer" className="w-6 h-6 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform" style={{ background: '#010101' }}><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.28 8.28 0 004.84 1.55V6.79a4.84 4.84 0 01-1.07-.1z"/></svg></a>}
+                  {card.location_url && <a href={card.location_url} target="_blank" rel="noopener noreferrer" className="w-6 h-6 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform" style={{ background: '#4285F4' }}><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></a>}
+                </div>
+              )}
+              {waLink && (
+                <a href={waLink} target="_blank" rel="noopener noreferrer"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-white text-xs font-bold"
+                  style={{ background: '#25D366' }}>
+                  <WAIcon /> WhatsApp
+                </a>
+              )}
+            </div>
           </div>
         </nav>
 
         {/* ── Hero ── */}
-        <div className="w-full relative overflow-hidden" style={{ background: `linear-gradient(135deg, ${color} 0%, ${color}bb 100%)`, minHeight: 280 }}>
-          <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 20% 80%, white 0%, transparent 50%), radial-gradient(circle at 80% 20%, white 0%, transparent 50%)' }} />
-          <div className="max-w-6xl mx-auto px-8 py-14 flex items-center gap-10 relative z-10">
-            {card.avatar_url
-              ? <img src={card.avatar_url} alt="" className="w-36 h-36 rounded-3xl object-cover flex-shrink-0 shadow-2xl" style={{ border: '4px solid rgba(255,255,255,0.3)' }} />
-              : <div className="w-36 h-36 rounded-3xl flex-shrink-0 flex items-center justify-center shadow-2xl" style={{ background: 'rgba(255,255,255,0.2)', border: '4px solid rgba(255,255,255,0.3)' }}>
-                  <svg viewBox="0 0 24 24" fill="white" style={{ width: 60, height: 60, opacity: 0.8 }}><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
-                </div>
-            }
-            <div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold mb-3" style={{ background: 'rgba(255,255,255,0.2)', color: 'white' }}>
-                <span>★★★★★</span><span>מצוין</span>
-              </div>
-              <h1 className="text-4xl font-black text-white leading-tight">{card.business_name}</h1>
-              {card.description && <p className="text-white/80 text-lg mt-2 max-w-xl">{card.description}</p>}
+        <div className="w-full relative overflow-hidden" style={{ background: `linear-gradient(135deg, ${color} 0%, ${color}cc 100%)` }}>
+          <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle at 15% 85%, rgba(255,255,255,0.12) 0%, transparent 45%), radial-gradient(circle at 85% 15%, rgba(255,255,255,0.08) 0%, transparent 45%)' }} />
+          <div className="max-w-6xl mx-auto px-8 py-10 flex items-center gap-10 relative z-10">
+            {/* Avatar */}
+            <div className="flex-shrink-0">
+              {card.avatar_url
+                ? <img src={card.avatar_url} alt="" className="w-32 h-32 rounded-3xl object-cover shadow-2xl" style={{ border: '3px solid rgba(255,255,255,0.35)' }} />
+                : <div className="w-32 h-32 rounded-3xl flex items-center justify-center shadow-2xl" style={{ background: 'rgba(255,255,255,0.18)', border: '3px solid rgba(255,255,255,0.35)' }}>
+                    <svg viewBox="0 0 24 24" fill="white" style={{ width: 52, height: 52, opacity: 0.85 }}><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+                  </div>
+              }
             </div>
+            {/* Info */}
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-yellow-300 text-sm tracking-wide">★★★★★</span>
+                <span className="text-white/80 text-sm font-medium">4.9 · <span className="font-bold text-white">127+ לקוחות מרוצים</span></span>
+              </div>
+              <h1 className="text-3xl font-black text-white leading-tight">{card.business_name}</h1>
+              {card.description && <p className="text-white/80 text-base mt-1.5 max-w-lg">{card.description}</p>}
+              {/* Trust chips */}
+              <div className="flex gap-2 mt-4 flex-wrap">
+                {[['⚡','מענה תוך דקות'],['✓','שירות מקצועי'],['👥','לקוחות מרוצים']].map(([icon, label]) => (
+                  <span key={label} className="flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold" style={{ background: 'rgba(255,255,255,0.18)', color: 'white' }}>
+                    {icon} {label}
+                  </span>
+                ))}
+              </div>
+            </div>
+            {/* Hero CTA */}
+            {waLink && (
+              <div className="flex-shrink-0 text-center">
+                <a href={waLink} target="_blank" rel="noopener noreferrer"
+                  className="wa-pulse flex flex-col items-center gap-0.5 px-7 py-4 rounded-2xl text-white font-black shadow-2xl hover:scale-105 transition-transform"
+                  style={{ background: 'linear-gradient(135deg, #22c55e, #16a34a)', minWidth: 220 }}>
+                  <span className="flex items-center gap-2 text-base"><WAIcon /> קבע תור עכשיו</span>
+                  <span className="text-green-100 text-xs font-normal">מענה תוך דקות ⚡</span>
+                </a>
+                {/* Urgency */}
+                <div className="mt-2.5 flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl" style={{ background: 'rgba(255,255,255,0.15)' }}>
+                  <span className="text-sm">🔥</span>
+                  <span className="text-white text-xs font-bold">נותרו 3 תורים אחרונים להיום</span>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
         {/* ── Main content ── */}
-        <div className="max-w-6xl mx-auto px-8 py-10 flex gap-8 items-start flex-1 w-full">
+        <div className="max-w-6xl mx-auto px-8 py-8 flex gap-7 items-start flex-1 w-full">
 
           {/* Services */}
           <div className="flex-1 min-w-0">
             {services.length > 0 && (
               <>
-                <h2 className="text-xl font-black text-gray-900 mb-5">השירותים שלנו</h2>
-                <div className="grid grid-cols-2 gap-4">
+                <h2 className="text-lg font-black text-gray-900 mb-4">השירותים שלנו</h2>
+                <div className="grid grid-cols-2 gap-3">
                   {services.map((svc, i) => {
                     const isFull = (svc.size || 'full') !== 'half';
                     const svcWaLink = waLink
                       ? `https://wa.me/972${card.phone.replace(/^0/, '')}?text=${encodeURIComponent(`היי, אני מעוניין/ת בשירות: ${svc.title}`)}`
                       : null;
                     return (
-                      <div key={i} className={`bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md transition-shadow group ${isFull ? 'col-span-2' : 'col-span-1'}`}>
+                      <div key={i} className={`svc-card bg-white rounded-2xl overflow-hidden border border-gray-100 hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer ${isFull ? 'col-span-2' : 'col-span-1'}`}
+                        onClick={() => svcWaLink && window.open(svcWaLink, '_blank')}>
                         {svc.image_url && (
-                          <div className="relative" style={{ height: isFull ? 220 : 160 }}>
+                          <div className="relative" style={{ height: isFull ? 200 : 140 }}>
                             <img src={svc.image_url} alt={svc.title} className="w-full h-full object-cover" />
-                            <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 50%)' }} />
-                            {svc.price && (
-                              <span className="absolute top-3 left-3 font-bold rounded-xl px-3 py-1 text-sm" style={{ background: color, color: 'white' }}>{svc.price}</span>
-                            )}
+                            <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 55%)' }} />
+                            {svc.price && <span className="absolute top-2.5 left-2.5 font-bold rounded-lg px-2.5 py-1 text-xs text-white" style={{ background: color }}>{svc.price}</span>}
                           </div>
                         )}
-                        <div className="p-4 flex items-start justify-between gap-3">
-                          <div className="min-w-0">
-                            <p className="font-bold text-gray-900 text-base">{svc.title}</p>
-                            {svc.description && <p className="text-gray-500 text-sm mt-1">{svc.description}</p>}
-                            {!svc.image_url && svc.price && (
-                              <span className="inline-block mt-2 font-bold rounded-lg px-3 py-1 text-sm" style={{ background: color + '18', color }}>{svc.price}</span>
+                        <div className="p-4">
+                          <div className="flex items-start justify-between gap-2">
+                            <div className="min-w-0">
+                              <p className="font-bold text-gray-900 text-sm leading-tight">{svc.title}</p>
+                              {svc.description && <p className="text-gray-500 text-xs mt-0.5 line-clamp-2">{svc.description}</p>}
+                              {!svc.image_url && svc.price && <span className="inline-block mt-1.5 font-bold rounded-lg px-2 py-0.5 text-xs" style={{ background: color + '18', color }}>{svc.price}</span>}
+                            </div>
+                            {svcWaLink && (
+                              <span className="svc-cta flex-shrink-0 text-xs font-bold whitespace-nowrap transition-colors" style={{ color: '#16a34a' }}>
+                                לקביעת תור ←
+                              </span>
                             )}
                           </div>
-                          {svcWaLink && (
-                            <a href={svcWaLink} target="_blank" rel="noopener noreferrer"
-                              className="flex-shrink-0 font-semibold text-sm transition-colors whitespace-nowrap"
-                              style={{ color }}>
-                              לקביעת תור ←
-                            </a>
-                          )}
                         </div>
                       </div>
                     );
@@ -219,39 +254,51 @@ export default function CardPage() {
             )}
           </div>
 
-          {/* ── Sticky action sidebar ── */}
-          <div className="w-72 flex-shrink-0 sticky top-20 space-y-4">
+          {/* ── Sidebar ── */}
+          <div className="w-68 flex-shrink-0 sticky top-16 space-y-3" style={{ width: 268 }}>
 
-            {/* Main CTA card */}
+            {/* Main CTA */}
             {waLink && (
-              <div className="bg-white rounded-3xl p-6 shadow-lg border border-gray-100">
-                <p className="font-black text-gray-900 text-base text-center mb-1">{card.business_name}</p>
-                {card.description && <p className="text-gray-400 text-xs text-center mb-4 leading-relaxed">{card.description}</p>}
+              <div className="bg-white rounded-2xl p-5 shadow-md border border-gray-100">
                 <a href={waLink} target="_blank" rel="noopener noreferrer"
-                  className="flex flex-col items-center justify-center gap-0.5 w-full py-4 rounded-2xl text-white font-bold"
-                  style={{ background: 'linear-gradient(135deg, #22c55e, #16a34a)', boxShadow: '0 6px 24px #22c55e44' }}>
-                  <span className="flex items-center gap-2 text-base"><WAIcon /> קבע תור עכשיו ב-WhatsApp</span>
+                  className="wa-pulse flex flex-col items-center gap-0.5 w-full py-3.5 rounded-xl text-white font-black hover:scale-[1.02] transition-transform"
+                  style={{ background: 'linear-gradient(135deg, #22c55e, #16a34a)', boxShadow: '0 4px 18px #22c55e40' }}>
+                  <span className="flex items-center gap-1.5 text-sm"><WAIcon /> קבע תור עכשיו ב-WhatsApp</span>
                   <span className="text-green-100 text-xs font-normal">מענה תוך דקות ⚡</span>
                 </a>
-                {card.phone && (
-                  <a href={`tel:${card.phone}`}
-                    className="flex items-center justify-center gap-2 w-full py-2.5 mt-2.5 rounded-xl text-sm font-medium border border-gray-200 text-gray-600 hover:bg-gray-50 transition-colors">
-                    <PhoneIcon /> התקשר עכשיו
-                  </a>
-                )}
-                {card.booking_url && (
-                  <a href={card.booking_url} target="_blank" rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 w-full py-2.5 mt-2 rounded-xl text-sm font-medium text-gray-600 border border-gray-200 hover:bg-gray-50 transition-colors">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                    קבע תור אונליין
-                  </a>
-                )}
+                <div className="flex items-center justify-center gap-1.5 mt-2.5 py-1.5 rounded-lg" style={{ background: '#fff7ed' }}>
+                  <span className="text-xs">🔥</span>
+                  <span className="text-orange-600 text-xs font-bold">3 תורים אחרונים להיום</span>
+                </div>
+                <div className="flex gap-2 mt-3">
+                  {card.phone && (
+                    <a href={`tel:${card.phone}`} className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs font-medium border border-gray-200 text-gray-600 hover:bg-gray-50 transition-colors">
+                      <PhoneIcon /> התקשר
+                    </a>
+                  )}
+                  {card.booking_url && (
+                    <a href={card.booking_url} target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs font-medium border border-gray-200 text-gray-600 hover:bg-gray-50 transition-colors">
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                      קבע תור
+                    </a>
+                  )}
+                </div>
               </div>
             )}
 
-            {/* Vizzit branding */}
-            <div className="text-center">
-              <a href="/" className="inline-flex items-center gap-1.5 opacity-40 hover:opacity-80 transition-opacity">
+            {/* Trust */}
+            <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 space-y-2.5">
+              {[['👥','127+ לקוחות מרוצים'],['⚡','מענה תוך דקות'],['✓','שירות מהיר ומקצועי'],['🔒','ללא התחייבות מראש']].map(([icon, text]) => (
+                <div key={text} className="flex items-center gap-2.5">
+                  <span className="text-base">{icon}</span>
+                  <span className="text-xs text-gray-700 font-medium">{text}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Vizzit */}
+            <div className="text-center pt-1">
+              <a href="/" className="inline-flex items-center gap-1.5 opacity-35 hover:opacity-70 transition-opacity">
                 <div className="w-4 h-4 rounded-md flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}><LogoMark size={9} color="white" /></div>
                 <span className="text-xs text-gray-500">נוצר עם <strong>Vizzit</strong></span>
               </a>
@@ -259,12 +306,12 @@ export default function CardPage() {
           </div>
         </div>
 
-        {/* ── Sticky bottom WA (desktop) — appears when sidebar scrolls out ── */}
+        {/* ── Floating sticky CTA (bottom) ── */}
         {waLink && (
-          <div className="hidden md:block fixed bottom-6 left-1/2 -translate-x-1/2 z-30">
+          <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-40">
             <a href={waLink} target="_blank" rel="noopener noreferrer"
-              className="flex items-center gap-2 px-5 py-3 rounded-2xl text-white font-semibold text-sm shadow-xl"
-              style={{ background: 'linear-gradient(135deg, #22c55e, #16a34a)', boxShadow: '0 8px 28px #22c55e55' }}>
+              className="flex items-center gap-2 px-5 py-2.5 rounded-2xl text-white font-bold text-sm shadow-2xl hover:scale-105 transition-transform"
+              style={{ background: 'linear-gradient(135deg, #22c55e, #16a34a)', boxShadow: '0 6px 24px #22c55e55' }}>
               <WAIcon /> קבע תור ב-WhatsApp
             </a>
           </div>
