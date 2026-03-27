@@ -77,7 +77,6 @@ export default function HomePage() {
   const [slug, setSlug] = useState('');
   const [slugStatus, setSlugStatus] = useState('idle');
   const [slugSuggestions, setSlugSuggestions] = useState([]);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const fileInputRef = useRef(null);
   const slugTimer = useRef(null);
 
@@ -125,7 +124,7 @@ export default function HomePage() {
   const heroPhoneData = { ...form, card_services: form.card_services || [] };
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-white" dir="ltr">
+    <div className="min-h-screen overflow-x-hidden bg-white" dir="rtl">
 
       {/* ── NAV ── */}
       <nav className="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-gray-100">
@@ -135,26 +134,27 @@ export default function HomePage() {
             <span className="font-black text-gray-900 text-lg tracking-tight">Vizzit</span>
           </div>
           <div className="hidden md:flex items-center gap-7 text-sm font-medium text-gray-500">
-            <a href="#features" className="hover:text-gray-900 transition-colors">Features</a>
-            <a href="#how" className="hover:text-gray-900 transition-colors">How It Works</a>
-            <a href="#showcase" className="hover:text-gray-900 transition-colors">Showcase</a>
+            <a href="#features" className="hover:text-gray-900 transition-colors">יתרונות</a>
+            <a href="#how" className="hover:text-gray-900 transition-colors">איך זה עובד</a>
+            <a href="#showcase" className="hover:text-gray-900 transition-colors">דוגמאות</a>
           </div>
           <div className="flex items-center gap-2">
             {user ? (
               <button onClick={() => navigate('/dashboard')}
-                className="text-sm font-semibold px-4 py-2 rounded-lg bg-[#5BC4C8] text-white hover:bg-[#4ab0b4] transition-colors">
+                className="text-sm font-semibold px-4 py-2 rounded-lg text-white transition-colors hover:opacity-90"
+                style={{ background: '#5BC4C8' }}>
                 הדפים שלי
               </button>
             ) : (
               <>
                 <button onClick={() => setAuthOpen(true)}
                   className="text-sm font-medium text-gray-600 hover:text-gray-900 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors hidden sm:block">
-                  Log In
+                  התחבר
                 </button>
                 <button onClick={handleCTA}
                   className="text-sm font-bold text-white px-4 py-2 rounded-lg transition-all hover:opacity-90"
                   style={{ background: '#5BC4C8' }}>
-                  Get Started
+                  התחל בחינם
                 </button>
               </>
             )}
@@ -167,40 +167,40 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto px-5 py-16 md:py-24">
           <div className="flex flex-col md:flex-row items-center gap-12 md:gap-16">
 
-            {/* Left: text + interactive builder */}
-            <motion.div className="w-full md:flex-1 order-2 md:order-1"
+            {/* Right (RTL first): text + interactive builder */}
+            <motion.div className="w-full md:flex-1"
               initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
 
               <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 mb-6 border"
                 style={{ background: '#f0fafa', borderColor: '#b2e5e7' }}>
                 <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: '#5BC4C8' }} />
-                <span className="text-xs font-bold tracking-widest uppercase" style={{ color: '#2a9aa0' }}>Next-Gen Networking</span>
+                <span className="text-xs font-bold tracking-widest uppercase" style={{ color: '#2a9aa0' }}>כרטיס ביקור דיגיטלי</span>
               </div>
 
-              <h1 className="text-[38px] md:text-[52px] font-black text-gray-900 leading-[1.08] tracking-tight mb-5">
-                Your Business Card,{' '}
-                <span style={{ color: '#5BC4C8' }}>Reimagined</span>{' '}
-                for the Digital Era.
+              <h1 className="text-[38px] md:text-[52px] font-black text-gray-900 leading-[1.1] tracking-tight mb-5">
+                כרטיס הביקור שלך,{' '}
+                <span style={{ color: '#5BC4C8' }}>מחדש</span>{' '}
+                לעידן הדיגיטלי.
               </h1>
               <p className="text-gray-500 text-base leading-relaxed mb-8 max-w-md">
-                הפוך את הנוכחות המקצועית שלך לכרטיס דיגיטלי ממיר. מאמץ מינימלי, השפעה מקסימלית.
+                הפוך את הנוכחות המקצועית שלך לדף דיגיטלי שמביא לקוחות. בלי עיצוב, בלי קוד — מוכן תוך 2 דקות.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-3 mb-10">
                 <motion.button onClick={handleCTA} whileTap={{ scale: 0.97 }}
                   className="flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl text-white font-bold text-sm"
                   style={{ background: '#5BC4C8', boxShadow: '0 4px 20px rgba(91,196,200,0.35)' }}>
-                  Start Building Now
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                  התחל לבנות עכשיו
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
                 </motion.button>
                 <button onClick={() => document.getElementById('showcase')?.scrollIntoView({ behavior: 'smooth' })}
                   className="px-6 py-3.5 rounded-xl text-sm font-semibold text-gray-600 border border-gray-200 hover:bg-gray-50 transition-colors">
-                  View Showcase
+                  ראה דוגמאות
                 </button>
               </div>
 
               {/* Interactive mini-builder */}
-              <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden" dir="rtl"
+              <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden"
                 style={{ boxShadow: '0 4px 24px rgba(0,0,0,0.07)' }}>
                 <div className="p-4 space-y-3">
                   <div className="flex items-center gap-3">
@@ -210,7 +210,11 @@ export default function HomePage() {
                       {form.avatar_url ? (
                         <>
                           <img src={form.avatar_url} alt="" className="w-full h-full object-cover" />
-                          {uploadingImg && <div className="absolute inset-0 bg-black/40 flex items-center justify-center"><svg className="animate-spin w-4 h-4 text-white" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg></div>}
+                          {uploadingImg && (
+                            <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                              <svg className="animate-spin w-4 h-4 text-white" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+                            </div>
+                          )}
                         </>
                       ) : (
                         <div className="w-full h-full flex flex-col items-center justify-center gap-1">
@@ -231,9 +235,15 @@ export default function HomePage() {
                         maxLength={100} />
                     </div>
                   </div>
-                  <input type="tel" value={form.phone} onChange={e => update('phone', e.target.value.replace(/\D/g, ''))}
-                    placeholder="מספר טלפון" dir="ltr"
-                    className="w-full border border-gray-100 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-[#5BC4C8] bg-gray-50 transition-all" />
+                  <div className="relative">
+                    <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1.5 pointer-events-none">
+                      <span className="text-sm leading-none">🇮🇱</span>
+                      <div className="w-px h-3.5 bg-gray-200" />
+                    </div>
+                    <input type="tel" value={form.phone} onChange={e => update('phone', e.target.value.replace(/\D/g, ''))}
+                      placeholder="מספר טלפון" dir="ltr"
+                      className="w-full border border-gray-100 rounded-xl pr-12 pl-3 py-2.5 text-sm focus:outline-none focus:border-[#5BC4C8] bg-gray-50 transition-all" />
+                  </div>
                   <div className="flex items-center gap-2">
                     <span className="text-[10px] font-semibold text-gray-400">צבע:</span>
                     {COLORS.map(c => (
@@ -244,7 +254,7 @@ export default function HomePage() {
                   </div>
                 </div>
                 <div className="border-t border-gray-100 px-4 py-2.5 bg-gray-50/50 flex items-center justify-between">
-                  <span className="text-[11px] font-mono text-gray-400">
+                  <span className="text-[11px] font-mono text-gray-400" dir="ltr">
                     vizzit.online/<span style={{ color: '#5BC4C8' }} className="font-bold">{slugDisplay}</span>
                   </span>
                   {slugStatus === 'available' && <span className="text-[10px] font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded-full">זמין ✓</span>}
@@ -254,14 +264,15 @@ export default function HomePage() {
                   <button onClick={handleCTA}
                     className="w-full py-3 rounded-xl text-white font-bold text-sm transition-all hover:opacity-90"
                     style={{ background: '#111827' }}>
-                    {form.business_name ? `צור כרטיס ל"${form.business_name}" →` : 'Preview Your Page →'}
+                    {form.business_name ? `צור כרטיס ל"${form.business_name}" ←` : 'צור את הדף שלך בחינם ←'}
                   </button>
+                  <p className="text-center text-[11px] text-gray-400 mt-2">ללא כרטיס אשראי · מוכן תוך 2 דקות</p>
                 </div>
               </div>
             </motion.div>
 
-            {/* Right: phone mockup */}
-            <motion.div className="flex-shrink-0 flex flex-col items-center order-1 md:order-2"
+            {/* Left (RTL second): phone mockup */}
+            <motion.div className="flex-shrink-0 flex flex-col items-center"
               initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6 }}>
               <PhoneMockup>
                 <AnimatePresence mode="wait">
@@ -297,7 +308,7 @@ export default function HomePage() {
               </PhoneMockup>
               <div className="mt-3 flex items-center gap-2 text-xs text-gray-400">
                 <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
-                {form.avatar_url ? 'Live Preview' : 'Click to upload your photo'}
+                {form.avatar_url ? 'תצוגה מקדימה חיה' : 'לחץ להוספת תמונה'}
               </div>
             </motion.div>
           </div>
@@ -307,11 +318,11 @@ export default function HomePage() {
       {/* ── TRUST STRIP ── */}
       <section className="py-10 border-y border-gray-100 bg-white">
         <div className="max-w-5xl mx-auto px-5 text-center">
-          <p className="text-sm font-semibold text-gray-400 mb-6">Trusted by visionaries worldwide</p>
-          <p className="text-xs text-gray-300 mb-6">Join 12,000+ businesses crafting their digital identity with Vizzit.</p>
+          <p className="text-sm font-semibold text-gray-400 mb-2">נבחר על ידי אלפי בעלי עסקים בישראל</p>
+          <p className="text-xs text-gray-300 mb-7">מעל 12,000 עסקים בונים את הנוכחות הדיגיטלית שלהם עם Vizzit</p>
           <div className="flex flex-wrap items-center justify-center gap-8">
             {['💈 ספרות', '💅 נייל ארט', '🏋️ כושר', '🛠️ בעלי מקצוע', '🌿 קוסמטיקה', '📸 צלמים'].map((b, i) => (
-              <span key={i} className="text-sm font-black text-gray-300 tracking-widest uppercase">{b}</span>
+              <span key={i} className="text-sm font-black text-gray-200 tracking-widest">{b}</span>
             ))}
           </div>
         </div>
@@ -323,76 +334,68 @@ export default function HomePage() {
           <motion.div className="mb-12"
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <h2 className="text-4xl font-black text-gray-900 leading-tight tracking-tight">
-              Everything you need,<br />
-              <span style={{ color: '#5BC4C8' }}>none of the complexity.</span>
+              כל מה שצריך,<br />
+              <span style={{ color: '#5BC4C8' }}>בלי סיבוכים.</span>
             </h2>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Card 1 - Light */}
-            <motion.div className="rounded-3xl p-8 border border-gray-100"
-              style={{ background: '#f9fafb' }}
-              initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0 }}>
-              <div className="w-10 h-10 rounded-2xl flex items-center justify-center mb-5"
-                style={{ background: '#5BC4C820' }}>
+            {/* כרטיס 1 */}
+            <motion.div className="rounded-3xl p-8 border border-gray-100" style={{ background: '#f9fafb' }}
+              initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+              <div className="w-10 h-10 rounded-2xl flex items-center justify-center mb-5" style={{ background: '#5BC4C820' }}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5BC4C8" strokeWidth="2" strokeLinecap="round">
                   <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
                 </svg>
               </div>
-              <h3 className="text-lg font-black text-gray-900 mb-2">Under 2 Minutes to Live</h3>
+              <h3 className="text-lg font-black text-gray-900 mb-2">מוכן תוך פחות מ-2 דקות</h3>
               <p className="text-sm text-gray-500 leading-relaxed">
-                העורך שלנו מסיר את החיכוך. העלה תמונה, רשום את השירותים שלך, והדף שלך מוכן לשיתוף.
+                העורך שלנו מסיר את כל החיכוך. תמונה, שירותים, וה��ף שלך חי ומוכן לשיתוף.
               </p>
             </motion.div>
 
-            {/* Card 2 - Dark */}
-            <motion.div className="rounded-3xl p-8"
-              style={{ background: '#111827' }}
+            {/* כרטיס 2 - כהה */}
+            <motion.div className="rounded-3xl p-8" style={{ background: '#111827' }}
               initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.08 }}>
-              <div className="w-10 h-10 rounded-2xl flex items-center justify-center mb-5"
-                style={{ background: 'rgba(91,196,200,0.15)' }}>
+              <div className="w-10 h-10 rounded-2xl flex items-center justify-center mb-5" style={{ background: 'rgba(91,196,200,0.15)' }}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5BC4C8" strokeWidth="2" strokeLinecap="round">
                   <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 015.19 12.7 19.79 19.79 0 012.12 4.07 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
                 </svg>
               </div>
-              <h3 className="text-lg font-black text-white mb-2">Omni-Channel Contact</h3>
+              <h3 className="text-lg font-black text-white mb-2">כל ערוצי הקשר במקום אחד</h3>
               <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.55)' }}>
-                WhatsApp, שיחה ישירה ומייל בלחיצה אחת. תן ללקוחות לפנות אליך בדרך שנוחה להם.
+                WhatsApp, שיחה ישירה ואינסטגרם — הלקוח בוחר את הדרך הנוחה לו לפנות אליך.
               </p>
             </motion.div>
 
-            {/* Card 3 - Teal */}
-            <motion.div className="rounded-3xl p-8"
-              style={{ background: '#5BC4C8' }}
+            {/* כרטיס 3 - תכלת */}
+            <motion.div className="rounded-3xl p-8" style={{ background: '#5BC4C8' }}
               initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.12 }}>
-              <div className="w-10 h-10 rounded-2xl flex items-center justify-center mb-5"
-                style={{ background: 'rgba(255,255,255,0.2)' }}>
+              <div className="w-10 h-10 rounded-2xl flex items-center justify-center mb-5" style={{ background: 'rgba(255,255,255,0.2)' }}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round">
                   <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
                 </svg>
               </div>
-              <h3 className="text-lg font-black text-white mb-2">Geo-Ready</h3>
+              <h3 className="text-lg font-black text-white mb-2">כתובת אישית שלך</h3>
               <p className="text-sm text-white/70 leading-relaxed">
-                שלב Google Maps כדי שלקוחות ימצאו את הסטודיו שלך בלחיצה אחת.
+                vizzit.online/שם-העסק — שתף בביו, בוואטסאפ, בכרטיס הביקור הפיזי. קוד QR מוכן להדפסה.
               </p>
             </motion.div>
 
-            {/* Card 4 - Light with mini previews */}
-            <motion.div className="rounded-3xl p-8 border border-gray-100"
-              style={{ background: '#f9fafb' }}
+            {/* כרטיס 4 - עם תמונות */}
+            <motion.div className="rounded-3xl p-8 border border-gray-100" style={{ background: '#f9fafb' }}
               initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.16 }}>
-              <div className="w-10 h-10 rounded-2xl flex items-center justify-center mb-5"
-                style={{ background: '#f0fafa' }}>
+              <div className="w-10 h-10 rounded-2xl flex items-center justify-center mb-5" style={{ background: '#f0fafa' }}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5BC4C8" strokeWidth="2">
                   <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
                   <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
                 </svg>
               </div>
-              <h3 className="text-lg font-black text-gray-900 mb-2">Service Showcase</h3>
-              <p className="text-sm text-gray-500 leading-relaxed">
-                הצג את השירותים שלך עם כרטיסי ויז׳ואל עשירים. הפוך מבקרים ללקוחות על ידי הצגת בדיוק מה שאתה עושה.
+              <h3 className="text-lg font-black text-gray-900 mb-2">ויטרינת שירותים</h3>
+              <p className="text-sm text-gray-500 leading-relaxed mb-4">
+                הצג את השירותים שלך עם תמונות וסגנון. הפוך מבקרים ללקוחות על ידי הצגת בדיוק מה שאתה עושה.
               </p>
-              <div className="mt-4 flex gap-2">
+              <div className="flex gap-2">
                 {DEMOS.slice(0, 2).map((d, i) => (
                   <div key={i} className="flex-1 h-16 rounded-xl overflow-hidden">
                     <img src={d.avatar_url} alt="" className="w-full h-full object-cover" />
@@ -408,19 +411,20 @@ export default function HomePage() {
       <section id="how" className="py-20 px-5" style={{ background: '#f9fafb' }}>
         <div className="max-w-5xl mx-auto">
           <div className="flex flex-col md:flex-row items-center gap-16">
+            {/* Right (RTL): text */}
             <motion.div className="flex-1"
-              initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+              initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
               <h2 className="text-4xl font-black text-gray-900 leading-tight mb-4">
-                The Simplest Editor<br />You'll Ever Use.
+                העורך הכי פשוט<br />שתשתמש בו אי פעם.
               </h2>
               <div className="space-y-6 mt-8">
                 {[
-                  { num: '1', title: 'Input Your Essence', desc: 'שם, מקצוע ותמונה. שדות מינימליים לבהירות מקסימלית.' },
-                  { num: '2', title: 'Visual Curation', desc: 'העלה תמונת פרופיל ותמונות שירות. אנחנו מטפלים בעיצוב.' },
-                  { num: '3', title: 'Instant Deployment', desc: 'קבל כתובת URL ייחודית וקוד QR להדפסה.' },
+                  { num: '1', title: 'מלא את הפרטים שלך', desc: 'שם, מקצוע ותיאור קצר. שדות מינימליים לתוצאה מקסימלית.' },
+                  { num: '2', title: 'עיצוב ויזואלי', desc: 'העלה תמונת פרופיל ותמונות שירות. אנחנו מטפלים בעיצוב.' },
+                  { num: '3', title: 'פרסם ושתף', desc: 'קבל כתובת URL ייחודית. שלח ללקוחות, שים בביו.' },
                 ].map((s, i) => (
                   <motion.div key={i} className="flex gap-4 items-start"
-                    initial={{ opacity: 0, x: -16 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
+                    initial={{ opacity: 0, x: 16 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
                     transition={{ delay: i * 0.1 }}>
                     <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-black flex-shrink-0"
                       style={{ background: '#5BC4C8' }}>{s.num}</div>
@@ -433,23 +437,22 @@ export default function HomePage() {
               </div>
             </motion.div>
 
-            {/* Editor mockup */}
+            {/* Left (RTL): editor mockup */}
             <motion.div className="flex-1 flex justify-center"
-              initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+              initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
               <div className="w-full max-w-sm bg-white rounded-2xl border border-gray-200 overflow-hidden"
                 style={{ boxShadow: '0 8px 40px rgba(0,0,0,0.1)' }}>
-                {/* mockup header */}
                 <div className="px-4 py-3 border-b border-gray-100 flex items-center justify-between">
                   <div className="flex gap-1.5">
                     {['#f87171','#fbbf24','#4ade80'].map(c => <div key={c} className="w-2.5 h-2.5 rounded-full" style={{ background: c }} />)}
                   </div>
-                  <span className="text-[10px] font-bold text-gray-300 uppercase tracking-widest">Vizzit Studio Editor</span>
+                  <span className="text-[10px] font-bold text-gray-300 uppercase tracking-widest">Vizzit עורך</span>
                 </div>
-                <div className="p-4 space-y-3" dir="rtl">
+                <div className="p-4 space-y-3">
                   <div>
                     <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">שם העסק</p>
                     <div className="border border-gray-200 rounded-xl px-3 py-2.5 text-sm font-semibold text-gray-700">
-                      Vizzit Creative Agency
+                      סוכנות Vizzit Creative
                     </div>
                   </div>
                   <div>
@@ -467,13 +470,13 @@ export default function HomePage() {
                       <div className="w-4 h-4 rounded flex items-center justify-center" style={{ background: '#5BC4C820' }}>
                         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#5BC4C8" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
                       </div>
-                      <span className="text-sm text-gray-700 font-medium">Brand Design</span>
+                      <span className="text-sm text-gray-700 font-medium">עיצוב מותגי</span>
                     </div>
                   </div>
                   <button onClick={handleCTA}
                     className="w-full py-3 rounded-xl text-white font-bold text-sm"
                     style={{ background: '#5BC4C8' }}>
-                    Preview Your Page →
+                    תצוגה מקדימה ←
                   </button>
                 </div>
               </div>
@@ -487,7 +490,7 @@ export default function HomePage() {
         <div className="max-w-5xl mx-auto">
           <motion.div className="text-center mb-14"
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Live Examples</p>
+            <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">דוגמאות אמיתיות</p>
             <h2 className="text-4xl font-black text-gray-900 leading-tight tracking-tight">
               ככה זה נראה ללקוחות שלך
             </h2>
@@ -521,21 +524,21 @@ export default function HomePage() {
       <section className="py-24 px-5" style={{ background: 'linear-gradient(135deg, #1a6b6e 0%, #5BC4C8 100%)' }}>
         <motion.div className="max-w-2xl mx-auto text-center"
           initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-          <h2 className="text-4xl md:text-5xl font-black text-white leading-tight mb-4" dir="rtl">
-            Ready to redefine your<br />professional identity?
+          <h2 className="text-4xl md:text-5xl font-black text-white leading-tight mb-4">
+            מוכן להגדיר מחדש את<br />הזהות המקצועית שלך?
           </h2>
-          <p className="text-white/70 mb-10" dir="rtl">
-            הצטרף לאלפי עסקים וצור את כרטיס הביקור הדיגיטלי שלך היום. ללא צורך בכישורי עיצוב — רק החזון שלך.
+          <p className="text-white/70 mb-10 text-base">
+            הצטרף לאלפי בעלי עסקים וצור את הדף הדיגיטלי שלך היום.<br />ללא כישורי עיצוב — רק החזון שלך.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <motion.button onClick={handleCTA} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
               className="px-8 py-4 rounded-2xl font-black text-gray-900 bg-white text-sm"
               style={{ boxShadow: '0 4px 20px rgba(0,0,0,0.15)' }}>
-              Create Free Account
+              פתח חשבון בחינם
             </motion.button>
             <button onClick={() => setAuthOpen(true)}
               className="px-8 py-4 rounded-2xl font-semibold text-white text-sm border-2 border-white/30 hover:border-white/60 transition-colors">
-              Talk to Sales
+              דבר איתנו
             </button>
           </div>
         </motion.div>
@@ -546,17 +549,17 @@ export default function HomePage() {
         <div className="max-w-5xl mx-auto">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
             <div className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded-lg flex items-center justify-center bg-white/10">
+              <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.08)' }}>
                 <LogoMark size={18} color="white" />
               </div>
               <span className="font-black text-white">Vizzit</span>
             </div>
             <div className="flex items-center gap-6 text-xs text-gray-500">
-              <a href="/privacy" className="hover:text-gray-300 transition-colors">Privacy Policy</a>
-              <a href="/terms" className="hover:text-gray-300 transition-colors">Terms of Service</a>
-              <button onClick={() => setAuthOpen(true)} className="hover:text-gray-300 transition-colors">Contact Us</button>
+              <a href="/privacy" className="hover:text-gray-300 transition-colors">מדיניות פרטיות</a>
+              <a href="/terms" className="hover:text-gray-300 transition-colors">תנאי שימוש</a>
+              <button onClick={() => setAuthOpen(true)} className="hover:text-gray-300 transition-colors">צור קשר</button>
             </div>
-            <p className="text-gray-600 text-xs">© 2025 Vizzit Digital Atelier. All rights reserved.</p>
+            <p className="text-gray-600 text-xs">© 2025 Vizzit · כל הזכויות שמורות</p>
           </div>
         </div>
       </footer>
