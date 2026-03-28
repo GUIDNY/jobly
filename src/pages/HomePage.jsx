@@ -490,12 +490,30 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
-              { emoji: '🏋️', name: 'כושר ואימונים אישיים', desc: 'רישום למתאמנים, תוכניות אימון ותקשורת ישירה ללקוחות.', badge: '+80 מאמנים', badgeColor: '#5BC4C8' },
-              { emoji: '💅', name: 'נייל ארט ומניקור', desc: 'כרטיס ביקור דיגיטלי המוצג שמתאים בול לסטייל שלך.', badge: 'נפוץ', badgeColor: '#5BC4C8' },
-              { emoji: '💈', name: 'ספרות ועיצוב שיער', desc: 'ניהול תורים, הצגת גלריית עבודות וקשר ישיר בוואטסאפ.', badge: '+100 עסקים', badgeColor: '#5BC4C8' },
-              { emoji: '📸', name: 'צלמים ויוצרי תוכן', desc: 'חיק עבודות ויזואלי מרהיב שמושך את העין וממיר ללקוחות.', badge: '+50 צלמים', badgeColor: '#5BC4C8' },
-              { emoji: '🌿', name: 'קוסמטיקה ואסתטיקה', desc: 'מחירונים, המלצות ללקוחות ותיאום פגישות יעיל בקלות.', badge: 'נפוץ', badgeColor: '#5BC4C8' },
-              { emoji: '🛠️', name: 'שיפוצים ותחזוקה', desc: 'כל הפרטים ליצירת קשר והמנעת עבודה שמקום אחד נגיש.', badge: 'בעלי מקצוע', badgeColor: '#8b5cf6' },
+              {
+                icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M6.5 6.5a4 4 0 105.66 5.66"/><path d="M17.5 17.5a4 4 0 11-5.66-5.66"/><line x1="5" y1="19" x2="19" y2="5"/></svg>,
+                name: 'כושר ואימונים אישיים', desc: 'רישום למתאמנים, תוכניות אימון ותקשורת ישירה ללקוחות.', badge: '+80 מאמנים', badgeColor: '#5BC4C8',
+              },
+              {
+                icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>,
+                name: 'נייל ארט ומניקור', desc: 'כרטיס ביקור דיגיטלי שמתאים בדיוק לסטייל שלך.', badge: 'נפוץ', badgeColor: '#5BC4C8',
+              },
+              {
+                icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M20 7H4a2 2 0 00-2 2v6a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M12 12m-3 0a3 3 0 106 0 3 3 0 00-6 0"/></svg>,
+                name: 'ספרות ועיצוב שיער', desc: 'ניהול תורים, גלריית עבודות וקשר ישיר בוואטסאפ.', badge: '+100 עסקים', badgeColor: '#5BC4C8',
+              },
+              {
+                icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>,
+                name: 'צלמים ויוצרי תוכן', desc: 'פורטפוליו ויזואלי שמושך את העין וממיר לפניות.', badge: '+50 צלמים', badgeColor: '#5BC4C8',
+              },
+              {
+                icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>,
+                name: 'קוסמטיקה ואסתטיקה', desc: 'מחירונים, המלצות ותיאום פגישות — הכל במקום אחד.', badge: 'נפוץ', badgeColor: '#5BC4C8',
+              },
+              {
+                icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>,
+                name: 'שיפוצים ותחזוקה', desc: 'כל הפרטים ליצירת קשר — נגיש ומקצועי ממכשיר הנייד.', badge: 'בעלי מקצוע', badgeColor: '#8b5cf6',
+              },
             ].map((item, i) => (
               <motion.div key={i}
                 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
@@ -503,8 +521,8 @@ export default function HomePage() {
                 className="bg-white rounded-2xl p-5 border border-gray-100 text-right"
                 style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.05)' }}>
                 <div className="flex items-start justify-between mb-4">
-                  <div className="w-12 h-12 rounded-full flex items-center justify-center text-2xl bg-slate-50 flex-shrink-0">
-                    {item.emoji}
+                  <div className="w-12 h-12 rounded-full flex items-center justify-center bg-slate-50 flex-shrink-0" style={{ color: '#5BC4C8' }}>
+                    {item.icon}
                   </div>
                   <span className="text-[11px] font-bold px-2.5 py-1 rounded-full text-white"
                     style={{ background: item.badgeColor }}>
