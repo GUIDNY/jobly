@@ -609,7 +609,7 @@ export default function HomePage() {
         <motion.div className="max-w-2xl mx-auto text-center"
           initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
           <h2 className="text-4xl md:text-5xl font-black text-white leading-tight mb-4">
-            כמה לקוחות עברו הלאה<br />כי לא היה להם איפה לראות מה אתה עושה?
+            עמוד מקצועי לעסק שלך<br />בלחיצת כפתור אחת.
           </h2>
           <p className="text-white/70 mb-10 text-base">
             תוך 2 דקות יש לך עמוד שמרכז את כל העסק שלך ומביא פניות.<br />בחינם. בלי קוד. בלי עיצוב.
