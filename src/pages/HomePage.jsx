@@ -315,18 +315,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── TRUST STRIP ── */}
-      <section className="py-10 border-y border-gray-100 bg-white">
-        <div className="max-w-5xl mx-auto px-5 text-center">
-          <p className="text-sm font-semibold text-gray-400 mb-2">בעלי עסקים שכבר שולחים את הלינק שלהם</p>
-          <p className="text-xs text-gray-300 mb-7">ספרים, קוסמטיקאיות, מאמנים, בעלי מקצוע — כולם שולחים לינק אחד</p>
-          <div className="flex flex-wrap items-center justify-center gap-8">
-            {['💈 ספרות', '💅 נייל ארט', '🏋️ כושר', '🛠️ בעלי מקצוע', '🌿 קוסמטיקה', '📸 צלמים'].map((b, i) => (
-              <span key={i} className="text-sm font-black text-gray-200 tracking-widest">{b}</span>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* ── FEATURES BENTO ── */}
       <section id="features" className="py-20 px-5 bg-white">
