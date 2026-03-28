@@ -419,19 +419,31 @@ export default function HomePage() {
               דוגמאות לדפים פעילים
             </h2>
           </motion.div>
-          <div className="flex flex-row items-end justify-center gap-2 sm:gap-8">
+          {/* Mobile: one centered phone */}
+          <div className="flex sm:hidden justify-center">
+            <motion.div className="flex flex-col items-center"
+              initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+              <motion.div animate={{ y: [0, -10, 0] }}
+                transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}>
+                <div style={{ width: 200, height: 430, position: 'relative', overflow: 'hidden' }}>
+                  <div style={{ transform: 'scale(0.77)', transformOrigin: 'top center', position: 'absolute', top: 0, left: -18 }}>
+                    <PhoneMockup><CardPreview data={DEMOS[1]} compact /></PhoneMockup>
+                  </div>
+                </div>
+              </motion.div>
+              <p className="mt-2 text-xs font-semibold text-gray-400">{DEMOS[1].business_name}</p>
+            </motion.div>
+          </div>
+
+          {/* Desktop: three phones */}
+          <div className="hidden sm:flex flex-row items-end justify-center gap-8">
             {DEMOS.map((demo, i) => (
               <motion.div key={i} className="flex flex-col items-center"
                 initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
                 transition={{ delay: i * 0.12 }} style={{ marginBottom: i === 1 ? 20 : 0 }}>
                 <motion.div animate={{ y: [0, i === 1 ? -10 : i === 0 ? -7 : -13, 0] }}
                   transition={{ duration: 3 + i * 0.6, repeat: Infinity, ease: 'easeInOut', delay: i * 0.8 }}>
-                  <div className="block sm:hidden" style={{ width: 91, height: 205, position: 'relative', overflow: 'hidden' }}>
-                    <div style={{ transform: 'scale(0.35)', transformOrigin: 'top left', position: 'absolute' }}>
-                      <PhoneMockup><CardPreview data={demo} compact /></PhoneMockup>
-                    </div>
-                  </div>
-                  <div className="hidden sm:block" style={{ width: 195, height: 450, position: 'relative' }}>
+                  <div style={{ width: 195, height: 450, position: 'relative' }}>
                     <div style={{ transform: 'scale(0.75)', transformOrigin: 'top center', position: 'absolute', top: 0, left: -32 }}>
                       <PhoneMockup><CardPreview data={demo} compact /></PhoneMockup>
                     </div>
