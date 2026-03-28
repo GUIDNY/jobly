@@ -178,12 +178,12 @@ export default function HomePage() {
               </div>
 
               <h1 className="text-[38px] md:text-[52px] font-black text-gray-900 leading-[1.1] tracking-tight mb-5">
-                כרטיס הביקור שלך,{' '}
-                <span style={{ color: '#5BC4C8' }}>מחדש</span>{' '}
-                לעידן הדיגיטלי.
+                לינק אחד שמביא<br />
+                <span style={{ color: '#5BC4C8' }}>לקוחות תוך דקות.</span>
               </h1>
               <p className="text-gray-500 text-base leading-relaxed mb-8 max-w-md">
-                הפוך את הנוכחות המקצועית שלך לדף דיגיטלי שמביא לקוחות. בלי עיצוב, בלי קוד — מוכן תוך 2 דקות.
+                עמוד אחד שמרכז את כל העסק שלך — מי אתה, מה אתה עושה, ואיך פונים אליך.
+                הלקוח רואה, לוחץ על וואטסאפ, ומתקשר. זה כל הסיפור.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-3 mb-10">
