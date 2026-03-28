@@ -537,41 +537,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── PHONE DEMOS ── */}
-      <section className="py-20 px-5 bg-white border-t border-gray-100">
-        <div className="max-w-5xl mx-auto">
-          <motion.div className="text-center mb-14"
-            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            <p className="text-xs font-bold mb-2 uppercase tracking-widest" style={{ color: '#5BC4C8' }}>ככה זה נראה</p>
-            <h2 className="text-4xl font-black text-gray-900 leading-tight tracking-tight">
-              מה הלקוח שלך רואה
-            </h2>
-          </motion.div>
-          <div className="flex flex-row items-end justify-center gap-2 sm:gap-8">
-            {DEMOS.map((demo, i) => (
-              <motion.div key={i} className="flex flex-col items-center"
-                initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-                transition={{ delay: i * 0.12 }} style={{ marginBottom: i === 1 ? 20 : 0 }}>
-                <motion.div animate={{ y: [0, i === 1 ? -10 : i === 0 ? -7 : -13, 0] }}
-                  transition={{ duration: 3 + i * 0.6, repeat: Infinity, ease: 'easeInOut', delay: i * 0.8 }}>
-                  <div className="block sm:hidden" style={{ width: 91, height: 205, position: 'relative', overflow: 'hidden' }}>
-                    <div style={{ transform: 'scale(0.35)', transformOrigin: 'top left', position: 'absolute' }}>
-                      <PhoneMockup><CardPreview data={demo} compact /></PhoneMockup>
-                    </div>
-                  </div>
-                  <div className="hidden sm:block" style={{ width: 195, height: 450, position: 'relative' }}>
-                    <div style={{ transform: 'scale(0.75)', transformOrigin: 'top center', position: 'absolute', top: 0, left: -32 }}>
-                      <PhoneMockup><CardPreview data={demo} compact /></PhoneMockup>
-                    </div>
-                  </div>
-                </motion.div>
-                <p className="mt-2 text-xs font-semibold text-gray-400 text-center">{demo.business_name}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ── FINAL CTA ── */}
       <section className="py-24 px-5" style={{ background: 'linear-gradient(135deg, #1a6b6e 0%, #5BC4C8 100%)' }}>
         <motion.div className="max-w-2xl mx-auto text-center"
