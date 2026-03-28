@@ -343,7 +343,7 @@ export default function HomePage() {
             </motion.div>
 
             {/* כרטיס 2 - כהה */}
-            <motion.div className="rounded-3xl p-8" style={{ background: '#111827' }}
+            <motion.div className="hidden sm:block rounded-3xl p-8" style={{ background: '#111827' }}
               initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.08 }}>
               <div className="w-10 h-10 rounded-2xl flex items-center justify-center mb-5" style={{ background: 'rgba(91,196,200,0.15)' }}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5BC4C8" strokeWidth="2" strokeLinecap="round">
