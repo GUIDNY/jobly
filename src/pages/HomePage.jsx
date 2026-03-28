@@ -542,7 +542,8 @@ export default function HomePage() {
                 className="relative rounded-2xl overflow-hidden cursor-pointer group"
                 style={{ height: 300 }}
                 initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-                transition={{ delay: i * 0.07 }}>
+                transition={{ delay: i * 0.07 }}
+                onClick={() => navigate('/builder')}>
                 <img src={item.img} alt={item.name}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
                 <div className="absolute inset-0"
