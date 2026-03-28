@@ -178,8 +178,8 @@ export default function HomePage() {
               </div>
 
               <h1 className="text-[38px] md:text-[52px] font-black text-gray-900 leading-[1.1] tracking-tight mb-5">
-                תפסיק להסביר.<br />
-                <span style={{ color: '#5BC4C8' }}>שלח לינק שמדבר בעדך.</span>
+                שלח לינק.<br />
+                <span style={{ color: '#5BC4C8' }}>קבל לקוחות.</span>
               </h1>
               <p className="text-gray-500 text-base leading-relaxed mb-8 max-w-md">
                 עמוד אחד עם כל הפרטים של העסק שלך — מה אתה עושה, כמה זה עולה, ואיך פונים אליך.
