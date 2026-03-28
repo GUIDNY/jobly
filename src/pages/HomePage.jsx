@@ -509,92 +509,57 @@ export default function HomePage() {
       </section>
 
       {/* ── SHOWCASE ── */}
-      <section id="showcase" className="py-20 px-5" style={{ background: '#0f0f14' }}>
+      <section id="showcase" className="py-20 px-5 bg-gray-50">
         <div className="max-w-5xl mx-auto">
 
-          {/* Header row */}
-          <motion.div className="flex items-start justify-between mb-8"
-            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            <div>
-              <p className="text-[11px] font-bold uppercase tracking-[0.18em] mb-3" style={{ color: '#5b5b78' }}>קהילת המקצוענים שלנו</p>
-              <h2 className="text-4xl font-black leading-tight tracking-tight" style={{ color: '#ffffff' }}>
-                בעלי עסקים שכבר<br />שולחים את הלינק שלהם
-              </h2>
-            </div>
-            <span className="text-[11px] font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 mt-1"
-              style={{ background: 'rgba(91,196,200,0.12)', color: '#5BC4C8', letterSpacing: '0.08em' }}>
-              <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: '#5BC4C8' }} />
-              פעיל
+          <motion.div className="flex justify-center mb-8"
+            initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+            <span className="px-4 py-1.5 rounded-full text-sm font-bold text-white" style={{ background: '#5BC4C8' }}>
+              קהילת המקצוענים שלנו
             </span>
           </motion.div>
 
-          {/* Featured quote */}
-          <motion.div className="rounded-2xl p-7 mb-8 text-right"
-            style={{ background: '#1a1a24' }}
-            initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.08 }}>
-            <p className="text-xl font-semibold leading-relaxed" style={{ color: '#e8e8f0' }}>
-              ספרים, קוסמטיקאיות, מאמנים ובעלי מקצוע —<br />
-              <span style={{ color: '#5BC4C8' }}>כולם שולחים לינק אחד שעושה את העבודה.</span>
+          <motion.div className="text-center mb-12"
+            initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.06 }}>
+            <h2 className="text-5xl font-black text-gray-900 leading-tight tracking-tight mb-4">
+              מתאים לכל סוג של עסק
+            </h2>
+            <p className="text-gray-500 text-sm max-w-sm mx-auto leading-relaxed">
+              בין אם אתה ספר, מאמן, צלם או בעל מקצוע — Vizzit מתאים לעסק שלך בדיוק כמו שצריך.
             </p>
           </motion.div>
 
-          {/* Divider */}
-          <motion.div className="flex items-center gap-3 mb-6"
-            initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.12 }}>
-            <div className="h-px w-8" style={{ background: 'linear-gradient(90deg, #8b5cf6, #5BC4C8)' }} />
-            <span className="text-[11px] font-bold uppercase tracking-[0.18em]" style={{ color: '#5b5b78' }}>המקצועות שלנו</span>
-          </motion.div>
-
-          {/* Business rows + floating insight */}
-          <div className="relative">
-            <div className="flex flex-col gap-3 md:ml-60">
-              {[
-                { icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M20 7H4a2 2 0 00-2 2v6a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><circle cx="12" cy="12" r="3"/></svg>, name: 'ספרות ועיצוב שיער', meta: '+100 עסקים', color: '#5BC4C8' },
-                { icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M6.5 6.5a4 4 0 105.66 5.66"/><path d="M17.5 17.5a4 4 0 11-5.66-5.66"/><line x1="5" y1="19" x2="19" y2="5"/></svg>, name: 'כושר ואימונים אישיים', meta: '+80 מאמנים', color: '#8b5cf6' },
-                { icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>, name: 'קוסמטיקה ואסתטיקה', meta: 'נפוץ', color: '#F4938C' },
-                { icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>, name: 'צלמים ויוצרי תוכן', meta: '+50 צלמים', color: '#5BC4C8' },
-                { icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>, name: 'נייל ארט ומניקור', meta: 'נפוץ', color: '#F4938C' },
-                { icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>, name: 'שיפוצים ותחזוקה', meta: 'בעלי מקצוע', color: '#8b5cf6' },
-              ].map((item, i) => (
-                <motion.div key={i}
-                  initial={{ opacity: 0, x: 16 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
-                  transition={{ delay: i * 0.06 }}
-                  className="flex items-center justify-between px-5 py-4 rounded-xl text-right"
-                  style={{ background: '#1a1a24', border: '1px solid rgba(255,255,255,0.05)' }}>
-                  <div className="flex items-center gap-3">
-                    <div className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
-                      style={{ background: `${item.color}18`, color: item.color }}>
-                      {item.icon}
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3 flex-1 justify-end">
-                    <span className="font-semibold text-sm" style={{ color: '#d4d4e8' }}>{item.name}</span>
-                    <span className="text-[11px] font-bold px-2 py-0.5 rounded-md"
-                      style={{ background: `${item.color}18`, color: item.color }}>
-                      {item.meta}
-                    </span>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-
-            {/* Floating insight card */}
-            <motion.div
-              className="md:absolute md:top-0 md:left-0 mt-4 md:mt-0 rounded-2xl p-5 w-full md:w-52"
-              style={{ background: '#1a1a28', border: '1px solid rgba(255,255,255,0.07)' }}
-              initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 }}>
-              <div className="flex items-center gap-1.5 mb-4">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#F4938C" strokeWidth="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-                <span className="text-[10px] font-black uppercase tracking-[0.2em]" style={{ color: '#F4938C' }}>Insight</span>
-              </div>
-              <p className="text-[10px] uppercase tracking-widest mb-1" style={{ color: '#5b5b78' }}>פיק שיתופים</p>
-              <p className="text-sm font-semibold leading-snug mb-4" style={{ color: '#c8c8e0' }}>
-                הלינק הכי נשלח בין 18:00 ל-21:00
-              </p>
-              <span className="text-[10px] font-bold px-2.5 py-1 rounded-md" style={{ background: 'rgba(91,196,200,0.12)', color: '#5BC4C8' }}>
-                עסקים קטנים
-              </span>
-            </motion.div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {[
+              { img: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&q=80', badge: 'NEW', badgeBg: '#1a1a2e', name: 'כושר ואימונים אישיים', desc: 'תוכניות אימון, פניות ישירות וניהול לקוחות בצורה חכמה.' },
+              { img: 'https://images.unsplash.com/photo-1604654894610-df63bc536371?w=600&q=80', badge: '150+ עסקים', badgeBg: '#5BC4C8', name: 'אמנות הציפורן והמניקור', desc: 'ניהול תורים, גלריית עבודות ותקשורת נוחה עם לקוחות.' },
+              { img: 'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=600&q=80', badge: 'POPULAR', badgeBg: '#5BC4C8', name: 'ניהול תורים חכם לספרים', desc: 'הציגו את עבודותיכם ואפשרו ללקוחות לפנות בקלות.' },
+              { img: 'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=600&q=80', badge: 'Premium', badgeBg: '#8b5cf6', name: 'צלמים ויוצרי תוכן', desc: 'שדרגו גלריות ובנו ויזואליות חזקות ומערכת ממירה.' },
+              { img: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=600&q=80', badge: 'FEATURED', badgeBg: '#5BC4C8', name: 'קוסמטיקה ואסתטיקה', desc: 'ניהול זמן חכם, מחירון ברור ועבודת לקוחות מרוצים.' },
+              { img: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?w=600&q=80', badge: 'Essential', badgeBg: '#64748b', name: 'פתרונות לנותני שירות', desc: 'ניהול פרויקטים ותקשורת מלאה עם הלקוח ממקום אחד.' },
+            ].map((item, i) => (
+              <motion.div key={i}
+                className="relative rounded-2xl overflow-hidden cursor-pointer group"
+                style={{ height: 300 }}
+                initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+                transition={{ delay: i * 0.07 }}>
+                <img src={item.img} alt={item.name}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                <div className="absolute inset-0"
+                  style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.3) 55%, transparent 100%)' }} />
+                <div className="absolute top-4 left-4">
+                  <span className="text-[11px] font-bold px-3 py-1 rounded-full text-white"
+                    style={{ background: item.badgeBg }}>
+                    {item.badge}
+                  </span>
+                </div>
+                <div className="absolute bottom-0 right-0 left-0 p-5 text-right">
+                  <h3 className="text-white font-bold text-lg leading-tight mb-1.5">{item.name}</h3>
+                  <p className="text-white/65 text-xs leading-relaxed mb-3">{item.desc}</p>
+                  <span className="text-xs font-semibold" style={{ color: '#5BC4C8' }}>למידע נוסף ←</span>
+                </div>
+              </motion.div>
+            ))}
           </div>
 
         </div>
