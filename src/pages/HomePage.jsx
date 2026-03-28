@@ -348,9 +348,9 @@ export default function HomePage() {
                   <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
                 </svg>
               </div>
-              <h3 className="text-lg font-black text-gray-900 mb-2">מוכן תוך פחות מ-2 דקות</h3>
+              <h3 className="text-lg font-black text-gray-900 mb-2">2 דקות ויש לך עמוד</h3>
               <p className="text-sm text-gray-500 leading-relaxed">
-                העורך שלנו מסיר את כל החיכוך. תמונה, שירותים, וה��ף שלך חי ומוכן לשיתוף.
+                ממלאים שם, מספר וקצת פרטים — ומקבלים עמוד שמוכן לשיתוף. בלי לבזבז יום על עיצוב.
               </p>
             </motion.div>
 
