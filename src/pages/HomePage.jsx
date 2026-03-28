@@ -264,9 +264,9 @@ export default function HomePage() {
                   <button onClick={handleCTA}
                     className="w-full py-3 rounded-xl text-white font-bold text-sm transition-all hover:opacity-90"
                     style={{ background: '#111827' }}>
-                    {form.business_name ? `צור כרטיס ל"${form.business_name}" ←` : 'צור את הדף שלך בחינם ←'}
+                    {form.business_name ? `צור עמוד ל"${form.business_name}" ←` : 'קבל לינק עכשיו — בחינם ←'}
                   </button>
-                  <p className="text-center text-[11px] text-gray-400 mt-2">ללא כרטיס אשראי · מוכן תוך 2 דקות</p>
+                  <p className="text-center text-[11px] text-gray-400 mt-2">ללא כרטיס אשראי · בלי קוד · בלי עיצוב</p>
                 </div>
               </div>
             </motion.div>
