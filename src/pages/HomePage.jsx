@@ -492,7 +492,7 @@ export default function HomePage() {
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">דוגמאות אמיתיות</p>
             <h2 className="text-4xl font-black text-gray-900 leading-tight tracking-tight">
-              ככה זה נראה ללקוחות שלך
+              ככה הלקוח שלך רואה אותך
             </h2>
           </motion.div>
           <div className="flex flex-row items-end justify-center gap-2 sm:gap-6">
