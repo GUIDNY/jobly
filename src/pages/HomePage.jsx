@@ -365,9 +365,23 @@ export default function HomePage() {
                 </svg>
               </div>
               <h3 className="text-lg font-black text-white mb-2">לינק שלך. לתמיד.</h3>
-              <p className="text-sm text-white/70 leading-relaxed">
+              <p className="text-sm text-white/70 leading-relaxed mb-5">
                 vizzit.online/שם-העסק — שים בביו, שלח בוואטסאפ, הדפס על כרטיס ביקור. לינק אחד לכל מקום.
               </p>
+              <div className="flex flex-wrap gap-2">
+                <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold" style={{ background: 'rgba(255,255,255,0.15)', color: 'white' }}>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h7v7"/></svg>
+                  שיתוף QR
+                </span>
+                <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold" style={{ background: 'rgba(255,255,255,0.15)', color: 'white' }}>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+                  שיתוף לינק
+                </span>
+                <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold" style={{ background: 'rgba(255,255,255,0.15)', color: 'white' }}>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
+                  שמירה לטלפון
+                </span>
+              </div>
             </motion.div>
 
             {/* כרטיס 4 - עם תמונות */}
