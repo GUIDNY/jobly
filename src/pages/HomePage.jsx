@@ -415,13 +415,13 @@ export default function HomePage() {
             <motion.div className="flex-1"
               initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
               <h2 className="text-4xl font-black text-gray-900 leading-tight mb-4">
-                העורך הכי פשוט<br />שתשתמש בו אי פעם.
+                שלושה צעדים.<br />לינק מוכן.
               </h2>
               <div className="space-y-6 mt-8">
                 {[
-                  { num: '1', title: 'מלא את הפרטים שלך', desc: 'שם, מקצוע ותיאור קצר. שדות מינימליים לתוצאה מקסימלית.' },
-                  { num: '2', title: 'עיצוב ויזואלי', desc: 'העלה תמונת פרופיל ותמונות שירות. אנחנו מטפלים בעיצוב.' },
-                  { num: '3', title: 'פרסם ושתף', desc: 'קבל כתובת URL ייחודית. שלח ללקוחות, שים בביו.' },
+                  { num: '1', title: 'כותבים את הפרטים', desc: 'שם, מה אתה עושה, מספר טלפון. זה הכל.' },
+                  { num: '2', title: 'מעלים תמונה', desc: 'תמונה שלך או של העבודה. העמוד נראה מקצועי אוטומטית.' },
+                  { num: '3', title: 'שולחים ללקוחות', desc: 'מקבלים לינק אישי. שמים בביו, שולחים בוואטסאפ, מתחילים לקבל פניות.' },
                 ].map((s, i) => (
                   <motion.div key={i} className="flex gap-4 items-start"
                     initial={{ opacity: 0, x: 16 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
