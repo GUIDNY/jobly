@@ -174,23 +174,23 @@ export default function HomePage() {
               <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 mb-6 border"
                 style={{ background: '#f0fafa', borderColor: '#b2e5e7' }}>
                 <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: '#5BC4C8' }} />
-                <span className="text-xs font-bold tracking-widest uppercase" style={{ color: '#2a9aa0' }}>כרטיס ביקור דיגיטלי</span>
+                <span className="text-xs font-bold tracking-widest uppercase" style={{ color: '#2a9aa0' }}>חינם · מוכן תוך 2 דקות</span>
               </div>
 
               <h1 className="text-[38px] md:text-[52px] font-black text-gray-900 leading-[1.1] tracking-tight mb-5">
-                לינק אחד שמביא<br />
-                <span style={{ color: '#5BC4C8' }}>לקוחות תוך דקות.</span>
+                תפסיק להסביר.<br />
+                <span style={{ color: '#5BC4C8' }}>שלח לינק שמדבר בעדך.</span>
               </h1>
               <p className="text-gray-500 text-base leading-relaxed mb-8 max-w-md">
-                עמוד אחד שמרכז את כל העסק שלך — מי אתה, מה אתה עושה, ואיך פונים אליך.
-                הלקוח רואה, לוחץ על וואטסאפ, ומתקשר. זה כל הסיפור.
+                עמוד אחד עם כל הפרטים של העסק שלך — מה אתה עושה, כמה זה עולה, ואיך פונים אליך.
+                הלקוח רואה, לוחץ על וואטסאפ, ומגיע. זה כל הסיפור.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-3 mb-10">
                 <motion.button onClick={handleCTA} whileTap={{ scale: 0.97 }}
                   className="flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl text-white font-bold text-sm"
                   style={{ background: '#5BC4C8', boxShadow: '0 4px 20px rgba(91,196,200,0.35)' }}>
-                  התחל לבנות עכשיו
+                  בנה את הלינק שלך
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
                 </motion.button>
                 <button onClick={() => document.getElementById('showcase')?.scrollIntoView({ behavior: 'smooth' })}
