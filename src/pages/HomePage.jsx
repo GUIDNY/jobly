@@ -376,9 +376,9 @@ export default function HomePage() {
                   <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
                 </svg>
               </div>
-              <h3 className="text-lg font-black text-white mb-2">כתובת אישית שלך</h3>
+              <h3 className="text-lg font-black text-white mb-2">לינק שלך. לתמיד.</h3>
               <p className="text-sm text-white/70 leading-relaxed">
-                vizzit.online/שם-העסק — שתף בביו, בוואטסאפ, בכרטיס הביקור הפיזי. קוד QR מוכן להדפסה.
+                vizzit.online/שם-העסק — שים בביו, שלח בוואטסאפ, הדפס על כרטיס ביקור. לינק אחד לכל מקום.
               </p>
             </motion.div>
 
