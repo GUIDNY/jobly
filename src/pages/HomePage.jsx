@@ -525,16 +525,16 @@ export default function HomePage() {
         <motion.div className="max-w-2xl mx-auto text-center"
           initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
           <h2 className="text-4xl md:text-5xl font-black text-white leading-tight mb-4">
-            מוכן להגדיר מחדש את<br />הזהות המקצועית שלך?
+            כמה לקוחות עברו הלאה<br />כי לא היה להם איפה לראות מה אתה עושה?
           </h2>
           <p className="text-white/70 mb-10 text-base">
-            הצטרף לאלפי בעלי עסקים וצור את הדף הדיגיטלי שלך היום.<br />ללא כישורי עיצוב — רק החזון שלך.
+            תוך 2 דקות יש לך עמוד שמרכז את כל העסק שלך ומביא פניות.<br />בחינם. בלי קוד. בלי עיצוב.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <motion.button onClick={handleCTA} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
               className="px-8 py-4 rounded-2xl font-black text-gray-900 bg-white text-sm"
               style={{ boxShadow: '0 4px 20px rgba(0,0,0,0.15)' }}>
-              פתח חשבון בחינם
+              בנה את הלינק שלך — בחינם
             </motion.button>
             <button onClick={() => setAuthOpen(true)}
               className="px-8 py-4 rounded-2xl font-semibold text-white text-sm border-2 border-white/30 hover:border-white/60 transition-colors">
