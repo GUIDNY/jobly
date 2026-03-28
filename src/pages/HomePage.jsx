@@ -385,7 +385,7 @@ export default function HomePage() {
             </motion.div>
 
             {/* כרטיס 4 - עם תמונות */}
-            <motion.div className="hidden sm:block rounded-3xl p-8 border border-gray-100" style={{ background: '#f9fafb' }}
+            <motion.div className="rounded-3xl p-4 sm:p-8 border border-gray-100" style={{ background: '#f9fafb' }}
               initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.16 }}>
               <div className="w-10 h-10 rounded-2xl flex items-center justify-center mb-5" style={{ background: '#f0fafa' }}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5BC4C8" strokeWidth="2">
