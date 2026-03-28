@@ -486,34 +486,45 @@ export default function HomePage() {
       </section>
 
       {/* ── SHOWCASE ── */}
-      <section id="showcase" className="py-20 px-5 bg-white border-t border-gray-100">
+      <section id="showcase" className="py-20 px-5 bg-slate-50 border-t border-gray-100">
         <div className="max-w-5xl mx-auto">
-          <motion.div className="text-center mb-14"
+          <motion.div className="mb-12 text-right"
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">דוגמאות אמיתיות</p>
-            <h2 className="text-4xl font-black text-gray-900 leading-tight tracking-tight">
-              ככה הלקוח שלך רואה אותך
+            <p className="text-xs font-bold mb-2" style={{ color: '#5BC4C8' }}>קהילת המקצוענים שלנו</p>
+            <h2 className="text-4xl font-black text-gray-900 leading-tight tracking-tight mb-3">
+              בעלי עסקים שכבר שולחים את הלינק שלהם
             </h2>
+            <div className="flex items-center gap-1.5">
+              <div className="w-6 h-0.5 rounded-full bg-gray-200" />
+              <div className="w-10 h-0.5 rounded-full" style={{ background: '#5BC4C8' }} />
+            </div>
           </motion.div>
-          <div className="flex flex-row items-end justify-center gap-2 sm:gap-6">
-            {DEMOS.map((demo, i) => (
-              <motion.div key={i} className="flex flex-col items-center"
-                initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-                transition={{ delay: i * 0.12 }} style={{ marginBottom: i === 1 ? 20 : 0 }}>
-                <motion.div animate={{ y: [0, i === 1 ? -10 : i === 0 ? -7 : -13, 0] }}
-                  transition={{ duration: 3 + i * 0.6, repeat: Infinity, ease: 'easeInOut', delay: i * 0.8 }}>
-                  <div className="block sm:hidden" style={{ width: 91, height: 205, position: 'relative', overflow: 'hidden' }}>
-                    <div style={{ transform: 'scale(0.35)', transformOrigin: 'top left', position: 'absolute' }}>
-                      <PhoneMockup><CardPreview data={demo} compact /></PhoneMockup>
-                    </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[
+              { emoji: '🏋️', name: 'כושר ואימונים אישיים', desc: 'רישום למתאמנים, תוכניות אימון ותקשורת ישירה ללקוחות.', badge: '+80 מאמנים', badgeColor: '#5BC4C8' },
+              { emoji: '💅', name: 'נייל ארט ומניקור', desc: 'כרטיס ביקור דיגיטלי המוצג שמתאים בול לסטייל שלך.', badge: 'נפוץ', badgeColor: '#5BC4C8' },
+              { emoji: '💈', name: 'ספרות ועיצוב שיער', desc: 'ניהול תורים, הצגת גלריית עבודות וקשר ישיר בוואטסאפ.', badge: '+100 עסקים', badgeColor: '#5BC4C8' },
+              { emoji: '📸', name: 'צלמים ויוצרי תוכן', desc: 'חיק עבודות ויזואלי מרהיב שמושך את העין וממיר ללקוחות.', badge: '+50 צלמים', badgeColor: '#5BC4C8' },
+              { emoji: '🌿', name: 'קוסמטיקה ואסתטיקה', desc: 'מחירונים, המלצות ללקוחות ותיאום פגישות יעיל בקלות.', badge: 'נפוץ', badgeColor: '#5BC4C8' },
+              { emoji: '🛠️', name: 'שיפוצים ותחזוקה', desc: 'כל הפרטים ליצירת קשר והמנעת עבודה שמקום אחד נגיש.', badge: 'בעלי מקצוע', badgeColor: '#8b5cf6' },
+            ].map((item, i) => (
+              <motion.div key={i}
+                initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+                transition={{ delay: i * 0.07 }}
+                className="bg-white rounded-2xl p-5 border border-gray-100 text-right"
+                style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.05)' }}>
+                <div className="flex items-start justify-between mb-4">
+                  <div className="w-12 h-12 rounded-full flex items-center justify-center text-2xl bg-slate-50 flex-shrink-0">
+                    {item.emoji}
                   </div>
-                  <div className="hidden sm:block" style={{ width: 195, height: 450, position: 'relative' }}>
-                    <div style={{ transform: 'scale(0.75)', transformOrigin: 'top center', position: 'absolute', top: 0, left: -32 }}>
-                      <PhoneMockup><CardPreview data={demo} compact /></PhoneMockup>
-                    </div>
-                  </div>
-                </motion.div>
-                <p className="mt-2 text-xs font-semibold text-gray-400 text-center">{demo.business_name}</p>
+                  <span className="text-[11px] font-bold px-2.5 py-1 rounded-full text-white"
+                    style={{ background: item.badgeColor }}>
+                    {item.badge}
+                  </span>
+                </div>
+                <h3 className="font-bold text-gray-900 text-base mb-1">{item.name}</h3>
+                <p className="text-xs text-gray-400 leading-relaxed">{item.desc}</p>
               </motion.div>
             ))}
           </div>
