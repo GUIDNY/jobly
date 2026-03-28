@@ -391,9 +391,9 @@ export default function HomePage() {
                   <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
                 </svg>
               </div>
-              <h3 className="text-lg font-black text-gray-900 mb-2">ויטרינת שירותים</h3>
+              <h3 className="text-lg font-black text-gray-900 mb-2">מה אתה עושה — בתמונות</h3>
               <p className="text-sm text-gray-500 leading-relaxed mb-4">
-                הצג את השירותים שלך עם תמונות וסגנון. הפוך מבקרים ללקוחות על ידי הצגת בדיוק מה שאתה עושה.
+                מוסיפים שירותים עם מחיר ותמונה. הלקוח רואה בדיוק מה הוא מקבל — ופונה מוכן לרכישה.
               </p>
               <div className="flex gap-2">
                 {DEMOS.slice(0, 2).map((d, i) => (
