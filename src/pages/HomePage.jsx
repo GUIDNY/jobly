@@ -419,20 +419,23 @@ export default function HomePage() {
               דוגמאות לדפים פעילים
             </h2>
           </motion.div>
-          {/* Mobile: one centered phone */}
-          <div className="flex sm:hidden justify-center">
-            <motion.div className="flex flex-col items-center"
-              initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-              <motion.div animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}>
-                <div style={{ width: 200, height: 430, position: 'relative', overflow: 'hidden' }}>
-                  <div style={{ transform: 'scale(0.77)', transformOrigin: 'top center', position: 'absolute', top: 0, left: -18 }}>
-                    <PhoneMockup><CardPreview data={DEMOS[1]} compact /></PhoneMockup>
+          {/* Mobile: 3 phones in a row, small */}
+          <div className="flex sm:hidden flex-row items-end justify-center gap-1">
+            {DEMOS.map((demo, i) => (
+              <motion.div key={i} className="flex flex-col items-center"
+                initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }} style={{ marginBottom: i === 1 ? 14 : 0 }}>
+                <motion.div animate={{ y: [0, i === 1 ? -8 : i === 0 ? -5 : -10, 0] }}
+                  transition={{ duration: 3 + i * 0.6, repeat: Infinity, ease: 'easeInOut', delay: i * 0.8 }}>
+                  <div style={{ width: 100, height: 218, position: 'relative', overflow: 'hidden' }}>
+                    <div style={{ transform: 'scale(0.385)', transformOrigin: 'top left', position: 'absolute', top: 0, left: 0 }}>
+                      <PhoneMockup><CardPreview data={demo} compact /></PhoneMockup>
+                    </div>
                   </div>
-                </div>
+                </motion.div>
+                <p className="mt-1 text-[10px] font-semibold text-gray-400 text-center">{demo.business_name}</p>
               </motion.div>
-              <p className="mt-2 text-xs font-semibold text-gray-400">{DEMOS[1].business_name}</p>
-            </motion.div>
+            ))}
           </div>
 
           {/* Desktop: three phones */}
