@@ -329,46 +329,49 @@ export default function HomePage() {
 
           <div className="grid grid-cols-2 gap-3 sm:gap-4">
             {/* כרטיס 1 */}
-            <motion.div className="rounded-3xl p-4 sm:p-8 border border-gray-100" style={{ background: '#f9fafb' }}
+            <motion.div className="rounded-2xl sm:rounded-3xl p-4 sm:p-8 border border-gray-100 flex flex-col" style={{ background: '#f9fafb' }}
               initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-              <div className="w-10 h-10 rounded-2xl flex items-center justify-center mb-5" style={{ background: '#5BC4C820' }}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5BC4C8" strokeWidth="2" strokeLinecap="round">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl flex items-center justify-center mb-3 sm:mb-5" style={{ background: '#5BC4C820' }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5BC4C8" strokeWidth="2" strokeLinecap="round">
                   <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
                 </svg>
               </div>
-              <h3 className="text-lg font-black text-gray-900 mb-2">2 דקות ויש לך עמוד</h3>
-              <p className="text-sm text-gray-500 leading-relaxed">
+              <h3 className="text-sm sm:text-lg font-black text-gray-900 mb-1 sm:mb-2 leading-snug">2 דקות ויש לך עמוד</h3>
+              <p className="hidden sm:block text-sm text-gray-500 leading-relaxed">
                 ממלאים שם, מספר וקצת פרטים — ומקבלים עמוד שמוכן לשיתוף. בלי לבזבז יום על עיצוב.
               </p>
+              <p className="sm:hidden text-xs text-gray-500 leading-relaxed">ממלאים פרטים ומקבלים עמוד מוכן לשיתוף.</p>
             </motion.div>
 
             {/* כרטיס 2 - כהה */}
-            <motion.div className="rounded-3xl p-4 sm:p-8" style={{ background: '#111827' }}
+            <motion.div className="rounded-2xl sm:rounded-3xl p-4 sm:p-8 flex flex-col" style={{ background: '#111827' }}
               initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.08 }}>
-              <div className="w-10 h-10 rounded-2xl flex items-center justify-center mb-5" style={{ background: 'rgba(91,196,200,0.15)' }}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5BC4C8" strokeWidth="2" strokeLinecap="round">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl flex items-center justify-center mb-3 sm:mb-5" style={{ background: 'rgba(91,196,200,0.15)' }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5BC4C8" strokeWidth="2" strokeLinecap="round">
                   <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 015.19 12.7 19.79 19.79 0 012.12 4.07 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
                 </svg>
               </div>
-              <h3 className="text-lg font-black text-white mb-2">הלקוח לוחץ — ומגיע אליך</h3>
-              <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.55)' }}>
+              <h3 className="text-sm sm:text-lg font-black text-white mb-1 sm:mb-2 leading-snug">לקוח לוחץ — ומגיע אליך</h3>
+              <p className="hidden sm:block text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.55)' }}>
                 כפתור וואטסאפ, שיחה ישירה, אינסטגרם — הכל על עמוד אחד. לקוח לא צריך לחפש אותך.
               </p>
+              <p className="sm:hidden text-xs leading-relaxed" style={{ color: 'rgba(255,255,255,0.55)' }}>וואטסאפ, שיחה, אינסטגרם — הכל במקום אחד.</p>
             </motion.div>
 
             {/* כרטיס 3 - תכלת */}
-            <motion.div className="rounded-3xl p-4 sm:p-8" style={{ background: '#5BC4C8' }}
+            <motion.div className="rounded-2xl sm:rounded-3xl p-4 sm:p-8 flex flex-col" style={{ background: '#5BC4C8' }}
               initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.12 }}>
-              <div className="w-10 h-10 rounded-2xl flex items-center justify-center mb-5" style={{ background: 'rgba(255,255,255,0.2)' }}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl flex items-center justify-center mb-3 sm:mb-5" style={{ background: 'rgba(255,255,255,0.2)' }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round">
                   <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
                 </svg>
               </div>
-              <h3 className="text-lg font-black text-white mb-2">לינק שלך. לתמיד.</h3>
-              <p className="text-sm text-white/70 leading-relaxed mb-5">
+              <h3 className="text-sm sm:text-lg font-black text-white mb-1 sm:mb-2 leading-snug">לינק שלך. לתמיד.</h3>
+              <p className="hidden sm:block text-sm text-white/70 leading-relaxed mb-5">
                 vizzit.online/שם-העסק — שים בביו, שלח בוואטסאפ, הדפס על כרטיס ביקור. לינק אחד לכל מקום.
               </p>
-              <div className="flex flex-wrap gap-2">
+              <p className="sm:hidden text-xs text-white/75 leading-relaxed mb-3">לינק קבוע לעסק — בביו, בוואטסאפ, על כרטיס ביקור.</p>
+              <div className="hidden sm:flex flex-wrap gap-2">
                 <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold" style={{ background: 'rgba(255,255,255,0.15)', color: 'white' }}>
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h7v7"/></svg>
                   שיתוף QR
@@ -382,24 +385,30 @@ export default function HomePage() {
                   שמירה לטלפון
                 </span>
               </div>
+              <div className="sm:hidden flex flex-col gap-1.5">
+                {['QR', 'לינק', 'לטלפון'].map((t, i) => (
+                  <span key={i} className="text-[11px] font-semibold text-white/80">· שיתוף {t}</span>
+                ))}
+              </div>
             </motion.div>
 
             {/* כרטיס 4 - עם תמונות */}
-            <motion.div className="rounded-3xl p-4 sm:p-8 border border-gray-100" style={{ background: '#f9fafb' }}
+            <motion.div className="rounded-2xl sm:rounded-3xl p-4 sm:p-8 border border-gray-100 flex flex-col" style={{ background: '#f9fafb' }}
               initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.16 }}>
-              <div className="w-10 h-10 rounded-2xl flex items-center justify-center mb-5" style={{ background: '#f0fafa' }}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5BC4C8" strokeWidth="2">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl flex items-center justify-center mb-3 sm:mb-5" style={{ background: '#f0fafa' }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5BC4C8" strokeWidth="2">
                   <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
                   <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
                 </svg>
               </div>
-              <h3 className="text-lg font-black text-gray-900 mb-2">מה אתה עושה — בתמונות</h3>
-              <p className="text-sm text-gray-500 leading-relaxed mb-4">
+              <h3 className="text-sm sm:text-lg font-black text-gray-900 mb-1 sm:mb-2 leading-snug">שירותים בתמונות</h3>
+              <p className="hidden sm:block text-sm text-gray-500 leading-relaxed mb-4">
                 מוסיפים שירותים עם מחיר ותמונה. הלקוח רואה בדיוק מה הוא מקבל — ופונה מוכן לרכישה.
               </p>
+              <p className="sm:hidden text-xs text-gray-500 leading-relaxed mb-3">שירותים עם מחיר ותמונה — לקוח פונה מוכן.</p>
               <div className="flex gap-2">
                 {DEMOS.slice(0, 2).map((d, i) => (
-                  <div key={i} className="flex-1 h-16 rounded-xl overflow-hidden">
+                  <div key={i} className="flex-1 h-12 sm:h-16 rounded-lg sm:rounded-xl overflow-hidden">
                     <img src={d.avatar_url} alt="" className="w-full h-full object-cover" />
                   </div>
                 ))}
