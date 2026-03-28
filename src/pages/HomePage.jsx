@@ -334,8 +334,8 @@ export default function HomePage() {
           <motion.div className="mb-12"
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <h2 className="text-4xl font-black text-gray-900 leading-tight tracking-tight">
-              כל מה שצריך,<br />
-              <span style={{ color: '#5BC4C8' }}>בלי סיבוכים.</span>
+              כל מה שהלקוח צריך<br />
+              <span style={{ color: '#5BC4C8' }}>כדי לפנות אליך.</span>
             </h2>
           </motion.div>
 
