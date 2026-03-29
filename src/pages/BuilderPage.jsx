@@ -634,7 +634,7 @@ function Step2({ form, update, userId, dbCardId, onUploadingChange }) {
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
             )},
           ].map(opt => (
-            <button key={opt.value} onClick={() => update('services_layout', opt.value)}
+            <button key={opt.value} onClick={async () => { update('services_layout', opt.value); if (dbCardId) await updateCard(dbCardId, { services_layout: opt.value }); }}
               className="flex items-center gap-2 px-3 py-2.5 rounded-xl border-2 text-sm font-medium transition-all"
               style={form.services_layout === opt.value
                 ? { borderColor: '#5BC4C8', background: '#f0fafa', color: '#2a9aa0' }
