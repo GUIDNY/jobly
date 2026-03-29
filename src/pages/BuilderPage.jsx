@@ -1087,16 +1087,6 @@ function PremiumPreview({ data }) {
           </div>
           <div style={{ fontSize: 16, fontWeight: 900, fontStyle: 'italic', lineHeight: 1.2, marginBottom: 6, textShadow: data.avatar_url ? '0 2px 12px rgba(0,0,0,0.7)' : 'none' }}>{name}</div>
           {desc && <div style={{ fontSize: 8, color: 'rgba(255,255,255,0.55)', lineHeight: 1.5, marginBottom: 10 }}>{desc.slice(0, 60)}{desc.length > 60 ? '...' : ''}</div>}
-          {waLink && (
-            <div style={{ height: 28, borderRadius: 10, background: accent, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 9, fontWeight: 700, color: 'white', marginBottom: 6 }}>
-              שלחו הודעה עכשיו
-            </div>
-          )}
-          {data.phone && (
-            <div style={{ height: 22, borderRadius: 8, background: '#0d0f1a', border: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 8, color: 'rgba(255,255,255,0.6)' }}>
-              להתקשר אלינו
-            </div>
-          )}
         </div>
       </div>
 
