@@ -354,7 +354,9 @@ export default function BuilderPage() {
               onClick={e => e.stopPropagation()}
             >
               <PhoneMockup>
-                <CardPreview data={previewData} compact />
+                {form.card_style === 'premium'
+                  ? <PremiumPreview data={previewData} />
+                  : <CardPreview data={previewData} compact />}
               </PhoneMockup>
               <StylePicker value={form.card_style} color={form.primary_color} onChange={async (val) => {
                 update('card_style', val);
