@@ -184,11 +184,102 @@ export default function CardPage() {
           MOBILE LAYOUT
       ══════════════════════════════════════════ */}
       <div className={`md:hidden ${isOwner ? 'pt-11' : ''}`}>
-        <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35, ease: 'easeOut' }}>
-          <div style={{ paddingBottom: `${fixedBarHeight + 24}px` }}>
-            <CardPreview data={card} compact={false} showActions={true} showSocial={false} />
-          </div>
-        </motion.div>
+        {isEditMode ? (
+          /* ── Mobile inline edit view ── */
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} dir="rtl"
+            style={{ paddingBottom: `${fixedBarHeight + 24}px` }}>
+            {/* Header strip */}
+            <div className="relative px-5 pt-8 pb-6 text-center"
+              style={{ background: `linear-gradient(135deg, ${color} 0%, ${color}cc 100%)` }}>
+              {card.avatar_url && (
+                <img src={card.avatar_url} alt="" className="w-20 h-20 rounded-2xl object-cover mx-auto mb-3 shadow-lg"
+                  style={{ border: '2px solid rgba(255,255,255,0.35)' }} />
+              )}
+              <input
+                value={editBizName}
+                onChange={e => setEditBizName(e.target.value)}
+                onBlur={() => saveField('business_name', editBizName)}
+                className="text-xl font-black text-white text-center w-full bg-transparent border-b-2 border-dashed border-white/40 outline-none pb-0.5 focus:border-white/80"
+                placeholder="שם העסק"
+              />
+              <textarea
+                value={editDesc}
+                onChange={e => setEditDesc(e.target.value)}
+                onBlur={() => saveField('description', editDesc)}
+                rows={2}
+                className="mt-2 text-sm text-white/80 text-center w-full bg-transparent border-b border-dashed border-white/20 outline-none pb-0.5 resize-none focus:border-white/60"
+                placeholder="תיאור העסק (אופציונלי)"
+              />
+              <p className="text-white/50 text-[11px] mt-3">לשינוי תמונה, צבע ועוד — פתח builder</p>
+            </div>
+
+            {/* Services drag-and-drop */}
+            {localServices.length > 0 && (
+              <div className="px-4 pt-5">
+                <h3 className="text-sm font-black text-gray-800 mb-3">
+                  שירותים
+                  <span className="text-xs text-gray-400 font-normal mr-1.5">(גרור לשינוי סדר)</span>
+                </h3>
+                <Reorder.Group axis="y" values={localServices} onReorder={handleServicesReorder}
+                  className="space-y-2" style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                  {localServices.map((svc, i) => (
+                    <Reorder.Item key={svc.id ?? i} value={svc}
+                      className="bg-white rounded-2xl border-2 border-dashed border-teal-100 overflow-hidden"
+                      style={{ cursor: 'grab' }}
+                      whileDrag={{ scale: 1.02, boxShadow: '0 8px 24px rgba(91,196,200,0.2)', zIndex: 10 }}>
+                      <div className="flex items-stretch">
+                        {/* Drag handle */}
+                        <div className="flex items-center justify-center px-3 bg-teal-50/60 border-l border-teal-100 text-teal-300 flex-shrink-0">
+                          <svg width="12" height="18" viewBox="0 0 14 20" fill="currentColor">
+                            <circle cx="4" cy="4" r="1.5"/><circle cx="10" cy="4" r="1.5"/>
+                            <circle cx="4" cy="10" r="1.5"/><circle cx="10" cy="10" r="1.5"/>
+                            <circle cx="4" cy="16" r="1.5"/><circle cx="10" cy="16" r="1.5"/>
+                          </svg>
+                        </div>
+                        {svc.image_url && (
+                          <div className="w-14 flex-shrink-0">
+                            <img src={svc.image_url} alt="" className="w-full h-full object-cover" />
+                          </div>
+                        )}
+                        <div className="flex-1 p-3 space-y-1.5" onPointerDown={e => e.stopPropagation()}>
+                          <input
+                            value={svc.title || ''}
+                            onChange={e => updateLocalService(i, 'title', e.target.value)}
+                            onBlur={() => saveServices(localServicesRef.current)}
+                            className="w-full text-sm font-bold text-gray-900 border-b border-dashed border-gray-200 pb-0.5 outline-none bg-transparent focus:border-teal-400"
+                            placeholder="שם השירות"
+                          />
+                          <input
+                            value={svc.description || ''}
+                            onChange={e => updateLocalService(i, 'description', e.target.value)}
+                            onBlur={() => saveServices(localServicesRef.current)}
+                            className="w-full text-xs text-gray-500 border-b border-dashed border-gray-100 pb-0.5 outline-none bg-transparent focus:border-teal-400"
+                            placeholder="תיאור"
+                          />
+                          <input
+                            value={svc.price || ''}
+                            onChange={e => updateLocalService(i, 'price', e.target.value)}
+                            onBlur={() => saveServices(localServicesRef.current)}
+                            className="w-24 text-xs font-bold border-b border-dashed border-gray-100 pb-0.5 outline-none bg-transparent focus:border-teal-400"
+                            style={{ color }}
+                            placeholder="מחיר"
+                          />
+                        </div>
+                      </div>
+                    </Reorder.Item>
+                  ))}
+                </Reorder.Group>
+              </div>
+            )}
+          </motion.div>
+        ) : (
+          /* ── Normal mobile view ── */
+          <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35, ease: 'easeOut' }}>
+            <div style={{ paddingBottom: `${fixedBarHeight + 24}px` }}>
+              <CardPreview data={card} compact={false} showActions={true} showSocial={false} />
+            </div>
+          </motion.div>
+        )}
 
         {/* Mobile fixed bottom bar */}
         <div className="fixed bottom-0 left-0 right-0 z-20"
