@@ -572,8 +572,10 @@ function Step1({ form, update, slugStatus, slugSuggestions, dbCardId, onUploadin
 // ─── Step 2: Services ─────────────────────────────────────────────────────────
 function Step2({ form, update, userId, dbCardId, onUploadingChange }) {
   const fileRefs = useRef({});
+  const popupFileRefs = useRef({});
   const [uploadingSet, setUploadingSet] = useState(new Set());
   const [uploadError, setUploadError] = useState('');
+  const isPremium = form.card_style === 'premium';
 
   const setUploading = (i, val) => {
     setUploadingSet(prev => {
