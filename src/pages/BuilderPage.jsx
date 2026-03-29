@@ -1068,25 +1068,36 @@ function PremiumPreview({ data }) {
         </div>
       </div>
 
-      {/* Hero */}
-      <div style={{ padding: '16px 14px 12px', textAlign: 'center' }}>
-        <div style={{ display: 'inline-block', padding: '2px 10px', borderRadius: 20, border: `1px solid ${accent}55`, marginBottom: 8 }}>
-          <span style={{ fontSize: 7, fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: accent }}>
-            {data.category || 'העמוד שלי'}
-          </span>
+      {/* Hero — avatar as background image */}
+      <div style={{ position: 'relative', textAlign: 'center' }}>
+        {data.avatar_url && (
+          <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 160, overflow: 'hidden', pointerEvents: 'none' }}>
+            <img src={data.avatar_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top', opacity: 0.55 }} />
+            {/* side fades */}
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, #070910 0%, transparent 22%, transparent 78%, #070910 100%)' }} />
+            {/* bottom fade */}
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(7,9,16,0.2) 0%, transparent 40%, rgba(7,9,16,0.75) 75%, #070910 100%)' }} />
+          </div>
+        )}
+        <div style={{ position: 'relative', zIndex: 1, paddingTop: data.avatar_url ? 110 : 16, padding: `${data.avatar_url ? 110 : 16}px 14px 12px` }}>
+          <div style={{ display: 'inline-block', padding: '2px 10px', borderRadius: 20, border: `1px solid ${accent}55`, marginBottom: 8 }}>
+            <span style={{ fontSize: 7, fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: accent }}>
+              {data.category || 'העמוד שלי'}
+            </span>
+          </div>
+          <div style={{ fontSize: 16, fontWeight: 900, fontStyle: 'italic', lineHeight: 1.2, marginBottom: 6, textShadow: data.avatar_url ? '0 2px 12px rgba(0,0,0,0.7)' : 'none' }}>{name}</div>
+          {desc && <div style={{ fontSize: 8, color: 'rgba(255,255,255,0.55)', lineHeight: 1.5, marginBottom: 10 }}>{desc.slice(0, 60)}{desc.length > 60 ? '...' : ''}</div>}
+          {waLink && (
+            <div style={{ height: 28, borderRadius: 10, background: accent, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 9, fontWeight: 700, color: 'white', marginBottom: 6 }}>
+              שלחו הודעה עכשיו
+            </div>
+          )}
+          {data.phone && (
+            <div style={{ height: 22, borderRadius: 8, background: '#0d0f1a', border: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 8, color: 'rgba(255,255,255,0.6)' }}>
+              להתקשר אלינו
+            </div>
+          )}
         </div>
-        <div style={{ fontSize: 16, fontWeight: 900, fontStyle: 'italic', lineHeight: 1.2, marginBottom: 6 }}>{name}</div>
-        {desc && <div style={{ fontSize: 8, color: 'rgba(255,255,255,0.5)', lineHeight: 1.5, marginBottom: 10 }}>{desc.slice(0, 60)}{desc.length > 60 ? '...' : ''}</div>}
-        {waLink && (
-          <div style={{ height: 28, borderRadius: 10, background: accent, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 9, fontWeight: 700, color: 'white', marginBottom: 6 }}>
-            שלחו הודעה עכשיו
-          </div>
-        )}
-        {data.phone && (
-          <div style={{ height: 22, borderRadius: 8, background: '#0d0f1a', border: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 8, color: 'rgba(255,255,255,0.6)' }}>
-            להתקשר אלינו
-          </div>
-        )}
       </div>
 
       {/* Contact grid */}
