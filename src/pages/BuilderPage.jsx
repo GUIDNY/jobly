@@ -1100,16 +1100,17 @@ function Step4({ form, update, dbCardId, onPublish, publishing, published, isLiv
 
 // ─── Premium Preview (compact dark design for phone mockup) ──────────────────
 function PremiumPreview({ data }) {
+  const [popupSvc, setPopupSvc] = useState(null);
+  const [popupImgIdx, setPopupImgIdx] = useState(0);
   const accent = data.primary_color || '#7c5ce0';
   const name = data.business_name || 'שם העסק';
   const desc = data.description || '';
   const services = data.card_services || [];
-  const waLink = data.phone
-    ? `https://wa.me/972${data.phone.replace(/^0/, '')}?text=היי`
-    : null;
+
+  const openPopup = (svc) => { setPopupSvc(svc); setPopupImgIdx(0); };
 
   return (
-    <div dir="rtl" style={{ background: '#070910', minHeight: '100%', color: 'white', fontFamily: 'inherit', fontSize: 12 }}>
+    <div dir="rtl" style={{ background: '#070910', minHeight: '100%', color: 'white', fontFamily: 'inherit', fontSize: 12, position: 'relative', overflow: 'hidden' }}>
       {/* Nav */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 14px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
@@ -1160,21 +1161,68 @@ function PremiumPreview({ data }) {
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
             {services.slice(0, 3).map((svc, i) => (
-              <div key={i} style={{ background: '#0d0f1a', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 9, padding: '7px 10px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'relative', overflow: 'hidden' }}>
+              <div key={i} onClick={() => openPopup(svc)}
+                style={{ background: '#0d0f1a', border: `1px solid ${accent}33`, borderRadius: 9, padding: '7px 10px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'relative', overflow: 'hidden', cursor: 'pointer' }}>
                 {svc.image_url && <img src={svc.image_url} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.2 }} alt="" />}
                 <div style={{ position: 'relative', zIndex: 1 }}>
                   {svc.price && <div style={{ fontSize: 6, fontWeight: 700, color: accent, marginBottom: 2 }}>{svc.price}</div>}
                   <div style={{ fontSize: 9, fontWeight: 700, color: 'white' }}>{svc.title}</div>
                   {svc.description && <div style={{ fontSize: 7, color: 'rgba(255,255,255,0.45)', marginTop: 1 }}>{svc.description.slice(0, 30)}</div>}
                 </div>
-                <div style={{ width: 16, height: 16, borderRadius: '50%', background: accent + '22', border: `1px solid ${accent}44`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, position: 'relative', zIndex: 1 }}>
-                  <div style={{ width: 5, height: 1, background: accent, borderRadius: 1 }} />
+                <div style={{ width: 14, height: 14, borderRadius: '50%', background: accent + '22', border: `1px solid ${accent}55`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, position: 'relative', zIndex: 1 }}>
+                  <svg width="6" height="6" viewBox="0 0 10 10" fill="none" stroke={accent} strokeWidth="2"><path d="M2 5h6M5 2l3 3-3 3"/></svg>
                 </div>
               </div>
             ))}
           </div>
         </div>
       )}
+
+      {/* Mini popup overlay */}
+      {popupSvc && (() => {
+        const imgs = [popupSvc.popup_image_url, popupSvc.image_url].filter(Boolean).filter((v,i,a) => a.indexOf(v) === i);
+        const heroImg = imgs[popupImgIdx] || null;
+        return (
+          <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(4px)', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', zIndex: 20 }}
+            onClick={() => setPopupSvc(null)}>
+            <div style={{ background: '#0d0f1a', borderRadius: '14px 14px 0 0', border: '1px solid rgba(255,255,255,0.08)', borderBottom: 'none' }}
+              onClick={e => e.stopPropagation()}>
+              {/* Hero image */}
+              {heroImg && (
+                <div style={{ position: 'relative', height: 110, overflow: 'hidden', borderRadius: '14px 14px 0 0' }}>
+                  <img src={heroImg} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.9 }} />
+                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 50%, #0d0f1a 100%)' }} />
+                  {/* Image dots */}
+                  {imgs.length > 1 && (
+                    <div style={{ position: 'absolute', bottom: 8, left: 0, right: 0, display: 'flex', justifyContent: 'center', gap: 4 }}>
+                      {imgs.map((_, di) => (
+                        <div key={di} onClick={e => { e.stopPropagation(); setPopupImgIdx(di); }}
+                          style={{ width: popupImgIdx === di ? 14 : 5, height: 5, borderRadius: 3, background: popupImgIdx === di ? accent : 'rgba(255,255,255,0.4)', transition: 'all 0.2s', cursor: 'pointer' }} />
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+              {/* Content */}
+              <div style={{ padding: '8px 12px 10px' }}>
+                {popupSvc.price && (
+                  <div style={{ display: 'inline-block', fontSize: 7, fontWeight: 700, padding: '2px 7px', borderRadius: 20, background: accent + '22', color: accent, border: `1px solid ${accent}44`, marginBottom: 5 }}>{popupSvc.price}</div>
+                )}
+                <div style={{ fontSize: 13, fontWeight: 900, fontStyle: 'italic', color: 'white', marginBottom: 3 }}>{popupSvc.title}</div>
+                {popupSvc.description && <div style={{ fontSize: 8, color: 'rgba(255,255,255,0.5)', lineHeight: 1.5, marginBottom: 8 }}>{popupSvc.description.slice(0, 80)}</div>}
+                {/* WA button */}
+                <div style={{ height: 26, borderRadius: 8, background: accent, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 5 }}>
+                  <span style={{ fontSize: 8, fontWeight: 700, color: 'white' }}>שלחו הודעה על שירות זה</span>
+                </div>
+                {/* Close */}
+                <div onClick={() => setPopupSvc(null)} style={{ height: 20, borderRadius: 7, background: 'rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+                  <span style={{ fontSize: 7, color: 'rgba(255,255,255,0.3)' }}>סגור</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
     </div>
   );
 }
