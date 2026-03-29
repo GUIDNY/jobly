@@ -1174,9 +1174,9 @@ function StylePicker({ value, color, onChange, dark = false, compact = false }) 
   );
 }
 
-function ClassicThumb({ color }) {
+function ClassicThumb({ color, compact }) {
   return (
-    <div style={{ background: '#f8fafc', aspectRatio: '9/14', position: 'relative', overflow: 'hidden' }}>
+    <div style={{ background: '#f8fafc', aspectRatio: compact ? '3/4' : '9/14', position: 'relative', overflow: 'hidden' }}>
       <div style={{ background: `linear-gradient(135deg, ${color}, ${color}bb)`, height: '38%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', paddingBottom: 8 }}>
         <div style={{ width: 28, height: 28, borderRadius: 8, background: 'rgba(255,255,255,0.25)', marginBottom: 4, border: '1.5px solid rgba(255,255,255,0.4)' }} />
         <div style={{ width: 50, height: 5, borderRadius: 3, background: 'rgba(255,255,255,0.85)', marginBottom: 3 }} />
