@@ -65,6 +65,30 @@ export default function CardPage() {
     finally { setSaving(false); }
   };
 
+  // Save everything and exit edit mode
+  const handleFinishEdit = async () => {
+    setSaving(true);
+    const svcs = localServicesRef.current;
+    try {
+      await updateCard(card.id, {
+        business_name: editBizName,
+        description: editDesc,
+        services_section_title: editSvcTitle,
+        services: svcs,
+      });
+      setCard(prev => ({
+        ...prev,
+        business_name: editBizName,
+        description: editDesc,
+        services_section_title: editSvcTitle,
+        card_services: svcs,
+      }));
+    } finally {
+      setSaving(false);
+      setIsEditMode(false);
+    }
+  };
+
   const saveServices = async (svcs) => {
     setSaving(true);
     setCard(prev => ({ ...prev, card_services: svcs }));
