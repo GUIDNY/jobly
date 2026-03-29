@@ -570,7 +570,7 @@ export default function CardPage() {
               })()}
 
               {/* Content */}
-              <div className="px-6 pb-8" style={{ paddingTop: selectedService.image_url ? 0 : 28 }}>
+              <div className="px-6 pb-8" style={{ paddingTop: (selectedService.popup_image_url || selectedService.image_url) ? 0 : 28 }}>
                 {/* Price badge */}
                 {selectedService.price && (
                   <span className="inline-block text-xs font-bold px-3 py-1 rounded-full mb-3"
