@@ -7,7 +7,7 @@ import LogoMark from '../components/LogoMark';
 import { getMyCards, deleteCard } from '../lib/cardsApi';
 
 export default function DashboardPage() {
-  const { user, logout } = useAuth();
+  const { user, logout, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const [cards, setCards] = useState([]);
   const [loading, setLoading] = useState(true);
