@@ -268,39 +268,31 @@ export default function CardPage() {
         </nav>
 
         {/* ── HERO ── */}
-        <section className="relative pb-8">
-          {/* Background image — fills top half, text sits on top */}
-          {card.avatar_url && (
-            <div className="absolute top-0 left-0 right-0" style={{ height: '100%', pointerEvents: 'none', zIndex: 0 }}>
-              <img
-                src={card.avatar_url}
-                alt=""
-                className="w-full object-cover object-top"
-                style={{ height: 420, opacity: 0.55 }}
-              />
-              {/* Gradient: sides fade to BG */}
-              <div className="absolute inset-0" style={{
-                background: `linear-gradient(to right, ${BG} 0%, transparent 20%, transparent 80%, ${BG} 100%)`,
-                height: 420,
-              }} />
-              {/* Gradient: bottom melts into BG */}
-              <div className="absolute inset-0" style={{
-                background: `linear-gradient(to bottom, rgba(7,9,16,0.25) 0%, rgba(7,9,16,0.1) 35%, rgba(7,9,16,0.7) 72%, ${BG} 100%)`,
-                height: 420,
-              }} />
-            </div>
-          )}
+        <section>
+          {/* Background image block — fixed height, overflow hidden so it doesn't bleed */}
+          <div className="relative overflow-hidden" style={{ height: card.avatar_url ? 380 : 0 }}>
+            {card.avatar_url && (
+              <>
+                <img
+                  src={card.avatar_url}
+                  alt=""
+                  className="absolute inset-0 w-full h-full object-cover object-top"
+                  style={{ opacity: 0.6 }}
+                />
+                {/* side fades */}
+                <div className="absolute inset-0" style={{
+                  background: `linear-gradient(to right, ${BG} 0%, transparent 22%, transparent 78%, ${BG} 100%)`,
+                }} />
+                {/* bottom fade — stronger so it fully melts */}
+                <div className="absolute inset-0" style={{
+                  background: `linear-gradient(to bottom, rgba(7,9,16,0.15) 0%, transparent 30%, rgba(7,9,16,0.6) 70%, ${BG} 100%)`,
+                }} />
+              </>
+            )}
+          </div>
 
-          {/* Content on top of image */}
-          <div className="relative z-10 px-6" style={{ paddingTop: card.avatar_url ? 200 : 48 }}>
-            {/* Badge */}
-            <div className="flex justify-center mb-4">
-              <span className="text-[10px] font-bold tracking-[0.2em] uppercase px-4 py-1.5 rounded-full"
-                style={{ border: `1px solid ${accent}55`, color: accent, background: accent + '18', backdropFilter: 'blur(8px)' }}>
-                {card.category || 'העמוד שלי'}
-              </span>
-            </div>
-
+          {/* Text content — sits below image, pulled up with negative margin */}
+          <div className="px-6" style={{ marginTop: card.avatar_url ? -80 : 0, paddingTop: card.avatar_url ? 0 : 48, paddingBottom: 32 }}>
             {/* Headline */}
             {isEditMode ? (
               <input value={editBizName} onChange={e => setEditBizName(e.target.value)}
@@ -308,7 +300,7 @@ export default function CardPage() {
                 style={{ lineHeight: 1.15, fontStyle: 'italic' }}
                 placeholder="שם העסק" />
             ) : (
-              <h1 className="text-4xl font-black text-center mb-3 leading-tight" style={{ fontStyle: 'italic', textShadow: card.avatar_url ? '0 2px 20px rgba(0,0,0,0.6)' : 'none' }}>
+              <h1 className="text-4xl font-black text-center mb-3 leading-tight" style={{ fontStyle: 'italic', textShadow: '0 2px 20px rgba(0,0,0,0.8)' }}>
                 {card.business_name}
               </h1>
             )}
@@ -316,17 +308,16 @@ export default function CardPage() {
             {/* Description */}
             {isEditMode ? (
               <textarea value={editDesc} onChange={e => setEditDesc(e.target.value)}
-                rows={3} className="dark-edit-field text-center text-sm resize-none block mb-8"
+                rows={3} className="dark-edit-field text-center text-sm resize-none block"
                 style={{ color: 'rgba(255,255,255,0.55)', lineHeight: 1.7 }}
                 placeholder="תיאור העסק" />
             ) : (
               card.description && (
-                <p className="text-center text-sm mb-8" style={{ color: 'rgba(255,255,255,0.6)', lineHeight: 1.7 }}>
+                <p className="text-center text-sm" style={{ color: 'rgba(255,255,255,0.6)', lineHeight: 1.7 }}>
                   {card.description}
                 </p>
               )
             )}
-
           </div>
         </section>
 
