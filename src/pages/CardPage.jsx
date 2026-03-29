@@ -178,9 +178,10 @@ export default function CardPage() {
                   {saving ? 'שומר...' : 'שינויים נשמרים אוטומטית ✓'}
                 </span>
                 <button
-                  onClick={() => setIsEditMode(false)}
-                  className="px-3 py-1 rounded-lg text-xs font-bold bg-white text-gray-900 hover:bg-gray-100 transition-colors">
-                  סיום עריכה
+                  onClick={handleFinishEdit}
+                  disabled={saving}
+                  className="px-3 py-1 rounded-lg text-xs font-bold bg-white text-gray-900 hover:bg-gray-100 transition-colors disabled:opacity-60">
+                  {saving ? 'שומר...' : 'סיום עריכה'}
                 </button>
               </>
             ) : (
