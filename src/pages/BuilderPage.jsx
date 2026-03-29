@@ -912,70 +912,53 @@ const TEMPLATES = [
 
 const COLORS = ['#4F46E5', '#5BC4C8', '#DB2777', '#DC2626', '#EA580C', '#16A34A', '#0284C7', '#0F172A', '#B45309', '#0891B2'];
 
-function Step4({ form, update, onPublish, publishing, published, isLive, slug, publishError, imagesUploading }) {
+function Step4({ form, update, dbCardId, onPublish, publishing, published, isLive, slug, publishError, imagesUploading }) {
   return (
     <div className="space-y-4">
-      {/* Template selection */}
+      {/* Style picker */}
       <div className="bg-white rounded-3xl p-6 card-shadow">
-        <h2 className="text-lg font-bold text-gray-900 mb-4">בחר תבנית</h2>
-        <div className="grid grid-cols-3 gap-3">
-          {TEMPLATES.map(t => (
-            <button
-              key={t.id}
-              onClick={() => update('template', t.id)}
-              className="p-3 rounded-2xl border-2 text-center transition-all hover:bg-indigo-50"
-              style={form.template === t.id ? { borderColor: '#5BC4C8', background: '#f0fafa' } : { borderColor: '#e5e7eb' }}
-            >
-              <div
-                className="w-full h-16 rounded-xl mb-2 flex items-end justify-center overflow-hidden"
-                style={
-                  t.id === 1 ? { background: `linear-gradient(160deg, ${form.primary_color} 0%, ${form.primary_color}99 100%)` }
-                  : t.id === 2 ? { background: `linear-gradient(135deg, ${form.primary_color}33, ${form.primary_color}66)` }
-                  : { background: `linear-gradient(160deg, ${form.primary_color}15 0%, #f8fafc 60%)` }
-                }
-              >
-                <div className="bg-white/80 w-full text-center p-1 text-[8px] font-medium text-gray-600">{form.business_name || 'שם העסק'}</div>
-              </div>
-              <p className="text-xs font-semibold text-gray-700">{t.name}</p>
-              <p className="text-[10px] text-gray-400 mt-0.5">{t.desc}</p>
-            </button>
-          ))}
-        </div>
+        <h2 className="text-lg font-bold text-gray-900 mb-1">סגנון הדף</h2>
+        <p className="text-sm text-gray-400 mb-4">בחר את המראה שמתאים לעסק שלך</p>
+        <StylePicker
+          value={form.card_style}
+          color={form.primary_color}
+          onChange={async (val) => {
+            update('card_style', val);
+            if (dbCardId) await updateCard(dbCardId, { card_style: val });
+          }}
+        />
       </div>
 
-      {/* Color + Background */}
-      <div className="bg-white rounded-3xl p-6 card-shadow space-y-5">
-        <div>
-          <h2 className="text-base font-bold text-gray-900 mb-3">צבע ראשי</h2>
-          <div className="flex flex-wrap gap-2.5 items-center">
-            {COLORS.map(color => (
-              <button
-                key={color}
-                onClick={() => update('primary_color', color)}
-                className="w-9 h-9 rounded-full transition-transform hover:scale-110 flex-shrink-0"
-                style={{
-                  background: color,
-                  outline: form.primary_color === color ? `3px solid ${color}` : 'none',
-                  outlineOffset: '2px',
-                }}
-              />
-            ))}
-            <label className="w-9 h-9 rounded-full overflow-hidden cursor-pointer border-2 border-dashed border-gray-300 flex items-center justify-center hover:border-gray-400 transition-colors relative">
-              <input type="color" value={form.primary_color} onChange={e => update('primary_color', e.target.value)} className="opacity-0 absolute inset-0 cursor-pointer" />
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-            </label>
-          </div>
+      {/* Color — shown for both styles */}
+      <div className="bg-white rounded-3xl p-6 card-shadow">
+        <h2 className="text-base font-bold text-gray-900 mb-3">צבע ראשי</h2>
+        <div className="flex flex-wrap gap-2.5 items-center">
+          {COLORS.map(color => (
+            <button
+              key={color}
+              onClick={() => update('primary_color', color)}
+              className="w-9 h-9 rounded-full transition-transform hover:scale-110 flex-shrink-0"
+              style={{ background: color, outline: form.primary_color === color ? `3px solid ${color}` : 'none', outlineOffset: '2px' }}
+            />
+          ))}
+          <label className="w-9 h-9 rounded-full overflow-hidden cursor-pointer border-2 border-dashed border-gray-300 flex items-center justify-center hover:border-gray-400 transition-colors relative">
+            <input type="color" value={form.primary_color} onChange={e => update('primary_color', e.target.value)} className="opacity-0 absolute inset-0 cursor-pointer" />
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+          </label>
         </div>
 
-        <div className="h-px bg-gray-50" />
-
-        {/* Background style picker */}
-        <BgStylePicker
-          value={form.background_style || 'gradient'}
-          onChange={v => update('background_style', v)}
-          primaryColor={form.primary_color}
-          avatarUrl={form.avatar_url}
-        />
+        {/* BgStyle — only for classic */}
+        {form.card_style !== 'premium' && (
+          <>
+            <div className="h-px bg-gray-100 my-5" />
+            <BgStylePicker
+              value={form.background_style || 'gradient'}
+              onChange={v => update('background_style', v)}
+              primaryColor={form.primary_color}
+              avatarUrl={form.avatar_url}
+            />
+          </>
+        )}
       </div>
 
       {/* Publish */}
