@@ -42,9 +42,9 @@ export default function CardPage() {
       .finally(() => setLoading(false));
   }, [slug]);
 
-  // Sync local edit state when card loads or edit mode toggles
+  // Sync local edit state only when entering edit mode (card id changes or edit mode turns on)
   useEffect(() => {
-    if (card) {
+    if (card && isEditMode) {
       setEditBizName(card.business_name || '');
       setEditDesc(card.description || '');
       setEditSvcTitle(card.services_section_title || 'השירותים שלנו');
