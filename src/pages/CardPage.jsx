@@ -426,11 +426,17 @@ export default function CardPage() {
               <>
                 <div className="flex items-center justify-between mb-4">
                   {isEditMode ? (
-                    <h2 className="text-lg font-black text-gray-900">שירותים
-                      <span className="text-xs text-gray-400 font-normal mr-2">(גרור לשינוי סדר)</span>
-                    </h2>
+                    <div className="flex items-center gap-2">
+                      <input
+                        value={editSvcTitle}
+                        onChange={e => setEditSvcTitle(e.target.value)}
+                        onBlur={() => saveField('services_section_title', editSvcTitle)}
+                        className="text-lg font-black text-gray-900 border-b-2 border-dashed border-teal-300 outline-none bg-transparent"
+                      />
+                      <span className="text-xs text-gray-400 font-normal">(גרור לשינוי סדר)</span>
+                    </div>
                   ) : (
-                    <h2 className="text-lg font-black text-gray-900">השירותים שלנו</h2>
+                    <h2 className="text-lg font-black text-gray-900">{card.services_section_title || 'השירותים שלנו'}</h2>
                   )}
                 </div>
 
