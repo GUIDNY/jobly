@@ -387,6 +387,10 @@ function Step1({ form, update, slugStatus, slugSuggestions, dbCardId, onUploadin
       try {
         const url = await uploadCardImage(user.id, file);
         update('avatar_url', url);
+        // Auto-save to DB so refresh doesn't lose the image
+        if (dbCardId) {
+          await updateCard(dbCardId, { avatar_url: url });
+        }
       } catch {
         update('avatar_url', '');
       } finally {
