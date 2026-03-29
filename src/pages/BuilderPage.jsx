@@ -1042,6 +1042,92 @@ function Step4({ form, update, dbCardId, onPublish, publishing, published, isLiv
   );
 }
 
+// ─── Premium Preview (compact dark design for phone mockup) ──────────────────
+function PremiumPreview({ data }) {
+  const accent = data.primary_color || '#7c5ce0';
+  const name = data.business_name || 'שם העסק';
+  const desc = data.description || '';
+  const services = data.card_services || [];
+  const waLink = data.phone
+    ? `https://wa.me/972${data.phone.replace(/^0/, '')}?text=היי`
+    : null;
+
+  return (
+    <div dir="rtl" style={{ background: '#070910', minHeight: '100%', color: 'white', fontFamily: 'inherit', fontSize: 12 }}>
+      {/* Nav */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 14px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+          {data.avatar_url
+            ? <img src={data.avatar_url} style={{ width: 20, height: 20, borderRadius: 5, objectFit: 'cover' }} alt="" />
+            : <div style={{ width: 20, height: 20, borderRadius: 5, background: accent + '33' }} />}
+          <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.8)' }}>{name}</span>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          {[10,7,9].map((w,i) => <div key={i} style={{ width: w, height: 1, background: 'rgba(255,255,255,0.35)', borderRadius: 1 }} />)}
+        </div>
+      </div>
+
+      {/* Hero */}
+      <div style={{ padding: '16px 14px 12px', textAlign: 'center' }}>
+        <div style={{ display: 'inline-block', padding: '2px 10px', borderRadius: 20, border: `1px solid ${accent}55`, marginBottom: 8 }}>
+          <span style={{ fontSize: 7, fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: accent }}>
+            {data.category || 'העמוד שלי'}
+          </span>
+        </div>
+        <div style={{ fontSize: 16, fontWeight: 900, fontStyle: 'italic', lineHeight: 1.2, marginBottom: 6 }}>{name}</div>
+        {desc && <div style={{ fontSize: 8, color: 'rgba(255,255,255,0.5)', lineHeight: 1.5, marginBottom: 10 }}>{desc.slice(0, 60)}{desc.length > 60 ? '...' : ''}</div>}
+        {waLink && (
+          <div style={{ height: 28, borderRadius: 10, background: accent, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 9, fontWeight: 700, color: 'white', marginBottom: 6 }}>
+            שלחו הודעה עכשיו
+          </div>
+        )}
+        {data.phone && (
+          <div style={{ height: 22, borderRadius: 8, background: '#0d0f1a', border: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 8, color: 'rgba(255,255,255,0.6)' }}>
+            להתקשר אלינו
+          </div>
+        )}
+      </div>
+
+      {/* Contact grid */}
+      {data.phone && (
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 5, padding: '0 14px 12px' }}>
+          {[['CALL US', accent], ['WHATSAPP', '#22c55e']].map(([label, c]) => (
+            <div key={label} style={{ height: 44, borderRadius: 10, background: '#0d0f1a', border: '1px solid rgba(255,255,255,0.07)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 3 }}>
+              <div style={{ width: 14, height: 14, borderRadius: 4, background: c + '22' }} />
+              <span style={{ fontSize: 6, fontWeight: 700, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase' }}>{label}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Services */}
+      {services.length > 0 && (
+        <div style={{ padding: '0 14px 14px' }}>
+          <div style={{ fontSize: 7, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: accent, marginBottom: 6 }}>OUR EXPERTISE</div>
+          <div style={{ fontSize: 12, fontWeight: 900, fontStyle: 'italic', marginBottom: 8 }}>
+            {data.services_section_title || 'השירותים שלנו'}
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+            {services.slice(0, 3).map((svc, i) => (
+              <div key={i} style={{ background: '#0d0f1a', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 9, padding: '7px 10px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'relative', overflow: 'hidden' }}>
+                {svc.image_url && <img src={svc.image_url} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.2 }} alt="" />}
+                <div style={{ position: 'relative', zIndex: 1 }}>
+                  {svc.price && <div style={{ fontSize: 6, fontWeight: 700, color: accent, marginBottom: 2 }}>{svc.price}</div>}
+                  <div style={{ fontSize: 9, fontWeight: 700, color: 'white' }}>{svc.title}</div>
+                  {svc.description && <div style={{ fontSize: 7, color: 'rgba(255,255,255,0.45)', marginTop: 1 }}>{svc.description.slice(0, 30)}</div>}
+                </div>
+                <div style={{ width: 16, height: 16, borderRadius: '50%', background: accent + '22', border: `1px solid ${accent}44`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, position: 'relative', zIndex: 1 }}>
+                  <div style={{ width: 5, height: 1, background: accent, borderRadius: 1 }} />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ─── Style Picker ─────────────────────────────────────────────────────────────
 function StylePicker({ value, color, onChange, dark = false }) {
   const accent = color || '#4F46E5';
