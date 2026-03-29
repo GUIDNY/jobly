@@ -130,7 +130,7 @@ export async function createCard(userId, cardData) {
 }
 
 export async function updateCard(cardId, cardData) {
-  const { services, card_services, services_layout, whatsapp_position, title_align, name_size, ...rest } = cardData;
+  const { services, card_services, whatsapp_position, title_align, name_size, ...rest } = cardData;
   const { data, error } = await supabase
     .from('cards')
     .update({ ...rest, updated_at: new Date().toISOString() })
