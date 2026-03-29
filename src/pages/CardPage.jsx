@@ -1,17 +1,27 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { getCardBySlug } from '../lib/cardsApi';
+import { motion, AnimatePresence, Reorder } from 'framer-motion';
+import { getCardBySlug, updateCard } from '../lib/cardsApi';
 import CardPreview from '../components/CardPreview';
 import LogoMark from '../components/LogoMark';
 import { supabase } from '../lib/supabase';
+import { useAuth } from '../lib/AuthContext';
 
 export default function CardPage() {
   const { slug } = useParams();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [card, setCard] = useState(null);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
+
+  // Edit mode
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [editBizName, setEditBizName] = useState('');
+  const [editDesc, setEditDesc] = useState('');
+  const [localServices, setLocalServices] = useState([]);
+  const localServicesRef = useRef([]);
 
   useEffect(() => {
     if (!slug) return;
@@ -30,6 +40,50 @@ export default function CardPage() {
       .catch(() => setNotFound(true))
       .finally(() => setLoading(false));
   }, [slug]);
+
+  // Sync local edit state when card loads or edit mode toggles
+  useEffect(() => {
+    if (card) {
+      setEditBizName(card.business_name || '');
+      setEditDesc(card.description || '');
+      const svcs = card.card_services || [];
+      setLocalServices(svcs);
+      localServicesRef.current = svcs;
+    }
+  }, [card?.id, isEditMode]);
+
+  useEffect(() => { localServicesRef.current = localServices; }, [localServices]);
+
+  const isOwner = !!(user && card && user.id === card.user_id);
+
+  const saveField = async (field, value) => {
+    setSaving(true);
+    setCard(prev => ({ ...prev, [field]: value }));
+    try { await updateCard(card.id, { [field]: value }); }
+    finally { setSaving(false); }
+  };
+
+  const saveServices = async (svcs) => {
+    setSaving(true);
+    setCard(prev => ({ ...prev, card_services: svcs }));
+    try { await updateCard(card.id, { services: svcs }); }
+    finally { setSaving(false); }
+  };
+
+  const handleServicesReorder = (newOrder) => {
+    setLocalServices(newOrder);
+    localServicesRef.current = newOrder;
+    saveServices(newOrder);
+  };
+
+  const updateLocalService = (idx, field, value) => {
+    setLocalServices(prev => {
+      const copy = [...prev];
+      copy[idx] = { ...copy[idx], [field]: value };
+      localServicesRef.current = copy;
+      return copy;
+    });
+  };
 
   if (loading) {
     return (
@@ -79,18 +133,57 @@ export default function CardPage() {
     : null;
 
   const hasSocial = card.instagram || card.facebook || card.tiktok || card.location_url;
-  const hasActions = !!card.phone;
-  // Fixed bar has only social + Vizzit now (buttons are inside card content)
   const fixedBarHeight = (hasSocial ? 52 : 0) + 36;
-
-  const services = card.card_services || [];
+  const services = isEditMode ? localServices : (card.card_services || []);
 
   return (
     <>
       {/* ══════════════════════════════════════════
+          OWNER BAR — visible only to the page owner
+      ══════════════════════════════════════════ */}
+      {isOwner && (
+        <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 h-11"
+          style={{ background: '#0f0f14', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
+          <span className="text-xs text-white/50 font-medium">אתה צופה בדף שלך</span>
+          <div className="flex items-center gap-2">
+            {isEditMode ? (
+              <>
+                <span className="text-[11px] font-medium" style={{ color: saving ? '#f4938c' : '#5bc4c8' }}>
+                  {saving ? 'שומר...' : 'שינויים נשמרים אוטומטית ✓'}
+                </span>
+                <button
+                  onClick={() => setIsEditMode(false)}
+                  className="px-3 py-1 rounded-lg text-xs font-bold bg-white text-gray-900 hover:bg-gray-100 transition-colors">
+                  סיום עריכה
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  onClick={() => navigate(`/builder/${card.id}`)}
+                  className="px-3 py-1 rounded-lg text-xs font-medium text-white/60 hover:text-white/90 transition-colors">
+                  פתח builder
+                </button>
+                <button
+                  onClick={() => setIsEditMode(true)}
+                  className="flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold text-white"
+                  style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
+                    <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                  </svg>
+                  ערוך דף
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* ══════════════════════════════════════════
           MOBILE LAYOUT
       ══════════════════════════════════════════ */}
-      <div className="md:hidden">
+      <div className={`md:hidden ${isOwner ? 'pt-11' : ''}`}>
         <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35, ease: 'easeOut' }}>
           <div style={{ paddingBottom: `${fixedBarHeight + 24}px` }}>
             <CardPreview data={card} compact={false} showActions={true} showSocial={false} />
@@ -124,8 +217,10 @@ export default function CardPage() {
         @keyframes pulse-wa { 0%,100%{box-shadow:0 0 0 0 #22c55e66} 50%{box-shadow:0 0 0 10px #22c55e00} }
         .wa-pulse { animation: pulse-wa 2.2s infinite; }
         .svc-card:hover .svc-cta { color: #16a34a; }
+        .edit-field { border-bottom: 2px dashed rgba(91,196,200,0.7) !important; background: rgba(91,196,200,0.04) !important; outline: none !important; border-radius: 4px; padding: 2px 4px; }
+        .edit-field:focus { background: rgba(91,196,200,0.10) !important; border-bottom-color: #5BC4C8 !important; }
       `}</style>
-      <div className="hidden md:flex flex-col min-h-screen" style={{ background: '#f0f4f8' }} dir="rtl">
+      <div className={`hidden md:flex flex-col min-h-screen ${isOwner ? 'pt-11' : ''}`} style={{ background: '#f0f4f8' }} dir="rtl">
 
         {/* ── Nav ── */}
         <nav className="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-gray-200">
@@ -178,9 +273,31 @@ export default function CardPage() {
                 <span className="text-yellow-300 text-sm tracking-wide">★★★★★</span>
                 <span className="text-white/80 text-sm font-medium">4.9 · <span className="font-bold text-white">127+ לקוחות מרוצים</span></span>
               </div>
-              <h1 className="text-3xl font-black text-white leading-tight">{card.business_name}</h1>
-              {card.description && <p className="text-white/80 text-base mt-1.5 max-w-lg">{card.description}</p>}
-              {/* Trust chips */}
+              {isEditMode ? (
+                <input
+                  value={editBizName}
+                  onChange={e => setEditBizName(e.target.value)}
+                  onBlur={() => saveField('business_name', editBizName)}
+                  className="edit-field text-3xl font-black text-white leading-tight w-full bg-transparent"
+                  style={{ color: 'white' }}
+                  placeholder="שם העסק"
+                />
+              ) : (
+                <h1 className="text-3xl font-black text-white leading-tight">{card.business_name}</h1>
+              )}
+              {isEditMode ? (
+                <textarea
+                  value={editDesc}
+                  onChange={e => setEditDesc(e.target.value)}
+                  onBlur={() => saveField('description', editDesc)}
+                  rows={2}
+                  className="edit-field text-white/80 text-base mt-1.5 w-full bg-transparent resize-none"
+                  style={{ color: 'rgba(255,255,255,0.8)' }}
+                  placeholder="תיאור העסק (אופציונלי)"
+                />
+              ) : (
+                card.description && <p className="text-white/80 text-base mt-1.5 max-w-lg">{card.description}</p>
+              )}
               <div className="flex gap-2 mt-4 flex-wrap">
                 {[['⚡','מענה תוך דקות'],['✓','שירות מקצועי'],['👥','לקוחות מרוצים']].map(([icon, label]) => (
                   <span key={label} className="flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold" style={{ background: 'rgba(255,255,255,0.18)', color: 'white' }}>
@@ -198,7 +315,6 @@ export default function CardPage() {
                   <span className="flex items-center gap-2 text-base"><WAIcon /> קבע תור עכשיו</span>
                   <span className="text-green-100 text-xs font-normal">מענה תוך דקות ⚡</span>
                 </a>
-                {/* Urgency */}
                 <div className="mt-2.5 flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl" style={{ background: 'rgba(255,255,255,0.15)' }}>
                   <span className="text-sm">🔥</span>
                   <span className="text-white text-xs font-bold">נותרו 3 תורים אחרונים להיום</span>
@@ -215,41 +331,105 @@ export default function CardPage() {
           <div className="flex-1 min-w-0">
             {services.length > 0 && (
               <>
-                <h2 className="text-lg font-black text-gray-900 mb-4">השירותים שלנו</h2>
-                <div className="grid grid-cols-2 gap-3">
-                  {services.map((svc, i) => {
-                    const isFull = (svc.size || 'full') !== 'half';
-                    const svcWaLink = waLink
-                      ? `https://wa.me/972${card.phone.replace(/^0/, '')}?text=${encodeURIComponent(`היי, אני מעוניין/ת בשירות: ${svc.title}`)}`
-                      : null;
-                    return (
-                      <div key={i} className={`svc-card bg-white rounded-2xl overflow-hidden border border-gray-100 hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer ${isFull ? 'col-span-2' : 'col-span-1'}`}
-                        onClick={() => svcWaLink && window.open(svcWaLink, '_blank')}>
-                        {svc.image_url && (
-                          <div className="relative" style={{ height: isFull ? 200 : 140 }}>
-                            <img src={svc.image_url} alt={svc.title} className="w-full h-full object-cover" />
-                            <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 55%)' }} />
-                            {svc.price && <span className="absolute top-2.5 left-2.5 font-bold rounded-lg px-2.5 py-1 text-xs text-white" style={{ background: color }}>{svc.price}</span>}
+                <div className="flex items-center justify-between mb-4">
+                  {isEditMode ? (
+                    <h2 className="text-lg font-black text-gray-900">שירותים
+                      <span className="text-xs text-gray-400 font-normal mr-2">(גרור לשינוי סדר)</span>
+                    </h2>
+                  ) : (
+                    <h2 className="text-lg font-black text-gray-900">השירותים שלנו</h2>
+                  )}
+                </div>
+
+                {isEditMode ? (
+                  /* ── Drag-and-drop list (edit mode) ── */
+                  <Reorder.Group axis="y" values={localServices} onReorder={handleServicesReorder} className="space-y-2" style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                    {localServices.map((svc, i) => (
+                      <Reorder.Item key={svc.id ?? i} value={svc}
+                        className="bg-white rounded-2xl border-2 border-dashed border-teal-100 overflow-hidden"
+                        style={{ cursor: 'grab' }}
+                        whileDrag={{ scale: 1.02, boxShadow: '0 8px 32px rgba(91,196,200,0.18)', zIndex: 10 }}>
+                        <div className="flex items-stretch gap-0">
+                          {/* Drag handle */}
+                          <div className="flex items-center justify-center px-3 bg-teal-50/50 border-l border-teal-100 text-teal-300 hover:text-teal-500 transition-colors flex-shrink-0">
+                            <svg width="14" height="20" viewBox="0 0 14 20" fill="currentColor">
+                              <circle cx="4" cy="4" r="1.5"/><circle cx="10" cy="4" r="1.5"/>
+                              <circle cx="4" cy="10" r="1.5"/><circle cx="10" cy="10" r="1.5"/>
+                              <circle cx="4" cy="16" r="1.5"/><circle cx="10" cy="16" r="1.5"/>
+                            </svg>
                           </div>
-                        )}
-                        <div className="p-4">
-                          <div className="flex items-start justify-between gap-2">
-                            <div className="min-w-0">
-                              <p className="font-bold text-gray-900 text-sm leading-tight">{svc.title}</p>
-                              {svc.description && <p className="text-gray-500 text-xs mt-0.5 line-clamp-2">{svc.description}</p>}
-                              {!svc.image_url && svc.price && <span className="inline-block mt-1.5 font-bold rounded-lg px-2 py-0.5 text-xs" style={{ background: color + '18', color }}>{svc.price}</span>}
+                          {/* Service image thumb */}
+                          {svc.image_url && (
+                            <div className="w-16 flex-shrink-0">
+                              <img src={svc.image_url} alt={svc.title} className="w-full h-full object-cover" />
                             </div>
-                            {svcWaLink && (
-                              <span className="svc-cta flex-shrink-0 text-xs font-bold whitespace-nowrap transition-colors" style={{ color: '#16a34a' }}>
-                                לקביעת תור ←
-                              </span>
-                            )}
+                          )}
+                          {/* Editable fields */}
+                          <div className="flex-1 p-3 space-y-1.5" onPointerDown={e => e.stopPropagation()}>
+                            <input
+                              value={svc.title || ''}
+                              onChange={e => updateLocalService(i, 'title', e.target.value)}
+                              onBlur={() => saveServices(localServicesRef.current)}
+                              className="w-full text-sm font-bold text-gray-900 border-b border-dashed border-gray-200 pb-0.5 outline-none bg-transparent focus:border-teal-400"
+                              placeholder="שם השירות"
+                            />
+                            <input
+                              value={svc.description || ''}
+                              onChange={e => updateLocalService(i, 'description', e.target.value)}
+                              onBlur={() => saveServices(localServicesRef.current)}
+                              className="w-full text-xs text-gray-500 border-b border-dashed border-gray-100 pb-0.5 outline-none bg-transparent focus:border-teal-400"
+                              placeholder="תיאור (אופציונלי)"
+                            />
+                            <input
+                              value={svc.price || ''}
+                              onChange={e => updateLocalService(i, 'price', e.target.value)}
+                              onBlur={() => saveServices(localServicesRef.current)}
+                              className="w-24 text-xs font-bold border-b border-dashed border-gray-100 pb-0.5 outline-none bg-transparent focus:border-teal-400"
+                              style={{ color }}
+                              placeholder="מחיר (אופציונלי)"
+                            />
                           </div>
                         </div>
-                      </div>
-                    );
-                  })}
-                </div>
+                      </Reorder.Item>
+                    ))}
+                  </Reorder.Group>
+                ) : (
+                  /* ── Grid view (normal mode) ── */
+                  <div className="grid grid-cols-2 gap-3">
+                    {services.map((svc, i) => {
+                      const isFull = (svc.size || 'full') !== 'half';
+                      const svcWaLink = waLink
+                        ? `https://wa.me/972${card.phone.replace(/^0/, '')}?text=${encodeURIComponent(`היי, אני מעוניין/ת בשירות: ${svc.title}`)}`
+                        : null;
+                      return (
+                        <div key={i} className={`svc-card bg-white rounded-2xl overflow-hidden border border-gray-100 hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer ${isFull ? 'col-span-2' : 'col-span-1'}`}
+                          onClick={() => svcWaLink && window.open(svcWaLink, '_blank')}>
+                          {svc.image_url && (
+                            <div className="relative" style={{ height: isFull ? 200 : 140 }}>
+                              <img src={svc.image_url} alt={svc.title} className="w-full h-full object-cover" />
+                              <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 55%)' }} />
+                              {svc.price && <span className="absolute top-2.5 left-2.5 font-bold rounded-lg px-2.5 py-1 text-xs text-white" style={{ background: color }}>{svc.price}</span>}
+                            </div>
+                          )}
+                          <div className="p-4">
+                            <div className="flex items-start justify-between gap-2">
+                              <div className="min-w-0">
+                                <p className="font-bold text-gray-900 text-sm leading-tight">{svc.title}</p>
+                                {svc.description && <p className="text-gray-500 text-xs mt-0.5 line-clamp-2">{svc.description}</p>}
+                                {!svc.image_url && svc.price && <span className="inline-block mt-1.5 font-bold rounded-lg px-2 py-0.5 text-xs" style={{ background: color + '18', color }}>{svc.price}</span>}
+                              </div>
+                              {svcWaLink && (
+                                <span className="svc-cta flex-shrink-0 text-xs font-bold whitespace-nowrap transition-colors" style={{ color: '#16a34a' }}>
+                                  לקביעת תור ←
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
               </>
             )}
           </div>
