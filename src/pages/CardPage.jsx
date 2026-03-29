@@ -268,34 +268,35 @@ export default function CardPage() {
         </nav>
 
         {/* ── HERO ── */}
-        <section className="pb-8">
-          {/* Avatar — blends into dark background */}
+        <section className="relative pb-8">
+          {/* Background image — fills top half, text sits on top */}
           {card.avatar_url && (
-            <div className="relative w-full" style={{ height: 300, overflow: 'hidden' }}>
+            <div className="absolute top-0 left-0 right-0" style={{ height: '100%', pointerEvents: 'none', zIndex: 0 }}>
               <img
                 src={card.avatar_url}
                 alt=""
-                className="w-full h-full object-cover object-top"
-                style={{ opacity: 0.75 }}
+                className="w-full object-cover object-top"
+                style={{ height: 420, opacity: 0.55 }}
               />
-              {/* Radial + bottom fade — makes photo melt into dark bg */}
+              {/* Gradient: sides fade to BG */}
               <div className="absolute inset-0" style={{
-                background: `radial-gradient(ellipse at 50% 10%, transparent 20%, ${BG} 78%)`,
+                background: `linear-gradient(to right, ${BG} 0%, transparent 20%, transparent 80%, ${BG} 100%)`,
+                height: 420,
               }} />
+              {/* Gradient: bottom melts into BG */}
               <div className="absolute inset-0" style={{
-                background: `linear-gradient(to bottom, ${BG} 0%, transparent 22%, transparent 55%, ${BG} 100%)`,
-              }} />
-              <div className="absolute inset-0" style={{
-                background: `linear-gradient(to right, ${BG} 0%, transparent 18%, transparent 82%, ${BG} 100%)`,
+                background: `linear-gradient(to bottom, rgba(7,9,16,0.25) 0%, rgba(7,9,16,0.1) 35%, rgba(7,9,16,0.7) 72%, ${BG} 100%)`,
+                height: 420,
               }} />
             </div>
           )}
 
-          <div className={`px-6 ${card.avatar_url ? '-mt-16 relative z-10' : 'pt-10'}`}>
+          {/* Content on top of image */}
+          <div className="relative z-10 px-6" style={{ paddingTop: card.avatar_url ? 200 : 48 }}>
             {/* Badge */}
-            <div className="flex justify-center mb-5">
+            <div className="flex justify-center mb-4">
               <span className="text-[10px] font-bold tracking-[0.2em] uppercase px-4 py-1.5 rounded-full"
-                style={{ border: `1px solid ${accent}55`, color: accent, background: accent + '12' }}>
+                style={{ border: `1px solid ${accent}55`, color: accent, background: accent + '18', backdropFilter: 'blur(8px)' }}>
                 {card.category || 'העמוד שלי'}
               </span>
             </div>
@@ -307,7 +308,7 @@ export default function CardPage() {
                 style={{ lineHeight: 1.15, fontStyle: 'italic' }}
                 placeholder="שם העסק" />
             ) : (
-              <h1 className="text-4xl font-black text-center mb-3 leading-tight" style={{ fontStyle: 'italic' }}>
+              <h1 className="text-4xl font-black text-center mb-3 leading-tight" style={{ fontStyle: 'italic', textShadow: card.avatar_url ? '0 2px 20px rgba(0,0,0,0.6)' : 'none' }}>
                 {card.business_name}
               </h1>
             )}
@@ -320,7 +321,7 @@ export default function CardPage() {
                 placeholder="תיאור העסק" />
             ) : (
               card.description && (
-                <p className="text-center text-sm mb-8" style={{ color: 'rgba(255,255,255,0.55)', lineHeight: 1.7 }}>
+                <p className="text-center text-sm mb-8" style={{ color: 'rgba(255,255,255,0.6)', lineHeight: 1.7 }}>
                   {card.description}
                 </p>
               )
@@ -338,7 +339,7 @@ export default function CardPage() {
               {card.phone && (
                 <a href={`tel:${card.phone}`}
                   className="flex items-center justify-center gap-2 w-full py-3.5 rounded-2xl font-medium text-sm"
-                  style={{ border: `1px solid ${BORDER}`, color: 'rgba(255,255,255,0.7)', background: CARD_BG }}>
+                  style={{ border: `1px solid ${BORDER}`, color: 'rgba(255,255,255,0.7)', background: 'rgba(13,15,26,0.7)', backdropFilter: 'blur(8px)' }}>
                   <PhoneIcon /> להתקשר אלינו
                 </a>
               )}
