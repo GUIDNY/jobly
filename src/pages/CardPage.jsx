@@ -20,6 +20,7 @@ export default function CardPage() {
   const [saving, setSaving] = useState(false);
   const [editBizName, setEditBizName] = useState('');
   const [editDesc, setEditDesc] = useState('');
+  const [editSvcTitle, setEditSvcTitle] = useState('');
   const [localServices, setLocalServices] = useState([]);
   const localServicesRef = useRef([]);
 
