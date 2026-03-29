@@ -439,29 +439,31 @@ export default function CardPage() {
                     <motion.div key={i}
                       initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.07 }}
                       className={`relative rounded-2xl overflow-hidden cursor-pointer group ${isHalf ? '' : 'col-span-2'}`}
-                      style={{ background: CARD_BG, border: `1px solid ${BORDER}`, minHeight: isHalf ? 140 : 120 }}
+                      style={{ background: CARD_BG, border: `1px solid ${BORDER}`, height: isHalf ? 120 : 200 }}
                       onClick={() => setSelectedService({ ...svc, svcWaLink })}>
-                      {svc.image_url && (
+                      {svc.image_url ? (
                         <>
-                          <img src={svc.image_url} alt={svc.title} className="absolute inset-0 w-full h-full object-cover opacity-35 group-hover:opacity-45 transition-opacity" />
-                          <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(13,15,26,0.95) 0%, rgba(13,15,26,0.4) 60%, transparent 100%)' }} />
+                          <img src={svc.image_url} alt={svc.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                          <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(7,9,16,0.88) 0%, rgba(7,9,16,0.2) 55%, transparent 100%)' }} />
                         </>
+                      ) : (
+                        <div className="absolute inset-0 flex items-center justify-center" style={{ background: CARD_BG }}>
+                          <svg viewBox="0 0 24 24" style={{ width: isHalf ? 28 : 40, height: isHalf ? 28 : 40, fill: accent + '40' }}>
+                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/>
+                          </svg>
+                        </div>
                       )}
-                      <div className="absolute inset-0 z-10 p-3.5 flex flex-col justify-end">
+                      <div className="absolute inset-0 z-10 p-4 flex flex-col justify-end">
                         {svc.price && (
-                          <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full mb-1.5 inline-block self-start"
+                          <span className="text-xs font-bold px-2 py-0.5 rounded-full mb-2 inline-block self-start"
                             style={{ background: accent + '33', color: accent }}>
                             {svc.price}
                           </span>
                         )}
-                        <p className="font-bold text-white text-sm leading-snug">{svc.title}</p>
+                        <p className={`font-bold text-white leading-snug ${isHalf ? 'text-sm' : 'text-base'}`}>{svc.title}</p>
                         {!isHalf && svc.description && (
-                          <p className="text-xs mt-0.5 line-clamp-1" style={{ color: 'rgba(255,255,255,0.5)' }}>{svc.description}</p>
+                          <p className="text-xs mt-1 line-clamp-2" style={{ color: 'rgba(255,255,255,0.55)' }}>{svc.description}</p>
                         )}
-                      </div>
-                      <div className="absolute top-2.5 left-2.5 z-10 w-6 h-6 rounded-full flex items-center justify-center"
-                        style={{ background: accent + '22', border: `1px solid ${accent}44` }}>
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="2.5" strokeLinecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                       </div>
                     </motion.div>
                   );
