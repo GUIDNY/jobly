@@ -22,6 +22,7 @@ export default function CardPage() {
   // Edit mode
   const [isEditMode, setIsEditMode] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [selectedService, setSelectedService] = useState(null);
   const [editBizName, setEditBizName] = useState('');
   const [editDesc, setEditDesc] = useState('');
   const [editSvcTitle, setEditSvcTitle] = useState('');
