@@ -218,10 +218,15 @@ export default function CardPage() {
             {/* Services drag-and-drop */}
             {localServices.length > 0 && (
               <div className="px-4 pt-5">
-                <h3 className="text-sm font-black text-gray-800 mb-3">
-                  שירותים
-                  <span className="text-xs text-gray-400 font-normal mr-1.5">(גרור לשינוי סדר)</span>
-                </h3>
+                <div className="flex items-center gap-2 mb-3">
+                  <input
+                    value={editSvcTitle}
+                    onChange={e => setEditSvcTitle(e.target.value)}
+                    onBlur={() => saveField('services_section_title', editSvcTitle)}
+                    className="text-sm font-black text-gray-800 border-b-2 border-dashed border-teal-300 outline-none bg-transparent"
+                  />
+                  <span className="text-xs text-gray-400 font-normal">(גרור)</span>
+                </div>
                 <Reorder.Group axis="y" values={localServices} onReorder={handleServicesReorder}
                   className="space-y-2" style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                   {localServices.map((svc, i) => (
