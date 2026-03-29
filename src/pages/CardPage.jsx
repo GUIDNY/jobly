@@ -56,6 +56,7 @@ export default function CardPage() {
   }, [card?.id, isEditMode]);
 
   useEffect(() => { localServicesRef.current = localServices; }, [localServices]);
+  useEffect(() => { setPopupImgIdx(0); }, [selectedService?.title]);
 
   const isOwner = !!(user && card && user.id === card.user_id);
 
