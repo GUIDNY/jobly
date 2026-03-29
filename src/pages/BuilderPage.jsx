@@ -66,7 +66,7 @@ export default function BuilderPage() {
           const { card_services, ...rest } = card;
           setForm({
             ...DEFAULT_CARD, ...rest,
-            services: card_services?.map(s => ({ title: s.title, description: s.description, image_url: s.image_url, price: s.price || '', size: s.size || 'full' })) || [],
+            services: card_services?.map(s => ({ title: s.title, description: s.description, image_url: s.image_url, popup_image_url: s.popup_image_url || '', price: s.price || '', size: s.size || 'full' })) || [],
             services_layout: rest.services_layout || 'list',
           });
           setDbCardId(card.id);
