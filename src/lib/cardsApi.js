@@ -150,6 +150,7 @@ export async function updateCard(cardId, cardData) {
         title: s.title || '',
         description: s.description || '',
         image_url: s.image_url || '',
+        popup_image_url: s.popup_image_url || null,
         price: s.price || '',
         size: s.size || 'full',
         order_index: i,
