@@ -437,7 +437,7 @@ export default function CardPage() {
                       initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.07 }}
                       className="relative rounded-2xl overflow-hidden cursor-pointer group"
                       style={{ background: CARD_BG, border: `1px solid ${BORDER}`, minHeight: svc.image_url ? 120 : 'auto' }}
-                      onClick={() => svcWaLink && window.open(svcWaLink, '_blank')}>
+                      onClick={() => setSelectedService({ ...svc, svcWaLink })}>
                       {/* BG image with overlay */}
                       {svc.image_url && (
                         <>
