@@ -609,20 +609,38 @@ function Step2({ form, update, userId, dbCardId, onUploadingChange }) {
       setUploading(i, true);
       try {
         const url = await uploadCardImage(userId, file);
-        // Build updated services array directly to auto-save without waiting for state
         const updatedServices = [...form.services];
         updatedServices[i] = { ...updatedServices[i], image_url: url };
         updateService(i, 'image_url', url);
-        // Auto-save to DB so refresh doesn't lose the image
-        if (dbCardId) {
-          await updateCard(dbCardId, { services: updatedServices });
-        }
+        if (dbCardId) await updateCard(dbCardId, { services: updatedServices });
       } catch (err) {
         console.error(err);
         setUploadError(err?.message || 'שגיאה בהעלאת תמונה');
         updateService(i, 'image_url', '');
       } finally {
         setUploading(i, false);
+      }
+    }
+  };
+
+  const handlePopupImage = async (i, file) => {
+    if (!file) return;
+    setUploadError('');
+    updateService(i, 'popup_image_url', URL.createObjectURL(file));
+    if (userId) {
+      setUploading(`p${i}`, true);
+      try {
+        const url = await uploadCardImage(userId, file);
+        const updatedServices = [...form.services];
+        updatedServices[i] = { ...updatedServices[i], popup_image_url: url };
+        updateService(i, 'popup_image_url', url);
+        if (dbCardId) await updateCard(dbCardId, { services: updatedServices });
+      } catch (err) {
+        console.error(err);
+        setUploadError(err?.message || 'שגיאה בהעלאת תמונה');
+        updateService(i, 'popup_image_url', '');
+      } finally {
+        setUploading(`p${i}`, false);
       }
     }
   };
