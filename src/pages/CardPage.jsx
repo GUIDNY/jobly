@@ -293,7 +293,7 @@ export default function CardPage() {
                   className="dark-edit-field text-4xl font-black text-center block mb-2 w-full"
                   style={{ lineHeight: 1.15, fontStyle: 'italic' }} placeholder="שם העסק" />
               ) : (
-                <h1 className="text-5xl font-black text-center leading-tight"
+                <h1 className="text-5xl font-black text-center leading-tight text-white"
                   style={{ fontStyle: 'italic', textShadow: '0 4px 32px rgba(0,0,0,0.9), 0 1px 4px rgba(0,0,0,0.8)', marginBottom: 10 }}>
                   {card.business_name}
                 </h1>
