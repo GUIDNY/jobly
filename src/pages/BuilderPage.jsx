@@ -1194,15 +1194,12 @@ function PremiumPreview({ data }) {
                 const isHalf = (svc.size || 'full') === 'half';
                 return (
                   <div key={i} onClick={() => openPopup(svc)}
-                    style={{ gridColumn: isHalf ? 'span 1' : 'span 2', height: isHalf ? 60 : 44, borderRadius: 8, background: '#0d0f1a', border: `1px solid ${accent}33`, position: 'relative', overflow: 'hidden', cursor: 'pointer', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', padding: '5px 7px' }}>
-                    {svc.image_url && <img src={svc.image_url} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.3 }} alt="" />}
-                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(13,15,26,0.9) 0%, transparent 100%)' }} />
-                    <div style={{ position: 'relative', zIndex: 1 }}>
+                    style={{ gridColumn: isHalf ? 'span 1' : 'span 2', height: isHalf ? 72 : 110, borderRadius: 8, background: '#0d0f1a', border: `1px solid ${accent}33`, position: 'relative', overflow: 'hidden', cursor: 'pointer' }}>
+                    {svc.image_url && <img src={svc.image_url} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.75 }} alt="" />}
+                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(7,9,16,0.88) 0%, rgba(7,9,16,0.15) 55%, transparent 100%)' }} />
+                    <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '5px 7px', zIndex: 1 }}>
                       {svc.price && <div style={{ fontSize: 5, fontWeight: 700, color: accent, marginBottom: 1 }}>{svc.price}</div>}
-                      <div style={{ fontSize: 8, fontWeight: 700, color: 'white', lineHeight: 1.2 }}>{svc.title}</div>
-                    </div>
-                    <div style={{ position: 'absolute', top: 4, left: 4, width: 12, height: 12, borderRadius: '50%', background: accent + '22', border: `1px solid ${accent}44`, display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1 }}>
-                      <svg width="5" height="5" viewBox="0 0 10 10" fill="none" stroke={accent} strokeWidth="2"><path d="M2 5h6M5 2l3 3-3 3"/></svg>
+                      <div style={{ fontSize: isHalf ? 7 : 9, fontWeight: 700, color: 'white', lineHeight: 1.2 }}>{svc.title}</div>
                     </div>
                   </div>
                 );
