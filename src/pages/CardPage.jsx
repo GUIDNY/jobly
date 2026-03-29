@@ -541,14 +541,26 @@ export default function CardPage() {
               style={{ background: '#0d0f1a', border: '1px solid rgba(255,255,255,0.08)', borderBottom: 'none' }}
               onClick={e => e.stopPropagation()}>
 
-              {/* Image */}
-              {selectedService.image_url && (
-                <div className="relative w-full" style={{ height: 240 }}>
-                  <img src={selectedService.image_url} alt={selectedService.title}
-                    className="w-full h-full object-cover" style={{ opacity: 0.9 }} />
-                  <div className="absolute inset-0" style={{ background: `linear-gradient(to bottom, transparent 45%, #0d0f1a 100%)` }} />
-                </div>
-              )}
+              {/* Image(s) */}
+              {(() => {
+                const heroImg = selectedService.popup_image_url || selectedService.image_url;
+                const thumbImg = selectedService.popup_image_url && selectedService.image_url ? selectedService.image_url : null;
+                return heroImg ? (
+                  <>
+                    <div className="relative w-full" style={{ height: 240 }}>
+                      <img src={heroImg} alt={selectedService.title}
+                        className="w-full h-full object-cover" style={{ opacity: 0.9 }} />
+                      <div className="absolute inset-0" style={{ background: `linear-gradient(to bottom, transparent 45%, #0d0f1a 100%)` }} />
+                    </div>
+                    {thumbImg && (
+                      <div className="flex gap-2 px-6 mt-3">
+                        <img src={thumbImg} alt="" className="w-16 h-16 rounded-xl object-cover"
+                          style={{ border: `1px solid rgba(255,255,255,0.1)` }} />
+                      </div>
+                    )}
+                  </>
+                ) : null;
+              })()}
 
               {/* Content */}
               <div className="px-6 pb-8" style={{ paddingTop: selectedService.image_url ? 0 : 28 }}>
