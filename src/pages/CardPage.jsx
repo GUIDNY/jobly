@@ -327,23 +327,6 @@ export default function CardPage() {
               )
             )}
 
-            {/* CTAs */}
-            <div className="flex flex-col gap-3">
-              {waLink && (
-                <a href={waLink} target="_blank" rel="noopener noreferrer"
-                  className="accent-pulse flex items-center justify-center gap-2 w-full py-4 rounded-2xl text-white font-bold text-sm"
-                  style={{ background: accent, boxShadow: `0 6px 24px ${accent}40` }}>
-                  <WAIcon /> שלחו הודעה עכשיו
-                </a>
-              )}
-              {card.phone && (
-                <a href={`tel:${card.phone}`}
-                  className="flex items-center justify-center gap-2 w-full py-3.5 rounded-2xl font-medium text-sm"
-                  style={{ border: `1px solid ${BORDER}`, color: 'rgba(255,255,255,0.7)', background: 'rgba(13,15,26,0.7)', backdropFilter: 'blur(8px)' }}>
-                  <PhoneIcon /> להתקשר אלינו
-                </a>
-              )}
-            </div>
           </div>
         </section>
 
