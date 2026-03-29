@@ -1123,25 +1123,19 @@ function PremiumPreview({ data }) {
         </div>
       </div>
 
-      {/* Hero — avatar as background image */}
-      <div style={{ position: 'relative', textAlign: 'center' }}>
+      {/* Hero — avatar as background, text centered inside */}
+      <div style={{ position: 'relative', overflow: 'hidden', height: data.avatar_url ? 130 : 50 }}>
         {data.avatar_url && (
-          <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 160, overflow: 'hidden', pointerEvents: 'none' }}>
-            <img src={data.avatar_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top', opacity: 0.55 }} />
-            {/* side fades */}
-            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, #070910 0%, transparent 22%, transparent 78%, #070910 100%)' }} />
-            {/* bottom fade */}
-            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(7,9,16,0.2) 0%, transparent 40%, rgba(7,9,16,0.75) 75%, #070910 100%)' }} />
-          </div>
+          <>
+            <img src={data.avatar_url} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top', opacity: 0.65 }} />
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, #070910 0%, transparent 25%, transparent 75%, #070910 100%)' }} />
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, #070910 0%, transparent 18%)' }} />
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 40%, rgba(7,9,16,0.55) 68%, #070910 100%)' }} />
+          </>
         )}
-        <div style={{ position: 'relative', zIndex: 1, paddingTop: data.avatar_url ? 110 : 16, padding: `${data.avatar_url ? 110 : 16}px 14px 12px` }}>
-          <div style={{ display: 'inline-block', padding: '2px 10px', borderRadius: 20, border: `1px solid ${accent}55`, marginBottom: 8 }}>
-            <span style={{ fontSize: 7, fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: accent }}>
-              {data.category || 'העמוד שלי'}
-            </span>
-          </div>
-          <div style={{ fontSize: 16, fontWeight: 900, fontStyle: 'italic', lineHeight: 1.2, marginBottom: 6, textShadow: data.avatar_url ? '0 2px 12px rgba(0,0,0,0.7)' : 'none' }}>{name}</div>
-          {desc && <div style={{ fontSize: 8, color: 'rgba(255,255,255,0.55)', lineHeight: 1.5, marginBottom: 10 }}>{desc.slice(0, 60)}{desc.length > 60 ? '...' : ''}</div>}
+        <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '10px 14px', zIndex: 1 }}>
+          <div style={{ fontSize: 16, fontWeight: 900, fontStyle: 'italic', lineHeight: 1.2, marginBottom: 4, color: 'white', textShadow: '0 2px 16px rgba(0,0,0,0.9)', textAlign: 'center' }}>{name}</div>
+          {desc && <div style={{ fontSize: 7, color: 'rgba(255,255,255,0.7)', lineHeight: 1.5, textAlign: 'center', textShadow: '0 1px 8px rgba(0,0,0,0.9)' }}>{desc.slice(0, 50)}{desc.length > 50 ? '...' : ''}</div>}
         </div>
       </div>
 
