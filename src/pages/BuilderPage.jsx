@@ -26,7 +26,7 @@ const DEFAULT_CARD = {
   template: 1, primary_color: '#4F46E5', background_style: 'gradient',
   services: [], services_layout: 'list', whatsapp_position: 'bottom',
   title_align: 'center', name_size: 'md',
-  slug: '', card_style: 'classic',
+  slug: '', card_style: 'classic', services_section_title: '',
 };
 
 export default function BuilderPage() {
