@@ -1054,3 +1054,95 @@ function Step4({ form, update, onPublish, publishing, published, isLive, slug, p
     </div>
   );
 }
+
+// ─── Style Picker ─────────────────────────────────────────────────────────────
+function StylePicker({ value, color, onChange, dark = false }) {
+  const accent = color || '#4F46E5';
+  const styles = [
+    { id: 'classic', label: 'קלאסי', sub: 'עממי · ריאלי' },
+    { id: 'premium', label: 'פרמיום', sub: 'אקסקלוסיבי' },
+  ];
+  return (
+    <div className="mt-4">
+      <p className={`text-xs font-bold text-center mb-3 tracking-wide ${dark ? 'text-white/50' : 'text-gray-400'}`}>
+        בחר סגנון דף
+      </p>
+      <div className="grid grid-cols-2 gap-2.5">
+        {styles.map(s => {
+          const selected = (value || 'classic') === s.id;
+          return (
+            <button key={s.id} onClick={() => onChange(s.id)}
+              className="rounded-2xl overflow-hidden transition-all"
+              style={{
+                border: selected ? `2px solid ${accent}` : `2px solid ${dark ? 'rgba(255,255,255,0.1)' : '#e5e7eb'}`,
+                boxShadow: selected ? `0 0 0 3px ${accent}22` : 'none',
+              }}>
+              {s.id === 'classic' ? <ClassicThumb color={accent} /> : <PremiumThumb color={accent} />}
+              <div className={`py-2 text-center ${dark ? 'bg-white/5' : 'bg-gray-50'}`}>
+                <p className="text-xs font-bold" style={{ color: selected ? accent : (dark ? 'rgba(255,255,255,0.6)' : '#6b7280') }}>
+                  {s.label}
+                </p>
+                <p className={`text-[10px] ${dark ? 'text-white/30' : 'text-gray-400'}`}>{s.sub}</p>
+              </div>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function ClassicThumb({ color }) {
+  return (
+    <div style={{ background: '#f8fafc', aspectRatio: '9/14', position: 'relative', overflow: 'hidden' }}>
+      <div style={{ background: `linear-gradient(135deg, ${color}, ${color}bb)`, height: '38%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', paddingBottom: 8 }}>
+        <div style={{ width: 28, height: 28, borderRadius: 8, background: 'rgba(255,255,255,0.25)', marginBottom: 4, border: '1.5px solid rgba(255,255,255,0.4)' }} />
+        <div style={{ width: 50, height: 5, borderRadius: 3, background: 'rgba(255,255,255,0.85)', marginBottom: 3 }} />
+        <div style={{ width: 36, height: 3, borderRadius: 2, background: 'rgba(255,255,255,0.5)' }} />
+      </div>
+      <div style={{ background: 'white', padding: '8px 10px', display: 'flex', flexDirection: 'column', gap: 5 }}>
+        <div style={{ height: 20, borderRadius: 6, background: '#22c55e', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ width: 30, height: 3, borderRadius: 2, background: 'rgba(255,255,255,0.8)' }} />
+        </div>
+        {[60, 80, 50].map((w, i) => (
+          <div key={i} style={{ height: 3, width: `${w}%`, borderRadius: 2, background: '#e5e7eb' }} />
+        ))}
+        <div style={{ display: 'flex', gap: 4, marginTop: 2 }}>
+          {[1,2].map(i => <div key={i} style={{ flex: 1, height: 28, borderRadius: 6, background: '#f1f5f9', border: '1px solid #e5e7eb' }} />)}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function PremiumThumb({ color }) {
+  return (
+    <div style={{ background: '#070910', aspectRatio: '9/14', overflow: 'hidden', padding: '8px 10px', display: 'flex', flexDirection: 'column', gap: 5 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 2 }}>
+        <div style={{ width: 16, height: 16, borderRadius: 4, background: `${color}33` }} />
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+          {[14,10,12].map((w,i) => <div key={i} style={{ width: w, height: 1.5, background: 'rgba(255,255,255,0.3)', borderRadius: 1 }} />)}
+        </div>
+      </div>
+      <div style={{ alignSelf: 'center', padding: '2px 8px', borderRadius: 20, border: `1px solid ${color}55` }}>
+        <div style={{ width: 28, height: 3, borderRadius: 2, background: color + 'aa' }} />
+      </div>
+      <div style={{ alignSelf: 'center', width: 55, height: 6, borderRadius: 3, background: 'rgba(255,255,255,0.85)' }} />
+      <div style={{ alignSelf: 'center', width: 38, height: 3, borderRadius: 2, background: 'rgba(255,255,255,0.2)', marginBottom: 2 }} />
+      <div style={{ height: 18, borderRadius: 8, background: color, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ width: 30, height: 3, borderRadius: 2, background: 'rgba(255,255,255,0.7)' }} />
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 3, marginTop: 2 }}>
+        {[1,2,3,4].map(i => (
+          <div key={i} style={{ height: 24, borderRadius: 6, background: '#0d0f1a', border: '1px solid rgba(255,255,255,0.07)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ width: 12, height: 12, borderRadius: 4, background: `${color}22` }} />
+          </div>
+        ))}
+      </div>
+      <div style={{ height: 22, borderRadius: 6, background: '#0d0f1a', border: '1px solid rgba(255,255,255,0.07)', padding: '0 6px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ width: 30, height: 3, borderRadius: 2, background: 'rgba(255,255,255,0.5)' }} />
+        <div style={{ width: 8, height: 8, borderRadius: '50%', background: `${color}33` }} />
+      </div>
+    </div>
+  );
+}
