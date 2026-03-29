@@ -39,14 +39,23 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     let mounted = true;
 
+    // Load existing session on mount (persisted in localStorage)
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (!mounted) return;
+      const authUser = session?.user ?? null;
+      setRawUser(authUser);
+      setLoading(false);
+      if (authUser) fetchOrCreateProfile(authUser);
+    });
+
+    // Listen for future changes (login, logout, token refresh)
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
       if (!mounted) return;
       const authUser = session?.user ?? null;
       setRawUser(authUser);
-      // Set loading false immediately — don't wait for profile fetch
       setLoading(false);
       if (authUser) {
-        fetchOrCreateProfile(authUser); // fire and forget — profile loads in background
+        fetchOrCreateProfile(authUser);
       } else {
         setProfile(null);
       }
