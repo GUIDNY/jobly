@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence, Reorder } from 'framer-motion';
 import { getCardBySlug, updateCard } from '../lib/cardsApi';
+import CardPreview from '../components/CardPreview';
 import LogoMark from '../components/LogoMark';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../lib/AuthContext';
