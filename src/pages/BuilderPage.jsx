@@ -52,10 +52,10 @@ export default function BuilderPage() {
   const [showPreview, setShowPreview] = useState(false);
   const slugCheckTimer = useRef(null);
 
-  // Require auth
+  // Require auth — wait for session to load before checking
   useEffect(() => {
-    if (!user) setAuthOpen(true);
-  }, [user]);
+    if (!authLoading && !user) setAuthOpen(true);
+  }, [user, authLoading]);
 
   // Load existing card or draft
   useEffect(() => {
