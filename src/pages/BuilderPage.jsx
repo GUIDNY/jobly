@@ -1197,9 +1197,9 @@ function ClassicThumb({ color, compact }) {
   );
 }
 
-function PremiumThumb({ color }) {
+function PremiumThumb({ color, compact }) {
   return (
-    <div style={{ background: '#070910', aspectRatio: '9/14', overflow: 'hidden', padding: '8px 10px', display: 'flex', flexDirection: 'column', gap: 5 }}>
+    <div style={{ background: '#070910', aspectRatio: compact ? '3/4' : '9/14', overflow: 'hidden', padding: compact ? '5px 7px' : '8px 10px', display: 'flex', flexDirection: 'column', gap: compact ? 3 : 5 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 2 }}>
         <div style={{ width: 16, height: 16, borderRadius: 4, background: `${color}33` }} />
         <div style={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
