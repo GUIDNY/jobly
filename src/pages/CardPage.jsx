@@ -525,6 +525,73 @@ export default function CardPage() {
         </footer>
 
       </div>
+
+      {/* ── SERVICE POPUP ── */}
+      <AnimatePresence>
+        {selectedService && (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-end justify-center"
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            style={{ background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(6px)' }}
+            onClick={() => setSelectedService(null)}>
+            <motion.div
+              initial={{ y: 80, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 80, opacity: 0 }}
+              transition={{ type: 'spring', damping: 28, stiffness: 300 }}
+              className="w-full max-w-lg rounded-t-3xl overflow-hidden"
+              style={{ background: '#0d0f1a', border: '1px solid rgba(255,255,255,0.08)', borderBottom: 'none' }}
+              onClick={e => e.stopPropagation()}>
+
+              {/* Image */}
+              {selectedService.image_url && (
+                <div className="relative w-full" style={{ height: 240 }}>
+                  <img src={selectedService.image_url} alt={selectedService.title}
+                    className="w-full h-full object-cover" style={{ opacity: 0.9 }} />
+                  <div className="absolute inset-0" style={{ background: `linear-gradient(to bottom, transparent 45%, #0d0f1a 100%)` }} />
+                </div>
+              )}
+
+              {/* Content */}
+              <div className="px-6 pb-8" style={{ paddingTop: selectedService.image_url ? 0 : 28 }}>
+                {/* Price badge */}
+                {selectedService.price && (
+                  <span className="inline-block text-xs font-bold px-3 py-1 rounded-full mb-3"
+                    style={{ background: accent + '22', color: accent, border: `1px solid ${accent}44` }}>
+                    {selectedService.price}
+                  </span>
+                )}
+
+                {/* Title */}
+                <h3 className="text-2xl font-black text-white mb-2" style={{ fontStyle: 'italic' }}>
+                  {selectedService.title}
+                </h3>
+
+                {/* Description */}
+                {selectedService.description && (
+                  <p className="text-sm mb-6" style={{ color: 'rgba(255,255,255,0.55)', lineHeight: 1.7 }}>
+                    {selectedService.description}
+                  </p>
+                )}
+
+                {/* CTA */}
+                {selectedService.svcWaLink && (
+                  <a href={selectedService.svcWaLink} target="_blank" rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 w-full py-4 rounded-2xl text-white font-bold text-sm"
+                    style={{ background: accent, boxShadow: `0 6px 24px ${accent}50` }}>
+                    <WAIcon /> שלחו הודעה על שירות זה
+                  </a>
+                )}
+
+                {/* Close */}
+                <button onClick={() => setSelectedService(null)}
+                  className="w-full mt-3 py-3 rounded-2xl text-sm font-medium"
+                  style={{ color: 'rgba(255,255,255,0.35)', background: 'rgba(255,255,255,0.04)' }}>
+                  סגור
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
