@@ -328,6 +328,10 @@ export default function BuilderPage() {
           <PhoneMockup>
             <CardPreview data={previewData} compact />
           </PhoneMockup>
+          <StylePicker value={form.card_style} color={form.primary_color} onChange={async (val) => {
+            update('card_style', val);
+            if (dbCardId) await updateCard(dbCardId, { card_style: val });
+          }} />
         </div>
       </div>
 
