@@ -268,57 +268,81 @@ export default function CardPage() {
         </nav>
 
         {/* ── HERO ── */}
-        <section className="px-6 pt-10 pb-8">
-          {/* Badge */}
-          <div className="flex justify-center mb-5">
-            <span className="text-[10px] font-bold tracking-[0.2em] uppercase px-4 py-1.5 rounded-full"
-              style={{ border: `1px solid ${accent}55`, color: accent, background: accent + '12' }}>
-              {card.category || 'העמוד שלי'}
-            </span>
-          </div>
-
-          {/* Headline */}
-          {isEditMode ? (
-            <input value={editBizName} onChange={e => setEditBizName(e.target.value)}
-              className="dark-edit-field text-4xl font-black text-center block mb-3"
-              style={{ lineHeight: 1.15, fontStyle: 'italic' }}
-              placeholder="שם העסק" />
-          ) : (
-            <h1 className="text-4xl font-black text-center mb-3 leading-tight" style={{ fontStyle: 'italic' }}>
-              {card.business_name}
-            </h1>
+        <section className="pb-8">
+          {/* Avatar — blends into dark background */}
+          {card.avatar_url && (
+            <div className="relative w-full" style={{ height: 300, overflow: 'hidden' }}>
+              <img
+                src={card.avatar_url}
+                alt=""
+                className="w-full h-full object-cover object-top"
+                style={{ opacity: 0.75 }}
+              />
+              {/* Radial + bottom fade — makes photo melt into dark bg */}
+              <div className="absolute inset-0" style={{
+                background: `radial-gradient(ellipse at 50% 10%, transparent 20%, ${BG} 78%)`,
+              }} />
+              <div className="absolute inset-0" style={{
+                background: `linear-gradient(to bottom, ${BG} 0%, transparent 22%, transparent 55%, ${BG} 100%)`,
+              }} />
+              <div className="absolute inset-0" style={{
+                background: `linear-gradient(to right, ${BG} 0%, transparent 18%, transparent 82%, ${BG} 100%)`,
+              }} />
+            </div>
           )}
 
-          {/* Description */}
-          {isEditMode ? (
-            <textarea value={editDesc} onChange={e => setEditDesc(e.target.value)}
-              rows={3} className="dark-edit-field text-center text-sm resize-none block mb-8"
-              style={{ color: 'rgba(255,255,255,0.55)', lineHeight: 1.7 }}
-              placeholder="תיאור העסק" />
-          ) : (
-            card.description && (
-              <p className="text-center text-sm mb-8" style={{ color: 'rgba(255,255,255,0.55)', lineHeight: 1.7 }}>
-                {card.description}
-              </p>
-            )
-          )}
+          <div className={`px-6 ${card.avatar_url ? '-mt-16 relative z-10' : 'pt-10'}`}>
+            {/* Badge */}
+            <div className="flex justify-center mb-5">
+              <span className="text-[10px] font-bold tracking-[0.2em] uppercase px-4 py-1.5 rounded-full"
+                style={{ border: `1px solid ${accent}55`, color: accent, background: accent + '12' }}>
+                {card.category || 'העמוד שלי'}
+              </span>
+            </div>
 
-          {/* CTAs */}
-          <div className="flex flex-col gap-3">
-            {waLink && (
-              <a href={waLink} target="_blank" rel="noopener noreferrer"
-                className="accent-pulse flex items-center justify-center gap-2 w-full py-4 rounded-2xl text-white font-bold text-sm"
-                style={{ background: accent, boxShadow: `0 6px 24px ${accent}40` }}>
-                <WAIcon /> שלחו הודעה עכשיו
-              </a>
+            {/* Headline */}
+            {isEditMode ? (
+              <input value={editBizName} onChange={e => setEditBizName(e.target.value)}
+                className="dark-edit-field text-4xl font-black text-center block mb-3"
+                style={{ lineHeight: 1.15, fontStyle: 'italic' }}
+                placeholder="שם העסק" />
+            ) : (
+              <h1 className="text-4xl font-black text-center mb-3 leading-tight" style={{ fontStyle: 'italic' }}>
+                {card.business_name}
+              </h1>
             )}
-            {card.phone && (
-              <a href={`tel:${card.phone}`}
-                className="flex items-center justify-center gap-2 w-full py-3.5 rounded-2xl font-medium text-sm"
-                style={{ border: `1px solid ${BORDER}`, color: 'rgba(255,255,255,0.7)', background: CARD_BG }}>
-                <PhoneIcon /> להתקשר אלינו
-              </a>
+
+            {/* Description */}
+            {isEditMode ? (
+              <textarea value={editDesc} onChange={e => setEditDesc(e.target.value)}
+                rows={3} className="dark-edit-field text-center text-sm resize-none block mb-8"
+                style={{ color: 'rgba(255,255,255,0.55)', lineHeight: 1.7 }}
+                placeholder="תיאור העסק" />
+            ) : (
+              card.description && (
+                <p className="text-center text-sm mb-8" style={{ color: 'rgba(255,255,255,0.55)', lineHeight: 1.7 }}>
+                  {card.description}
+                </p>
+              )
             )}
+
+            {/* CTAs */}
+            <div className="flex flex-col gap-3">
+              {waLink && (
+                <a href={waLink} target="_blank" rel="noopener noreferrer"
+                  className="accent-pulse flex items-center justify-center gap-2 w-full py-4 rounded-2xl text-white font-bold text-sm"
+                  style={{ background: accent, boxShadow: `0 6px 24px ${accent}40` }}>
+                  <WAIcon /> שלחו הודעה עכשיו
+                </a>
+              )}
+              {card.phone && (
+                <a href={`tel:${card.phone}`}
+                  className="flex items-center justify-center gap-2 w-full py-3.5 rounded-2xl font-medium text-sm"
+                  style={{ border: `1px solid ${BORDER}`, color: 'rgba(255,255,255,0.7)', background: CARD_BG }}>
+                  <PhoneIcon /> להתקשר אלינו
+                </a>
+              )}
+            </div>
           </div>
         </section>
 
