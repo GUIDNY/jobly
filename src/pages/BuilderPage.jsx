@@ -1188,22 +1188,44 @@ function PremiumPreview({ data }) {
           <div style={{ fontSize: 12, fontWeight: 900, fontStyle: 'italic', marginBottom: 8 }}>
             {data.services_section_title || 'השירותים שלנו'}
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
-            {services.slice(0, 3).map((svc, i) => (
-              <div key={i} onClick={() => openPopup(svc)}
-                style={{ background: '#0d0f1a', border: `1px solid ${accent}33`, borderRadius: 9, padding: '7px 10px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'relative', overflow: 'hidden', cursor: 'pointer' }}>
-                {svc.image_url && <img src={svc.image_url} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.2 }} alt="" />}
-                <div style={{ position: 'relative', zIndex: 1 }}>
-                  {svc.price && <div style={{ fontSize: 6, fontWeight: 700, color: accent, marginBottom: 2 }}>{svc.price}</div>}
-                  <div style={{ fontSize: 9, fontWeight: 700, color: 'white' }}>{svc.title}</div>
-                  {svc.description && <div style={{ fontSize: 7, color: 'rgba(255,255,255,0.45)', marginTop: 1 }}>{svc.description.slice(0, 30)}</div>}
+          {data.services_layout === 'grid' ? (
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 4 }}>
+              {services.slice(0, 4).map((svc, i) => {
+                const isHalf = (svc.size || 'full') === 'half';
+                return (
+                  <div key={i} onClick={() => openPopup(svc)}
+                    style={{ gridColumn: isHalf ? 'span 1' : 'span 2', height: isHalf ? 60 : 44, borderRadius: 8, background: '#0d0f1a', border: `1px solid ${accent}33`, position: 'relative', overflow: 'hidden', cursor: 'pointer', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', padding: '5px 7px' }}>
+                    {svc.image_url && <img src={svc.image_url} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.3 }} alt="" />}
+                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(13,15,26,0.9) 0%, transparent 100%)' }} />
+                    <div style={{ position: 'relative', zIndex: 1 }}>
+                      {svc.price && <div style={{ fontSize: 5, fontWeight: 700, color: accent, marginBottom: 1 }}>{svc.price}</div>}
+                      <div style={{ fontSize: 8, fontWeight: 700, color: 'white', lineHeight: 1.2 }}>{svc.title}</div>
+                    </div>
+                    <div style={{ position: 'absolute', top: 4, left: 4, width: 12, height: 12, borderRadius: '50%', background: accent + '22', border: `1px solid ${accent}44`, display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1 }}>
+                      <svg width="5" height="5" viewBox="0 0 10 10" fill="none" stroke={accent} strokeWidth="2"><path d="M2 5h6M5 2l3 3-3 3"/></svg>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+              {services.slice(0, 3).map((svc, i) => (
+                <div key={i} onClick={() => openPopup(svc)}
+                  style={{ background: '#0d0f1a', border: `1px solid ${accent}33`, borderRadius: 9, padding: '7px 10px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'relative', overflow: 'hidden', cursor: 'pointer' }}>
+                  {svc.image_url && <img src={svc.image_url} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.2 }} alt="" />}
+                  <div style={{ position: 'relative', zIndex: 1 }}>
+                    {svc.price && <div style={{ fontSize: 6, fontWeight: 700, color: accent, marginBottom: 2 }}>{svc.price}</div>}
+                    <div style={{ fontSize: 9, fontWeight: 700, color: 'white' }}>{svc.title}</div>
+                    {svc.description && <div style={{ fontSize: 7, color: 'rgba(255,255,255,0.45)', marginTop: 1 }}>{svc.description.slice(0, 30)}</div>}
+                  </div>
+                  <div style={{ width: 14, height: 14, borderRadius: '50%', background: accent + '22', border: `1px solid ${accent}55`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, position: 'relative', zIndex: 1 }}>
+                    <svg width="6" height="6" viewBox="0 0 10 10" fill="none" stroke={accent} strokeWidth="2"><path d="M2 5h6M5 2l3 3-3 3"/></svg>
+                  </div>
                 </div>
-                <div style={{ width: 14, height: 14, borderRadius: '50%', background: accent + '22', border: `1px solid ${accent}55`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, position: 'relative', zIndex: 1 }}>
-                  <svg width="6" height="6" viewBox="0 0 10 10" fill="none" stroke={accent} strokeWidth="2"><path d="M2 5h6M5 2l3 3-3 3"/></svg>
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
 
