@@ -31,7 +31,7 @@ const DEFAULT_CARD = {
 
 export default function BuilderPage() {
   const { cardId } = useParams();
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
 
   const [step, setStep] = useState(1);
