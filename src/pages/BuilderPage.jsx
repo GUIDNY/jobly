@@ -1130,33 +1130,41 @@ function PremiumPreview({ data }) {
 }
 
 // ─── Style Picker ─────────────────────────────────────────────────────────────
-function StylePicker({ value, color, onChange, dark = false }) {
+function StylePicker({ value, color, onChange, dark = false, compact = false }) {
   const accent = color || '#4F46E5';
   const styles = [
     { id: 'classic', label: 'קלאסי', sub: 'עממי · ריאלי' },
     { id: 'premium', label: 'פרמיום', sub: 'אקסקלוסיבי' },
   ];
   return (
-    <div className="mt-4">
-      <p className={`text-xs font-bold text-center mb-3 tracking-wide ${dark ? 'text-white/50' : 'text-gray-400'}`}>
-        בחר סגנון דף
-      </p>
-      <div className="grid grid-cols-2 gap-2.5">
+    <div className={compact ? '' : 'mt-4'}>
+      {!compact && (
+        <p className={`text-xs font-bold text-center mb-3 tracking-wide ${dark ? 'text-white/50' : 'text-gray-400'}`}>
+          בחר סגנון דף
+        </p>
+      )}
+      <div className={`grid grid-cols-2 ${compact ? 'gap-2' : 'gap-2.5'}`}>
         {styles.map(s => {
           const selected = (value || 'classic') === s.id;
           return (
             <button key={s.id} onClick={() => onChange(s.id)}
-              className="rounded-2xl overflow-hidden transition-all"
+              className="rounded-xl overflow-hidden transition-all"
               style={{
                 border: selected ? `2px solid ${accent}` : `2px solid ${dark ? 'rgba(255,255,255,0.1)' : '#e5e7eb'}`,
                 boxShadow: selected ? `0 0 0 3px ${accent}22` : 'none',
+                maxWidth: compact ? 110 : undefined,
               }}>
-              {s.id === 'classic' ? <ClassicThumb color={accent} /> : <PremiumThumb color={accent} />}
-              <div className={`py-2 text-center ${dark ? 'bg-white/5' : 'bg-gray-50'}`}>
-                <p className="text-xs font-bold" style={{ color: selected ? accent : (dark ? 'rgba(255,255,255,0.6)' : '#6b7280') }}>
+              <div style={{ transform: compact ? 'scale(1)' : undefined, transformOrigin: 'top' }}>
+                {s.id === 'classic'
+                  ? <ClassicThumb color={accent} compact={compact} />
+                  : <PremiumThumb color={accent} compact={compact} />}
+              </div>
+              <div className={`${compact ? 'py-1' : 'py-2'} text-center ${dark ? 'bg-white/5' : 'bg-gray-50'}`}>
+                <p className={`${compact ? 'text-[10px]' : 'text-xs'} font-bold`}
+                  style={{ color: selected ? accent : (dark ? 'rgba(255,255,255,0.6)' : '#6b7280') }}>
                   {s.label}
                 </p>
-                <p className={`text-[10px] ${dark ? 'text-white/30' : 'text-gray-400'}`}>{s.sub}</p>
+                {!compact && <p className={`text-[10px] ${dark ? 'text-white/30' : 'text-gray-400'}`}>{s.sub}</p>}
               </div>
             </button>
           );
