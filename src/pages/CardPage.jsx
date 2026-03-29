@@ -47,6 +47,7 @@ export default function CardPage() {
     if (card) {
       setEditBizName(card.business_name || '');
       setEditDesc(card.description || '');
+      setEditSvcTitle(card.services_section_title || 'השירותים שלנו');
       const svcs = card.card_services || [];
       setLocalServices(svcs);
       localServicesRef.current = svcs;
