@@ -17,6 +17,7 @@ export default function DashboardPage() {
   const [copied, setCopied] = useState(null);
 
   useEffect(() => {
+    if (authLoading) return;
     if (!user) { setAuthOpen(true); return; }
     getMyCards(user.id)
       .then(setCards)
