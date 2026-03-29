@@ -326,7 +326,9 @@ export default function BuilderPage() {
         <div className="hidden md:block flex-shrink-0 sticky top-20 self-start">
           <p className="text-xs text-gray-400 text-center mb-3 font-medium">תצוגה מקדימה</p>
           <PhoneMockup>
-            <CardPreview data={previewData} compact />
+            {form.card_style === 'premium'
+              ? <PremiumPreview data={previewData} />
+              : <CardPreview data={previewData} compact />}
           </PhoneMockup>
           <StylePicker value={form.card_style} color={form.primary_color} onChange={async (val) => {
             update('card_style', val);
