@@ -354,6 +354,10 @@ export default function BuilderPage() {
               <PhoneMockup>
                 <CardPreview data={previewData} compact />
               </PhoneMockup>
+              <StylePicker value={form.card_style} color={form.primary_color} onChange={async (val) => {
+                update('card_style', val);
+                if (dbCardId) await updateCard(dbCardId, { card_style: val });
+              }} dark />
               <button onClick={() => setShowPreview(false)} className="mt-4 w-full py-2 text-white/60 text-sm text-center">
                 סגור תצוגה
               </button>
