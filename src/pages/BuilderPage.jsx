@@ -922,6 +922,7 @@ function Step4({ form, update, dbCardId, onPublish, publishing, published, isLiv
         <StylePicker
           value={form.card_style}
           color={form.primary_color}
+          compact
           onChange={async (val) => {
             update('card_style', val);
             if (dbCardId) await updateCard(dbCardId, { card_style: val });
