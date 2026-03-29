@@ -23,7 +23,7 @@ export default function DashboardPage() {
       .then(setCards)
       .catch(console.error)
       .finally(() => setLoading(false));
-  }, [user]);
+  }, [user, authLoading]);
 
   const handleDelete = async (cardId) => {
     setDeletingId(cardId);
