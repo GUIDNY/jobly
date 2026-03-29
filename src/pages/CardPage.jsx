@@ -428,6 +428,45 @@ export default function CardPage() {
                   </Reorder.Item>
                 ))}
               </Reorder.Group>
+            ) : card.services_layout === 'grid' ? (
+              <div className="grid grid-cols-2 gap-2.5">
+                {services.map((svc, i) => {
+                  const svcWaLink = waLink
+                    ? `https://wa.me/972${card.phone.replace(/^0/, '')}?text=${encodeURIComponent(`היי, אני מעוניין/ת בשירות: ${svc.title}`)}`
+                    : null;
+                  const isHalf = (svc.size || 'full') === 'half';
+                  return (
+                    <motion.div key={i}
+                      initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.07 }}
+                      className={`relative rounded-2xl overflow-hidden cursor-pointer group ${isHalf ? '' : 'col-span-2'}`}
+                      style={{ background: CARD_BG, border: `1px solid ${BORDER}`, minHeight: isHalf ? 140 : 120 }}
+                      onClick={() => setSelectedService({ ...svc, svcWaLink })}>
+                      {svc.image_url && (
+                        <>
+                          <img src={svc.image_url} alt={svc.title} className="absolute inset-0 w-full h-full object-cover opacity-35 group-hover:opacity-45 transition-opacity" />
+                          <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(13,15,26,0.95) 0%, rgba(13,15,26,0.4) 60%, transparent 100%)' }} />
+                        </>
+                      )}
+                      <div className="absolute inset-0 z-10 p-3.5 flex flex-col justify-end">
+                        {svc.price && (
+                          <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full mb-1.5 inline-block self-start"
+                            style={{ background: accent + '33', color: accent }}>
+                            {svc.price}
+                          </span>
+                        )}
+                        <p className="font-bold text-white text-sm leading-snug">{svc.title}</p>
+                        {!isHalf && svc.description && (
+                          <p className="text-xs mt-0.5 line-clamp-1" style={{ color: 'rgba(255,255,255,0.5)' }}>{svc.description}</p>
+                        )}
+                      </div>
+                      <div className="absolute top-2.5 left-2.5 z-10 w-6 h-6 rounded-full flex items-center justify-center"
+                        style={{ background: accent + '22', border: `1px solid ${accent}44` }}>
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="2.5" strokeLinecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
             ) : (
               <div className="space-y-3">
                 {services.map((svc, i) => {
@@ -440,7 +479,6 @@ export default function CardPage() {
                       className="relative rounded-2xl overflow-hidden cursor-pointer group"
                       style={{ background: CARD_BG, border: `1px solid ${BORDER}`, minHeight: svc.image_url ? 120 : 'auto' }}
                       onClick={() => setSelectedService({ ...svc, svcWaLink })}>
-                      {/* BG image with overlay */}
                       {svc.image_url && (
                         <>
                           <img src={svc.image_url} alt={svc.title} className="absolute inset-0 w-full h-full object-cover opacity-30 group-hover:opacity-40 transition-opacity" />
