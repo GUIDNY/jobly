@@ -518,6 +518,42 @@ export default function CardPage() {
           </section>
         )}
 
+        {/* ── CONTACT GRID (below) ── */}
+        {(card.contact_position || 'above') === 'below' && (card.phone || card.location_url || card.booking_url) && (
+          <section className="px-5 pb-8">
+            <div className="grid grid-cols-2 gap-2.5">
+              {card.phone && (
+                <a href={`tel:${card.phone}`} className="flex flex-col items-center gap-2 py-5 rounded-2xl transition-colors hover:bg-white/5" style={{ background: CARD_BG, border: `1px solid ${BORDER}` }}>
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: accent + '18' }}><PhoneIcon color={accent} /></div>
+                  <span className="text-[11px] font-bold tracking-widest uppercase" style={{ color: 'rgba(255,255,255,0.5)' }}>CALL US</span>
+                </a>
+              )}
+              {waLink && (
+                <a href={waLink} target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-2 py-5 rounded-2xl transition-colors hover:bg-white/5" style={{ background: CARD_BG, border: `1px solid ${BORDER}` }}>
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: '#22c55e18' }}><WAIcon color="#22c55e" /></div>
+                  <span className="text-[11px] font-bold tracking-widest uppercase" style={{ color: 'rgba(255,255,255,0.5)' }}>WHATSAPP</span>
+                </a>
+              )}
+              {card.location_url && (
+                <a href={card.location_url} target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-2 py-5 rounded-2xl transition-colors hover:bg-white/5" style={{ background: CARD_BG, border: `1px solid ${BORDER}` }}>
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: '#4285F418' }}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4285F4" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                  </div>
+                  <span className="text-[11px] font-bold tracking-widest uppercase" style={{ color: 'rgba(255,255,255,0.5)' }}>LOCATION</span>
+                </a>
+              )}
+              {card.booking_url && (
+                <a href={card.booking_url} target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-2 py-5 rounded-2xl transition-colors hover:bg-white/5" style={{ background: CARD_BG, border: `1px solid ${BORDER}` }}>
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: accent + '18' }}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                  </div>
+                  <span className="text-[11px] font-bold tracking-widest uppercase" style={{ color: 'rgba(255,255,255,0.5)' }}>BOOKING</span>
+                </a>
+              )}
+            </div>
+          </section>
+        )}
+
         {/* ── SOCIAL ── */}
         {hasSocial && (
           <section className="px-5 pb-10">
