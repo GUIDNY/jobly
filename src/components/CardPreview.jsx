@@ -145,7 +145,7 @@ export default function CardPreview({ data = {}, compact = false, showActions = 
         <div style={{ padding: compact ? '14px 14px 0' : '18px 16px 0', background: background_style === 'dark' ? '#0a0a12' : '#fff' }}>
           <div className="flex items-center justify-between mb-2">
             <h2 className="font-black" style={{ fontSize: compact ? 12 : 14, color: background_style === 'dark' ? '#e2e8f0' : '#1f2937' }}>
-              השירותים שלנו
+              {services_section_title || 'השירותים שלנו'}
             </h2>
             {!hasServices && <span style={{ color: '#6b7280', fontSize: 9 }}>דוגמה</span>}
           </div>
