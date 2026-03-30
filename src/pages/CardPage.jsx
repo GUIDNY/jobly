@@ -379,7 +379,7 @@ export default function CardPage() {
                 className="dark-edit-field text-2xl font-black mb-5 block" style={{ fontStyle: 'italic' }}
                 placeholder="כותרת שירותים" />
             ) : (
-              <h2 className="text-2xl font-black mb-5" style={{ fontStyle: 'italic' }}>
+              <h2 className="text-2xl font-black mb-5 text-white" style={{ fontStyle: 'italic' }}>
                 {card.services_section_title || 'השירותים שלנו'}
               </h2>
             )}
