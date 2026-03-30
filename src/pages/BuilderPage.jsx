@@ -1191,7 +1191,7 @@ function PremiumPreview({ data }) {
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
           )},
         ].filter(Boolean);
-        return (
+        const grid = (
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 5, padding: '0 14px 12px' }}>
             {items.map(({ label, color, icon }) => (
               <div key={label} style={{ height: 44, borderRadius: 10, background: '#0d0f1a', border: '1px solid rgba(255,255,255,0.07)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 4 }}>
@@ -1201,6 +1201,7 @@ function PremiumPreview({ data }) {
             ))}
           </div>
         );
+        return contactPos === 'above' ? grid : null;
       })()}
 
       {/* Services */}
