@@ -1358,33 +1358,61 @@ function StylePicker({ value, color, onChange, dark = false, compact = false }) 
           בחר סגנון דף
         </p>
       )}
-      <div className={`grid grid-cols-2 ${compact ? 'gap-2' : 'gap-2.5'}`}>
-        {styles.map(s => {
-          const selected = (value || 'classic') === s.id;
-          return (
-            <button key={s.id} onClick={() => onChange(s.id)}
-              className="rounded-xl overflow-hidden transition-all"
-              style={{
-                border: selected ? `2px solid ${accent}` : `2px solid ${dark ? 'rgba(255,255,255,0.1)' : '#e5e7eb'}`,
-                boxShadow: selected ? `0 0 0 3px ${accent}22` : 'none',
-                maxWidth: compact ? 110 : undefined,
-              }}>
-              <div style={{ transform: compact ? 'scale(1)' : undefined, transformOrigin: 'top' }}>
-                {s.id === 'classic'
-                  ? <ClassicThumb color={accent} compact={compact} />
-                  : <PremiumThumb color={accent} compact={compact} />}
-              </div>
-              <div className={`${compact ? 'py-1' : 'py-2'} text-center ${dark ? 'bg-white/5' : 'bg-gray-50'}`}>
-                <p className={`${compact ? 'text-[10px]' : 'text-xs'} font-bold`}
-                  style={{ color: selected ? accent : (dark ? 'rgba(255,255,255,0.6)' : '#6b7280') }}>
-                  {s.label}
-                </p>
-                {!compact && <p className={`text-[10px] ${dark ? 'text-white/30' : 'text-gray-400'}`}>{s.sub}</p>}
-              </div>
-            </button>
-          );
-        })}
-      </div>
+      {compact ? (
+        /* Segmented control — pinned buttons */
+        <div className="flex rounded-2xl overflow-hidden border-2" style={{ borderColor: accent + '33' }}>
+          {styles.map((s, idx) => {
+            const selected = (value || 'classic') === s.id;
+            return (
+              <button key={s.id} onClick={() => onChange(s.id)}
+                className="flex-1 overflow-hidden transition-all"
+                style={{
+                  borderRight: idx === 0 ? `1px solid ${accent}33` : 'none',
+                  background: selected ? accent + '18' : 'transparent',
+                }}>
+                <div>
+                  {s.id === 'classic'
+                    ? <ClassicThumb color={accent} compact />
+                    : <PremiumThumb color={accent} compact />}
+                </div>
+                <div className="py-1 text-center">
+                  <p className="text-[10px] font-bold"
+                    style={{ color: selected ? accent : (dark ? 'rgba(255,255,255,0.6)' : '#6b7280') }}>
+                    {s.label}
+                  </p>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 gap-2.5">
+          {styles.map(s => {
+            const selected = (value || 'classic') === s.id;
+            return (
+              <button key={s.id} onClick={() => onChange(s.id)}
+                className="rounded-xl overflow-hidden transition-all"
+                style={{
+                  border: selected ? `2px solid ${accent}` : `2px solid ${dark ? 'rgba(255,255,255,0.1)' : '#e5e7eb'}`,
+                  boxShadow: selected ? `0 0 0 3px ${accent}22` : 'none',
+                }}>
+                <div>
+                  {s.id === 'classic'
+                    ? <ClassicThumb color={accent} compact={false} />
+                    : <PremiumThumb color={accent} compact={false} />}
+                </div>
+                <div className="py-2 text-center" style={{ background: dark ? 'rgba(255,255,255,0.05)' : '#f9fafb' }}>
+                  <p className="text-xs font-bold"
+                    style={{ color: selected ? accent : (dark ? 'rgba(255,255,255,0.6)' : '#6b7280') }}>
+                    {s.label}
+                  </p>
+                  <p className={`text-[10px] ${dark ? 'text-white/30' : 'text-gray-400'}`}>{s.sub}</p>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }
