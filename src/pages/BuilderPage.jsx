@@ -277,16 +277,16 @@ export default function BuilderPage() {
                     style={
                       step === s.id
                         ? { background: 'linear-gradient(135deg, #F4938C, #5BC4C8)', color: 'white' }
-                        : step > s.id
+                        : i < currentIdx
                         ? { background: '#10B981', color: 'white' }
                         : { background: '#f3f4f6', color: '#9ca3af' }
                     }
                   >
-                    {step > s.id ? '✓' : s.id}
+                    {i < currentIdx ? '✓' : i + 1}
                   </div>
                   <span
                     className="text-sm font-medium whitespace-nowrap"
-                    style={{ color: step === s.id ? '#F4938C' : step > s.id ? '#10B981' : '#9ca3af' }}
+                    style={{ color: step === s.id ? '#F4938C' : i < currentIdx ? '#10B981' : '#9ca3af' }}
                   >
                     {s.label}
                   </span>
