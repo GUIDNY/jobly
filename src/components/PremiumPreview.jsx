@@ -110,6 +110,21 @@ export default function PremiumPreview({ data }) {
 
       {contactPos === 'below' && contactGridEl}
 
+      {/* FAQ */}
+      {data.faq && data.faq.length > 0 && (
+        <div style={{ padding: '0 14px 14px' }}>
+          <div style={{ fontSize: 7, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: accent, marginBottom: 6 }}>שאלות נפוצות</div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+            {data.faq.slice(0, 3).map((item, i) => (
+              <div key={i} style={{ background: '#0d0f1a', border: `1px solid rgba(255,255,255,0.07)`, borderRadius: 8, padding: '6px 10px' }}>
+                <div style={{ fontSize: 8, fontWeight: 700, color: 'white', marginBottom: 2 }}>{item.question}</div>
+                {item.answer && <div style={{ fontSize: 7, color: 'rgba(255,255,255,0.4)', lineHeight: 1.4 }}>{item.answer.slice(0, 60)}{item.answer.length > 60 ? '...' : ''}</div>}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Social */}
       {(data.instagram || data.facebook || data.tiktok) && (
         <div style={{ padding: '0 14px 14px' }}>
