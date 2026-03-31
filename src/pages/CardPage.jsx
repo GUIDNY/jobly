@@ -157,7 +157,8 @@ export default function CardPage() {
   );
 
   // Premium card from a non-pro owner — guests see a branded Vizzit screen
-  if (isPremiumDemo && !isOwner) return (
+  // Wait for auth to resolve before showing guest screen (avoid flash for owners)
+  if (isPremiumDemo && !isOwner && !authLoading) return (
     <div className="min-h-screen flex flex-col items-center justify-center p-6" dir="rtl" style={{ background: BG }}>
       <div className="text-center max-w-xs">
         <div className="w-20 h-20 rounded-3xl mx-auto mb-6 flex items-center justify-center"
