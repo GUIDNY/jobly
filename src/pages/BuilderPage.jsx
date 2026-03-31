@@ -74,6 +74,7 @@ export default function BuilderPage() {
             services_layout: rest.services_layout || 'list',
             contact_position: rest.contact_position || 'above',
             faq: rest.faq || [],
+            background_video_url: rest.background_video_url || '',
           });
           setDbCardId(card.id);
           setIsLive(!!card.is_published);
