@@ -1263,17 +1263,15 @@ function Step5({ form, update, dbCardId, userId }) {
         {form.background_video_url ? (
           <VideoPositionPicker
             src={form.background_video_url}
-            position={form.background_video_position || '50% 30%'}
-            fit={form.background_video_fit || 'cover'}
-            onPositionChange={async (pos) => {
-              update('background_video_position', pos);
-              if (dbCardId) await updateCard(dbCardId, { background_video_position: pos }).catch(() => {});
+            positionStr={form.background_video_position || '50% 30% cover'}
+            onPositionChange={async (posStr) => {
+              update('background_video_position', posStr);
+              if (dbCardId) await updateCard(dbCardId, { background_video_position: posStr }).catch(() => {});
             }}
             onRemove={async () => {
               update('background_video_url', '');
-              update('background_video_position', '50% 30%');
-              update('background_video_fit', 'cover');
-              if (dbCardId) await updateCard(dbCardId, { background_video_url: '', background_video_position: '50% 30%', background_video_fit: 'cover' }).catch(() => {});
+              update('background_video_position', '50% 30% cover');
+              if (dbCardId) await updateCard(dbCardId, { background_video_url: '', background_video_position: '50% 30% cover' }).catch(() => {});
             }}
           />
         ) : (
