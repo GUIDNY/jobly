@@ -297,6 +297,7 @@ export default function BuilderPage() {
               {step === 2 && <Step2 form={form} update={update} userId={user?.id} dbCardId={dbCardId} onUploadingChange={setImagesUploading} />}
               {step === 3 && <Step3 form={form} update={update} />}
               {step === 4 && <Step4 form={form} update={update} dbCardId={dbCardId} onPublish={handlePublish} publishing={publishing} published={published} isLive={isLive} slug={form.slug} publishError={publishError} imagesUploading={imagesUploading} />}
+              {step === 5 && <Step5 form={form} update={update} dbCardId={dbCardId} />}
             </motion.div>
           </AnimatePresence>
 
