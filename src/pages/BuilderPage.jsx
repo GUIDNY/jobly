@@ -323,16 +323,16 @@ export default function BuilderPage() {
           {/* Step nav buttons */}
           <div className="flex justify-between mt-6">
             <button
-              onClick={() => setStep(s => Math.max(1, s - 1))}
-              disabled={step === 1}
+              onClick={() => prevStepId && setStep(prevStepId)}
+              disabled={!prevStepId}
               className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium border border-gray-200 text-gray-600 hover:bg-gray-50 transition-colors disabled:opacity-30"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><polyline points="9 18 15 12 9 6"/></svg>
               הקודם
             </button>
-            {step < (form.card_style === 'premium' ? 5 : 4) ? (
+            {!isLastStep ? (
               <button
-                onClick={() => setStep(s => s + 1)}
+                onClick={() => nextStepId && setStep(nextStepId)}
                 className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium text-white transition-all"
                 style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}
               >
