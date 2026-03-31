@@ -1226,6 +1226,37 @@ function Step5({ form, update, dbCardId }) {
         </div>
       </div>
 
+      {/* Background Video */}
+      <div>
+        <div className="mb-3">
+          <p className="text-sm font-bold text-gray-800">וידאו רקע ✦</p>
+          <p className="text-xs text-gray-400 mt-0.5">וידאו שירוץ ברקע ה-Hero במקום תמונה. MP4 מומלץ, עד 20MB</p>
+        </div>
+        {form.background_video_url ? (
+          <div className="rounded-2xl overflow-hidden border border-gray-200 relative">
+            <video src={form.background_video_url} autoPlay loop muted playsInline
+              className="w-full" style={{ maxHeight: 180, objectFit: 'cover' }} />
+            <button
+              onClick={async () => {
+                update('background_video_url', '');
+                if (dbCardId) await updateCard(dbCardId, { background_video_url: '' }).catch(() => {});
+              }}
+              className="absolute top-2 left-2 px-2.5 py-1 rounded-lg text-xs font-bold text-white"
+              style={{ background: 'rgba(0,0,0,0.6)' }}>
+              הסר וידאו
+            </button>
+          </div>
+        ) : (
+          <VideoUploadBox
+            userId={dbCardId}
+            onUploaded={async (url) => {
+              update('background_video_url', url);
+              if (dbCardId) await updateCard(dbCardId, { background_video_url: url }).catch(() => {});
+            }}
+          />
+        )}
+      </div>
+
       {/* Service URLs */}
       {form.services && form.services.length > 0 && (
         <div>
