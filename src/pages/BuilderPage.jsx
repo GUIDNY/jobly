@@ -311,9 +311,9 @@ export default function BuilderPage() {
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><polyline points="9 18 15 12 9 6"/></svg>
               הקודם
             </button>
-            {step < 4 ? (
+            {step < (form.card_style === 'premium' ? 5 : 4) ? (
               <button
-                onClick={() => setStep(s => Math.min(4, s + 1))}
+                onClick={() => setStep(s => s + 1)}
                 className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium text-white transition-all"
                 style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}
               >
