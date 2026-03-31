@@ -56,10 +56,9 @@ const DEMOS = [
     business_name: 'גיל מאמן כושר',
     description: 'אימון אישי — שינוי אמיתי',
     phone: '0531234567',
-    primary_color: '#16A34A',
-    template: 1,
-    background_style: 'image',
-    whatsapp_position: 'bottom',
+    primary_color: '#5BC4C8',
+    card_style: 'premium',
+    contact_position: 'above',
     avatar_url: 'https://images.pexels.com/photos/1552242/pexels-photo-1552242.jpeg?auto=compress&cs=tinysrgb&w=600',
     card_services: [
       { title: 'אימון אישי', description: '₪180 · 60 דקות' },
