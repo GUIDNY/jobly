@@ -62,6 +62,12 @@ export default function DashboardPage() {
                 ניהול
               </button>
             )}
+            {isPro && (
+              <span className="text-xs font-black px-2.5 py-1 rounded-full"
+                style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)', color: 'white', letterSpacing: '0.02em' }}>
+                ✦ Pro
+              </span>
+            )}
             <button onClick={logout} className="text-sm text-gray-500 hover:text-gray-700 px-3 py-1.5 rounded-lg hover:bg-gray-100 transition-colors">התנתק</button>
           </div>
         </div>
