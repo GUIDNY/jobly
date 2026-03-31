@@ -1402,49 +1402,59 @@ function VideoPositionPicker({ src, position, fit, onPositionChange, onRemove })
     onPositionChange(`${pos.x}% ${pos.y}%`);
   };
 
+  const isCover = fit !== 'contain';
+
   return (
     <div className="space-y-2">
-      <p className="text-xs text-gray-500">גרור את הנקודה כדי לבחור איזה חלק בוידאו יוצג</p>
+      {isCover && <p className="text-xs text-gray-500">גרור את הנקודה כדי לבחור איזה חלק בוידאו יוצג</p>}
       <div
         ref={containerRef}
-        className="relative rounded-2xl overflow-hidden border border-gray-200 cursor-crosshair select-none"
-        style={{ height: 180 }}
-        onMouseDown={onMouseDown}
-        onMouseMove={onMouseMove}
-        onMouseUp={onMouseUp}
-        onMouseLeave={onMouseUp}
-        onTouchStart={onTouchStart}
-        onTouchMove={onTouchMove}
-        onTouchEnd={onTouchEnd}
+        className="relative rounded-2xl overflow-hidden border border-gray-200 select-none"
+        style={{ height: 180, background: '#000', cursor: isCover ? 'crosshair' : 'default' }}
+        onMouseDown={isCover ? onMouseDown : undefined}
+        onMouseMove={isCover ? onMouseMove : undefined}
+        onMouseUp={isCover ? onMouseUp : undefined}
+        onMouseLeave={isCover ? onMouseUp : undefined}
+        onTouchStart={isCover ? onTouchStart : undefined}
+        onTouchMove={isCover ? onTouchMove : undefined}
+        onTouchEnd={isCover ? onTouchEnd : undefined}
       >
         <video
           src={src}
           autoPlay loop muted playsInline
-          style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: `${pos.x}% ${pos.y}%`, pointerEvents: 'none' }}
-        />
-        {/* Drag handle */}
-        <div
           style={{
-            position: 'absolute',
-            left: `${pos.x}%`,
-            top: `${pos.y}%`,
-            transform: 'translate(-50%, -50%)',
-            width: 28,
-            height: 28,
-            borderRadius: '50%',
-            background: 'white',
-            boxShadow: '0 2px 8px rgba(0,0,0,0.4)',
-            border: '3px solid rgba(79,70,229,0.8)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
+            width: '100%',
+            height: '100%',
+            objectFit: isCover ? 'cover' : 'contain',
+            objectPosition: isCover ? `${pos.x}% ${pos.y}%` : 'center',
             pointerEvents: 'none',
           }}
-        >
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="#4F46E5">
-            <path d="M12 2l3 5H9l3-5zm0 20l-3-5h6l-3 5zm10-10l-5 3V9l5 3zM2 12l5-3v6L2 12z"/>
-          </svg>
-        </div>
+        />
+        {/* Drag handle — only in cover mode */}
+        {isCover && (
+          <div
+            style={{
+              position: 'absolute',
+              left: `${pos.x}%`,
+              top: `${pos.y}%`,
+              transform: 'translate(-50%, -50%)',
+              width: 28,
+              height: 28,
+              borderRadius: '50%',
+              background: 'white',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.4)',
+              border: '3px solid rgba(79,70,229,0.8)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              pointerEvents: 'none',
+            }}
+          >
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="#4F46E5">
+              <path d="M12 2l3 5H9l3-5zm0 20l-3-5h6l-3 5zm10-10l-5 3V9l5 3zM2 12l5-3v6L2 12z"/>
+            </svg>
+          </div>
+        )}
         {/* Remove button */}
         <button
           onMouseDown={e => e.stopPropagation()}
@@ -1455,7 +1465,7 @@ function VideoPositionPicker({ src, position, fit, onPositionChange, onRemove })
           הסר וידאו
         </button>
       </div>
-      <p className="text-xs text-gray-400 text-center">מיקום: {pos.x}% × {pos.y}%</p>
+      {isCover && <p className="text-xs text-gray-400 text-center">מיקום: {pos.x}% × {pos.y}%</p>}
     </div>
   );
 }
