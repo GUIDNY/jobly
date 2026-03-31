@@ -5,6 +5,8 @@ import HomePage from './pages/HomePage';
 import BuilderPage from './pages/BuilderPage';
 import CardPage from './pages/CardPage';
 import DashboardPage from './pages/DashboardPage';
+import VizzitAdmin from './pages/VizzitAdmin';
+import ProUpgrade from './pages/ProUpgrade';
 
 export default function App() {
   return (
