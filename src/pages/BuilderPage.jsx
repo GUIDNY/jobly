@@ -30,6 +30,7 @@ const DEFAULT_CARD = {
   title_align: 'center', name_size: 'md',
   slug: '', card_style: 'classic', services_section_title: '', contact_position: 'above',
   faq: [],
+  background_video_url: '',
 };
 
 export default function BuilderPage() {
