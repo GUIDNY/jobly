@@ -1260,6 +1260,7 @@ function Step5({ form, update, dbCardId, userId }) {
           <VideoPositionPicker
             src={form.background_video_url}
             position={form.background_video_position || '50% 30%'}
+            fit={form.background_video_fit || 'cover'}
             onPositionChange={async (pos) => {
               update('background_video_position', pos);
               if (dbCardId) await updateCard(dbCardId, { background_video_position: pos }).catch(() => {});
@@ -1267,7 +1268,8 @@ function Step5({ form, update, dbCardId, userId }) {
             onRemove={async () => {
               update('background_video_url', '');
               update('background_video_position', '50% 30%');
-              if (dbCardId) await updateCard(dbCardId, { background_video_url: '', background_video_position: '50% 30%' }).catch(() => {});
+              update('background_video_fit', 'cover');
+              if (dbCardId) await updateCard(dbCardId, { background_video_url: '', background_video_position: '50% 30%', background_video_fit: 'cover' }).catch(() => {});
             }}
           />
         ) : (
