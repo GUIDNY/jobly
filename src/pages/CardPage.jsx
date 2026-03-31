@@ -34,10 +34,22 @@ export default function CardPage() {
   useEffect(() => {
     if (!slug) return;
     getCardBySlug(slug)
-      .then(data => {
+      .then(async data => {
         if (!data || !data.is_published) { setNotFound(true); }
         else {
           setCard(data);
+          if (data.card_style === 'premium') {
+            const { data: profile } = await supabase
+              .from('profiles')
+              .select('plan, plan_expires_at')
+              .eq('id', data.user_id)
+              .single();
+            const proActive = profile?.plan === 'pro' &&
+              (!profile?.plan_expires_at || new Date(profile.plan_expires_at) > new Date());
+            setOwnerIsPro(proActive);
+          } else {
+            setOwnerIsPro(true);
+          }
           supabase.from('cards').update({ views_count: (data.views_count || 0) + 1 }).eq('id', data.id).then(() => {});
         }
       })
