@@ -93,6 +93,11 @@ export default function BuilderPage() {
     }
   }, [user, cardId, navigate]);
 
+  // If user switches to classic while on step 5, go back to step 4
+  useEffect(() => {
+    if (form.card_style !== 'premium' && step === 5) setStep(4);
+  }, [form.card_style]);
+
   // Auto-generate slug from business name
   useEffect(() => {
     if (!form.business_name || dbCardId) return;
