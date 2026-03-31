@@ -761,6 +761,13 @@ export default function CardPage() {
                 )}
 
                 {/* CTA */}
+                {selectedService.service_url && (
+                  <a href={selectedService.service_url} target="_blank" rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 w-full py-4 rounded-2xl text-white font-bold text-sm mb-2"
+                    style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)', boxShadow: '0 6px 24px rgba(244,147,140,0.35)' }}>
+                    קבע תור / מידע נוסף →
+                  </a>
+                )}
                 {selectedService.svcWaLink && (
                   <a href={selectedService.svcWaLink} target="_blank" rel="noopener noreferrer"
                     className="flex items-center justify-center gap-2 w-full py-4 rounded-2xl text-white font-bold text-sm"
