@@ -1293,6 +1293,52 @@ function Step5({ form, update, dbCardId }) {
   );
 }
 
+// ─── Video Upload Box ──────────────────────────────────────────────────────────
+function VideoUploadBox({ userId, onUploaded }) {
+  const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState('');
+  const ref = useRef();
+
+  const handle = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 20 * 1024 * 1024) { setError('הקובץ גדול מ-20MB'); return; }
+    setError('');
+    setUploading(true);
+    try {
+      const { supabase } = await import('../lib/supabase');
+      const path = `${userId || 'anon'}/video_${Date.now()}.mp4`;
+      const { data, error: upErr } = await supabase.storage
+        .from('card-images')
+        .upload(path, file, { upsert: true, contentType: file.type || 'video/mp4' });
+      if (upErr) throw upErr;
+      const { data: { publicUrl } } = supabase.storage.from('card-images').getPublicUrl(data.path);
+      onUploaded(publicUrl);
+    } catch {
+      setError('שגיאה בהעלאה. נסה שוב.');
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  return (
+    <div>
+      <input ref={ref} type="file" accept="video/mp4,video/webm,video/mov" className="hidden" onChange={handle} />
+      <button onClick={() => ref.current?.click()} disabled={uploading}
+        className="w-full flex flex-col items-center justify-center gap-2 py-8 rounded-2xl border-2 border-dashed border-gray-200 hover:border-indigo-300 hover:bg-indigo-50 transition-colors disabled:opacity-50">
+        {uploading ? (
+          <div className="flex gap-1">{[0,1,2].map(i => <div key={i} className="w-1.5 h-1.5 rounded-full animate-bounce bg-indigo-400" style={{ animationDelay: `${i*0.15}s` }} />)}</div>
+        ) : (
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" strokeWidth="1.5"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+        )}
+        <span className="text-sm font-medium text-gray-500">{uploading ? 'מעלה...' : 'העלה וידאו רקע (MP4)'}</span>
+        <span className="text-xs text-gray-400">עד 20MB</span>
+      </button>
+      {error && <p className="text-xs text-red-500 mt-1.5">{error}</p>}
+    </div>
+  );
+}
+
 // ─── Style Picker ─────────────────────────────────────────────────────────────
 function StylePicker({ value, color, onChange, dark = false, compact = false }) {
   const accent = color || '#4F46E5';
