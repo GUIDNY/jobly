@@ -96,14 +96,16 @@ export default function VizzitAdmin() {
     <div dir="rtl" style={{ background: '#f8fafc', minHeight: '100vh' }}>
       {/* Header */}
       <div className="bg-white border-b border-gray-100 px-6 py-4 flex items-center gap-3">
-        <div className="w-9 h-9 rounded-xl flex items-center justify-center"
-          style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
-          <LogoMark size={18} color="white" />
-        </div>
-        <div>
-          <h1 className="font-black text-gray-900 text-lg leading-tight">Vizzit Admin</h1>
-          <p className="text-xs text-gray-400">לוח ניהול</p>
-        </div>
+        <button onClick={() => navigate('/')} className="flex items-center gap-3 hover:opacity-75 transition-opacity">
+          <div className="w-9 h-9 rounded-xl flex items-center justify-center"
+            style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
+            <LogoMark size={18} color="white" />
+          </div>
+          <div className="text-right">
+            <h1 className="font-black text-gray-900 text-lg leading-tight">Vizzit Admin</h1>
+            <p className="text-xs text-gray-400">לוח ניהול</p>
+          </div>
+        </button>
         {loading && <div className="mr-auto flex gap-1">{[0,1,2].map(i =>
           <div key={i} className="w-1.5 h-1.5 rounded-full animate-bounce"
             style={{ background: '#5BC4C8', animationDelay: `${i*0.15}s` }} />
