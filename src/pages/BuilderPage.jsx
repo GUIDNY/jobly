@@ -1314,8 +1314,9 @@ function VideoUploadBox({ userId, onUploaded }) {
       if (upErr) throw upErr;
       const { data: { publicUrl } } = supabase.storage.from('card-images').getPublicUrl(data.path);
       onUploaded(publicUrl);
-    } catch {
-      setError('שגיאה בהעלאה. נסה שוב.');
+    } catch (err) {
+      console.error('Video upload error:', err);
+      setError('שגיאה: ' + (err?.message || JSON.stringify(err)));
     } finally {
       setUploading(false);
     }
