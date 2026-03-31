@@ -280,6 +280,26 @@ export default function CardPage() {
         </div>
       )}
 
+      {/* ── DEMO MODE BANNER (owner, non-pro premium) ── */}
+      {isPremiumDemo && isOwner && (
+        <div className="fixed bottom-6 left-4 right-4 z-50 max-w-lg mx-auto rounded-2xl px-4 py-3 flex items-center gap-3"
+          style={{ background: 'rgba(13,15,26,0.96)', border: '1px solid rgba(244,147,140,0.35)', backdropFilter: 'blur(16px)', boxShadow: '0 8px 32px rgba(0,0,0,0.5)' }}>
+          <div className="w-8 h-8 rounded-xl flex-shrink-0 flex items-center justify-center"
+            style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
+            <LogoMark size={16} color="white" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-bold text-white leading-tight">מצב דמו ✦ גלוי רק לך</p>
+            <p className="text-xs mt-0.5 truncate" style={{ color: 'rgba(255,255,255,0.45)' }}>שדרג ל-Pro כדי לשתף את העמוד — ₪39/חודש</p>
+          </div>
+          <button onClick={() => navigate('/pro')}
+            className="px-3 py-1.5 rounded-xl text-xs font-bold text-white flex-shrink-0"
+            style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
+            שדרג
+          </button>
+        </div>
+      )}
+
       <div className={`max-w-lg mx-auto ${isOwner ? 'pt-11' : ''}`}>
 
         {/* ── NAV ── */}
