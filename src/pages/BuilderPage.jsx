@@ -32,8 +32,7 @@ const DEFAULT_CARD = {
   slug: '', card_style: 'classic', services_section_title: '', contact_position: 'above',
   faq: [],
   background_video_url: '',
-  background_video_position: '50% 30%',
-  background_video_fit: 'cover',
+  background_video_position: '50% 30% cover',
 };
 
 export default function BuilderPage() {
