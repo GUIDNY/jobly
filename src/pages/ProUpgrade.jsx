@@ -59,6 +59,11 @@ export default function ProUpgrade() {
       `}</style>
 
       <div className="max-w-4xl mx-auto px-4 py-16">
+        <button onClick={() => navigate(-1)}
+          className="flex items-center gap-1.5 mb-8 text-sm font-medium transition-opacity hover:opacity-70"
+          style={{ color: 'rgba(255,255,255,0.4)' }}>
+          ← חזרה
+        </button>
         {/* Hero */}
         <div className="text-center mb-14">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold mb-6"
