@@ -50,7 +50,7 @@ export default function PremiumPreview({ data }) {
         {data.background_video_url ? (
           <>
             <video src={data.background_video_url} autoPlay loop muted playsInline
-              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top', opacity: 0.65 }} />
+              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: data.background_video_position || '50% 30%', opacity: 0.65 }} />
             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, #070910 0%, transparent 25%, transparent 75%, #070910 100%)' }} />
             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, #070910 0%, transparent 18%)' }} />
             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 40%, rgba(7,9,16,0.55) 68%, #070910 100%)' }} />
