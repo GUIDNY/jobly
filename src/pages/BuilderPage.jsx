@@ -97,9 +97,19 @@ export default function BuilderPage() {
     }
   }, [user, cardId, navigate]);
 
-  // If user switches to classic while on step 5, go back to step 4
+  // visibleSteps order: classic=[1,2,3,4], premium=[1,2,3,5,4]
+  const visibleSteps = form.card_style === 'premium'
+    ? [STEPS[0], STEPS[1], STEPS[2], STEPS[4], STEPS[3]]
+    : [STEPS[0], STEPS[1], STEPS[2], STEPS[3]];
+
+  const currentIdx = visibleSteps.findIndex(s => s.id === step);
+  const prevStepId = visibleSteps[currentIdx - 1]?.id ?? null;
+  const nextStepId = visibleSteps[currentIdx + 1]?.id ?? null;
+  const isLastStep = currentIdx === visibleSteps.length - 1;
+
+  // If user switches to classic while on step 5 (פרמיום), go back to step 3
   useEffect(() => {
-    if (form.card_style !== 'premium' && step === 5) setStep(4);
+    if (form.card_style !== 'premium' && step === 5) setStep(3);
   }, [form.card_style]);
 
   // Auto-generate slug from business name
