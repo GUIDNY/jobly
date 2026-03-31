@@ -608,6 +608,11 @@ export default function CardPage() {
           </section>
         )}
 
+        {/* ── FAQ ── */}
+        {card.faq && card.faq.length > 0 && (
+          <FaqSection faq={card.faq} accent={accent} />
+        )}
+
         {/* ── SOCIAL ── */}
         {hasSocial && (
           <section className="px-5 pb-10">
