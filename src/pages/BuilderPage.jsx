@@ -12,6 +12,7 @@ import {
 } from '../lib/cardsApi';
 import BgStylePicker from '../components/BgStylePicker';
 import PremiumPreview from '../components/PremiumPreview';
+import { supabase } from '../lib/supabase';
 
 const STEPS = [
   { id: 1, label: 'פרטים בסיסיים' },
