@@ -1237,23 +1237,28 @@ function Step5({ form, update, dbCardId, userId }) {
             <p className="text-sm font-bold text-gray-800">וידאו רקע ✦</p>
             <p className="text-xs text-gray-400 mt-0.5">וידאו שירוץ ברקע ה-Hero במקום תמונה. MP4 מומלץ, עד 20MB</p>
           </div>
-          {form.background_video_url && (
-            <div className="flex gap-1 bg-gray-100 rounded-xl p-1 shrink-0">
-              {[['cover','ממלא'],['contain','מלא']].map(([val, label]) => (
-                <button key={val}
-                  onClick={async () => {
-                    update('background_video_fit', val);
-                    if (dbCardId) await updateCard(dbCardId, { background_video_fit: val }).catch(() => {});
-                  }}
-                  className="px-3 py-1 rounded-lg text-xs font-bold transition-all"
-                  style={form.background_video_fit === val
-                    ? { background: 'white', color: '#4F46E5', boxShadow: '0 1px 4px rgba(0,0,0,0.1)' }
-                    : { color: '#9ca3af' }}>
-                  {label}
-                </button>
-              ))}
-            </div>
-          )}
+          {form.background_video_url && (() => {
+            const parts = (form.background_video_position || '50% 30% cover').split(' ');
+            const currentFit = parts[2] || 'cover';
+            const setFit = async (val) => {
+              const pos = `${parts[0] || '50%'} ${parts[1] || '30%'} ${val}`;
+              update('background_video_position', pos);
+              if (dbCardId) await updateCard(dbCardId, { background_video_position: pos }).catch(() => {});
+            };
+            return (
+              <div className="flex gap-1 bg-gray-100 rounded-xl p-1 shrink-0">
+                {[['cover','ממלא'],['contain','מלא']].map(([val, label]) => (
+                  <button key={val} onClick={() => setFit(val)}
+                    className="px-3 py-1 rounded-lg text-xs font-bold transition-all"
+                    style={currentFit === val
+                      ? { background: 'white', color: '#4F46E5', boxShadow: '0 1px 4px rgba(0,0,0,0.1)' }
+                      : { color: '#9ca3af' }}>
+                    {label}
+                  </button>
+                ))}
+              </div>
+            );
+          })()}
         </div>
         {form.background_video_url ? (
           <VideoPositionPicker
