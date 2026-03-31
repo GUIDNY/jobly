@@ -889,25 +889,6 @@ function Step3({ form, update }) {
         <p className="text-xs text-gray-400 mt-1">זו ההודעה שתישלח אוטומטית כשלוחצים על כפתור WhatsApp</p>
       </div>
 
-      {/* WhatsApp position */}
-      <div>
-        <p className="text-xs font-semibold text-gray-500 mb-2">מיקום כפתור WhatsApp</p>
-        <div className="grid grid-cols-2 gap-2">
-          {[
-            { value: 'top', label: 'מעל השירותים' },
-            { value: 'bottom', label: 'מתחת לשירותים' },
-          ].map(opt => (
-            <button key={opt.value} onClick={() => update('whatsapp_position', opt.value)}
-              className="px-3 py-2.5 rounded-xl border-2 text-sm font-medium transition-all"
-              style={form.whatsapp_position === opt.value
-                ? { borderColor: '#5BC4C8', background: '#f0fafa', color: '#2a9aa0' }
-                : { borderColor: '#e5e7eb', color: '#6b7280' }}>
-              {opt.label}
-            </button>
-          ))}
-        </div>
-      </div>
-
       {/* Booking URL */}
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1.5">
