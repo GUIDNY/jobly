@@ -72,6 +72,7 @@ export default function CardPage() {
   useEffect(() => { setPopupImgIdx(0); }, [selectedService?.title]);
 
   const isOwner = !!(user && card && user.id === card.user_id);
+  const isPremiumDemo = !!(card && card.card_style === 'premium' && ownerIsPro === false);
 
   const saveField = async (field, value) => {
     setSaving(true);
