@@ -486,7 +486,7 @@ function Template2({ placeholderName, placeholderDesc, avatar_url, phone, waLink
 }
 
 // Template 3: Minimal / Linktree style
-function Template3({ placeholderName, placeholderDesc, avatar_url, phone, waLink, callLink, primary_color, instagram, facebook, tiktok, location_url, booking_url, card_services, compact, showActions = true, whatsapp_position = 'bottom', title_align = 'center', name_size = 'md' }) {
+function Template3({ placeholderName, placeholderDesc, avatar_url, phone, waLink, callLink, primary_color, instagram, facebook, tiktok, location_url, booking_url, card_services, compact, showActions = true, contact_position = 'above', title_align = 'center', name_size = 'md' }) {
   const [compactSize, fullSize] = NAME_SIZES[name_size] || NAME_SIZES.md;
   const actionBar = showActions && phone && (
     <div className="w-full space-y-2.5">
