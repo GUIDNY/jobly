@@ -31,7 +31,7 @@ export default function CardPreview({ data = {}, compact = false, showActions = 
     card_services = [],
     services_layout = 'list',
     services_section_title = '',
-    whatsapp_position = 'bottom',
+    contact_position = 'above',
     title_align = 'center',
     name_size = 'md',
   } = data;
