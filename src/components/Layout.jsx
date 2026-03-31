@@ -64,7 +64,7 @@ export default function Layout({ children }) {
                 )}
                 {user.is_admin && (
                   <Link
-                    to="/Admin"
+                    to="/admin"
                     className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-orange-50 border border-orange-200 text-orange-600 hover:bg-orange-100 transition-colors text-sm font-medium"
                   >
                     <Shield size={14} />
