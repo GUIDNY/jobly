@@ -28,10 +28,9 @@ const DEMOS = [
     business_name: 'המספרה של אבי',
     description: 'תספורות גבר ועיצוב זקן',
     phone: '0501234567',
-    primary_color: '#111827',
-    template: 1,
-    background_style: 'image',
-    whatsapp_position: 'bottom',
+    primary_color: '#F4938C',
+    card_style: 'premium',
+    contact_position: 'above',
     avatar_url: 'https://images.pexels.com/photos/1805600/pexels-photo-1805600.jpeg?auto=compress&cs=tinysrgb&w=600',
     card_services: [
       { title: 'תספורת גבר', description: '₪60 · 30 דקות' },
