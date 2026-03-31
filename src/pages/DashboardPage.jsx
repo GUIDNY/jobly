@@ -54,7 +54,16 @@ export default function DashboardPage() {
             <button onClick={() => navigate('/')} className="flex items-center justify-center"><LogoMark size={32} /></button>
             <span className="font-bold text-gray-900">Vizzit</span>
           </div>
-          <button onClick={logout} className="text-sm text-gray-500 hover:text-gray-700 px-3 py-1.5 rounded-lg hover:bg-gray-100 transition-colors">התנתק</button>
+          <div className="flex items-center gap-2">
+            {user?.is_admin && (
+              <button onClick={() => navigate('/admin')}
+                className="text-sm font-semibold px-3 py-1.5 rounded-lg transition-colors"
+                style={{ background: '#0d0f1a', color: '#5BC4C8', border: '1px solid rgba(91,196,200,0.3)' }}>
+                ניהול
+              </button>
+            )}
+            <button onClick={logout} className="text-sm text-gray-500 hover:text-gray-700 px-3 py-1.5 rounded-lg hover:bg-gray-100 transition-colors">התנתק</button>
+          </div>
         </div>
       </nav>
 
