@@ -360,9 +360,16 @@ export default function CardPage() {
           <div className="relative overflow-hidden" style={{ height: (card.avatar_url || card.background_video_url) ? 420 : 160 }}>
             {card.background_video_url ? (
               <>
-                <video src={card.background_video_url} autoPlay loop muted playsInline
-                  className="absolute inset-0 w-full h-full object-cover"
-                  style={{ opacity: 0.65, objectPosition: card.background_video_position || '50% 30%' }} />
+                {(() => {
+                  const parts = (card.background_video_position || '50% 30% cover').split(' ');
+                  const objPos = `${parts[0] || '50%'} ${parts[1] || '30%'}`;
+                  const objFit = parts[2] || 'cover';
+                  return (
+                    <video src={card.background_video_url} autoPlay loop muted playsInline
+                      className="absolute inset-0 w-full h-full"
+                      style={{ opacity: 0.65, objectFit: objFit, objectPosition: objFit === 'cover' ? objPos : 'center' }} />
+                  );
+                })()}
                 <div className="absolute inset-0" style={{ background: `linear-gradient(to right, ${BG} 0%, transparent 25%, transparent 75%, ${BG} 100%)` }} />
                 <div className="absolute inset-0" style={{ background: `linear-gradient(to bottom, ${BG} 0%, transparent 18%)` }} />
                 <div className="absolute inset-0" style={{ background: `linear-gradient(to bottom, transparent 40%, rgba(7,9,16,0.55) 68%, ${BG} 100%)` }} />
