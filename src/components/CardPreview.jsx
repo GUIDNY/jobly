@@ -536,7 +536,7 @@ function Template3({ placeholderName, placeholderDesc, avatar_url, phone, waLink
         </div>
       )}
       <ServicesList services={card_services} compact={compact} fullWidth phone={phone} />
-      {whatsapp_position === 'bottom' && <div className="w-full mt-4">{actionBar}</div>}
+      {contact_position === 'below' && <div className="w-full mt-4">{actionBar}</div>}
       <div className="text-center text-gray-300 text-xs mt-4 pb-2">נוצר עם Vizzit</div>
     </div>
   );
