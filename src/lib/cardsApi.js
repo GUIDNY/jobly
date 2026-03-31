@@ -154,6 +154,7 @@ export async function updateCard(cardId, cardData) {
         popup_image_url: s.popup_image_url || null,
         price: s.price || '',
         size: s.size || 'full',
+        service_url: s.service_url || null,
         order_index: i,
       }));
     if (serviceRows.length > 0) {
