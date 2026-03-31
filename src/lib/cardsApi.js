@@ -104,7 +104,7 @@ export async function createCard(userId, cardData) {
   const { services, card_services, whatsapp_position, title_align, name_size, faq, ...rest } = cardData;
   const { data, error } = await supabase
     .from('cards')
-    .insert({ ...rest, user_id: userId })
+    .insert({ ...rest, user_id: userId, faq: faq || [] })
     .select()
     .single();
   if (error) throw error;
