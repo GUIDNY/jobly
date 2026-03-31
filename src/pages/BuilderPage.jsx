@@ -1133,7 +1133,7 @@ function Step4({ form, update, dbCardId, onPublish, publishing, published, isLiv
 
 
 // ─── Step 5: Premium Features ─────────────────────────────────────────────────
-function Step5({ form, update, dbCardId }) {
+function Step5({ form, update, dbCardId, userId }) {
   const isPremium = form.card_style === 'premium';
 
   const saveFaq = async (newFaq) => {
