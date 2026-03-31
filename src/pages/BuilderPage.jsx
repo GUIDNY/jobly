@@ -1114,8 +1114,9 @@ function Step4({ form, update, dbCardId, onPublish, publishing, published, isLiv
   );
 }
 
-// ─── Premium Preview (compact dark design for phone mockup) ──────────────────
-function PremiumPreview({ data }) {
+// PremiumPreview is now imported from ../components/PremiumPreview
+// ─── (removed inline definition) ───────────────────────────────────────────
+function _PremiumPreviewPlaceholder({ data }) {
   const [popupSvc, setPopupSvc] = useState(null);
   const [popupImgIdx, setPopupImgIdx] = useState(0);
   const accent = data.primary_color || '#7c5ce0';
