@@ -130,7 +130,10 @@ export default function HomePage() {
       <nav className="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-gray-100">
         <div className="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <LogoMark size={32} />
+            <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
+              style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
+              <LogoMark size={18} color="white" />
+            </div>
             <span className="font-black text-gray-900 text-lg tracking-tight">Vizzit</span>
           </div>
           <div className="hidden md:flex items-center gap-7 text-sm font-medium text-gray-500">
