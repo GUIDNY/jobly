@@ -11,6 +11,7 @@ import {
   createCard, updateCard, uploadCardImage, getCardById,
 } from '../lib/cardsApi';
 import BgStylePicker from '../components/BgStylePicker';
+import PremiumPreview from '../components/PremiumPreview';
 
 const STEPS = [
   { id: 1, label: 'פרטים בסיסיים' },
