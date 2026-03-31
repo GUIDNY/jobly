@@ -1335,28 +1335,30 @@ function StylePicker({ value, color, onChange, dark = false, compact = false }) 
         </p>
       )}
       {compact ? (
-        /* Segmented control — pinned buttons */
-        <div className="flex rounded-2xl overflow-hidden border-2" style={{ borderColor: accent + '33' }}>
-          {styles.map((s, idx) => {
+        /* Two small phone-shaped cards with gap */
+        <div className="flex gap-3 justify-center">
+          {styles.map(s => {
             const selected = (value || 'classic') === s.id;
             return (
               <button key={s.id} onClick={() => onChange(s.id)}
-                className="flex-1 overflow-hidden transition-all"
-                style={{
-                  borderRight: idx === 0 ? `1px solid ${accent}33` : 'none',
-                  background: selected ? accent + '18' : 'transparent',
+                className="flex flex-col items-center gap-1.5 transition-all"
+                style={{ outline: 'none' }}>
+                {/* Phone frame */}
+                <div style={{
+                  width: 72, borderRadius: 12,
+                  border: selected ? `2px solid ${accent}` : '2px solid #e5e7eb',
+                  boxShadow: selected ? `0 0 0 3px ${accent}22` : 'none',
+                  overflow: 'hidden',
+                  transition: 'all 0.15s',
                 }}>
-                <div>
                   {s.id === 'classic'
                     ? <ClassicThumb color={accent} compact />
                     : <PremiumThumb color={accent} compact />}
                 </div>
-                <div className="py-1 text-center">
-                  <p className="text-[10px] font-bold"
-                    style={{ color: selected ? accent : (dark ? 'rgba(255,255,255,0.6)' : '#6b7280') }}>
-                    {s.label}
-                  </p>
-                </div>
+                <span className="text-[11px] font-bold"
+                  style={{ color: selected ? accent : '#9ca3af' }}>
+                  {s.label}
+                </span>
               </button>
             );
           })}
