@@ -247,7 +247,7 @@ export default function BuilderPage() {
       <div className="bg-white border-b border-gray-100">
         <div className="max-w-6xl mx-auto px-4">
           <div className="flex items-center overflow-x-auto py-3 gap-0">
-            {STEPS.map((s, i) => (
+            {STEPS.filter(s => s.id < 5 || form.card_style === 'premium').map((s, i) => (
               <div key={s.id} className="flex items-center flex-shrink-0">
                 <button
                   onClick={() => setStep(s.id)}
