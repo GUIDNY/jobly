@@ -62,7 +62,7 @@ export default function PremiumPreview({ data }) {
             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, #070910 0%, transparent 18%)' }} />
             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 40%, rgba(7,9,16,0.55) 68%, #070910 100%)' }} />
           </>
-        )}
+        ) : null}
         <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '10px 14px', zIndex: 1 }}>
           <div style={{ fontSize: 16, fontWeight: 900, fontStyle: 'italic', lineHeight: 1.2, marginBottom: 4, color: 'white', textShadow: '0 2px 16px rgba(0,0,0,0.9)', textAlign: 'center' }}>{name}</div>
           {desc && <div style={{ fontSize: 7, color: 'rgba(255,255,255,0.7)', lineHeight: 1.5, textAlign: 'center', textShadow: '0 1px 8px rgba(0,0,0,0.9)' }}>{desc.slice(0, 50)}{desc.length > 50 ? '...' : ''}</div>}
