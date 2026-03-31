@@ -156,6 +156,25 @@ export default function CardPage() {
     </div>
   );
 
+  // Premium card from a non-pro owner — guests see a branded Vizzit screen
+  if (isPremiumDemo && !isOwner) return (
+    <div className="min-h-screen flex flex-col items-center justify-center p-6" dir="rtl" style={{ background: BG }}>
+      <div className="text-center max-w-xs">
+        <div className="w-20 h-20 rounded-3xl mx-auto mb-6 flex items-center justify-center"
+          style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)', boxShadow: '0 20px 50px -10px rgba(244,147,140,0.4)' }}>
+          <LogoMark size={40} color="white" />
+        </div>
+        <h1 className="text-3xl font-black text-white mb-2">Vizzit</h1>
+        <p className="text-sm mb-8" style={{ color: 'rgba(255,255,255,0.4)' }}>צור את כרטיס הביקור הדיגיטלי שלך בקלות ובחינם.</p>
+        <button onClick={() => navigate('/')}
+          className="px-8 py-3 rounded-2xl text-white font-bold text-sm"
+          style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
+          צור כרטיס עכשיו →
+        </button>
+      </div>
+    </div>
+  );
+
   const accent = card.primary_color || '#7c5ce0';
   const waLink = card.phone
     ? `https://wa.me/972${card.phone.replace(/^0/, '')}?text=${encodeURIComponent(card.whatsapp_message || '')}`
