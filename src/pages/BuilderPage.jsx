@@ -1341,6 +1341,103 @@ function VideoUploadBox({ userId, onUploaded }) {
   );
 }
 
+// ─── Video Position Picker ─────────────────────────────────────────────────────
+function VideoPositionPicker({ src, position, onPositionChange, onRemove }) {
+  const containerRef = useRef();
+  const dragging = useRef(false);
+
+  const posToXY = (pos) => {
+    const parts = (pos || '50% 30%').split(' ');
+    return { x: parseFloat(parts[0]), y: parseFloat(parts[1]) };
+  };
+
+  const { x: initX, y: initY } = posToXY(position);
+  const [pos, setPos] = useState({ x: initX, y: initY });
+
+  const updateFromEvent = (e) => {
+    const rect = containerRef.current.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    const x = Math.round(Math.max(0, Math.min(100, ((clientX - rect.left) / rect.width) * 100)));
+    const y = Math.round(Math.max(0, Math.min(100, ((clientY - rect.top) / rect.height) * 100)));
+    setPos({ x, y });
+    return `${x}% ${y}%`;
+  };
+
+  const onMouseDown = (e) => { e.preventDefault(); dragging.current = true; updateFromEvent(e); };
+  const onMouseMove = (e) => { if (!dragging.current) return; updateFromEvent(e); };
+  const onMouseUp = (e) => {
+    if (!dragging.current) return;
+    dragging.current = false;
+    const posStr = updateFromEvent(e);
+    onPositionChange(posStr);
+  };
+  const onTouchStart = (e) => { dragging.current = true; updateFromEvent(e); };
+  const onTouchMove = (e) => { if (!dragging.current) return; e.preventDefault(); updateFromEvent(e); };
+  const onTouchEnd = (e) => {
+    if (!dragging.current) return;
+    dragging.current = false;
+    onPositionChange(`${pos.x}% ${pos.y}%`);
+  };
+
+  return (
+    <div className="space-y-2">
+      <p className="text-xs text-gray-500">גרור את הנקודה כדי לבחור איזה חלק בוידאו יוצג</p>
+      <div
+        ref={containerRef}
+        className="relative rounded-2xl overflow-hidden border border-gray-200 cursor-crosshair select-none"
+        style={{ height: 180 }}
+        onMouseDown={onMouseDown}
+        onMouseMove={onMouseMove}
+        onMouseUp={onMouseUp}
+        onMouseLeave={onMouseUp}
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+      >
+        <video
+          src={src}
+          autoPlay loop muted playsInline
+          style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: `${pos.x}% ${pos.y}%`, pointerEvents: 'none' }}
+        />
+        {/* Drag handle */}
+        <div
+          style={{
+            position: 'absolute',
+            left: `${pos.x}%`,
+            top: `${pos.y}%`,
+            transform: 'translate(-50%, -50%)',
+            width: 28,
+            height: 28,
+            borderRadius: '50%',
+            background: 'white',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.4)',
+            border: '3px solid rgba(79,70,229,0.8)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            pointerEvents: 'none',
+          }}
+        >
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="#4F46E5">
+            <path d="M12 2l3 5H9l3-5zm0 20l-3-5h6l-3 5zm10-10l-5 3V9l5 3zM2 12l5-3v6L2 12z"/>
+          </svg>
+        </div>
+        {/* Remove button */}
+        <button
+          onMouseDown={e => e.stopPropagation()}
+          onClick={onRemove}
+          className="absolute top-2 left-2 px-2.5 py-1 rounded-lg text-xs font-bold text-white"
+          style={{ background: 'rgba(0,0,0,0.6)' }}
+        >
+          הסר וידאו
+        </button>
+      </div>
+      <p className="text-xs text-gray-400 text-center">מיקום: {pos.x}% × {pos.y}%</p>
+    </div>
+  );
+}
+
 // ─── Style Picker ─────────────────────────────────────────────────────────────
 function StylePicker({ value, color, onChange, dark = false, compact = false }) {
   const accent = color || '#4F46E5';
