@@ -140,11 +140,20 @@ export default function HomePage() {
           </div>
           <div className="flex items-center gap-2">
             {user ? (
-              <button onClick={() => navigate('/dashboard')}
-                className="text-sm font-semibold px-4 py-2 rounded-lg text-white transition-colors hover:opacity-90"
-                style={{ background: '#5BC4C8' }}>
-                הדפים שלי
-              </button>
+              <div className="flex items-center gap-2">
+                {user.is_admin && (
+                  <button onClick={() => navigate('/admin')}
+                    className="text-sm font-semibold px-3 py-2 rounded-lg transition-colors hover:opacity-90"
+                    style={{ background: '#0d0f1a', color: '#5BC4C8', border: '1px solid rgba(91,196,200,0.3)' }}>
+                    ניהול
+                  </button>
+                )}
+                <button onClick={() => navigate('/dashboard')}
+                  className="text-sm font-semibold px-4 py-2 rounded-lg text-white transition-colors hover:opacity-90"
+                  style={{ background: '#5BC4C8' }}>
+                  הדפים שלי
+                </button>
+              </div>
             ) : (
               <>
                 <button onClick={() => setAuthOpen(true)}
