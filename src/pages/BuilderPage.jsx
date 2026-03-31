@@ -33,6 +33,7 @@ const DEFAULT_CARD = {
   faq: [],
   background_video_url: '',
   background_video_position: '50% 30%',
+  background_video_fit: 'cover',
 };
 
 export default function BuilderPage() {
