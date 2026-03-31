@@ -18,6 +18,7 @@ export default function CardPage() {
   const [card, setCard] = useState(null);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
+  const [ownerIsPro, setOwnerIsPro] = useState(null);
 
   // Edit mode
   const [isEditMode, setIsEditMode] = useState(false);
