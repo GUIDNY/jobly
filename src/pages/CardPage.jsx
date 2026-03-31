@@ -357,20 +357,26 @@ export default function CardPage() {
 
         {/* ── HERO ── */}
         <section>
-          <div className="relative overflow-hidden" style={{ height: card.avatar_url ? 420 : 160 }}>
-            {card.avatar_url && (
+          <div className="relative overflow-hidden" style={{ height: (card.avatar_url || card.background_video_url) ? 420 : 160 }}>
+            {card.background_video_url ? (
+              <>
+                <video src={card.background_video_url} autoPlay loop muted playsInline
+                  className="absolute inset-0 w-full h-full object-cover object-top"
+                  style={{ opacity: 0.65 }} />
+                <div className="absolute inset-0" style={{ background: `linear-gradient(to right, ${BG} 0%, transparent 25%, transparent 75%, ${BG} 100%)` }} />
+                <div className="absolute inset-0" style={{ background: `linear-gradient(to bottom, ${BG} 0%, transparent 18%)` }} />
+                <div className="absolute inset-0" style={{ background: `linear-gradient(to bottom, transparent 40%, rgba(7,9,16,0.55) 68%, ${BG} 100%)` }} />
+              </>
+            ) : card.avatar_url ? (
               <>
                 <img src={card.avatar_url} alt=""
                   className="absolute inset-0 w-full h-full object-cover object-top"
                   style={{ opacity: 0.65 }} />
-                {/* sides */}
                 <div className="absolute inset-0" style={{ background: `linear-gradient(to right, ${BG} 0%, transparent 25%, transparent 75%, ${BG} 100%)` }} />
-                {/* top */}
                 <div className="absolute inset-0" style={{ background: `linear-gradient(to bottom, ${BG} 0%, transparent 18%)` }} />
-                {/* bottom — melts into page */}
                 <div className="absolute inset-0" style={{ background: `linear-gradient(to bottom, transparent 40%, rgba(7,9,16,0.55) 68%, ${BG} 100%)` }} />
               </>
-            )}
+            ) : null}
 
             {/* Text centered in image */}
             <div className="absolute inset-0 flex flex-col items-center justify-center px-6 z-10"
