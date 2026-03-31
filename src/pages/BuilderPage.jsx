@@ -1124,6 +1124,137 @@ function Step4({ form, update, dbCardId, onPublish, publishing, published, isLiv
 }
 
 
+// ─── Step 5: Premium Features ─────────────────────────────────────────────────
+function Step5({ form, update, dbCardId }) {
+  const isPremium = form.card_style === 'premium';
+
+  const saveFaq = async (newFaq) => {
+    update('faq', newFaq);
+    if (dbCardId) await updateCard(dbCardId, { faq: newFaq }).catch(() => {});
+  };
+
+  const addFaq = () => saveFaq([...(form.faq || []), { question: '', answer: '' }]);
+  const removeFaq = (i) => saveFaq((form.faq || []).filter((_, idx) => idx !== i));
+  const updateFaq = (i, field, val) => {
+    const next = (form.faq || []).map((item, idx) => idx === i ? { ...item, [field]: val } : item);
+    update('faq', next);
+  };
+  const saveFaqBlur = () => {
+    if (dbCardId) updateCard(dbCardId, { faq: form.faq || [] }).catch(() => {});
+  };
+
+  if (!isPremium) {
+    return (
+      <div className="text-center py-16 px-6">
+        <div className="w-16 h-16 rounded-3xl mx-auto mb-5 flex items-center justify-center"
+          style={{ background: 'linear-gradient(135deg, #F4938C22, #5BC4C822)', border: '1px solid rgba(244,147,140,0.3)' }}>
+          <span className="text-2xl">✦</span>
+        </div>
+        <h2 className="text-xl font-black text-gray-900 mb-2">פיצ׳רים פרמיום</h2>
+        <p className="text-sm text-gray-500 mb-6 max-w-xs mx-auto">שדרג לעיצוב פרמיום בשלב 4 כדי לגשת לפיצ׳רים הבלעדיים.</p>
+        <button onClick={() => {}} className="px-5 py-2.5 rounded-xl text-white text-sm font-bold"
+          style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
+          עבור לשלב 4 לבחירת פרמיום
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-8">
+      <div>
+        <h2 className="text-lg font-black text-gray-900 mb-1 flex items-center gap-2">
+          <span className="px-2 py-0.5 rounded-lg text-xs font-black text-white"
+            style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>✦ פרמיום</span>
+          פיצ׳רים בלעדיים
+        </h2>
+        <p className="text-sm text-gray-400">הגדרות שמופיעות רק בעיצוב הפרמיום.</p>
+      </div>
+
+      {/* FAQ Section */}
+      <div>
+        <div className="flex items-center justify-between mb-3">
+          <div>
+            <p className="text-sm font-bold text-gray-800">שאלות נפוצות (FAQ)</p>
+            <p className="text-xs text-gray-400 mt-0.5">הוסף שאלות ותשובות שיופיעו בעמוד שלך</p>
+          </div>
+          <button onClick={addFaq}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-sm font-bold text-white"
+            style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
+            + הוסף שאלה
+          </button>
+        </div>
+
+        {(!form.faq || form.faq.length === 0) && (
+          <div className="text-center py-10 rounded-2xl border-2 border-dashed border-gray-200">
+            <p className="text-sm text-gray-400">אין שאלות עדיין. לחץ "+ הוסף שאלה" להתחיל.</p>
+          </div>
+        )}
+
+        <div className="space-y-3">
+          {(form.faq || []).map((item, i) => (
+            <div key={i} className="border border-gray-200 rounded-2xl p-4 space-y-3 bg-white">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-gray-400">שאלה {i + 1}</span>
+                <button onClick={() => removeFaq(i)}
+                  className="text-xs text-red-400 hover:text-red-600 px-2 py-1 rounded-lg hover:bg-red-50 transition-colors">
+                  מחק
+                </button>
+              </div>
+              <input
+                value={item.question}
+                onChange={e => updateFaq(i, 'question', e.target.value)}
+                onBlur={saveFaqBlur}
+                placeholder="מה השאלה? למשל: כמה עולה תספורת?"
+                className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50"
+              />
+              <textarea
+                value={item.answer}
+                onChange={e => updateFaq(i, 'answer', e.target.value)}
+                onBlur={saveFaqBlur}
+                placeholder="מה התשובה?"
+                rows={2}
+                className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50 resize-none"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Service URLs */}
+      {form.services && form.services.length > 0 && (
+        <div>
+          <div className="mb-3">
+            <p className="text-sm font-bold text-gray-800">קישורי שירותים</p>
+            <p className="text-xs text-gray-400 mt-0.5">הוסף קישור לכל שירות — יופיע כ"קבע תור" בפופ-אפ</p>
+          </div>
+          <div className="space-y-3">
+            {form.services.map((svc, i) => (
+              <div key={i} className="border border-gray-200 rounded-2xl p-4 bg-white">
+                <p className="text-xs font-bold text-gray-600 mb-2 truncate">{svc.title || `שירות ${i + 1}`}</p>
+                <input
+                  type="url"
+                  value={svc.service_url || ''}
+                  onChange={e => {
+                    const next = form.services.map((s, idx) => idx === i ? { ...s, service_url: e.target.value } : s);
+                    update('services', next);
+                  }}
+                  onBlur={() => {
+                    if (dbCardId) updateCard(dbCardId, { services: form.services }).catch(() => {});
+                  }}
+                  placeholder="https://calendly.com/..."
+                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50"
+                  dir="ltr"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ─── Style Picker ─────────────────────────────────────────────────────────────
 function StylePicker({ value, color, onChange, dark = false, compact = false }) {
   const accent = color || '#4F46E5';
