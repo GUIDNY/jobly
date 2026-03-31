@@ -1307,7 +1307,6 @@ function VideoUploadBox({ userId, onUploaded }) {
     setError('');
     setUploading(true);
     try {
-      const { supabase } = await import('../lib/supabase');
       const path = `${userId || 'anon'}/video_${Date.now()}.mp4`;
       const { data, error: upErr } = await supabase.storage
         .from('card-images')
