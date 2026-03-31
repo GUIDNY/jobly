@@ -49,8 +49,15 @@ export default function PremiumPreview({ data }) {
       <div style={{ position: 'relative', overflow: 'hidden', height: (data.avatar_url || data.background_video_url) ? 130 : 50 }}>
         {data.background_video_url ? (
           <>
-            <video src={data.background_video_url} autoPlay loop muted playsInline
-              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: data.background_video_position || '50% 30%', opacity: 0.65 }} />
+            {(() => {
+              const parts = (data.background_video_position || '50% 30% cover').split(' ');
+              const objPos = `${parts[0] || '50%'} ${parts[1] || '30%'}`;
+              const objFit = parts[2] || 'cover';
+              return (
+                <video src={data.background_video_url} autoPlay loop muted playsInline
+                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: objFit, objectPosition: objFit === 'cover' ? objPos : 'center', opacity: 0.65 }} />
+              );
+            })()}
             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, #070910 0%, transparent 25%, transparent 75%, #070910 100%)' }} />
             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, #070910 0%, transparent 18%)' }} />
             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 40%, rgba(7,9,16,0.55) 68%, #070910 100%)' }} />
