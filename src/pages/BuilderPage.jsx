@@ -18,6 +18,7 @@ const STEPS = [
   { id: 2, label: 'שירותים' },
   { id: 3, label: 'קשר וקישורים' },
   { id: 4, label: 'עיצוב ופרסום' },
+  { id: 5, label: '✦ פרמיום' },
 ];
 
 const DEFAULT_CARD = {
