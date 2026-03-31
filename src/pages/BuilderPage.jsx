@@ -1233,9 +1233,28 @@ function Step5({ form, update, dbCardId, userId }) {
 
       {/* Background Video */}
       <div>
-        <div className="mb-3">
-          <p className="text-sm font-bold text-gray-800">וידאו רקע ✦</p>
-          <p className="text-xs text-gray-400 mt-0.5">וידאו שירוץ ברקע ה-Hero במקום תמונה. MP4 מומלץ, עד 20MB</p>
+        <div className="flex items-start justify-between mb-3">
+          <div>
+            <p className="text-sm font-bold text-gray-800">וידאו רקע ✦</p>
+            <p className="text-xs text-gray-400 mt-0.5">וידאו שירוץ ברקע ה-Hero במקום תמונה. MP4 מומלץ, עד 20MB</p>
+          </div>
+          {form.background_video_url && (
+            <div className="flex gap-1 bg-gray-100 rounded-xl p-1 shrink-0">
+              {[['cover','ממלא'],['contain','מלא']].map(([val, label]) => (
+                <button key={val}
+                  onClick={async () => {
+                    update('background_video_fit', val);
+                    if (dbCardId) await updateCard(dbCardId, { background_video_fit: val }).catch(() => {});
+                  }}
+                  className="px-3 py-1 rounded-lg text-xs font-bold transition-all"
+                  style={form.background_video_fit === val
+                    ? { background: 'white', color: '#4F46E5', boxShadow: '0 1px 4px rgba(0,0,0,0.1)' }
+                    : { color: '#9ca3af' }}>
+                  {label}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
         {form.background_video_url ? (
           <VideoPositionPicker
