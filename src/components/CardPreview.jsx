@@ -476,9 +476,9 @@ function Template2({ placeholderName, placeholderDesc, avatar_url, phone, waLink
           <p className="text-white/80 mt-0.5" style={{ fontSize: compact ? 11 : 13, textAlign: title_align }}>{placeholderDesc}</p>
         </div>
       </div>
-      {whatsapp_position === 'top' && actionBar}
+      {contact_position !== 'below' && actionBar}
       <ServicesList services={card_services} compact={compact} phone={phone} />
-      {whatsapp_position === 'bottom' && actionBar}
+      {contact_position === 'below' && actionBar}
       <SocialRow {...{ instagram, facebook, tiktok, location_url, compact }} />
       <div className="pb-4" />
     </div>
