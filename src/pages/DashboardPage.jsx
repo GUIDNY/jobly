@@ -51,8 +51,13 @@ export default function DashboardPage() {
       <nav className="sticky top-0 z-30 bg-white border-b border-gray-100">
         <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <button onClick={() => navigate('/')} className="flex items-center justify-center"><LogoMark size={32} /></button>
-            <span className="font-bold text-gray-900">Vizzit</span>
+            <button onClick={() => navigate('/')} className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-xl flex items-center justify-center"
+                style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
+                <LogoMark size={16} color="white" />
+              </div>
+              <span className="font-bold text-gray-900">Vizzit</span>
+            </button>
           </div>
           <div className="flex items-center gap-2">
             {user?.is_admin && (
