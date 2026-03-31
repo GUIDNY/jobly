@@ -11,6 +11,37 @@ const BG = '#070910';
 const CARD_BG = '#0d0f1a';
 const BORDER = 'rgba(255,255,255,0.07)';
 
+function FaqSection({ faq, accent }) {
+  const [open, setOpen] = useState(null);
+  return (
+    <section className="px-5 pb-6">
+      <p className="text-xs font-bold tracking-[0.2em] uppercase mb-4" style={{ color: accent }}>
+        שאלות נפוצות
+      </p>
+      <div className="space-y-2">
+        {faq.map((item, i) => (
+          <div key={i} className="rounded-2xl overflow-hidden" style={{ background: CARD_BG, border: `1px solid ${BORDER}` }}>
+            <button
+              className="w-full flex items-center justify-between px-5 py-4 text-right"
+              onClick={() => setOpen(open === i ? null : i)}>
+              <span className="font-bold text-white text-sm">{item.question}</span>
+              <span className="text-lg transition-transform flex-shrink-0 mr-3"
+                style={{ color: accent, transform: open === i ? 'rotate(45deg)' : 'rotate(0)', display: 'inline-block' }}>
+                +
+              </span>
+            </button>
+            {open === i && (
+              <div className="px-5 pb-4 text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.55)' }}>
+                {item.answer}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 export default function CardPage() {
   const { slug } = useParams();
   const navigate = useNavigate();
