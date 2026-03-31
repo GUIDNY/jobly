@@ -35,8 +35,8 @@ export default async function middleware(request) {
 
     const title = card.business_name || 'Vizzit';
     const description = card.description || 'כרטיס ביקור דיגיטלי';
-    const image = card.avatar_url || 'https://www.vizzit.online/og-default.jpg';
-    const pageUrl = `https://www.vizzit.online/c/${slug}`;
+    const image = card.avatar_url || 'https://vizzit.online/og-default.jpg';
+    const pageUrl = `https://vizzit.online/c/${slug}`;
 
     const html = `<!DOCTYPE html>
 <html lang="he">
