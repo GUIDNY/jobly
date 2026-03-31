@@ -1366,17 +1366,21 @@ function VideoUploadBox({ userId, onUploaded }) {
 }
 
 // ─── Video Position Picker ─────────────────────────────────────────────────────
-function VideoPositionPicker({ src, position, fit, onPositionChange, onRemove }) {
+// positionStr format: "X% Y% [fit]"  e.g. "50% 30% cover" or "40% 60% contain"
+function parsePositionStr(str) {
+  const parts = (str || '50% 30% cover').split(' ');
+  return { x: parseFloat(parts[0]) || 50, y: parseFloat(parts[1]) || 30, fit: parts[2] || 'cover' };
+}
+
+function VideoPositionPicker({ src, positionStr, onPositionChange, onRemove }) {
   const containerRef = useRef();
   const dragging = useRef(false);
 
-  const posToXY = (pos) => {
-    const parts = (pos || '50% 30%').split(' ');
-    return { x: parseFloat(parts[0]), y: parseFloat(parts[1]) };
-  };
+  const parsed = parsePositionStr(positionStr);
+  const [pos, setPos] = useState({ x: parsed.x, y: parsed.y });
+  const fit = parsed.fit;
 
-  const { x: initX, y: initY } = posToXY(position);
-  const [pos, setPos] = useState({ x: initX, y: initY });
+  const buildStr = (x, y) => `${x}% ${y}% ${fit}`;
 
   const updateFromEvent = (e) => {
     const rect = containerRef.current.getBoundingClientRect();
@@ -1385,7 +1389,7 @@ function VideoPositionPicker({ src, position, fit, onPositionChange, onRemove })
     const x = Math.round(Math.max(0, Math.min(100, ((clientX - rect.left) / rect.width) * 100)));
     const y = Math.round(Math.max(0, Math.min(100, ((clientY - rect.top) / rect.height) * 100)));
     setPos({ x, y });
-    return `${x}% ${y}%`;
+    return buildStr(x, y);
   };
 
   const onMouseDown = (e) => { e.preventDefault(); dragging.current = true; updateFromEvent(e); };
@@ -1393,15 +1397,15 @@ function VideoPositionPicker({ src, position, fit, onPositionChange, onRemove })
   const onMouseUp = (e) => {
     if (!dragging.current) return;
     dragging.current = false;
-    const posStr = updateFromEvent(e);
-    onPositionChange(posStr);
+    const s = updateFromEvent(e);
+    onPositionChange(s);
   };
   const onTouchStart = (e) => { dragging.current = true; updateFromEvent(e); };
   const onTouchMove = (e) => { if (!dragging.current) return; e.preventDefault(); updateFromEvent(e); };
   const onTouchEnd = (e) => {
     if (!dragging.current) return;
     dragging.current = false;
-    onPositionChange(`${pos.x}% ${pos.y}%`);
+    onPositionChange(buildStr(pos.x, pos.y));
   };
 
   const isCover = fit !== 'contain';
