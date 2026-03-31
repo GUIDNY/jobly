@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../lib/AuthContext';
 import PhoneMockup from '../components/PhoneMockup';
 import CardPreview from '../components/CardPreview';
+import PremiumPreview from '../components/PremiumPreview';
 import AuthModal from '../components/AuthModal';
 import LogoMark from '../components/LogoMark';
 import { saveDraft, uploadCardImage, toSlug, checkSlugAvailable, suggestSlugs } from '../lib/cardsApi';
