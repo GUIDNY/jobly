@@ -251,8 +251,8 @@ export default function CardPreview({ data = {}, compact = false, showActions = 
         </div>
       )}
 
-      {/* WhatsApp — bottom position */}
-      {whatsapp_position === 'bottom' && actionButtons}
+      {/* Contact buttons — below services */}
+      {contact_position === 'below' && actionButtons}
 
       {/* ── Social ── */}
       {showSocial && hasSocial && (
