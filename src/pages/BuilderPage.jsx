@@ -1251,7 +1251,7 @@ function Step5({ form, update, dbCardId, userId }) {
           </div>
         ) : (
           <VideoUploadBox
-            userId={dbCardId}
+            userId={userId}
             onUploaded={async (url) => {
               update('background_video_url', url);
               if (dbCardId) await updateCard(dbCardId, { background_video_url: url }).catch(() => {});
