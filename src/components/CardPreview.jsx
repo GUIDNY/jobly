@@ -137,8 +137,8 @@ export default function CardPreview({ data = {}, compact = false, showActions = 
         </motion.div>
       </AnimatePresence>
 
-      {/* WhatsApp — top position (default) */}
-      {whatsapp_position === 'top' && actionButtons}
+      {/* Contact buttons — above services */}
+      {contact_position !== 'below' && actionButtons}
 
       {/* ── Services ── */}
       {displayServices.length > 0 && (
