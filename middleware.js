@@ -1,17 +1,23 @@
-export const config = { matcher: '/c/:slug*' };
+export const config = { matcher: '/((?!_next|api|favicon|public|og-default).*)' };
 
 const SUPABASE_URL = 'https://tfyodjqusfwqmbjgwikf.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRmeW9kanF1c2Z3cW1iamd3aWtmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwMzg3MDEsImV4cCI6MjA4OTYxNDcwMX0.Ff4AvqCcfqTGhMqRqdK9K_I98oAk-osLK71MORUTJXQ';
 
 const CRAWLERS = /whatsapp|facebookexternalhit|facebot|twitterbot|linkedinbot|slackbot|telegrambot|discordbot|applebot|googlebot|bingbot/i;
 
+// Known app routes that are never card slugs
+const APP_ROUTES = new Set(['', 'builder', 'dashboard', 'admin', 'pro', 'login', 'signup']);
+
 export default async function middleware(request) {
   const ua = request.headers.get('user-agent') || '';
   if (!CRAWLERS.test(ua)) return; // real user → pass through to SPA
 
   const url = new URL(request.url);
-  const slug = url.pathname.replace(/^\/c\//, '').replace(/\/$/, '');
-  if (!slug) return;
+  const parts = url.pathname.replace(/^\//, '').replace(/\/$/, '').split('/');
+
+  // Extract slug: /skishare → "skishare", /c/skishare → "skishare"
+  let slug = parts[0] === 'c' ? parts[1] : parts[0];
+  if (!slug || APP_ROUTES.has(slug)) return;
 
   try {
     const res = await fetch(
