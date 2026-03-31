@@ -525,7 +525,7 @@ function Template3({ placeholderName, placeholderDesc, avatar_url, phone, waLink
       </div>
       <h1 className="font-bold text-gray-900 mt-3 w-full" style={{ fontSize: compact ? compactSize : fullSize, textAlign: title_align }}>{placeholderName}</h1>
       <p className="text-gray-500 mt-1 w-full" style={{ fontSize: compact ? 11 : 13, textAlign: title_align }}>{placeholderDesc}</p>
-      {whatsapp_position === 'top' && <div className="w-full mt-5">{actionBar}</div>}
+      {contact_position !== 'below' && <div className="w-full mt-5">{actionBar}</div>}
       {instagram && (
         <div className="w-full mt-5">
           <a href={`https://instagram.com/${instagram.replace('@', '')}`} target="_blank" rel="noopener noreferrer"
