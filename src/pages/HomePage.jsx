@@ -61,6 +61,9 @@ const DEMOS = [
     primary_color: '#5BC4C8',
     card_style: 'premium',
     contact_position: 'above',
+    instagram: 'gil.fitness',
+    facebook: 'gilfitness',
+    tiktok: 'gil.fitness',
     avatar_url: 'https://images.pexels.com/photos/1552242/pexels-photo-1552242.jpeg?auto=compress&cs=tinysrgb&w=600',
     card_services: [
       { title: 'אימון אישי', description: '₪180 · 60 דקות' },
