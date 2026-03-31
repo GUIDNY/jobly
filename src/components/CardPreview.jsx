@@ -435,7 +435,7 @@ function Orb({ top, bottom, left, right, size }) {
 }
 
 // Template 2: Photo Hero (full bleed image)
-function Template2({ placeholderName, placeholderDesc, avatar_url, phone, waLink, callLink, primary_color, instagram, facebook, tiktok, location_url, booking_url, card_services, compact, showActions = true, whatsapp_position = 'bottom', title_align = 'center', name_size = 'md' }) {
+function Template2({ placeholderName, placeholderDesc, avatar_url, phone, waLink, callLink, primary_color, instagram, facebook, tiktok, location_url, booking_url, card_services, compact, showActions = true, contact_position = 'above', title_align = 'center', name_size = 'md' }) {
   const actionBar = showActions && phone && (
     <div className={`px-4 space-y-2.5 ${compact ? 'mt-3' : 'mt-4'}`}>
       <a href={waLink} target="_blank" rel="noopener noreferrer"
