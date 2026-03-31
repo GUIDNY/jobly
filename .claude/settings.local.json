@@ -5,7 +5,9 @@
       "Bash(cp /Users/idanguindy/Desktop/jobly_build/README.md /Users/idanguindy/Desktop/jobly/README.md)",
       "Bash(rm -rf /Users/idanguindy/Desktop/jobly_build)",
       "Read(//Users/idanguindy/tamagotchi-app/**)",
-      "Bash(npx expo:*)"
+      "Bash(npx expo:*)",
+      "Bash(npx vite:*)",
+      "Bash(npx vercel:*)"
     ]
   }
 }
