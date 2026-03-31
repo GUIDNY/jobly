@@ -29,6 +29,7 @@ const DEFAULT_CARD = {
   services: [], services_layout: 'list',
   title_align: 'center', name_size: 'md',
   slug: '', card_style: 'classic', services_section_title: '', contact_position: 'above',
+  faq: [],
 };
 
 export default function BuilderPage() {
