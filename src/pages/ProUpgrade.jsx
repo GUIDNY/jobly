@@ -1,117 +1,129 @@
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
-import { Check, Zap, Star, X } from 'lucide-react';
+import LogoMark from '../components/LogoMark';
+
+const PAYMENT_LINK = 'https://mrng.to/cm2FVDePZr';
 
 const FREE_FEATURES = [
-  { text: 'סוכן פרילנסר אחד', included: true },
-  { text: 'גישה לשוק', included: true },
-  { text: 'שיחות בסיסיות', included: true },
-  { text: 'עד 3 סוכנים', included: false },
-  { text: 'CRM Dashboard', included: false },
-  { text: 'תיק עבודות', included: false },
-  { text: 'סטטיסטיקות מתקדמות', included: false },
-  { text: 'תמיכה מועדפת', included: false },
+  { text: 'כרטיס ביקור דיגיטלי', ok: true },
+  { text: 'עיצוב קלאסי', ok: true },
+  { text: 'שירותים ותמונות', ok: true },
+  { text: 'עיצוב פרמיום (dark)', ok: false },
+  { text: 'פופ-אפ שירותים עם תמונות', ok: false },
+  { text: 'שיתוף פומבי של העמוד', ok: false },
 ];
 
 const PRO_FEATURES = [
-  { text: 'עד 3 סוכנים', included: true },
-  { text: 'גישה לשוק', included: true },
-  { text: 'שיחות ללא הגבלה', included: true },
-  { text: 'CRM Dashboard', included: true },
-  { text: 'תיק עבודות מרכזי', included: true },
-  { text: 'סטטיסטיקות מתקדמות', included: true },
-  { text: 'תמיכה מועדפת', included: true },
-  { text: 'תג "Pro" בפרופיל', included: true },
+  { text: 'כרטיס ביקור דיגיטלי', ok: true },
+  { text: 'עיצוב קלאסי', ok: true },
+  { text: 'שירותים ותמונות', ok: true },
+  { text: 'עיצוב פרמיום (dark) ✦', ok: true },
+  { text: 'פופ-אפ שירותים עם תמונות', ok: true },
+  { text: 'שיתוף פומבי של העמוד', ok: true },
 ];
 
+const BG = '#070910';
+const CARD_BG = '#0d0f1a';
+const BORDER = 'rgba(255,255,255,0.07)';
+
 export default function ProUpgrade() {
-  const { user, updateMe } = useAuth();
+  const { user, isPro } = useAuth();
   const navigate = useNavigate();
 
-  const handleUpgrade = () => {
-    // Simulate Stripe redirect / payment success
-    updateMe({ role: 'pro' });
-    alert('שדרגת בהצלחה ל-Pro! (סימולציה)');
-    navigate('/MyDashboard');
-  };
-
-  if (user?.role === 'pro') {
+  if (isPro) {
     return (
-      <div dir="rtl" className="max-w-md mx-auto px-4 py-20 text-center">
-        <div className="w-20 h-20 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-6">
-          <Star size={36} className="text-gray-900 fill-white" />
+      <div className="min-h-screen flex flex-col items-center justify-center p-6" dir="rtl"
+        style={{ background: BG }}>
+        <div className="text-center max-w-xs">
+          <div className="w-20 h-20 rounded-3xl mx-auto mb-5 flex items-center justify-center"
+            style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)', boxShadow: '0 20px 40px -10px rgba(244,147,140,0.4)' }}>
+            <LogoMark size={40} color="white" />
+          </div>
+          <h2 className="text-2xl font-black text-white mb-2">אתה כבר Pro ✦</h2>
+          <p className="text-sm mb-7" style={{ color: 'rgba(255,255,255,0.4)' }}>נהנה מכל הפיצ׳רים הפרמיום של Vizzit.</p>
+          <button onClick={() => navigate('/dashboard')}
+            className="px-8 py-3 rounded-2xl text-white font-bold text-sm"
+            style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
+            לדאשבורד שלי
+          </button>
         </div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-3">כבר Pro!</h2>
-        <p className="text-gray-500 mb-6">אתה כבר נהנה מכל הפיצ'רים של Pro.</p>
-        <button onClick={() => navigate('/MyDashboard')} className="px-8 py-3 bg-orange-500 hover:bg-orange-400 text-gray-900 rounded-xl font-medium transition-colors">
-          לאזור האישי
-        </button>
       </div>
     );
   }
 
   return (
-    <div dir="rtl" className="max-w-4xl mx-auto px-4 py-16">
-      <div className="text-center mb-14">
-        <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-500/20 to-orange-600/20 border border-orange-400/40 rounded-full text-orange-600 text-sm mb-6">
-          <Zap size={14} />
-          שדרג לחוויה מלאה
-        </div>
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">בחר את התוכנית שלך</h1>
-        <p className="text-gray-500 text-lg">גדל מהר יותר עם כלים מתקדמים</p>
-      </div>
+    <div className="min-h-screen" dir="rtl" style={{ background: BG }}>
+      <style>{`
+        @keyframes shimmer { 0%,100%{opacity:1} 50%{opacity:0.7} }
+        .pro-shimmer { animation: shimmer 2.5s ease-in-out infinite; }
+      `}</style>
 
-      <div className="grid md:grid-cols-2 gap-6">
-        {/* Free */}
-        <div className="bg-gray-50 border border-gray-200 rounded-2xl p-8">
-          <h2 className="text-xl font-bold text-gray-900 mb-1">Free</h2>
-          <p className="text-gray-500 text-sm mb-5">להתחיל ולחקור</p>
-          <div className="mb-6">
-            <span className="text-4xl font-black text-gray-900">₪0</span>
-            <span className="text-gray-500"> / חודש</span>
+      <div className="max-w-4xl mx-auto px-4 py-16">
+        {/* Hero */}
+        <div className="text-center mb-14">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold mb-6"
+            style={{ background: 'rgba(244,147,140,0.12)', border: '1px solid rgba(244,147,140,0.3)', color: '#F4938C' }}>
+            ✦ שדרג לחוויה מלאה
           </div>
-          <div className="space-y-3 mb-8">
-            {FREE_FEATURES.map((f, i) => (
-              <div key={i} className={`flex items-center gap-3 text-sm ${f.included ? 'text-gray-700' : 'text-gray-600'}`}>
-                {f.included ? <Check size={16} className="text-green-400 shrink-0" /> : <X size={16} className="shrink-0" />}
-                {f.text}
-              </div>
-            ))}
-          </div>
-          <button
-            disabled
-            className="w-full py-3 border border-gray-200 text-gray-500 rounded-xl text-sm cursor-not-allowed"
-          >
-            התוכנית הנוכחית שלך
-          </button>
+          <h1 className="text-4xl font-black text-white mb-3">בחר את התוכנית שלך</h1>
+          <p className="text-base" style={{ color: 'rgba(255,255,255,0.4)' }}>כרטיס הביקור הדיגיטלי שלך — פשוט, יפה, ומקצועי</p>
         </div>
 
-        {/* Pro */}
-        <div className="bg-gradient-to-b from-orange-50 to-orange-50 border border-orange-400/50 rounded-2xl p-8 relative overflow-hidden">
-          <div className="absolute top-4 left-4 px-3 py-1 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full text-xs font-bold text-gray-900">
-            מומלץ
+        <div className="grid md:grid-cols-2 gap-5 max-w-2xl mx-auto">
+          {/* Free */}
+          <div className="rounded-3xl p-7" style={{ background: CARD_BG, border: `1px solid ${BORDER}` }}>
+            <h2 className="text-lg font-black text-white mb-1">Free</h2>
+            <p className="text-sm mb-5" style={{ color: 'rgba(255,255,255,0.35)' }}>להתחיל ולגלות</p>
+            <div className="mb-6">
+              <span className="text-4xl font-black text-white">₪0</span>
+              <span className="text-sm mr-1" style={{ color: 'rgba(255,255,255,0.35)' }}>/ חודש</span>
+            </div>
+            <div className="space-y-2.5 mb-7">
+              {FREE_FEATURES.map((f, i) => (
+                <div key={i} className="flex items-center gap-2.5 text-sm"
+                  style={{ color: f.ok ? 'rgba(255,255,255,0.75)' : 'rgba(255,255,255,0.2)' }}>
+                  <span style={{ fontSize: 12 }}>{f.ok ? '✓' : '✕'}</span>
+                  {f.text}
+                </div>
+              ))}
+            </div>
+            <button disabled
+              className="w-full py-3 rounded-2xl text-sm font-semibold cursor-not-allowed"
+              style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.25)' }}>
+              {user ? 'התוכנית הנוכחית' : 'הרשמה חינם'}
+            </button>
           </div>
-          <h2 className="text-xl font-bold text-gray-900 mb-1">Pro</h2>
-          <p className="text-gray-500 text-sm mb-5">לפרילנסרים רציניים</p>
-          <div className="mb-6">
-            <span className="text-4xl font-black text-gray-900">₪199</span>
-            <span className="text-gray-500"> / חודש</span>
+
+          {/* Pro */}
+          <div className="rounded-3xl p-7 relative overflow-hidden"
+            style={{ background: 'linear-gradient(145deg, #1a0f1f 0%, #0d0f1a 60%)', border: '1px solid rgba(244,147,140,0.3)' }}>
+            <div className="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-black text-white pro-shimmer"
+              style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
+              מומלץ
+            </div>
+            <h2 className="text-lg font-black text-white mb-1">Pro ✦</h2>
+            <p className="text-sm mb-5" style={{ color: 'rgba(255,255,255,0.4)' }}>לעסקים רציניים</p>
+            <div className="mb-6">
+              <span className="text-4xl font-black text-white">₪39</span>
+              <span className="text-sm mr-1" style={{ color: 'rgba(255,255,255,0.35)' }}>/ חודש</span>
+            </div>
+            <div className="space-y-2.5 mb-7">
+              {PRO_FEATURES.map((f, i) => (
+                <div key={i} className="flex items-center gap-2.5 text-sm text-white">
+                  <span style={{ fontSize: 12, color: '#5BC4C8' }}>✓</span>
+                  {f.text}
+                </div>
+              ))}
+            </div>
+            <a href={PAYMENT_LINK} target="_blank" rel="noopener noreferrer"
+              className="block w-full py-3 rounded-2xl text-center text-white font-black text-sm transition-opacity hover:opacity-90"
+              style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)', boxShadow: '0 8px 24px -6px rgba(244,147,140,0.5)' }}>
+              שדרג ל-Pro — ₪39/חודש
+            </a>
+            <p className="text-[11px] text-center mt-2.5" style={{ color: 'rgba(255,255,255,0.25)' }}>
+              ביטול בכל עת. ללא התחייבות.
+            </p>
           </div>
-          <div className="space-y-3 mb-8">
-            {PRO_FEATURES.map((f, i) => (
-              <div key={i} className="flex items-center gap-3 text-sm text-gray-700">
-                <Check size={16} className="text-green-400 shrink-0" />
-                {f.text}
-              </div>
-            ))}
-          </div>
-          <button
-            onClick={handleUpgrade}
-            className="w-full py-3 bg-gradient-to-r from-orange-500 to-orange-600 hover:opacity-90 text-gray-900 rounded-xl text-sm font-semibold transition-opacity"
-          >
-            שדרג ל-Pro — ₪199/חודש
-          </button>
-          <p className="text-xs text-gray-500 text-center mt-3">ביטול בכל עת. ללא התחייבות.</p>
         </div>
       </div>
     </div>
