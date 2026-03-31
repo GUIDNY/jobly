@@ -7,7 +7,8 @@
       "Read(//Users/idanguindy/tamagotchi-app/**)",
       "Bash(npx expo:*)",
       "Bash(npx vite:*)",
-      "Bash(npx vercel:*)"
+      "Bash(npx vercel:*)",
+      "Bash(grep -E \"\\\\.jsx$\")"
     ]
   }
 }
