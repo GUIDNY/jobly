@@ -1364,7 +1364,7 @@ function VideoUploadBox({ userId, onUploaded }) {
 }
 
 // ─── Video Position Picker ─────────────────────────────────────────────────────
-function VideoPositionPicker({ src, position, onPositionChange, onRemove }) {
+function VideoPositionPicker({ src, position, fit, onPositionChange, onRemove }) {
   const containerRef = useRef();
   const dragging = useRef(false);
 
