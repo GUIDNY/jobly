@@ -11,6 +11,115 @@ const BG = '#070910';
 const CARD_BG = '#0d0f1a';
 const BORDER = 'rgba(255,255,255,0.07)';
 
+function StarDisplay({ rating, size = 16 }) {
+  return (
+    <div className="flex gap-0.5">
+      {[1,2,3,4,5].map(s => (
+        <span key={s} style={{ color: s <= rating ? '#F59E0B' : 'rgba(255,255,255,0.15)', fontSize: size }}>★</span>
+      ))}
+    </div>
+  );
+}
+
+function ReviewsSection({ card, accent }) {
+  const [publicReviews, setPublicReviews] = useState([]);
+  const [showForm, setShowForm] = useState(false);
+  const [name, setName] = useState('');
+  const [text, setText] = useState('');
+  const [rating, setRating] = useState(5);
+  const [hoverRating, setHoverRating] = useState(0);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    if (!card.reviews_public) return;
+    supabase.from('card_reviews').select('*').eq('card_id', card.id).order('created_at', { ascending: false })
+      .then(({ data }) => setPublicReviews(data || []));
+  }, [card.id, card.reviews_public]);
+
+  const allReviews = [
+    ...(card.manual_reviews || []).map(r => ({ ...r, isManual: true })),
+    ...publicReviews.map(r => ({ name: r.reviewer_name, text: r.review_text, rating: r.rating, isManual: false })),
+  ];
+
+  const handleSubmit = async () => {
+    if (!name.trim() || !text.trim()) return;
+    setSubmitting(true);
+    await supabase.from('card_reviews').insert({ card_id: card.id, reviewer_name: name.trim(), review_text: text.trim(), rating });
+    setPublicReviews(prev => [{ reviewer_name: name, review_text: text, rating, created_at: new Date().toISOString() }, ...prev]);
+    setSubmitted(true);
+    setShowForm(false);
+    setName(''); setText(''); setRating(5);
+    setSubmitting(false);
+  };
+
+  if (allReviews.length === 0 && !card.reviews_public) return null;
+
+  return (
+    <section className="px-5 pb-6">
+      <div className="flex items-center justify-between mb-4">
+        <p className="text-xs font-bold tracking-[0.2em] uppercase" style={{ color: accent }}>המלצות</p>
+        {card.reviews_public && !showForm && !submitted && (
+          <button onClick={() => setShowForm(true)}
+            className="text-xs font-bold px-3 py-1.5 rounded-xl"
+            style={{ background: `${accent}22`, color: accent, border: `1px solid ${accent}44` }}>
+            + השאר תגובה
+          </button>
+        )}
+        {submitted && <span className="text-xs font-bold" style={{ color: '#10B981' }}>תודה! ✓</span>}
+      </div>
+
+      {/* Submit form */}
+      {showForm && (
+        <div className="rounded-2xl p-4 mb-4 space-y-3" style={{ background: CARD_BG, border: `1px solid ${BORDER}` }}>
+          <div className="flex gap-1">
+            {[1,2,3,4,5].map(s => (
+              <button key={s} onMouseEnter={() => setHoverRating(s)} onMouseLeave={() => setHoverRating(0)} onClick={() => setRating(s)}>
+                <span style={{ color: s <= (hoverRating || rating) ? '#F59E0B' : 'rgba(255,255,255,0.2)', fontSize: 24 }}>★</span>
+              </button>
+            ))}
+          </div>
+          <input value={name} onChange={e => setName(e.target.value)} placeholder="השם שלך"
+            className="w-full rounded-xl px-3 py-2.5 text-sm text-white placeholder-white/30 outline-none"
+            style={{ background: 'rgba(255,255,255,0.07)', border: `1px solid ${BORDER}` }} />
+          <textarea value={text} onChange={e => setText(e.target.value)} placeholder="כתוב את התגובה שלך..." rows={3}
+            className="w-full rounded-xl px-3 py-2.5 text-sm text-white placeholder-white/30 outline-none resize-none"
+            style={{ background: 'rgba(255,255,255,0.07)', border: `1px solid ${BORDER}` }} />
+          <div className="flex gap-2">
+            <button onClick={handleSubmit} disabled={submitting || !name.trim() || !text.trim()}
+              className="flex-1 py-2.5 rounded-xl text-sm font-bold text-white disabled:opacity-50"
+              style={{ background: `linear-gradient(135deg, #F4938C, #5BC4C8)` }}>
+              {submitting ? '...' : 'שלח תגובה'}
+            </button>
+            <button onClick={() => setShowForm(false)}
+              className="px-4 py-2.5 rounded-xl text-sm text-white/40">
+              ביטול
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Reviews list */}
+      <div className="space-y-3">
+        {allReviews.map((r, i) => (
+          <div key={i} className="rounded-2xl p-4" style={{ background: CARD_BG, border: `1px solid ${BORDER}` }}>
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-sm font-bold text-white">{r.name}</p>
+              <StarDisplay rating={r.rating} size={14} />
+            </div>
+            <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.55)' }}>{r.text}</p>
+          </div>
+        ))}
+        {allReviews.length === 0 && card.reviews_public && (
+          <p className="text-sm text-center py-4" style={{ color: 'rgba(255,255,255,0.3)' }}>
+            היה הראשון להשאיר תגובה!
+          </p>
+        )}
+      </div>
+    </section>
+  );
+}
+
 function FaqSection({ faq, accent }) {
   const [open, setOpen] = useState(null);
   return (
