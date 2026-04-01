@@ -377,14 +377,13 @@ export default function BuilderPage() {
 
         {/* Phone preview — always visible, scaled on mobile */}
         <div className="flex-shrink-0 sticky top-16 self-start">
-          {/* Mobile: scale down so phone takes ~110px visual width */}
-          <div className="md:hidden flex flex-col items-center">
-            <p className="text-xs text-gray-400 text-center mb-1.5 font-medium">תצוגה</p>
+          {/* Mobile: scale down so phone takes ~104px visual width */}
+          <div className="md:hidden">
+            <p className="text-xs text-gray-400 text-center mb-1 font-medium">תצוגה</p>
             <div style={{
               transform: 'scale(0.40)',
-              transformOrigin: 'top center',
+              transformOrigin: 'top right',
               width: 260,
-              marginRight: -(260 * 0.60),
               marginLeft: -(260 * 0.60),
               marginBottom: -(556 * 0.60),
             }}>
