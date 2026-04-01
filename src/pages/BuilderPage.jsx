@@ -376,26 +376,24 @@ export default function BuilderPage() {
           </div>
         </div>
 
-        {/* Phone preview — left side (RTL: second in DOM = left) */}
-        <div className="flex-shrink-0 sticky top-16 self-start">
+        {/* Phone preview — left half on mobile, left side on desktop */}
+        <div className="w-1/2 md:w-auto md:flex-shrink-0 sticky top-16 self-start flex justify-center md:block">
 
-          {/* Mobile: phone centered within its column using a clipping wrapper */}
-          <div className="md:hidden flex items-start justify-center" style={{ width: 156 }}>
-            <div style={{ width: 156, height: 340, overflow: 'hidden', position: 'relative' }}>
-              <div style={{
-                transform: 'scale(0.60)',
-                transformOrigin: 'top left',
-                width: 260,
-                position: 'absolute',
-                top: 0,
-                left: 0,
-              }}>
-                <PhoneMockup>
-                  {form.card_style === 'premium'
-                    ? <PremiumPreview data={previewData} />
-                    : <CardPreview data={previewData} compact />}
-                </PhoneMockup>
-              </div>
+          {/* Mobile: phone centered in its half */}
+          <div className="md:hidden" style={{ width: 156, height: 340, overflow: 'hidden', position: 'relative' }}>
+            <div style={{
+              transform: 'scale(0.60)',
+              transformOrigin: 'top left',
+              width: 260,
+              position: 'absolute',
+              top: 0,
+              left: 0,
+            }}>
+              <PhoneMockup>
+                {form.card_style === 'premium'
+                  ? <PremiumPreview data={previewData} />
+                  : <CardPreview data={previewData} compact />}
+              </PhoneMockup>
             </div>
           </div>
 
