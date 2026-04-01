@@ -803,7 +803,7 @@ function Step2({ form, update, userId, dbCardId, onUploadingChange }) {
               />
               {/* Size picker */}
               <div>
-                <p className="text-xs font-medium text-gray-500 mb-1.5">גודל כרטיס השירות</p>
+                <p className="text-[10px] md:text-xs font-medium text-gray-500 mb-1">גודל כרטיס השירות</p>
                 <div className="grid grid-cols-2 gap-2">
                   {[
                     { value: 'full', label: 'רוחב מלא', icon: (
