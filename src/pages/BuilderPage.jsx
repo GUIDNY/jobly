@@ -1057,7 +1057,7 @@ function Step4({ form, update, dbCardId, onPublish, publishing, published, isLiv
             <button
               key={color}
               onClick={() => update('primary_color', color)}
-              className="w-9 h-9 rounded-full transition-transform hover:scale-110 flex-shrink-0"
+              className="w-7 h-7 md:w-9 md:h-9 rounded-full transition-transform hover:scale-110 flex-shrink-0"
               style={{ background: color, outline: form.primary_color === color ? `3px solid ${color}` : 'none', outlineOffset: '2px' }}
             />
           ))}
