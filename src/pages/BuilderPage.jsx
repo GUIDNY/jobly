@@ -33,6 +33,9 @@ const DEFAULT_CARD = {
   faq: [],
   background_video_url: '',
   background_video_position: '50% 30% cover',
+  reviews_enabled: false,
+  reviews_public: false,
+  manual_reviews: [],
 };
 
 export default function BuilderPage() {
