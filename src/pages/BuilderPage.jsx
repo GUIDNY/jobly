@@ -379,11 +379,11 @@ export default function BuilderPage() {
         {/* Phone preview — left half on mobile, left side on desktop */}
         <div className="w-1/2 md:w-auto md:flex-shrink-0 md:sticky md:top-16 md:self-start flex justify-center md:block">
 
-          {/* Mobile: phone centered in its half + style picker below */}
+          {/* Mobile: phone fills its half + style picker below */}
           <div className="md:hidden flex flex-col items-center gap-3">
-            <div style={{ width: 156, height: 340, overflow: 'hidden', position: 'relative' }}>
+            <div style={{ width: 182, height: 390, overflow: 'hidden', position: 'relative' }}>
               <div style={{
-                transform: 'scale(0.60)',
+                transform: 'scale(0.70)',
                 transformOrigin: 'top left',
                 width: 260,
                 position: 'absolute',
