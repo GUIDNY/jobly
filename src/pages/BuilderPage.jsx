@@ -1412,7 +1412,7 @@ function Step5({ form, update, dbCardId, userId }) {
 
               <div className="space-y-3">
                 {(form.manual_reviews || []).map((r, i) => (
-                  <div key={i} className="border border-gray-200 rounded-2xl p-4 bg-white space-y-2">
+                  <div key={i} className="border border-gray-200 rounded-xl p-2.5 md:rounded-2xl md:p-4 bg-white space-y-2">
                     <div className="flex items-center justify-between">
                       {/* Stars */}
                       <div className="flex gap-1">
