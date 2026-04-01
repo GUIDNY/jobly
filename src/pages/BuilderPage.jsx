@@ -377,7 +377,7 @@ export default function BuilderPage() {
         </div>
 
         {/* Phone preview — left half on mobile, left side on desktop */}
-        <div className="w-1/2 md:w-auto md:flex-shrink-0 sticky top-16 self-start flex justify-center md:block">
+        <div className="w-1/2 md:w-auto md:flex-shrink-0 md:sticky md:top-16 md:self-start flex justify-center md:block">
 
           {/* Mobile: phone centered in its half + style picker below */}
           <div className="md:hidden flex flex-col items-center gap-3">
