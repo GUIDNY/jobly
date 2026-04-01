@@ -471,39 +471,39 @@ function Step1({ form, update, slugStatus, slugSuggestions, dbCardId, onUploadin
   const sc = slugColors[slugStatus];
 
   return (
-    <div className="bg-white rounded-3xl p-6 card-shadow space-y-5">
-      <h2 className="text-lg font-bold text-gray-900">פרטים בסיסיים</h2>
+    <div className="bg-white rounded-2xl md:rounded-3xl p-3 md:p-6 card-shadow space-y-3 md:space-y-5">
+      <h2 className="text-sm md:text-lg font-bold text-gray-900">פרטים בסיסיים</h2>
 
       {/* Profile image */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">תמונת פרופיל</label>
-        <div className="flex items-center gap-4">
+        <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1.5 md:mb-2">תמונת פרופיל</label>
+        <div className="flex items-center gap-2 md:gap-4">
           <button
             onClick={() => fileInputRef.current?.click()}
-            className="relative w-20 h-20 rounded-2xl bg-gray-100 border-2 border-dashed border-gray-200 overflow-hidden hover:border-indigo-300 hover:bg-indigo-50 transition-colors flex-shrink-0"
+            className="relative w-14 h-14 md:w-20 md:h-20 rounded-xl md:rounded-2xl bg-gray-100 border-2 border-dashed border-gray-200 overflow-hidden hover:border-indigo-300 hover:bg-indigo-50 transition-colors flex-shrink-0"
           >
             {form.avatar_url ? (
               <>
                 <img src={form.avatar_url} alt="" className="w-full h-full object-cover" />
                 {uploadingImg && (
                   <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-                    <svg className="animate-spin w-5 h-5 text-white" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+                    <svg className="animate-spin w-4 h-4 text-white" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
                   </div>
                 )}
               </>
             ) : (
               <div className="flex flex-col items-center justify-center h-full gap-1">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                <span className="text-xs text-gray-400">העלה תמונה</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                <span className="text-[10px] text-gray-400 hidden md:block">העלה</span>
               </div>
             )}
           </button>
           <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={handleImage} />
-          <div>
-            <p className="text-sm text-gray-600">העלה לוגו או תמונת עסק</p>
-            <p className="text-xs text-gray-400 mt-0.5">JPG, PNG, WEBP · עד 5MB</p>
+          <div className="min-w-0">
+            <p className="text-xs text-gray-600 leading-tight">העלה לוגו או תמונת עסק</p>
+            <p className="text-[10px] text-gray-400 mt-0.5">JPG, PNG · 5MB</p>
             {form.avatar_url && (
-              <button onClick={() => update('avatar_url', '')} className="text-xs text-red-400 mt-1 hover:text-red-500">הסר תמונה</button>
+              <button onClick={() => update('avatar_url', '')} className="text-[10px] text-red-400 mt-1 hover:text-red-500">הסר</button>
             )}
           </div>
         </div>
@@ -511,29 +511,29 @@ function Step1({ form, update, slugStatus, slugSuggestions, dbCardId, onUploadin
 
       {/* Business name */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1.5">שם העסק *</label>
+        <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1">שם העסק *</label>
         <input
           type="text"
           value={form.business_name}
           onChange={e => update('business_name', e.target.value)}
           placeholder="המספרה של אבי"
-          className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50 transition-all"
+          className="w-full border border-gray-200 rounded-lg md:rounded-xl px-3 py-2 md:px-4 md:py-3 text-xs md:text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50 transition-all"
           maxLength={60}
         />
       </div>
 
       {/* Description */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1.5">תיאור קצר</label>
+        <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1">תיאור קצר</label>
         <textarea
           value={form.description}
           onChange={e => update('description', e.target.value)}
           placeholder="קביעת תור תוך דקות — תספורת, צביעה ועוד"
           rows={3}
-          className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50 transition-all resize-none"
+          className="w-full border border-gray-200 rounded-lg md:rounded-xl px-3 py-2 md:px-4 md:py-3 text-xs md:text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50 transition-all resize-none"
           maxLength={160}
         />
-        <p className="text-xs text-gray-400 mt-1 text-left">{form.description.length}/160</p>
+        <p className="text-[10px] md:text-xs text-gray-400 mt-1 text-left">{form.description.length}/160</p>
       </div>
 
       {/* Text styling */}
