@@ -750,13 +750,13 @@ function Step2({ form, update, userId, dbCardId, onUploadingChange }) {
 
       {/* Section title */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1.5">כותרת סעיף השירותים</label>
+        <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1">כותרת סעיף השירותים</label>
         <input
           type="text"
           value={form.services_section_title || ''}
           onChange={e => update('services_section_title', e.target.value)}
           placeholder="השירותים שלנו"
-          className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 bg-white"
+          className="w-full border border-gray-200 rounded-lg md:rounded-xl px-2 py-2 text-xs md:px-3 md:py-2.5 md:text-sm focus:outline-none focus:border-indigo-400 bg-white"
           maxLength={50}
         />
       </div>
