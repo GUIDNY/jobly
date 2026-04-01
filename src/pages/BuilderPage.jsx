@@ -349,15 +349,19 @@ export default function BuilderPage() {
 
         {/* Phone preview — always visible, scaled on mobile */}
         <div className="flex-shrink-0 sticky top-16 self-start">
-          {/* Mobile: scaled-down phone */}
-          <div className="md:hidden" style={{ width: 126, height: 272, overflow: 'hidden' }}>
-            <div style={{ transform: 'scale(0.485)', transformOrigin: 'top left', width: 260 }}>
-              <PhoneMockup>
-                {form.card_style === 'premium'
-                  ? <PremiumPreview data={previewData} />
-                  : <CardPreview data={previewData} compact />}
-              </PhoneMockup>
-            </div>
+          {/* Mobile: scale(0.46) + negative margins so layout = visual size */}
+          <div className="md:hidden" style={{
+            transform: 'scale(0.46)',
+            transformOrigin: 'top left',
+            marginRight: -140,
+            marginBottom: -298,
+            width: 260,
+          }}>
+            <PhoneMockup>
+              {form.card_style === 'premium'
+                ? <PremiumPreview data={previewData} />
+                : <CardPreview data={previewData} compact />}
+            </PhoneMockup>
           </div>
           {/* Desktop: full size */}
           <div className="hidden md:block">
