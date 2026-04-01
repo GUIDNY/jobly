@@ -125,6 +125,24 @@ export default function PremiumPreview({ data }) {
 
       {contactPos === 'below' && contactGridEl}
 
+      {/* Reviews */}
+      {data.reviews_enabled && data.manual_reviews && data.manual_reviews.length > 0 && (
+        <div style={{ padding: '0 14px 14px' }}>
+          <div style={{ fontSize: 7, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: accent, marginBottom: 6 }}>המלצות</div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+            {data.manual_reviews.slice(0, 3).map((r, i) => (
+              <div key={i} style={{ background: '#0d0f1a', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 8, padding: '6px 10px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 2 }}>
+                  <span style={{ fontSize: 8, fontWeight: 700, color: 'white' }}>{r.name}</span>
+                  <span style={{ fontSize: 8, color: '#F59E0B', letterSpacing: 1 }}>{'★'.repeat(r.rating || 5)}</span>
+                </div>
+                {r.text && <div style={{ fontSize: 7, color: 'rgba(255,255,255,0.4)', lineHeight: 1.4 }}>{r.text.slice(0, 60)}{r.text.length > 60 ? '...' : ''}</div>}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* FAQ */}
       {data.faq && data.faq.length > 0 && (
         <div style={{ padding: '0 14px 14px' }}>
