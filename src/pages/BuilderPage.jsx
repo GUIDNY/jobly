@@ -377,15 +377,15 @@ export default function BuilderPage() {
 
         {/* Phone preview — always visible, scaled on mobile */}
         <div className="flex-shrink-0 sticky top-16 self-start">
-          {/* Mobile: scale down so phone takes ~104px visual width */}
+          {/* Mobile: scale(0.40) → visual 104px wide. marginRight collapses the empty layout space */}
           <div className="md:hidden">
             <p className="text-xs text-gray-400 text-center mb-1 font-medium">תצוגה</p>
             <div style={{
               transform: 'scale(0.40)',
-              transformOrigin: 'top right',
+              transformOrigin: 'top left',
               width: 260,
-              marginLeft: -(260 * 0.60),
-              marginBottom: -(556 * 0.60),
+              marginRight: -156,
+              marginBottom: -334,
             }}>
               <PhoneMockup>
                 {form.card_style === 'premium'
