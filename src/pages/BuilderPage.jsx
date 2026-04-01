@@ -538,8 +538,8 @@ function Step1({ form, update, slugStatus, slugSuggestions, dbCardId, onUploadin
 
       {/* Text styling */}
       <div>
-        <p className="text-xs font-semibold text-gray-500 mb-2">סגנון טקסט</p>
-        <div className="grid grid-cols-2 gap-3">
+        <p className="text-[10px] md:text-xs font-semibold text-gray-500 mb-1.5 md:mb-2">סגנון טקסט</p>
+        <div className="grid grid-cols-2 gap-2 md:gap-3">
           <div>
             <p className="text-[11px] text-gray-400 mb-1.5">יישור שם</p>
             <div className="flex gap-1">
