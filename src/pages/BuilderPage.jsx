@@ -581,10 +581,10 @@ function Step1({ form, update, slugStatus, slugSuggestions, dbCardId, onUploadin
 
       {/* Slug */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1.5">
+        <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
           כתובת הדף שלך
         </label>
-        <div className="flex items-center gap-2 bg-gray-50 border rounded-xl px-4 py-3" style={{ borderColor: sc.border }}>
+        <div className="flex items-center gap-1 md:gap-2 bg-gray-50 border rounded-lg md:rounded-xl px-2 md:px-4 py-2 md:py-3" style={{ borderColor: sc.border }}>
           <span className="text-xs text-gray-400 whitespace-nowrap flex-shrink-0">vizzit.online/</span>
           <input
             type="text"
