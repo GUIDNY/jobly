@@ -1452,7 +1452,7 @@ function Step5({ form, update, dbCardId, userId }) {
                       onBlur={() => { if (dbCardId) updateCard(dbCardId, { manual_reviews: form.manual_reviews }).catch(() => {}); }}
                       placeholder="מה אמר הלקוח?"
                       rows={2}
-                      className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-indigo-400 resize-none"
+                      className="w-full border border-gray-200 rounded-lg md:rounded-xl px-2 py-2 text-xs md:px-3 md:text-sm focus:outline-none focus:border-indigo-400 resize-none"
                     />
                   </div>
                 ))}
