@@ -1035,9 +1035,9 @@ function Step4({ form, update, dbCardId, onPublish, publishing, published, isLiv
   return (
     <div className="space-y-4">
       {/* Style picker */}
-      <div className="bg-white rounded-3xl p-6 card-shadow">
-        <h2 className="text-lg font-bold text-gray-900 mb-1">סגנון הדף</h2>
-        <p className="text-sm text-gray-400 mb-4">בחר את המראה שמתאים לעסק שלך</p>
+      <div className="bg-white rounded-2xl md:rounded-3xl p-3 md:p-6 card-shadow">
+        <h2 className="text-sm md:text-lg font-bold text-gray-900 mb-1">סגנון הדף</h2>
+        <p className="text-xs md:text-sm text-gray-400 mb-4">בחר את המראה שמתאים לעסק שלך</p>
         <StylePicker
           value={form.card_style}
           color={form.primary_color}
