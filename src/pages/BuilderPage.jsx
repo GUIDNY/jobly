@@ -1098,8 +1098,8 @@ function Step4({ form, update, dbCardId, onPublish, publishing, published, isLiv
             <div className="rounded-2xl overflow-hidden" style={{ background: 'linear-gradient(135deg, #1a3535, #5BC4C8)' }}>
               <div className="px-5 py-5 text-center">
                 <div className="text-4xl mb-2">🎉</div>
-                <p className="text-xl font-black text-white mb-1">האתר שלך מוכן!</p>
-                <p className="text-white/70 text-sm mb-4">עכשיו שתף אותו עם לקוחות</p>
+                <p className="text-base md:text-xl font-black text-white mb-1">האתר שלך מוכן!</p>
+                <p className="text-white/70 text-xs md:text-sm mb-4">עכשיו שתף אותו עם לקוחות</p>
                 <div className="bg-white/10 rounded-xl px-4 py-2.5 mb-4 flex items-center justify-center gap-2">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
                   <span className="text-white font-mono text-sm">vizzit.online/{slug}</span>
