@@ -906,8 +906,8 @@ function Step2({ form, update, userId, dbCardId, onUploadingChange }) {
 // ─── Step 3: Contact & Links ──────────────────────────────────────────────────
 function Step3({ form, update }) {
   return (
-    <div className="bg-white rounded-3xl p-6 card-shadow space-y-5">
-      <h2 className="text-lg font-bold text-gray-900">יצירת קשר וקישורים</h2>
+    <div className="bg-white rounded-2xl md:rounded-3xl p-3 md:p-6 card-shadow space-y-3 md:space-y-5">
+      <h2 className="text-sm md:text-lg font-bold text-gray-900">יצירת קשר וקישורים</h2>
 
       {/* Phone */}
       <div>
