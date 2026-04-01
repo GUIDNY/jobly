@@ -1324,7 +1324,7 @@ function Step5({ form, update, dbCardId, userId }) {
           </div>
           <div className="space-y-3">
             {form.services.map((svc, i) => (
-              <div key={i} className="border border-gray-200 rounded-2xl p-4 bg-white">
+              <div key={i} className="border border-gray-200 rounded-xl p-2.5 md:rounded-2xl md:p-4 bg-white">
                 <p className="text-xs font-bold text-gray-600 mb-2 truncate">{svc.title || `שירות ${i + 1}`}</p>
                 <input
                   type="url"
@@ -1337,7 +1337,7 @@ function Step5({ form, update, dbCardId, userId }) {
                     if (dbCardId) updateCard(dbCardId, { services: form.services }).catch(() => {});
                   }}
                   placeholder="https://calendly.com/..."
-                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50"
+                  className="w-full border border-gray-200 rounded-lg md:rounded-xl px-2 py-2 text-xs md:px-3 md:py-2.5 md:text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50"
                   dir="ltr"
                 />
               </div>
