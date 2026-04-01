@@ -1061,7 +1061,7 @@ function Step4({ form, update, dbCardId, onPublish, publishing, published, isLiv
               style={{ background: color, outline: form.primary_color === color ? `3px solid ${color}` : 'none', outlineOffset: '2px' }}
             />
           ))}
-          <label className="w-9 h-9 rounded-full overflow-hidden cursor-pointer border-2 border-dashed border-gray-300 flex items-center justify-center hover:border-gray-400 transition-colors relative">
+          <label className="w-7 h-7 md:w-9 md:h-9 rounded-full overflow-hidden cursor-pointer border-2 border-dashed border-gray-300 flex items-center justify-center hover:border-gray-400 transition-colors relative">
             <input type="color" value={form.primary_color} onChange={e => update('primary_color', e.target.value)} className="opacity-0 absolute inset-0 cursor-pointer" />
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
           </label>
