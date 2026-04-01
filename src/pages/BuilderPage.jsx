@@ -379,7 +379,6 @@ export default function BuilderPage() {
         <div className="flex-shrink-0 sticky top-16 self-start">
           {/* Mobile: scale(0.40) → visual 104px wide. marginRight collapses the empty layout space */}
           <div className="md:hidden">
-            <p className="text-xs text-gray-400 text-center mb-1 font-medium">תצוגה</p>
             <div style={{
               transform: 'scale(0.40)',
               transformOrigin: 'top left',
