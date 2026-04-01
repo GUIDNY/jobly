@@ -790,7 +790,7 @@ function Step2({ form, update, userId, dbCardId, onUploadingChange }) {
                 onChange={e => updateService(i, 'description', e.target.value)}
                 placeholder="תיאור קצר (אופציונלי)"
                 rows={2}
-                className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 bg-white resize-none"
+                className="w-full border border-gray-200 rounded-lg md:rounded-xl px-2 py-2 text-xs md:px-3 md:py-2.5 md:text-sm focus:outline-none focus:border-indigo-400 bg-white resize-none"
                 maxLength={100}
               />
               <input
