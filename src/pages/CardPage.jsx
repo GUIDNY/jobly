@@ -761,6 +761,11 @@ export default function CardPage() {
           </section>
         )}
 
+        {/* ── REVIEWS ── */}
+        {card.reviews_enabled && (
+          <ReviewsSection card={card} accent={accent} />
+        )}
+
         {/* ── FAQ ── */}
         {card.faq && card.faq.length > 0 && (
           <FaqSection faq={card.faq} accent={accent} />
