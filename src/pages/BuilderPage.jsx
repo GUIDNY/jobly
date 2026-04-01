@@ -1207,7 +1207,7 @@ function Step5({ form, update, dbCardId, userId }) {
             style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>✦ פרמיום</span>
           פיצ׳רים בלעדיים
         </h2>
-        <p className="text-sm text-gray-400">הגדרות שמופיעות רק בעיצוב הפרמיום.</p>
+        <p className="text-xs md:text-sm text-gray-400">הגדרות שמופיעות רק בעיצוב הפרמיום.</p>
       </div>
 
       {/* FAQ Section */}
