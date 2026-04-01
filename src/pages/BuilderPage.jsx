@@ -1189,8 +1189,8 @@ function Step5({ form, update, dbCardId, userId }) {
           style={{ background: 'linear-gradient(135deg, #F4938C22, #5BC4C822)', border: '1px solid rgba(244,147,140,0.3)' }}>
           <span className="text-2xl">✦</span>
         </div>
-        <h2 className="text-xl font-black text-gray-900 mb-2">פיצ׳רים פרמיום</h2>
-        <p className="text-sm text-gray-500 mb-6 max-w-xs mx-auto">שדרג לעיצוב פרמיום בשלב 4 כדי לגשת לפיצ׳רים הבלעדיים.</p>
+        <h2 className="text-base md:text-xl font-black text-gray-900 mb-2">פיצ׳רים פרמיום</h2>
+        <p className="text-xs md:text-sm text-gray-500 mb-6 max-w-xs mx-auto">שדרג לעיצוב פרמיום בשלב 4 כדי לגשת לפיצ׳רים הבלעדיים.</p>
         <button onClick={() => {}} className="px-5 py-2.5 rounded-xl text-white text-sm font-bold"
           style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
           עבור לשלב 4 לבחירת פרמיום
