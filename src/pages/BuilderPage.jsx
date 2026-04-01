@@ -379,22 +379,28 @@ export default function BuilderPage() {
         {/* Phone preview — left half on mobile, left side on desktop */}
         <div className="w-1/2 md:w-auto md:flex-shrink-0 sticky top-16 self-start flex justify-center md:block">
 
-          {/* Mobile: phone centered in its half */}
-          <div className="md:hidden" style={{ width: 156, height: 340, overflow: 'hidden', position: 'relative' }}>
-            <div style={{
-              transform: 'scale(0.60)',
-              transformOrigin: 'top left',
-              width: 260,
-              position: 'absolute',
-              top: 0,
-              left: 0,
-            }}>
-              <PhoneMockup>
-                {form.card_style === 'premium'
-                  ? <PremiumPreview data={previewData} />
-                  : <CardPreview data={previewData} compact />}
-              </PhoneMockup>
+          {/* Mobile: phone centered in its half + style picker below */}
+          <div className="md:hidden flex flex-col items-center gap-3">
+            <div style={{ width: 156, height: 340, overflow: 'hidden', position: 'relative' }}>
+              <div style={{
+                transform: 'scale(0.60)',
+                transformOrigin: 'top left',
+                width: 260,
+                position: 'absolute',
+                top: 0,
+                left: 0,
+              }}>
+                <PhoneMockup>
+                  {form.card_style === 'premium'
+                    ? <PremiumPreview data={previewData} />
+                    : <CardPreview data={previewData} compact />}
+                </PhoneMockup>
+              </div>
             </div>
+            <StylePicker value={form.card_style} color={form.primary_color} compact onChange={async (val) => {
+              update('card_style', val);
+              if (dbCardId) await updateCard(dbCardId, { card_style: val });
+            }} />
           </div>
 
           {/* Desktop: full size */}
