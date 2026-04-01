@@ -768,7 +768,7 @@ function Step2({ form, update, userId, dbCardId, onUploadingChange }) {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8, height: 0 }}
-            className="bg-gray-50 rounded-2xl p-4 border border-gray-100"
+            className="bg-gray-50 rounded-xl p-2.5 md:rounded-2xl md:p-4 border border-gray-100"
           >
             <div className="flex justify-between items-start mb-3">
               <span className="text-xs font-medium text-gray-500 bg-gray-200 px-2 py-0.5 rounded-full">שירות {i + 1}</span>
