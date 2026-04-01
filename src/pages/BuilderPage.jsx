@@ -1370,7 +1370,7 @@ function Step5({ form, update, dbCardId, userId }) {
         {form.reviews_enabled && (
           <div className="space-y-4">
             {/* Public toggle */}
-            <div className="flex items-center justify-between p-4 rounded-2xl border border-gray-200 bg-gray-50">
+            <div className="flex items-center justify-between p-2.5 md:p-4 rounded-xl md:rounded-2xl border border-gray-200 bg-gray-50">
               <div>
                 <p className="text-sm font-bold text-gray-700">פתח לקהל הרחב</p>
                 <p className="text-xs text-gray-400 mt-0.5">כל מי שנכנס לכרטיס יוכל להשאיר תגובה</p>
