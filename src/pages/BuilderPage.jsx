@@ -827,7 +827,7 @@ function Step2({ form, update, userId, dbCardId, onUploadingChange }) {
               </div>
               {/* Service image */}
               <div>
-                <p className="text-xs font-medium text-gray-500 mb-1.5">תמונת כרטיס</p>
+                <p className="text-[10px] md:text-xs font-medium text-gray-500 mb-1">תמונת כרטיס</p>
                 <div className="flex items-center gap-3">
                   <button
                     onClick={() => fileRefs.current[i]?.click()}
