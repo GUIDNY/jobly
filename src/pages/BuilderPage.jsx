@@ -1368,7 +1368,7 @@ function Step5({ form, update, dbCardId, userId }) {
         </div>
 
         {form.reviews_enabled && (
-          <div className="space-y-4">
+          <div className="space-y-3 md:space-y-4">
             {/* Public toggle */}
             <div className="flex items-center justify-between p-2.5 md:p-4 rounded-xl md:rounded-2xl border border-gray-200 bg-gray-50">
               <div>
