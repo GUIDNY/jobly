@@ -237,13 +237,6 @@ export default function BuilderPage() {
           </div>
           <div className="flex items-center gap-2">
             <button
-              onClick={() => setShowPreview(true)}
-              className="flex items-center gap-1.5 text-sm text-gray-600 hover:text-indigo-600 transition-colors px-3 py-1.5 rounded-lg hover:bg-indigo-50 sm:hidden"
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-              תצוגה
-            </button>
-            <button
               onClick={() => navigate('/dashboard')}
               className="text-sm text-gray-500 hover:text-gray-700 px-3 py-1.5 hidden sm:block"
             >
