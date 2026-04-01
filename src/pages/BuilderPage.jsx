@@ -1200,9 +1200,9 @@ function Step5({ form, update, dbCardId, userId }) {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-4 md:space-y-8">
       <div>
-        <h2 className="text-lg font-black text-gray-900 mb-1 flex items-center gap-2">
+        <h2 className="text-sm md:text-lg font-black text-gray-900 mb-1 flex items-center gap-2">
           <span className="px-2 py-0.5 rounded-lg text-xs font-black text-white"
             style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>✦ פרמיום</span>
           פיצ׳רים בלעדיים
