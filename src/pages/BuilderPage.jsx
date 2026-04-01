@@ -960,7 +960,7 @@ function Step3({ form, update }) {
       <div className="grid grid-cols-1 gap-3 md:gap-4">
         {/* Instagram */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1.5">
+          <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
             <span className="flex items-center gap-1.5"><span>📸</span> Instagram</span>
           </label>
           <input
@@ -968,7 +968,7 @@ function Step3({ form, update }) {
             value={form.instagram}
             onChange={e => update('instagram', e.target.value.replace('@', ''))}
             placeholder="username"
-            className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50"
+            className="w-full border border-gray-200 rounded-lg md:rounded-xl px-3 py-2 text-xs md:px-4 md:py-3 md:text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50"
             dir="ltr"
           />
         </div>
