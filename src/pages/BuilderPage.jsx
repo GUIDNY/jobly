@@ -316,7 +316,7 @@ export default function BuilderPage() {
           </AnimatePresence>
 
           {/* Step nav buttons */}
-          <div className="flex justify-between mt-6">
+          <div className="flex justify-between mt-4 md:mt-6">
             <button
               onClick={() => prevStepId && setStep(prevStepId)}
               disabled={!prevStepId}
