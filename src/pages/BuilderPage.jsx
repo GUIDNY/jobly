@@ -706,7 +706,7 @@ function Step2({ form, update, userId, dbCardId, onUploadingChange }) {
 
       {/* Layout picker */}
       <div>
-        <p className="text-xs font-semibold text-gray-500 mb-2">סגנון תצוגת שירותים</p>
+        <p className="text-[10px] md:text-xs font-semibold text-gray-500 mb-1.5">סגנון תצוגת שירותים</p>
         <div className="grid grid-cols-2 gap-2">
           {[
             { value: 'list', label: 'רשימה', icon: (
