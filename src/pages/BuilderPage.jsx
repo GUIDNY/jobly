@@ -258,13 +258,10 @@ export default function BuilderPage() {
       {/* Steps indicator */}
       <div className="bg-white border-b border-gray-100">
         <div className="max-w-6xl mx-auto px-4">
-          <div className="flex items-center overflow-x-auto py-3 gap-0">
+          <div className="flex items-center py-2 md:py-3 gap-0 justify-between md:justify-start md:overflow-x-auto">
             {visibleSteps.map((s, i) => (
               <div key={s.id} className="flex items-center flex-shrink-0">
-                <button
-                  onClick={() => setStep(s.id)}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-lg transition-all"
-                >
+                <button onClick={() => setStep(s.id)} className="flex items-center gap-1.5 md:gap-2 px-1.5 md:px-3 py-1.5 rounded-lg transition-all">
                   <div
                     className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 transition-all"
                     style={
@@ -277,15 +274,20 @@ export default function BuilderPage() {
                   >
                     {i < currentIdx ? '✓' : i + 1}
                   </div>
-                  <span
-                    className="text-sm font-medium whitespace-nowrap"
-                    style={{ color: step === s.id ? '#F4938C' : i < currentIdx ? '#10B981' : '#9ca3af' }}
-                  >
+                  {/* Label: hidden on mobile, visible on desktop */}
+                  <span className="hidden md:inline text-sm font-medium whitespace-nowrap"
+                    style={{ color: step === s.id ? '#F4938C' : i < currentIdx ? '#10B981' : '#9ca3af' }}>
                     {s.label}
                   </span>
+                  {/* Mobile: show short label only for active step */}
+                  {step === s.id && (
+                    <span className="md:hidden text-xs font-semibold whitespace-nowrap" style={{ color: '#F4938C' }}>
+                      {s.label}
+                    </span>
+                  )}
                 </button>
-                {i < STEPS.length - 1 && (
-                  <div className="w-6 h-px bg-gray-200 mx-1 flex-shrink-0" />
+                {i < visibleSteps.length - 1 && (
+                  <div className="w-3 md:w-6 h-px bg-gray-200 flex-shrink-0" />
                 )}
               </div>
             ))}
