@@ -1090,7 +1090,7 @@ function Step4({ form, update, dbCardId, onPublish, publishing, published, isLiv
             <span className="text-sm font-mono" style={{ color: '#2a9aa0' }}>vizzit.online/{slug}</span>
           </div>
         ) : (
-          <p className="text-sm text-orange-600 bg-orange-50 rounded-xl px-4 py-3 mb-4">הגדר שם עסק וכתובת דף בשלב 1</p>
+          <p className="text-xs md:text-sm text-orange-600 bg-orange-50 rounded-xl px-4 py-3 mb-3 md:mb-4">הגדר שם עסק וכתובת דף בשלב 1</p>
         )}
         {published ? (
           <div className="space-y-3">
