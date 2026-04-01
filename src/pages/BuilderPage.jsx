@@ -324,9 +324,9 @@ export default function BuilderPage() {
       </div>
 
       {/* Content */}
-      <div className="max-w-6xl mx-auto px-2 md:px-4 py-3 md:py-6 flex gap-2 md:gap-8">
+      <div className="max-w-6xl mx-auto px-2 md:px-4 py-3 md:py-6 flex gap-3 md:gap-8 items-start">
         {/* Form */}
-        <div className="flex-1 min-w-0 overflow-hidden">
+        <div className="flex-1 min-w-0 overflow-hidden min-w-0">
           <AnimatePresence mode="wait">
             <motion.div
               key={step}
