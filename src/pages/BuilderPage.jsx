@@ -323,45 +323,11 @@ export default function BuilderPage() {
         </div>
       </div>
 
-      {/* Content — mobile: column (phone top, form bottom); desktop: row RTL (form right, phone left) */}
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:px-4 md:py-6 md:gap-8 md:items-start">
+      {/* Content — side by side on both mobile & desktop */}
+      <div className="max-w-6xl mx-auto px-2 md:px-4 py-3 md:py-6 flex gap-2 md:gap-8 items-start">
 
-        {/* Phone preview — order-1 on mobile (top/center), order-2 on desktop (left in RTL) */}
-        <div className="order-1 md:order-2 flex-shrink-0 md:sticky md:top-16 md:self-start">
-
-          {/* Mobile: centered phone */}
-          <div className="md:hidden flex justify-center py-4" style={{ overflow: 'hidden', height: 370 }}>
-            <div style={{
-              transform: 'scale(0.63)',
-              transformOrigin: 'top center',
-              width: 260,
-              flexShrink: 0,
-            }}>
-              <PhoneMockup>
-                {form.card_style === 'premium'
-                  ? <PremiumPreview data={previewData} />
-                  : <CardPreview data={previewData} compact />}
-              </PhoneMockup>
-            </div>
-          </div>
-
-          {/* Desktop: full size */}
-          <div className="hidden md:block">
-            <p className="text-xs text-gray-400 text-center mb-3 font-medium">תצוגה מקדימה</p>
-            <PhoneMockup>
-              {form.card_style === 'premium'
-                ? <PremiumPreview data={previewData} />
-                : <CardPreview data={previewData} compact />}
-            </PhoneMockup>
-            <StylePicker value={form.card_style} color={form.primary_color} onChange={async (val) => {
-              update('card_style', val);
-              if (dbCardId) await updateCard(dbCardId, { card_style: val });
-            }} />
-          </div>
-        </div>
-
-        {/* Form — order-2 on mobile (below phone), order-1 on desktop (right in RTL) */}
-        <div className="order-2 md:order-1 flex-1 min-w-0 overflow-hidden px-3 md:px-0 pb-6 md:pb-0">
+        {/* Form — right side (RTL: first in DOM = right) */}
+        <div className="flex-1 min-w-0 overflow-hidden">
           <AnimatePresence mode="wait">
             <motion.div
               key={step}
@@ -407,6 +373,44 @@ export default function BuilderPage() {
                 {publishing ? 'מפרסם...' : published ? '✓ פורסם!' : isLive ? 'עדכן ופרסם' : 'פרסם עכשיו'}
               </button>
             )}
+          </div>
+        </div>
+
+        {/* Phone preview — left side (RTL: second in DOM = left) */}
+        <div className="flex-shrink-0 sticky top-16 self-start">
+
+          {/* Mobile: phone centered within its column using a clipping wrapper */}
+          <div className="md:hidden flex items-start justify-center" style={{ width: 156 }}>
+            <div style={{ width: 156, height: 340, overflow: 'hidden', position: 'relative' }}>
+              <div style={{
+                transform: 'scale(0.60)',
+                transformOrigin: 'top left',
+                width: 260,
+                position: 'absolute',
+                top: 0,
+                left: 0,
+              }}>
+                <PhoneMockup>
+                  {form.card_style === 'premium'
+                    ? <PremiumPreview data={previewData} />
+                    : <CardPreview data={previewData} compact />}
+                </PhoneMockup>
+              </div>
+            </div>
+          </div>
+
+          {/* Desktop: full size */}
+          <div className="hidden md:block">
+            <p className="text-xs text-gray-400 text-center mb-3 font-medium">תצוגה מקדימה</p>
+            <PhoneMockup>
+              {form.card_style === 'premium'
+                ? <PremiumPreview data={previewData} />
+                : <CardPreview data={previewData} compact />}
+            </PhoneMockup>
+            <StylePicker value={form.card_style} color={form.primary_color} onChange={async (val) => {
+              update('card_style', val);
+              if (dbCardId) await updateCard(dbCardId, { card_style: val });
+            }} />
           </div>
         </div>
 
