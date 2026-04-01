@@ -1232,7 +1232,7 @@ function Step5({ form, update, dbCardId, userId }) {
 
         <div className="space-y-3">
           {(form.faq || []).map((item, i) => (
-            <div key={i} className="border border-gray-200 rounded-2xl p-4 space-y-3 bg-white">
+            <div key={i} className="border border-gray-200 rounded-xl p-2.5 md:rounded-2xl md:p-4 space-y-3 bg-white">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-bold text-gray-400">שאלה {i + 1}</span>
                 <button onClick={() => removeFaq(i)}
