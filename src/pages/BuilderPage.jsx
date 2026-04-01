@@ -911,7 +911,7 @@ function Step3({ form, update }) {
 
       {/* Phone */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1.5">מספר טלפון / WhatsApp *</label>
+        <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1">מספר טלפון / WhatsApp *</label>
         <div className="relative">
           <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm">🇮🇱</span>
           <input
