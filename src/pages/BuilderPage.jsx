@@ -696,9 +696,9 @@ function Step2({ form, update, userId, dbCardId, onUploadingChange }) {
   };
 
   return (
-    <div className="bg-white rounded-3xl p-6 card-shadow space-y-4">
+    <div className="bg-white rounded-2xl md:rounded-3xl p-3 md:p-6 card-shadow space-y-3 md:space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-bold text-gray-900">השירותים שלך</h2>
+        <h2 className="text-sm md:text-lg font-bold text-gray-900">השירותים שלך</h2>
         <span className="text-xs text-gray-400">{form.services.length}/5 שירותים</span>
       </div>
       <p className="text-sm text-gray-500">הוסף עד 5 שירותים שאתה מציע</p>
