@@ -1050,8 +1050,8 @@ function Step4({ form, update, dbCardId, onPublish, publishing, published, isLiv
       </div>
 
       {/* Color — shown for both styles */}
-      <div className="bg-white rounded-3xl p-6 card-shadow">
-        <h2 className="text-base font-bold text-gray-900 mb-3">צבע ראשי</h2>
+      <div className="bg-white rounded-2xl md:rounded-3xl p-3 md:p-6 card-shadow">
+        <h2 className="text-sm md:text-base font-bold text-gray-900 mb-3">צבע ראשי</h2>
         <div className="flex flex-wrap gap-2.5 items-center">
           {COLORS.map(color => (
             <button
