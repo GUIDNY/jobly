@@ -347,53 +347,33 @@ export default function BuilderPage() {
           </div>
         </div>
 
-        {/* Phone preview - desktop */}
-        <div className="hidden md:block flex-shrink-0 sticky top-20 self-start">
-          <p className="text-xs text-gray-400 text-center mb-3 font-medium">תצוגה מקדימה</p>
-          <PhoneMockup>
-            {form.card_style === 'premium'
-              ? <PremiumPreview data={previewData} />
-              : <CardPreview data={previewData} compact />}
-          </PhoneMockup>
-          <StylePicker value={form.card_style} color={form.primary_color} onChange={async (val) => {
-            update('card_style', val);
-            if (dbCardId) await updateCard(dbCardId, { card_style: val });
-          }} />
-        </div>
-      </div>
-
-      {/* Mobile preview modal */}
-      <AnimatePresence>
-        {showPreview && (
-          <motion.div
-            className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setShowPreview(false)}
-          >
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              onClick={e => e.stopPropagation()}
-            >
+        {/* Phone preview — always visible, scaled on mobile */}
+        <div className="flex-shrink-0 sticky top-16 self-start">
+          {/* Mobile: scaled-down phone */}
+          <div className="md:hidden" style={{ width: 126, height: 272, overflow: 'hidden' }}>
+            <div style={{ transform: 'scale(0.485)', transformOrigin: 'top left', width: 260 }}>
               <PhoneMockup>
                 {form.card_style === 'premium'
                   ? <PremiumPreview data={previewData} />
                   : <CardPreview data={previewData} compact />}
               </PhoneMockup>
-              <StylePicker value={form.card_style} color={form.primary_color} onChange={async (val) => {
-                update('card_style', val);
-                if (dbCardId) await updateCard(dbCardId, { card_style: val });
-              }} dark />
-              <button onClick={() => setShowPreview(false)} className="mt-4 w-full py-2 text-white/60 text-sm text-center">
-                סגור תצוגה
-              </button>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            </div>
+          </div>
+          {/* Desktop: full size */}
+          <div className="hidden md:block">
+            <p className="text-xs text-gray-400 text-center mb-3 font-medium">תצוגה מקדימה</p>
+            <PhoneMockup>
+              {form.card_style === 'premium'
+                ? <PremiumPreview data={previewData} />
+                : <CardPreview data={previewData} compact />}
+            </PhoneMockup>
+            <StylePicker value={form.card_style} color={form.primary_color} onChange={async (val) => {
+              update('card_style', val);
+              if (dbCardId) await updateCard(dbCardId, { card_style: val });
+            }} />
+          </div>
+        </div>
+      </div>
 
       <AuthModal
         isOpen={authOpen}
