@@ -798,7 +798,7 @@ function Step2({ form, update, userId, dbCardId, onUploadingChange }) {
                 value={svc.price || ''}
                 onChange={e => updateService(i, 'price', e.target.value)}
                 placeholder="מחיר (למשל: ₪120 · 45 דק׳)"
-                className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 bg-white"
+                className="w-full border border-gray-200 rounded-lg md:rounded-xl px-2 py-2 text-xs md:px-3 md:py-2.5 md:text-sm focus:outline-none focus:border-indigo-400 bg-white"
                 maxLength={30}
               />
               {/* Size picker */}
