@@ -1307,6 +1307,122 @@ function Step5({ form, update, dbCardId, userId }) {
           </div>
         </div>
       )}
+
+      {/* Reviews Section */}
+      <div>
+        <div className="flex items-center justify-between mb-3">
+          <div>
+            <p className="text-sm font-bold text-gray-800">תגובות לקוחות ✦</p>
+            <p className="text-xs text-gray-400 mt-0.5">הצג המלצות בעמוד שלך</p>
+          </div>
+          <button
+            onClick={async () => {
+              const val = !form.reviews_enabled;
+              update('reviews_enabled', val);
+              if (dbCardId) await updateCard(dbCardId, { reviews_enabled: val }).catch(() => {});
+            }}
+            className="relative inline-flex h-6 w-11 rounded-full transition-colors flex-shrink-0"
+            style={{ background: form.reviews_enabled ? 'linear-gradient(135deg,#F4938C,#5BC4C8)' : '#e5e7eb' }}
+          >
+            <span className="inline-block w-5 h-5 bg-white rounded-full shadow transition-transform mt-0.5"
+              style={{ transform: form.reviews_enabled ? 'translateX(-22px)' : 'translateX(-2px)' }} />
+          </button>
+        </div>
+
+        {form.reviews_enabled && (
+          <div className="space-y-4">
+            {/* Public toggle */}
+            <div className="flex items-center justify-between p-4 rounded-2xl border border-gray-200 bg-gray-50">
+              <div>
+                <p className="text-sm font-bold text-gray-700">פתח לקהל הרחב</p>
+                <p className="text-xs text-gray-400 mt-0.5">כל מי שנכנס לכרטיס יוכל להשאיר תגובה</p>
+              </div>
+              <button
+                onClick={async () => {
+                  const val = !form.reviews_public;
+                  update('reviews_public', val);
+                  if (dbCardId) await updateCard(dbCardId, { reviews_public: val }).catch(() => {});
+                }}
+                className="relative inline-flex h-6 w-11 rounded-full transition-colors flex-shrink-0"
+                style={{ background: form.reviews_public ? 'linear-gradient(135deg,#F4938C,#5BC4C8)' : '#e5e7eb' }}
+              >
+                <span className="inline-block w-5 h-5 bg-white rounded-full shadow transition-transform mt-0.5"
+                  style={{ transform: form.reviews_public ? 'translateX(-22px)' : 'translateX(-2px)' }} />
+              </button>
+            </div>
+
+            {/* Manual reviews */}
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <p className="text-xs font-bold text-gray-600">תגובות שהוספת בעצמך</p>
+                <button
+                  onClick={() => {
+                    const next = [...(form.manual_reviews || []), { name: '', text: '', rating: 5 }];
+                    update('manual_reviews', next);
+                  }}
+                  className="text-xs font-bold px-3 py-1.5 rounded-xl text-white"
+                  style={{ background: 'linear-gradient(135deg,#F4938C,#5BC4C8)' }}>
+                  + הוסף
+                </button>
+              </div>
+
+              {(!form.manual_reviews || form.manual_reviews.length === 0) && (
+                <p className="text-xs text-gray-400 text-center py-4 rounded-2xl border-2 border-dashed border-gray-200">
+                  לחץ "+ הוסף" כדי להוסיף תגובה ידנית
+                </p>
+              )}
+
+              <div className="space-y-3">
+                {(form.manual_reviews || []).map((r, i) => (
+                  <div key={i} className="border border-gray-200 rounded-2xl p-4 bg-white space-y-2">
+                    <div className="flex items-center justify-between">
+                      {/* Stars */}
+                      <div className="flex gap-1">
+                        {[1,2,3,4,5].map(star => (
+                          <button key={star} onClick={() => {
+                            const next = form.manual_reviews.map((x,idx) => idx===i ? {...x, rating: star} : x);
+                            update('manual_reviews', next);
+                          }}>
+                            <span style={{ color: star <= r.rating ? '#F59E0B' : '#d1d5db', fontSize: 18 }}>★</span>
+                          </button>
+                        ))}
+                      </div>
+                      <button onClick={() => {
+                        const next = form.manual_reviews.filter((_,idx) => idx !== i);
+                        update('manual_reviews', next);
+                        if (dbCardId) updateCard(dbCardId, { manual_reviews: next }).catch(() => {});
+                      }} className="text-xs text-red-400 hover:text-red-600 px-2 py-1 rounded-lg hover:bg-red-50">
+                        מחק
+                      </button>
+                    </div>
+                    <input
+                      value={r.name}
+                      onChange={e => {
+                        const next = form.manual_reviews.map((x,idx) => idx===i ? {...x, name: e.target.value} : x);
+                        update('manual_reviews', next);
+                      }}
+                      onBlur={() => { if (dbCardId) updateCard(dbCardId, { manual_reviews: form.manual_reviews }).catch(() => {}); }}
+                      placeholder="שם הלקוח"
+                      className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-indigo-400"
+                    />
+                    <textarea
+                      value={r.text}
+                      onChange={e => {
+                        const next = form.manual_reviews.map((x,idx) => idx===i ? {...x, text: e.target.value} : x);
+                        update('manual_reviews', next);
+                      }}
+                      onBlur={() => { if (dbCardId) updateCard(dbCardId, { manual_reviews: form.manual_reviews }).catch(() => {}); }}
+                      placeholder="מה אמר הלקוח?"
+                      rows={2}
+                      className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-indigo-400 resize-none"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
