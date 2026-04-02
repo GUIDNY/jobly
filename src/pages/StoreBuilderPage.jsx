@@ -589,8 +589,8 @@ export default function StoreBuilderPage() {
         </div>
       </nav>
 
-      {/* Mobile steps bar */}
-      <div className="md:hidden bg-white border-b border-gray-100">
+      {/* Mobile steps bar — single product only */}
+      <div className={`${storeType === 'multi' ? 'hidden' : 'md:hidden'} bg-white border-b border-gray-100`}>
         <div className="px-3 pt-2.5 pb-2">
           <div className="flex items-start">
             {SECTIONS.map((s, i) => {
