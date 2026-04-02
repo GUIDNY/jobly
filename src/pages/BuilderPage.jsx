@@ -1426,6 +1426,12 @@ function Step4({ form, update, dbCardId, onPublish, publishing, published, isLiv
 function Step5({ form, update, dbCardId, userId }) {
   const isPremium = form.card_style === 'premium';
 
+  // Mobile sheet/modal states
+  const [editingFaqIdx, setEditingFaqIdx] = useState(null); // null=closed, -1=list, 0..n=edit specific
+  const [showVideoSheet, setShowVideoSheet] = useState(false);
+  const [showServiceUrlsSheet, setShowServiceUrlsSheet] = useState(false);
+  const [editingReviewIdx, setEditingReviewIdx] = useState(null); // null=closed, -1=list, 0..n=edit specific
+
   const saveFaq = async (newFaq) => {
     update('faq', newFaq);
     if (dbCardId) await updateCard(dbCardId, { faq: newFaq }).catch(() => {});
@@ -1458,6 +1464,8 @@ function Step5({ form, update, dbCardId, userId }) {
     );
   }
 
+  const filledServiceUrls = (form.services || []).filter(s => s.service_url).length;
+
   return (
     <div className="space-y-4 md:space-y-8">
       <div>
@@ -1469,149 +1477,64 @@ function Step5({ form, update, dbCardId, userId }) {
         <p className="text-xs md:text-sm text-gray-400">הגדרות שמופיעות רק בעיצוב הפרמיום.</p>
       </div>
 
-      {/* FAQ Section */}
-      <div>
-        <div className="flex items-center justify-between mb-3">
-          <div>
-            <p className="text-sm font-bold text-gray-800">שאלות נפוצות (FAQ)</p>
-            <p className="text-xs text-gray-400 mt-0.5">הוסף שאלות ותשובות שיופיעו בעמוד שלך</p>
-          </div>
-          <button onClick={addFaq}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-sm font-bold text-white"
-            style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
-            + הוסף שאלה
+      {/* ── Mobile compact buttons ── */}
+      <div className="md:hidden space-y-2">
+        {/* FAQ button */}
+        <button
+          onClick={() => setEditingFaqIdx(-1)}
+          className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors"
+        >
+          <span className="text-base">❓</span>
+          <span className="text-xs font-medium text-gray-700 flex-1 text-right">שאלות נפוצות</span>
+          {(form.faq || []).length > 0 && (
+            <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full text-white" style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
+              {(form.faq || []).length}
+            </span>
+          )}
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+
+        {/* Video button */}
+        <button
+          onClick={() => setShowVideoSheet(true)}
+          className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors"
+        >
+          <span className="text-base">🎬</span>
+          <span className="text-xs font-medium text-gray-700 flex-1 text-right">וידאו רקע</span>
+          <span className="text-[10px] text-gray-400">{form.background_video_url ? '✓ הועלה' : 'לא הוגדר'}</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+
+        {/* Service URLs button — only if there are services */}
+        {form.services && form.services.length > 0 && (
+          <button
+            onClick={() => setShowServiceUrlsSheet(true)}
+            className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors"
+          >
+            <span className="text-base">🔗</span>
+            <span className="text-xs font-medium text-gray-700 flex-1 text-right">קישורי שירותים</span>
+            {filledServiceUrls > 0 && (
+              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full text-white" style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
+                {filledServiceUrls}
+              </span>
+            )}
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
           </button>
-        </div>
-
-        {(!form.faq || form.faq.length === 0) && (
-          <div className="text-center py-10 rounded-2xl border-2 border-dashed border-gray-200">
-            <p className="text-sm text-gray-400">אין שאלות עדיין. לחץ "+ הוסף שאלה" להתחיל.</p>
-          </div>
         )}
 
-        <div className="space-y-3">
-          {(form.faq || []).map((item, i) => (
-            <div key={i} className="border border-gray-200 rounded-xl p-2.5 md:rounded-2xl md:p-4 space-y-3 bg-white">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-gray-400">שאלה {i + 1}</span>
-                <button onClick={() => removeFaq(i)}
-                  className="text-xs text-red-400 hover:text-red-600 px-2 py-1 rounded-lg hover:bg-red-50 transition-colors">
-                  מחק
-                </button>
-              </div>
-              <input
-                value={item.question}
-                onChange={e => updateFaq(i, 'question', e.target.value)}
-                onBlur={saveFaqBlur}
-                placeholder="מה השאלה? למשל: כמה עולה תספורת?"
-                className="w-full border border-gray-200 rounded-lg md:rounded-xl px-2 py-2 text-xs md:px-3 md:py-2.5 md:text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50"
-              />
-              <textarea
-                value={item.answer}
-                onChange={e => updateFaq(i, 'answer', e.target.value)}
-                onBlur={saveFaqBlur}
-                placeholder="מה התשובה?"
-                rows={2}
-                className="w-full border border-gray-200 rounded-lg md:rounded-xl px-2 py-2 text-xs md:px-3 md:py-2.5 md:text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50 resize-none"
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Background Video */}
-      <div>
-        <div className="flex items-start justify-between mb-3">
-          <div>
-            <p className="text-sm font-bold text-gray-800">וידאו רקע ✦</p>
-            <p className="text-xs text-gray-400 mt-0.5">וידאו שירוץ ברקע ה-Hero במקום תמונה. MP4 מומלץ, עד 20MB</p>
-          </div>
-          {form.background_video_url && (() => {
-            const parts = (form.background_video_position || '50% 30% cover').split(' ');
-            const currentFit = parts[2] || 'cover';
-            const setFit = async (val) => {
-              const pos = `${parts[0] || '50%'} ${parts[1] || '30%'} ${val}`;
-              update('background_video_position', pos);
-              if (dbCardId) await updateCard(dbCardId, { background_video_position: pos }).catch(() => {});
-            };
-            return (
-              <div className="flex gap-1 bg-gray-100 rounded-xl p-1 shrink-0">
-                {[['cover','ממלא'],['contain','מלא']].map(([val, label]) => (
-                  <button key={val} onClick={() => setFit(val)}
-                    className="px-3 py-1 rounded-lg text-xs font-bold transition-all"
-                    style={currentFit === val
-                      ? { background: 'white', color: '#4F46E5', boxShadow: '0 1px 4px rgba(0,0,0,0.1)' }
-                      : { color: '#9ca3af' }}>
-                    {label}
-                  </button>
-                ))}
-              </div>
-            );
-          })()}
-        </div>
-        {form.background_video_url ? (
-          <VideoPositionPicker
-            src={form.background_video_url}
-            positionStr={form.background_video_position || '50% 30% cover'}
-            onPositionChange={async (posStr) => {
-              update('background_video_position', posStr);
-              if (dbCardId) await updateCard(dbCardId, { background_video_position: posStr }).catch(() => {});
-            }}
-            onRemove={async () => {
-              update('background_video_url', '');
-              update('background_video_position', '50% 30% cover');
-              if (dbCardId) await updateCard(dbCardId, { background_video_url: '', background_video_position: '50% 30% cover' }).catch(() => {});
-            }}
-          />
-        ) : (
-          <VideoUploadBox
-            userId={userId}
-            onUploaded={async (url) => {
-              update('background_video_url', url);
-              if (dbCardId) await updateCard(dbCardId, { background_video_url: url }).catch(() => {});
-            }}
-          />
-        )}
-      </div>
-
-      {/* Service URLs */}
-      {form.services && form.services.length > 0 && (
-        <div>
-          <div className="mb-3">
-            <p className="text-sm font-bold text-gray-800">קישורי שירותים</p>
-            <p className="text-xs text-gray-400 mt-0.5">הוסף קישור לכל שירות — יופיע כ"קבע תור" בפופ-אפ</p>
-          </div>
-          <div className="space-y-3">
-            {form.services.map((svc, i) => (
-              <div key={i} className="border border-gray-200 rounded-xl p-2.5 md:rounded-2xl md:p-4 bg-white">
-                <p className="text-xs font-bold text-gray-600 mb-2 truncate">{svc.title || `שירות ${i + 1}`}</p>
-                <input
-                  type="url"
-                  value={svc.service_url || ''}
-                  onChange={e => {
-                    const next = form.services.map((s, idx) => idx === i ? { ...s, service_url: e.target.value } : s);
-                    update('services', next);
-                  }}
-                  onBlur={() => {
-                    if (dbCardId) updateCard(dbCardId, { services: form.services }).catch(() => {});
-                  }}
-                  placeholder="https://calendly.com/..."
-                  className="w-full border border-gray-200 rounded-lg md:rounded-xl px-2 py-2 text-xs md:px-3 md:py-2.5 md:text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50"
-                  dir="ltr"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Reviews Section */}
-      <div>
-        <div className="flex items-center justify-between mb-3">
-          <div>
-            <p className="text-sm font-bold text-gray-800">תגובות לקוחות ✦</p>
-            <p className="text-xs text-gray-400 mt-0.5">הצג המלצות בעמוד שלך</p>
-          </div>
+        {/* Reviews button */}
+        <div className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-gray-200">
+          <span className="text-base">★</span>
+          <span className="text-xs font-medium text-gray-700 flex-1 text-right">תגובות לקוחות</span>
+          {form.reviews_enabled && (
+            <button
+              onClick={() => setEditingReviewIdx(-1)}
+              className="text-[10px] font-bold px-2 py-0.5 rounded-lg border"
+              style={{ borderColor: '#5BC4C8', color: '#2a9aa0' }}
+            >
+              ניהול ({(form.manual_reviews || []).length})
+            </button>
+          )}
           <button
             onClick={async () => {
               const val = !form.reviews_enabled;
@@ -1625,101 +1548,636 @@ function Step5({ form, update, dbCardId, userId }) {
               style={{ transform: form.reviews_enabled ? 'translateX(-22px)' : 'translateX(-2px)' }} />
           </button>
         </div>
+      </div>
 
-        {form.reviews_enabled && (
-          <div className="space-y-3 md:space-y-4">
-            {/* Public toggle */}
-            <div className="flex items-center justify-between p-2.5 md:p-4 rounded-xl md:rounded-2xl border border-gray-200 bg-gray-50">
-              <div>
-                <p className="text-sm font-bold text-gray-700">פתח לקהל הרחב</p>
-                <p className="text-xs text-gray-400 mt-0.5">כל מי שנכנס לכרטיס יוכל להשאיר תגובה</p>
-              </div>
-              <button
-                onClick={async () => {
-                  const val = !form.reviews_public;
-                  update('reviews_public', val);
-                  if (dbCardId) await updateCard(dbCardId, { reviews_public: val }).catch(() => {});
-                }}
-                className="relative inline-flex h-6 w-11 rounded-full transition-colors flex-shrink-0"
-                style={{ background: form.reviews_public ? 'linear-gradient(135deg,#F4938C,#5BC4C8)' : '#e5e7eb' }}
-              >
-                <span className="inline-block w-5 h-5 bg-white rounded-full shadow transition-transform mt-0.5"
-                  style={{ transform: form.reviews_public ? 'translateX(-22px)' : 'translateX(-2px)' }} />
-              </button>
-            </div>
-
-            {/* Manual reviews */}
+      {/* ── Desktop: existing expanded view ── */}
+      <div className="hidden md:block space-y-8">
+        {/* FAQ Section */}
+        <div>
+          <div className="flex items-center justify-between mb-3">
             <div>
-              <div className="flex items-center justify-between mb-2">
-                <p className="text-xs font-bold text-gray-600">תגובות שהוספת בעצמך</p>
+              <p className="text-sm font-bold text-gray-800">שאלות נפוצות (FAQ)</p>
+              <p className="text-xs text-gray-400 mt-0.5">הוסף שאלות ותשובות שיופיעו בעמוד שלך</p>
+            </div>
+            <button onClick={addFaq}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-sm font-bold text-white"
+              style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
+              + הוסף שאלה
+            </button>
+          </div>
+
+          {(!form.faq || form.faq.length === 0) && (
+            <div className="text-center py-10 rounded-2xl border-2 border-dashed border-gray-200">
+              <p className="text-sm text-gray-400">אין שאלות עדיין. לחץ "+ הוסף שאלה" להתחיל.</p>
+            </div>
+          )}
+
+          <div className="space-y-3">
+            {(form.faq || []).map((item, i) => (
+              <div key={i} className="border border-gray-200 rounded-2xl p-4 space-y-3 bg-white">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold text-gray-400">שאלה {i + 1}</span>
+                  <button onClick={() => removeFaq(i)}
+                    className="text-xs text-red-400 hover:text-red-600 px-2 py-1 rounded-lg hover:bg-red-50 transition-colors">
+                    מחק
+                  </button>
+                </div>
+                <input
+                  value={item.question}
+                  onChange={e => updateFaq(i, 'question', e.target.value)}
+                  onBlur={saveFaqBlur}
+                  placeholder="מה השאלה? למשל: כמה עולה תספורת?"
+                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50"
+                />
+                <textarea
+                  value={item.answer}
+                  onChange={e => updateFaq(i, 'answer', e.target.value)}
+                  onBlur={saveFaqBlur}
+                  placeholder="מה התשובה?"
+                  rows={2}
+                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50 resize-none"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Background Video */}
+        <div>
+          <div className="flex items-start justify-between mb-3">
+            <div>
+              <p className="text-sm font-bold text-gray-800">וידאו רקע ✦</p>
+              <p className="text-xs text-gray-400 mt-0.5">וידאו שירוץ ברקע ה-Hero במקום תמונה. MP4 מומלץ, עד 20MB</p>
+            </div>
+            {form.background_video_url && (() => {
+              const parts = (form.background_video_position || '50% 30% cover').split(' ');
+              const currentFit = parts[2] || 'cover';
+              const setFit = async (val) => {
+                const pos = `${parts[0] || '50%'} ${parts[1] || '30%'} ${val}`;
+                update('background_video_position', pos);
+                if (dbCardId) await updateCard(dbCardId, { background_video_position: pos }).catch(() => {});
+              };
+              return (
+                <div className="flex gap-1 bg-gray-100 rounded-xl p-1 shrink-0">
+                  {[['cover','ממלא'],['contain','מלא']].map(([val, label]) => (
+                    <button key={val} onClick={() => setFit(val)}
+                      className="px-3 py-1 rounded-lg text-xs font-bold transition-all"
+                      style={currentFit === val
+                        ? { background: 'white', color: '#4F46E5', boxShadow: '0 1px 4px rgba(0,0,0,0.1)' }
+                        : { color: '#9ca3af' }}>
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              );
+            })()}
+          </div>
+          {form.background_video_url ? (
+            <VideoPositionPicker
+              src={form.background_video_url}
+              positionStr={form.background_video_position || '50% 30% cover'}
+              onPositionChange={async (posStr) => {
+                update('background_video_position', posStr);
+                if (dbCardId) await updateCard(dbCardId, { background_video_position: posStr }).catch(() => {});
+              }}
+              onRemove={async () => {
+                update('background_video_url', '');
+                update('background_video_position', '50% 30% cover');
+                if (dbCardId) await updateCard(dbCardId, { background_video_url: '', background_video_position: '50% 30% cover' }).catch(() => {});
+              }}
+            />
+          ) : (
+            <VideoUploadBox
+              userId={userId}
+              onUploaded={async (url) => {
+                update('background_video_url', url);
+                if (dbCardId) await updateCard(dbCardId, { background_video_url: url }).catch(() => {});
+              }}
+            />
+          )}
+        </div>
+
+        {/* Service URLs */}
+        {form.services && form.services.length > 0 && (
+          <div>
+            <div className="mb-3">
+              <p className="text-sm font-bold text-gray-800">קישורי שירותים</p>
+              <p className="text-xs text-gray-400 mt-0.5">הוסף קישור לכל שירות — יופיע כ"קבע תור" בפופ-אפ</p>
+            </div>
+            <div className="space-y-3">
+              {form.services.map((svc, i) => (
+                <div key={i} className="border border-gray-200 rounded-2xl p-4 bg-white">
+                  <p className="text-xs font-bold text-gray-600 mb-2 truncate">{svc.title || `שירות ${i + 1}`}</p>
+                  <input
+                    type="url"
+                    value={svc.service_url || ''}
+                    onChange={e => {
+                      const next = form.services.map((s, idx) => idx === i ? { ...s, service_url: e.target.value } : s);
+                      update('services', next);
+                    }}
+                    onBlur={() => {
+                      if (dbCardId) updateCard(dbCardId, { services: form.services }).catch(() => {});
+                    }}
+                    placeholder="https://calendly.com/..."
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50"
+                    dir="ltr"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Reviews Section */}
+        <div>
+          <div className="flex items-center justify-between mb-3">
+            <div>
+              <p className="text-sm font-bold text-gray-800">תגובות לקוחות ✦</p>
+              <p className="text-xs text-gray-400 mt-0.5">הצג המלצות בעמוד שלך</p>
+            </div>
+            <button
+              onClick={async () => {
+                const val = !form.reviews_enabled;
+                update('reviews_enabled', val);
+                if (dbCardId) await updateCard(dbCardId, { reviews_enabled: val }).catch(() => {});
+              }}
+              className="relative inline-flex h-6 w-11 rounded-full transition-colors flex-shrink-0"
+              style={{ background: form.reviews_enabled ? 'linear-gradient(135deg,#F4938C,#5BC4C8)' : '#e5e7eb' }}
+            >
+              <span className="inline-block w-5 h-5 bg-white rounded-full shadow transition-transform mt-0.5"
+                style={{ transform: form.reviews_enabled ? 'translateX(-22px)' : 'translateX(-2px)' }} />
+            </button>
+          </div>
+
+          {form.reviews_enabled && (
+            <div className="space-y-4">
+              {/* Public toggle */}
+              <div className="flex items-center justify-between p-4 rounded-2xl border border-gray-200 bg-gray-50">
+                <div>
+                  <p className="text-sm font-bold text-gray-700">פתח לקהל הרחב</p>
+                  <p className="text-xs text-gray-400 mt-0.5">כל מי שנכנס לכרטיס יוכל להשאיר תגובה</p>
+                </div>
                 <button
-                  onClick={() => {
-                    const next = [...(form.manual_reviews || []), { name: '', text: '', rating: 5 }];
-                    update('manual_reviews', next);
+                  onClick={async () => {
+                    const val = !form.reviews_public;
+                    update('reviews_public', val);
+                    if (dbCardId) await updateCard(dbCardId, { reviews_public: val }).catch(() => {});
                   }}
-                  className="text-xs font-bold px-3 py-1.5 rounded-xl text-white"
-                  style={{ background: 'linear-gradient(135deg,#F4938C,#5BC4C8)' }}>
-                  + הוסף
+                  className="relative inline-flex h-6 w-11 rounded-full transition-colors flex-shrink-0"
+                  style={{ background: form.reviews_public ? 'linear-gradient(135deg,#F4938C,#5BC4C8)' : '#e5e7eb' }}
+                >
+                  <span className="inline-block w-5 h-5 bg-white rounded-full shadow transition-transform mt-0.5"
+                    style={{ transform: form.reviews_public ? 'translateX(-22px)' : 'translateX(-2px)' }} />
                 </button>
               </div>
 
-              {(!form.manual_reviews || form.manual_reviews.length === 0) && (
-                <p className="text-xs text-gray-400 text-center py-4 rounded-2xl border-2 border-dashed border-gray-200">
-                  לחץ "+ הוסף" כדי להוסיף תגובה ידנית
-                </p>
-              )}
+              {/* Manual reviews */}
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-xs font-bold text-gray-600">תגובות שהוספת בעצמך</p>
+                  <button
+                    onClick={() => {
+                      const next = [...(form.manual_reviews || []), { name: '', text: '', rating: 5 }];
+                      update('manual_reviews', next);
+                    }}
+                    className="text-xs font-bold px-3 py-1.5 rounded-xl text-white"
+                    style={{ background: 'linear-gradient(135deg,#F4938C,#5BC4C8)' }}>
+                    + הוסף
+                  </button>
+                </div>
 
-              <div className="space-y-3">
-                {(form.manual_reviews || []).map((r, i) => (
-                  <div key={i} className="border border-gray-200 rounded-xl p-2.5 md:rounded-2xl md:p-4 bg-white space-y-2">
-                    <div className="flex items-center justify-between">
-                      {/* Stars */}
-                      <div className="flex gap-1">
-                        {[1,2,3,4,5].map(star => (
-                          <button key={star} onClick={() => {
-                            const next = form.manual_reviews.map((x,idx) => idx===i ? {...x, rating: star} : x);
-                            update('manual_reviews', next);
-                          }}>
-                            <span style={{ color: star <= r.rating ? '#F59E0B' : '#d1d5db', fontSize: 18 }}>★</span>
-                          </button>
-                        ))}
+                {(!form.manual_reviews || form.manual_reviews.length === 0) && (
+                  <p className="text-xs text-gray-400 text-center py-4 rounded-2xl border-2 border-dashed border-gray-200">
+                    לחץ "+ הוסף" כדי להוסיף תגובה ידנית
+                  </p>
+                )}
+
+                <div className="space-y-3">
+                  {(form.manual_reviews || []).map((r, i) => (
+                    <div key={i} className="border border-gray-200 rounded-2xl p-4 bg-white space-y-2">
+                      <div className="flex items-center justify-between">
+                        {/* Stars */}
+                        <div className="flex gap-1">
+                          {[1,2,3,4,5].map(star => (
+                            <button key={star} onClick={() => {
+                              const next = form.manual_reviews.map((x,idx) => idx===i ? {...x, rating: star} : x);
+                              update('manual_reviews', next);
+                            }}>
+                              <span style={{ color: star <= r.rating ? '#F59E0B' : '#d1d5db', fontSize: 18 }}>★</span>
+                            </button>
+                          ))}
+                        </div>
+                        <button onClick={() => {
+                          const next = form.manual_reviews.filter((_,idx) => idx !== i);
+                          update('manual_reviews', next);
+                          if (dbCardId) updateCard(dbCardId, { manual_reviews: next }).catch(() => {});
+                        }} className="text-xs text-red-400 hover:text-red-600 px-2 py-1 rounded-lg hover:bg-red-50">
+                          מחק
+                        </button>
                       </div>
-                      <button onClick={() => {
-                        const next = form.manual_reviews.filter((_,idx) => idx !== i);
-                        update('manual_reviews', next);
-                        if (dbCardId) updateCard(dbCardId, { manual_reviews: next }).catch(() => {});
-                      }} className="text-xs text-red-400 hover:text-red-600 px-2 py-1 rounded-lg hover:bg-red-50">
-                        מחק
-                      </button>
+                      <input
+                        value={r.name}
+                        onChange={e => {
+                          const next = form.manual_reviews.map((x,idx) => idx===i ? {...x, name: e.target.value} : x);
+                          update('manual_reviews', next);
+                        }}
+                        onBlur={() => { if (dbCardId) updateCard(dbCardId, { manual_reviews: form.manual_reviews }).catch(() => {}); }}
+                        placeholder="שם הלקוח"
+                        className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-indigo-400"
+                      />
+                      <textarea
+                        value={r.text}
+                        onChange={e => {
+                          const next = form.manual_reviews.map((x,idx) => idx===i ? {...x, text: e.target.value} : x);
+                          update('manual_reviews', next);
+                        }}
+                        onBlur={() => { if (dbCardId) updateCard(dbCardId, { manual_reviews: form.manual_reviews }).catch(() => {}); }}
+                        placeholder="מה אמר הלקוח?"
+                        rows={2}
+                        className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-indigo-400 resize-none"
+                      />
                     </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* ════ Mobile Modals & Bottom Sheets ════ */}
+
+      {/* FAQ list modal (editingFaqIdx === -1) */}
+      <AnimatePresence>
+        {editingFaqIdx === -1 && (
+          <>
+            <motion.div key="faq-list-backdrop" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/50 z-50 md:hidden" onClick={() => setEditingFaqIdx(null)} />
+            <motion.div key="faq-list-modal" initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-x-4 top-16 bottom-4 bg-white rounded-2xl z-50 md:hidden flex flex-col overflow-hidden"
+              style={{ boxShadow: '0 24px 60px rgba(0,0,0,0.25)' }}>
+              <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 flex-shrink-0">
+                <h3 className="text-sm font-bold text-gray-900">שאלות נפוצות</h3>
+                <button onClick={() => setEditingFaqIdx(null)} className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+              </div>
+              <div className="flex-1 overflow-y-auto p-4 space-y-2">
+                {(form.faq || []).length === 0 && (
+                  <p className="text-xs text-gray-400 text-center py-8">אין שאלות עדיין</p>
+                )}
+                {(form.faq || []).map((item, i) => (
+                  <div key={i} className="flex items-center gap-2 px-3 py-2.5 bg-gray-50 rounded-xl border border-gray-100">
+                    <span className="flex-1 text-xs text-gray-700 truncate">{item.question || `שאלה ${i + 1}`}</span>
+                    <button onClick={() => setEditingFaqIdx(i)} className="p-1.5 rounded-lg text-gray-400 hover:text-indigo-500 hover:bg-indigo-50 transition-colors flex-shrink-0">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                    </button>
+                    <button onClick={() => removeFaq(i)} className="p-1.5 rounded-lg text-gray-400 hover:text-red-400 hover:bg-red-50 transition-colors flex-shrink-0">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg>
+                    </button>
+                  </div>
+                ))}
+              </div>
+              <div className="px-4 py-3 border-t border-gray-100 flex-shrink-0">
+                <button
+                  onClick={() => { addFaq(); setEditingFaqIdx((form.faq || []).length); }}
+                  className="w-full py-2.5 rounded-xl text-sm font-bold text-white"
+                  style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
+                  + הוסף שאלה
+                </button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* FAQ edit modal (editingFaqIdx >= 0) */}
+      <AnimatePresence>
+        {editingFaqIdx !== null && editingFaqIdx >= 0 && (form.faq || [])[editingFaqIdx] !== undefined && (
+          <>
+            <motion.div key="faq-edit-backdrop" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/50 z-[60] md:hidden" onClick={() => setEditingFaqIdx(-1)} />
+            <motion.div key="faq-edit-modal" initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-x-4 top-16 bottom-4 bg-white rounded-2xl z-[60] md:hidden flex flex-col overflow-hidden"
+              style={{ boxShadow: '0 24px 60px rgba(0,0,0,0.25)' }}>
+              <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 flex-shrink-0">
+                <h3 className="text-sm font-bold text-gray-900">שאלה {editingFaqIdx + 1}</h3>
+                <button onClick={() => setEditingFaqIdx(-1)} className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+              </div>
+              <div className="flex-1 overflow-y-auto p-4 space-y-3">
+                <div>
+                  <label className="block text-xs font-medium text-gray-700 mb-1">שאלה</label>
+                  <input
+                    value={(form.faq || [])[editingFaqIdx]?.question || ''}
+                    onChange={e => updateFaq(editingFaqIdx, 'question', e.target.value)}
+                    onBlur={saveFaqBlur}
+                    placeholder="מה השאלה? למשל: כמה עולה תספורת?"
+                    autoFocus
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-700 mb-1">תשובה</label>
+                  <textarea
+                    value={(form.faq || [])[editingFaqIdx]?.answer || ''}
+                    onChange={e => updateFaq(editingFaqIdx, 'answer', e.target.value)}
+                    onBlur={saveFaqBlur}
+                    placeholder="מה התשובה?"
+                    rows={4}
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50 resize-none"
+                  />
+                </div>
+              </div>
+              <div className="px-4 py-3 border-t border-gray-100 flex gap-2 flex-shrink-0">
+                <button onClick={() => { removeFaq(editingFaqIdx); setEditingFaqIdx(-1); }}
+                  className="px-4 py-2.5 rounded-xl text-xs font-medium text-red-500 bg-red-50 hover:bg-red-100 transition-colors">
+                  מחק
+                </button>
+                <button onClick={() => setEditingFaqIdx(-1)}
+                  className="flex-1 py-2.5 rounded-xl text-sm font-bold text-white"
+                  style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
+                  סגור ✓
+                </button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Video bottom sheet */}
+      <AnimatePresence>
+        {showVideoSheet && (
+          <>
+            <motion.div key="video-backdrop" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/40 z-50 md:hidden" onClick={() => setShowVideoSheet(false)} />
+            <motion.div key="video-sheet" initial={{ y: 80, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 80, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl p-5 z-50 md:hidden"
+              style={{ boxShadow: '0 -8px 32px rgba(0,0,0,0.15)' }}>
+              <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mb-4" />
+              <div className="flex items-center justify-between mb-4">
+                <p className="text-sm font-bold text-gray-900">וידאו רקע ✦</p>
+                {form.background_video_url && (() => {
+                  const parts = (form.background_video_position || '50% 30% cover').split(' ');
+                  const currentFit = parts[2] || 'cover';
+                  const setFit = async (val) => {
+                    const pos = `${parts[0] || '50%'} ${parts[1] || '30%'} ${val}`;
+                    update('background_video_position', pos);
+                    if (dbCardId) await updateCard(dbCardId, { background_video_position: pos }).catch(() => {});
+                  };
+                  return (
+                    <div className="flex gap-1 bg-gray-100 rounded-xl p-1 shrink-0">
+                      {[['cover','ממלא'],['contain','מלא']].map(([val, label]) => (
+                        <button key={val} onClick={() => setFit(val)}
+                          className="px-3 py-1 rounded-lg text-xs font-bold transition-all"
+                          style={currentFit === val
+                            ? { background: 'white', color: '#4F46E5', boxShadow: '0 1px 4px rgba(0,0,0,0.1)' }
+                            : { color: '#9ca3af' }}>
+                          {label}
+                        </button>
+                      ))}
+                    </div>
+                  );
+                })()}
+              </div>
+              {form.background_video_url ? (
+                <VideoPositionPicker
+                  src={form.background_video_url}
+                  positionStr={form.background_video_position || '50% 30% cover'}
+                  onPositionChange={async (posStr) => {
+                    update('background_video_position', posStr);
+                    if (dbCardId) await updateCard(dbCardId, { background_video_position: posStr }).catch(() => {});
+                  }}
+                  onRemove={async () => {
+                    update('background_video_url', '');
+                    update('background_video_position', '50% 30% cover');
+                    if (dbCardId) await updateCard(dbCardId, { background_video_url: '', background_video_position: '50% 30% cover' }).catch(() => {});
+                  }}
+                />
+              ) : (
+                <VideoUploadBox
+                  userId={userId}
+                  onUploaded={async (url) => {
+                    update('background_video_url', url);
+                    if (dbCardId) await updateCard(dbCardId, { background_video_url: url }).catch(() => {});
+                    setShowVideoSheet(false);
+                  }}
+                />
+              )}
+              <button onClick={() => setShowVideoSheet(false)}
+                className="w-full mt-4 py-3 rounded-xl text-sm font-bold text-white"
+                style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
+                סגור ✓
+              </button>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Service URLs bottom sheet */}
+      <AnimatePresence>
+        {showServiceUrlsSheet && (
+          <>
+            <motion.div key="svc-urls-backdrop" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/40 z-50 md:hidden" onClick={() => setShowServiceUrlsSheet(false)} />
+            <motion.div key="svc-urls-sheet" initial={{ y: 80, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 80, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl p-5 z-50 md:hidden"
+              style={{ boxShadow: '0 -8px 32px rgba(0,0,0,0.15)', maxHeight: '80vh', overflowY: 'auto' }}>
+              <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mb-4" />
+              <p className="text-sm font-bold text-gray-900 mb-1">קישורי שירותים</p>
+              <p className="text-xs text-gray-400 mb-4">הוסף קישור לכל שירות — יופיע כ"קבע תור" בפופ-אפ</p>
+              <div className="space-y-3">
+                {(form.services || []).map((svc, i) => (
+                  <div key={i} className="border border-gray-200 rounded-xl p-3 bg-gray-50">
+                    <p className="text-xs font-bold text-gray-600 mb-2 truncate">{svc.title || `שירות ${i + 1}`}</p>
                     <input
-                      value={r.name}
+                      type="url"
+                      value={svc.service_url || ''}
                       onChange={e => {
-                        const next = form.manual_reviews.map((x,idx) => idx===i ? {...x, name: e.target.value} : x);
-                        update('manual_reviews', next);
+                        const next = form.services.map((s, idx) => idx === i ? { ...s, service_url: e.target.value } : s);
+                        update('services', next);
                       }}
-                      onBlur={() => { if (dbCardId) updateCard(dbCardId, { manual_reviews: form.manual_reviews }).catch(() => {}); }}
-                      placeholder="שם הלקוח"
-                      className="w-full border border-gray-200 rounded-lg md:rounded-xl px-2 py-2 text-xs md:px-3 md:text-sm focus:outline-none focus:border-indigo-400"
-                    />
-                    <textarea
-                      value={r.text}
-                      onChange={e => {
-                        const next = form.manual_reviews.map((x,idx) => idx===i ? {...x, text: e.target.value} : x);
-                        update('manual_reviews', next);
+                      onBlur={() => {
+                        if (dbCardId) updateCard(dbCardId, { services: form.services }).catch(() => {});
                       }}
-                      onBlur={() => { if (dbCardId) updateCard(dbCardId, { manual_reviews: form.manual_reviews }).catch(() => {}); }}
-                      placeholder="מה אמר הלקוח?"
-                      rows={2}
-                      className="w-full border border-gray-200 rounded-lg md:rounded-xl px-2 py-2 text-xs md:px-3 md:text-sm focus:outline-none focus:border-indigo-400 resize-none"
+                      placeholder="https://calendly.com/..."
+                      className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50 bg-white"
+                      dir="ltr"
                     />
                   </div>
                 ))}
               </div>
-            </div>
-          </div>
+              <button onClick={() => setShowServiceUrlsSheet(false)}
+                className="w-full mt-5 py-3 rounded-xl text-sm font-bold text-white"
+                style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
+                סגור ✓
+              </button>
+            </motion.div>
+          </>
         )}
-      </div>
+      </AnimatePresence>
+
+      {/* Reviews list modal (editingReviewIdx === -1) */}
+      <AnimatePresence>
+        {editingReviewIdx === -1 && (
+          <>
+            <motion.div key="rev-list-backdrop" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/50 z-50 md:hidden" onClick={() => setEditingReviewIdx(null)} />
+            <motion.div key="rev-list-modal" initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-x-4 top-16 bottom-4 bg-white rounded-2xl z-50 md:hidden flex flex-col overflow-hidden"
+              style={{ boxShadow: '0 24px 60px rgba(0,0,0,0.25)' }}>
+              <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 flex-shrink-0">
+                <h3 className="text-sm font-bold text-gray-900">תגובות לקוחות</h3>
+                <button onClick={() => setEditingReviewIdx(null)} className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+              </div>
+              <div className="flex-1 overflow-y-auto p-4 space-y-3">
+                {/* Public toggle */}
+                <div className="flex items-center justify-between p-3 rounded-xl border border-gray-200 bg-gray-50">
+                  <div>
+                    <p className="text-xs font-bold text-gray-700">פתח לקהל הרחב</p>
+                    <p className="text-[10px] text-gray-400 mt-0.5">כל מי שנכנס יוכל להשאיר תגובה</p>
+                  </div>
+                  <button
+                    onClick={async () => {
+                      const val = !form.reviews_public;
+                      update('reviews_public', val);
+                      if (dbCardId) await updateCard(dbCardId, { reviews_public: val }).catch(() => {});
+                    }}
+                    className="relative inline-flex h-6 w-11 rounded-full transition-colors flex-shrink-0"
+                    style={{ background: form.reviews_public ? 'linear-gradient(135deg,#F4938C,#5BC4C8)' : '#e5e7eb' }}
+                  >
+                    <span className="inline-block w-5 h-5 bg-white rounded-full shadow transition-transform mt-0.5"
+                      style={{ transform: form.reviews_public ? 'translateX(-22px)' : 'translateX(-2px)' }} />
+                  </button>
+                </div>
+
+                {/* Review list */}
+                {(form.manual_reviews || []).length === 0 && (
+                  <p className="text-xs text-gray-400 text-center py-6">אין תגובות עדיין</p>
+                )}
+                {(form.manual_reviews || []).map((r, i) => (
+                  <div key={i} className="flex items-center gap-2 px-3 py-2.5 bg-gray-50 rounded-xl border border-gray-100">
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs font-semibold text-gray-800 truncate">{r.name || `תגובה ${i + 1}`}</p>
+                      <p className="text-[10px] text-gray-400 truncate">{r.text}</p>
+                    </div>
+                    <button onClick={() => setEditingReviewIdx(i)} className="p-1.5 rounded-lg text-gray-400 hover:text-indigo-500 hover:bg-indigo-50 transition-colors flex-shrink-0">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                    </button>
+                    <button onClick={() => {
+                      const next = form.manual_reviews.filter((_,idx) => idx !== i);
+                      update('manual_reviews', next);
+                      if (dbCardId) updateCard(dbCardId, { manual_reviews: next }).catch(() => {});
+                    }} className="p-1.5 rounded-lg text-gray-400 hover:text-red-400 hover:bg-red-50 transition-colors flex-shrink-0">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg>
+                    </button>
+                  </div>
+                ))}
+              </div>
+              <div className="px-4 py-3 border-t border-gray-100 flex-shrink-0">
+                <button
+                  onClick={() => {
+                    const next = [...(form.manual_reviews || []), { name: '', text: '', rating: 5 }];
+                    update('manual_reviews', next);
+                    setEditingReviewIdx((form.manual_reviews || []).length);
+                  }}
+                  className="w-full py-2.5 rounded-xl text-sm font-bold text-white"
+                  style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
+                  + הוסף תגובה
+                </button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Review edit modal (editingReviewIdx >= 0) */}
+      <AnimatePresence>
+        {editingReviewIdx !== null && editingReviewIdx >= 0 && (form.manual_reviews || [])[editingReviewIdx] !== undefined && (
+          <>
+            <motion.div key="rev-edit-backdrop" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/50 z-[60] md:hidden" onClick={() => setEditingReviewIdx(-1)} />
+            <motion.div key="rev-edit-modal" initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-x-4 top-16 bottom-4 bg-white rounded-2xl z-[60] md:hidden flex flex-col overflow-hidden"
+              style={{ boxShadow: '0 24px 60px rgba(0,0,0,0.25)' }}>
+              <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 flex-shrink-0">
+                <h3 className="text-sm font-bold text-gray-900">עריכת תגובה</h3>
+                <button onClick={() => setEditingReviewIdx(-1)} className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+              </div>
+              <div className="flex-1 overflow-y-auto p-4 space-y-3">
+                {/* Stars */}
+                <div>
+                  <label className="block text-xs font-medium text-gray-700 mb-2">דירוג</label>
+                  <div className="flex gap-2">
+                    {[1,2,3,4,5].map(star => (
+                      <button key={star} onClick={() => {
+                        const next = (form.manual_reviews || []).map((x,idx) => idx===editingReviewIdx ? {...x, rating: star} : x);
+                        update('manual_reviews', next);
+                      }}>
+                        <span style={{ color: star <= ((form.manual_reviews || [])[editingReviewIdx]?.rating || 5) ? '#F59E0B' : '#d1d5db', fontSize: 28 }}>★</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-700 mb-1">שם הלקוח</label>
+                  <input
+                    value={(form.manual_reviews || [])[editingReviewIdx]?.name || ''}
+                    onChange={e => {
+                      const next = (form.manual_reviews || []).map((x,idx) => idx===editingReviewIdx ? {...x, name: e.target.value} : x);
+                      update('manual_reviews', next);
+                    }}
+                    onBlur={() => { if (dbCardId) updateCard(dbCardId, { manual_reviews: form.manual_reviews }).catch(() => {}); }}
+                    placeholder="שם הלקוח"
+                    autoFocus
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-700 mb-1">תוכן התגובה</label>
+                  <textarea
+                    value={(form.manual_reviews || [])[editingReviewIdx]?.text || ''}
+                    onChange={e => {
+                      const next = (form.manual_reviews || []).map((x,idx) => idx===editingReviewIdx ? {...x, text: e.target.value} : x);
+                      update('manual_reviews', next);
+                    }}
+                    onBlur={() => { if (dbCardId) updateCard(dbCardId, { manual_reviews: form.manual_reviews }).catch(() => {}); }}
+                    placeholder="מה אמר הלקוח?"
+                    rows={4}
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50 resize-none"
+                  />
+                </div>
+              </div>
+              <div className="px-4 py-3 border-t border-gray-100 flex gap-2 flex-shrink-0">
+                <button onClick={() => {
+                  const next = (form.manual_reviews || []).filter((_,idx) => idx !== editingReviewIdx);
+                  update('manual_reviews', next);
+                  if (dbCardId) updateCard(dbCardId, { manual_reviews: next }).catch(() => {});
+                  setEditingReviewIdx(-1);
+                }} className="px-4 py-2.5 rounded-xl text-xs font-medium text-red-500 bg-red-50 hover:bg-red-100 transition-colors">
+                  מחק
+                </button>
+                <button onClick={() => setEditingReviewIdx(-1)}
+                  className="flex-1 py-2.5 rounded-xl text-sm font-bold text-white"
+                  style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
+                  סגור ✓
+                </button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
