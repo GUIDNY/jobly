@@ -643,7 +643,7 @@ export default function StoreBuilderPage() {
           </div>
 
           {/* ── Section: Product ── */}
-          {activeSection === 'product' && (
+          {storeType === 'single' && activeSection === 'product' && (
             <motion.div key="product" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="space-y-3">
 
               {/* Image upload — shown always, compact on mobile */}
