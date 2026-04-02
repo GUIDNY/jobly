@@ -628,8 +628,8 @@ export default function StoreBuilderPage() {
         {/* ── Form Panel ── */}
         <div className="flex-1 min-w-0 space-y-3 md:space-y-4">
 
-          {/* Section tabs — desktop only */}
-          <div className="hidden md:flex gap-2 bg-white rounded-2xl p-1.5 border border-gray-100" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+          {/* Section tabs — desktop only, single product mode */}
+          <div className={`${storeType === 'multi' ? 'hidden' : 'hidden md:flex'} gap-2 bg-white rounded-2xl p-1.5 border border-gray-100`} style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
             {SECTIONS.map(s => (
               <button key={s.id} onClick={() => setActiveSection(s.id)}
                 className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-sm font-semibold transition-all"
