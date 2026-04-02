@@ -526,7 +526,7 @@ export default function StoreBuilderPage() {
                     <label className="block text-[10px] md:text-xs font-semibold text-gray-500 mb-1">שם העסק / חנות</label>
                     <input value={data.storeName} onChange={e => upd('storeName', e.target.value)}
                       placeholder="הממתקים של תמי"
-                      className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50" />
+                      className="w-full border border-gray-200 rounded-xl px-3 py-2 text-xs md:text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50" />
                   </div>
                   <div>
                     <label className="block text-[10px] md:text-xs font-semibold text-gray-500 mb-1">צבע ראשי</label>
@@ -542,14 +542,14 @@ export default function StoreBuilderPage() {
                   <label className="block text-[10px] md:text-xs font-semibold text-gray-500 mb-1">שם המוצר *</label>
                   <input value={data.name} onChange={e => upd('name', e.target.value)}
                     placeholder="למשל: קורס צילום מקצועי"
-                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50" />
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2 text-xs md:text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50" />
                 </div>
 
                 <div>
                   <label className="block text-[10px] md:text-xs font-semibold text-gray-500 mb-1">תגית / טקסט משנה</label>
                   <input value={data.tagline} onChange={e => upd('tagline', e.target.value)}
                     placeholder="תיאור קצר שמופיע מתחת לשם"
-                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50" />
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2 text-xs md:text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50" />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
@@ -557,13 +557,13 @@ export default function StoreBuilderPage() {
                     <label className="block text-[10px] md:text-xs font-semibold text-gray-500 mb-1">מחיר (₪) *</label>
                     <input type="number" value={data.price} onChange={e => upd('price', e.target.value)}
                       placeholder="199"
-                      className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50" dir="ltr" />
+                      className="w-full border border-gray-200 rounded-xl px-3 py-2 text-xs md:text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50" dir="ltr" />
                   </div>
                   <div>
                     <label className="block text-[10px] md:text-xs font-semibold text-gray-500 mb-1">מחיר מקורי (לפני הנחה)</label>
                     <input type="number" value={data.originalPrice} onChange={e => upd('originalPrice', e.target.value)}
                       placeholder="299"
-                      className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50" dir="ltr" />
+                      className="w-full border border-gray-200 rounded-xl px-3 py-2 text-xs md:text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50" dir="ltr" />
                   </div>
                 </div>
 
