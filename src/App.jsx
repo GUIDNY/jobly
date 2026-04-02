@@ -7,6 +7,7 @@ import CardPage from './pages/CardPage';
 import DashboardPage from './pages/DashboardPage';
 import VizzitAdmin from './pages/VizzitAdmin';
 import ProUpgrade from './pages/ProUpgrade';
+import StoreBuilderPage from './pages/StoreBuilderPage';
 
 export default function App() {
   return (
