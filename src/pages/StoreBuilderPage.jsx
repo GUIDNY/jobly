@@ -359,6 +359,7 @@ export default function StoreBuilderPage() {
   const [activeSection, setActiveSection] = useState('product');
   const [showCheckout, setShowCheckout] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [showPhonePreview, setShowPhonePreview] = useState(true);
   const fileRef = useRef(null);
 
   const upd = (key, val) => setData(prev => ({ ...prev, [key]: val }));
