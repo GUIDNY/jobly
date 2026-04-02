@@ -1070,54 +1070,101 @@ const TEMPLATES = [
 const COLORS = ['#4F46E5', '#5BC4C8', '#DB2777', '#DC2626', '#EA580C', '#16A34A', '#0284C7', '#0F172A', '#B45309', '#0891B2'];
 
 function Step4({ form, update, dbCardId, onPublish, publishing, published, isLive, slug, publishError, imagesUploading }) {
+  const [showColorSheet, setShowColorSheet] = useState(false);
+  const [showBgSheet, setShowBgSheet] = useState(false);
+
   return (
-    <div className="space-y-4">
+    <div className="space-y-3 md:space-y-4">
       {/* Style picker — hidden on mobile (already shown under phone preview) */}
       <div className="hidden md:block bg-white rounded-2xl md:rounded-3xl p-3 md:p-6 card-shadow">
         <h2 className="text-sm md:text-lg font-bold text-gray-900 mb-1">סגנון הדף</h2>
         <p className="text-xs md:text-sm text-gray-400 mb-4">בחר את המראה שמתאים לעסק שלך</p>
-        <StylePicker
-          value={form.card_style}
-          color={form.primary_color}
-          compact
-          onChange={async (val) => {
-            update('card_style', val);
-            if (dbCardId) await updateCard(dbCardId, { card_style: val });
-          }}
-        />
+        <StylePicker value={form.card_style} color={form.primary_color} compact
+          onChange={async (val) => { update('card_style', val); if (dbCardId) await updateCard(dbCardId, { card_style: val }); }} />
       </div>
 
-      {/* Color — shown for both styles */}
+      {/* Design controls */}
       <div className="bg-white rounded-2xl md:rounded-3xl p-3 md:p-6 card-shadow">
-        <h2 className="text-sm md:text-base font-bold text-gray-900 mb-2">צבע ראשי</h2>
-        <div className="flex flex-wrap gap-2 md:gap-2.5 items-center">
-          {COLORS.map(color => (
-            <button
-              key={color}
-              onClick={() => update('primary_color', color)}
-              className="w-7 h-7 md:w-9 md:h-9 rounded-full transition-transform hover:scale-110 flex-shrink-0"
-              style={{ background: color, outline: form.primary_color === color ? `3px solid ${color}` : 'none', outlineOffset: '2px' }}
-            />
-          ))}
-          <label className="w-7 h-7 md:w-9 md:h-9 rounded-full overflow-hidden cursor-pointer border-2 border-dashed border-gray-300 flex items-center justify-center hover:border-gray-400 transition-colors relative">
-            <input type="color" value={form.primary_color} onChange={e => update('primary_color', e.target.value)} className="opacity-0 absolute inset-0 cursor-pointer" />
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-          </label>
+        <h2 className="text-sm md:text-base font-bold text-gray-900 mb-2">עיצוב</h2>
+
+        {/* Mobile: compact buttons → open bottom sheet */}
+        <div className="md:hidden space-y-2">
+          <button onClick={() => setShowColorSheet(true)}
+            className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors">
+            <div className="w-5 h-5 rounded-full flex-shrink-0 ring-2 ring-offset-1" style={{ background: form.primary_color, ringColor: form.primary_color }} />
+            <span className="text-xs font-medium text-gray-700 flex-1 text-right">צבע ראשי</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          {form.card_style !== 'premium' && (
+            <button onClick={() => setShowBgSheet(true)}
+              className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors">
+              <div className="w-5 h-5 rounded-lg flex-shrink-0 border border-gray-200 overflow-hidden">
+                <div className="w-full h-full" style={{ background: form.background_style === 'solid' ? form.primary_color : form.background_style === 'dark' ? '#0f172a' : `linear-gradient(135deg, ${form.primary_color}, #5BC4C8)` }} />
+              </div>
+              <span className="text-xs font-medium text-gray-700 flex-1 text-right">סגנון רקע</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+          )}
         </div>
 
-        {/* BgStyle — only for classic */}
-        {form.card_style !== 'premium' && (
-          <>
-            <div className="h-px bg-gray-100 my-3 md:my-5" />
-            <BgStylePicker
-              value={form.background_style || 'gradient'}
-              onChange={v => update('background_style', v)}
-              primaryColor={form.primary_color}
-              avatarUrl={form.avatar_url}
-            />
-          </>
-        )}
+        {/* Desktop: inline pickers */}
+        <div className="hidden md:block">
+          <div className="flex flex-wrap gap-2.5 items-center">
+            {COLORS.map(color => (
+              <button key={color} onClick={() => update('primary_color', color)}
+                className="w-9 h-9 rounded-full transition-transform hover:scale-110 flex-shrink-0"
+                style={{ background: color, outline: form.primary_color === color ? `3px solid ${color}` : 'none', outlineOffset: '2px' }} />
+            ))}
+            <label className="w-9 h-9 rounded-full overflow-hidden cursor-pointer border-2 border-dashed border-gray-300 flex items-center justify-center hover:border-gray-400 transition-colors relative">
+              <input type="color" value={form.primary_color} onChange={e => update('primary_color', e.target.value)} className="opacity-0 absolute inset-0 cursor-pointer" />
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+            </label>
+          </div>
+          {form.card_style !== 'premium' && (
+            <>
+              <div className="h-px bg-gray-100 my-5" />
+              <BgStylePicker value={form.background_style || 'gradient'} onChange={v => update('background_style', v)} primaryColor={form.primary_color} avatarUrl={form.avatar_url} />
+            </>
+          )}
+        </div>
       </div>
+
+      {/* Color bottom sheet (mobile) */}
+      {showColorSheet && (
+        <>
+          <div className="fixed inset-0 bg-black/40 z-50 md:hidden" onClick={() => setShowColorSheet(false)} />
+          <motion.div initial={{ y: 80, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 80, opacity: 0 }} transition={{ duration: 0.2 }}
+            className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl p-5 z-50 md:hidden" style={{ boxShadow: '0 -8px 32px rgba(0,0,0,0.15)' }}>
+            <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mb-4" />
+            <p className="text-sm font-bold text-gray-900 mb-4">בחר צבע ראשי</p>
+            <div className="flex flex-wrap gap-3 justify-center mb-4">
+              {COLORS.map(color => (
+                <button key={color} onClick={() => { update('primary_color', color); setShowColorSheet(false); }}
+                  className="w-10 h-10 rounded-full transition-transform active:scale-90"
+                  style={{ background: color, outline: form.primary_color === color ? `3px solid ${color}` : 'none', outlineOffset: '3px' }} />
+              ))}
+            </div>
+            <label className="flex items-center gap-3 px-4 py-3 rounded-xl border border-dashed border-gray-300 cursor-pointer">
+              <div className="w-8 h-8 rounded-full" style={{ background: form.primary_color }} />
+              <span className="text-xs text-gray-600">בחר צבע מותאם אישית</span>
+              <input type="color" value={form.primary_color} onChange={e => { update('primary_color', e.target.value); }} className="opacity-0 absolute w-0 h-0" />
+            </label>
+          </motion.div>
+        </>
+      )}
+
+      {/* Background bottom sheet (mobile) */}
+      {showBgSheet && (
+        <>
+          <div className="fixed inset-0 bg-black/40 z-50 md:hidden" onClick={() => setShowBgSheet(false)} />
+          <motion.div initial={{ y: 80, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 80, opacity: 0 }} transition={{ duration: 0.2 }}
+            className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl p-5 z-50 md:hidden" style={{ boxShadow: '0 -8px 32px rgba(0,0,0,0.15)' }}>
+            <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mb-4" />
+            <p className="text-sm font-bold text-gray-900 mb-4">בחר סגנון רקע</p>
+            <BgStylePicker value={form.background_style || 'gradient'} onChange={v => { update('background_style', v); setShowBgSheet(false); }} primaryColor={form.primary_color} avatarUrl={form.avatar_url} />
+          </motion.div>
+        </>
+      )}
 
       {/* Publish */}
       <div className="bg-white rounded-2xl md:rounded-3xl p-3 md:p-6 card-shadow">
