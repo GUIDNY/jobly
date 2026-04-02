@@ -1547,6 +1547,13 @@ function Step5({ form, update, dbCardId, userId }) {
               style={{ transform: form.reviews_enabled ? 'translateX(-22px)' : 'translateX(-2px)' }} />
           </button>
         </div>
+
+        {/* Payment system — coming soon (non-clickable) */}
+        <div className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-gray-200 opacity-50 cursor-default select-none">
+          <span className="text-base">💳</span>
+          <span className="text-xs font-medium text-gray-500 flex-1 text-right">מערכת סליקה</span>
+          <span className="text-[9px] px-2 py-0.5 rounded-full bg-gray-100 text-gray-400 font-medium">בקרוב</span>
+        </div>
       </div>
 
       {/* ── Desktop: existing expanded view ── */}
