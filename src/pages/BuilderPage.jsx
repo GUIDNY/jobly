@@ -442,17 +442,28 @@ export default function BuilderPage() {
           </div>
 
           {/* Desktop: full size */}
-          <div className="hidden md:block">
-            <p className="text-xs text-gray-400 text-center mb-3 font-medium">תצוגה מקדימה</p>
+          <div className="hidden md:flex flex-col items-center gap-3">
+            {/* Header label */}
+            <div className="flex items-center gap-2 self-stretch justify-center bg-white rounded-2xl px-4 py-2 shadow-sm border border-gray-100">
+              <span className="w-2 h-2 rounded-full bg-green-400 flex-shrink-0" style={{ boxShadow: '0 0 0 3px #bbf7d0' }} />
+              <span className="text-xs text-gray-500 font-medium">תצוגה חיה</span>
+            </div>
+
+            {/* Phone */}
             <PhoneMockup>
               {form.card_style === 'premium'
                 ? <PremiumPreview data={previewData} />
                 : <CardPreview data={previewData} compact />}
             </PhoneMockup>
-            <StylePicker value={form.card_style} color={form.primary_color} onChange={async (val) => {
-              update('card_style', val);
-              if (dbCardId) await updateCard(dbCardId, { card_style: val });
-            }} />
+
+            {/* Style picker — compact small cards */}
+            <div className="self-stretch bg-white rounded-2xl px-4 py-3 shadow-sm border border-gray-100">
+              <p className="text-[10px] text-gray-400 text-center font-medium mb-2.5 tracking-wide uppercase">סגנון דף</p>
+              <StylePicker value={form.card_style} color={form.primary_color} compact onChange={async (val) => {
+                update('card_style', val);
+                if (dbCardId) await updateCard(dbCardId, { card_style: val });
+              }} />
+            </div>
           </div>
         </div>
 
