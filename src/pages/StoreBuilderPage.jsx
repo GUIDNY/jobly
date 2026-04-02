@@ -597,7 +597,7 @@ export default function StoreBuilderPage() {
                   className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50 resize-none" />
               </div>
 
-              <div className="bg-white rounded-2xl p-5 border border-gray-100 space-y-3" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+              <div className="bg-white rounded-2xl p-3 md:p-5 border border-gray-100 space-y-3" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
                 <div className="flex items-center justify-between">
                   <p className="text-sm font-bold text-gray-800">מה כלול? (רשימת יתרונות)</p>
                   <button onClick={() => upd('bullets', [...data.bullets, ''])}
