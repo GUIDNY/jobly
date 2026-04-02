@@ -1520,22 +1520,6 @@ function Step5({ form, update, dbCardId, userId }) {
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
 
-        {/* Service URLs button — only if there are services */}
-        {form.services && form.services.length > 0 && (
-          <button
-            onClick={() => setShowServiceUrlsSheet(true)}
-            className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors"
-          >
-            <span className="text-base">🔗</span>
-            <span className="text-xs font-medium text-gray-700 flex-1 text-right">קישורי שירותים</span>
-            {filledServiceUrls > 0 && (
-              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full text-white" style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
-                {filledServiceUrls}
-              </span>
-            )}
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-        )}
 
         {/* Reviews button */}
         <div className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-gray-200">
