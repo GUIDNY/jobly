@@ -18,6 +18,7 @@ export default function App() {
           <Route path="/builder" element={<BuilderPage />} />
           <Route path="/builder/:cardId" element={<BuilderPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/store-builder" element={<StoreBuilderPage />} />
           <Route path="/admin" element={<VizzitAdmin />} />
           <Route path="/pro" element={<ProUpgrade />} />
           <Route path="/c/:slug" element={<CardPage />} />
