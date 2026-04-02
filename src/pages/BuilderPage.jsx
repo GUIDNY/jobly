@@ -1134,29 +1134,29 @@ function Step4({ form, update, dbCardId, onPublish, publishing, published, isLiv
           <div className="space-y-3">
             {/* Success state */}
             <div className="rounded-2xl overflow-hidden" style={{ background: 'linear-gradient(135deg, #1a3535, #5BC4C8)' }}>
-              <div className="px-5 py-5 text-center">
-                <div className="text-4xl mb-2">🎉</div>
-                <p className="text-base md:text-xl font-black text-white mb-1">האתר שלך מוכן!</p>
-                <p className="text-white/70 text-xs md:text-sm mb-4">עכשיו שתף אותו עם לקוחות</p>
-                <div className="bg-white/10 rounded-xl px-4 py-2.5 mb-4 flex items-center justify-center gap-2">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
-                  <span className="text-white font-mono text-sm">vizzit.online/{slug}</span>
+              <div className="px-3 md:px-5 py-4 md:py-5 text-center">
+                <div className="text-2xl md:text-4xl mb-1.5">🎉</div>
+                <p className="text-sm md:text-xl font-black text-white mb-1">האתר שלך מוכן!</p>
+                <p className="text-white/70 text-[10px] md:text-sm mb-3">שתף עם לקוחות</p>
+                <div className="bg-white/10 rounded-lg px-2 py-1.5 mb-3 flex items-center justify-center gap-1.5 min-w-0 overflow-hidden">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" className="flex-shrink-0"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+                  <span className="text-white font-mono text-[10px] md:text-sm truncate">vizzit.online/{slug}</span>
                 </div>
                 <div className="flex gap-2">
                   <a
                     href={`/${slug}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 py-2.5 rounded-xl bg-white text-indigo-700 font-bold text-sm flex items-center justify-center gap-1.5"
+                    className="flex-1 py-2 md:py-2.5 rounded-xl bg-white text-indigo-700 font-bold text-xs md:text-sm flex items-center justify-center gap-1"
                   >
-                    פתח את הדף
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                    פתח
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                   </a>
                   <button
                     onClick={() => navigator.clipboard.writeText(`https://vizzit.online/${slug}`)}
-                    className="px-4 py-2.5 rounded-xl bg-white/20 text-white text-sm font-semibold"
+                    className="px-3 md:px-4 py-2 md:py-2.5 rounded-xl bg-white/20 text-white text-xs md:text-sm font-semibold"
                   >
-                    העתק קישור
+                    העתק
                   </button>
                 </div>
               </div>
