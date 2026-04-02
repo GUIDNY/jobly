@@ -921,6 +921,11 @@ export default function StoreBuilderPage() {
               )}
               <span className="text-[9px] text-gray-400">{showPhonePreview ? 'הסתר' : 'הצג'}</span>
             </button>
+
+            {/* Mobile type picker */}
+            <div className="w-full px-1">
+              <StoreTypePicker value={storeType} onChange={setStoreType} accent={storeType === 'multi' ? ms.accentColor : data.accentColor} />
+            </div>
           </div>
 
           {/* Desktop: full phone */}
