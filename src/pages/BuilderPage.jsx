@@ -1977,49 +1977,6 @@ function Step5({ form, update, dbCardId, userId }) {
         )}
       </AnimatePresence>
 
-      {/* Service URLs bottom sheet */}
-      <AnimatePresence>
-        {showServiceUrlsSheet && (
-          <>
-            <motion.div key="svc-urls-backdrop" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/40 z-50 md:hidden" onClick={() => setShowServiceUrlsSheet(false)} />
-            <motion.div key="svc-urls-sheet" initial={{ y: 80, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 80, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl p-5 z-50 md:hidden"
-              style={{ boxShadow: '0 -8px 32px rgba(0,0,0,0.15)', maxHeight: '80vh', overflowY: 'auto' }}>
-              <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mb-4" />
-              <p className="text-sm font-bold text-gray-900 mb-1">קישורי שירותים</p>
-              <p className="text-xs text-gray-400 mb-4">הוסף קישור לכל שירות — יופיע כ"קבע תור" בפופ-אפ</p>
-              <div className="space-y-3">
-                {(form.services || []).map((svc, i) => (
-                  <div key={i} className="border border-gray-200 rounded-xl p-3 bg-gray-50">
-                    <p className="text-xs font-bold text-gray-600 mb-2 truncate">{svc.title || `שירות ${i + 1}`}</p>
-                    <input
-                      type="url"
-                      value={svc.service_url || ''}
-                      onChange={e => {
-                        const next = form.services.map((s, idx) => idx === i ? { ...s, service_url: e.target.value } : s);
-                        update('services', next);
-                      }}
-                      onBlur={() => {
-                        if (dbCardId) updateCard(dbCardId, { services: form.services }).catch(() => {});
-                      }}
-                      placeholder="https://calendly.com/..."
-                      className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50 bg-white"
-                      dir="ltr"
-                    />
-                  </div>
-                ))}
-              </div>
-              <button onClick={() => setShowServiceUrlsSheet(false)}
-                className="w-full mt-5 py-3 rounded-xl text-sm font-bold text-white"
-                style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
-                סגור ✓
-              </button>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
 
       {/* Reviews list modal (editingReviewIdx === -1) */}
       <AnimatePresence>
