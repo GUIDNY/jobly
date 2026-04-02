@@ -914,119 +914,137 @@ function Step2({ form, update, userId, dbCardId, onUploadingChange }) {
               className="fixed inset-0 bg-black/50 z-50" onClick={closeModal} />
             <motion.div key="modal" initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ duration: 0.2 }}
-              className="fixed inset-x-4 top-16 bottom-4 md:inset-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-[480px] md:max-h-[80vh] bg-white rounded-2xl z-50 flex flex-col overflow-hidden"
-              style={{ boxShadow: '0 24px 60px rgba(0,0,0,0.25)' }}>
+              className="fixed inset-x-4 top-16 bottom-4 md:inset-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-[660px] md:max-h-[85vh] bg-white rounded-2xl z-50 flex flex-col overflow-hidden"
+              style={{ boxShadow: '0 32px 80px rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.05)' }}>
+
               {/* Header */}
-              <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 flex-shrink-0">
-                <h3 className="text-sm font-bold text-gray-900">
-                  {svcBeingEdited.title ? `עריכת: ${svcBeingEdited.title}` : `שירות ${editingIdx + 1}`}
-                </h3>
-                <button onClick={closeModal} className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 flex-shrink-0">
+                <div>
+                  <h3 className="text-base font-bold text-gray-900">
+                    {svcBeingEdited.title ? `עריכת שירות: ${svcBeingEdited.title}` : 'שירות חדש'}
+                  </h3>
+                  <p className="text-xs text-gray-400 mt-0.5">מלא את הפרטים שיופיעו בכרטיס</p>
+                </div>
+                <button onClick={closeModal} className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                 </button>
               </div>
 
               {/* Scrollable body */}
-              <div className="flex-1 overflow-y-auto p-4 space-y-3">
-                <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">שם השירות *</label>
-                  <input type="text" value={svcBeingEdited.title} onChange={e => updateService(editingIdx, 'title', e.target.value)}
-                    placeholder="למשל: תספורת גבר" autoFocus
-                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50" maxLength={50} />
+              <div className="flex-1 overflow-y-auto p-6 space-y-5">
+
+                {/* Name + Price — two columns on desktop */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-semibold text-gray-600 mb-1.5">שם השירות *</label>
+                    <input type="text" value={svcBeingEdited.title} onChange={e => updateService(editingIdx, 'title', e.target.value)}
+                      placeholder="למשל: תספורת גבר" autoFocus
+                      className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50" maxLength={50} />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-gray-600 mb-1.5">מחיר</label>
+                    <input type="text" value={svcBeingEdited.price || ''} onChange={e => updateService(editingIdx, 'price', e.target.value)}
+                      placeholder="₪120 · 45 דק׳"
+                      className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50" maxLength={30} />
+                  </div>
                 </div>
+
+                {/* Description */}
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">תיאור</label>
+                  <label className="block text-xs font-semibold text-gray-600 mb-1.5">תיאור</label>
                   <textarea value={svcBeingEdited.description} onChange={e => updateService(editingIdx, 'description', e.target.value)}
                     placeholder="תיאור קצר (אופציונלי)" rows={2} maxLength={100}
                     className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50 resize-none" />
                 </div>
-                <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">מחיר</label>
-                  <input type="text" value={svcBeingEdited.price || ''} onChange={e => updateService(editingIdx, 'price', e.target.value)}
-                    placeholder="₪120 · 45 דק׳"
-                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50" maxLength={30} />
-                </div>
 
-                {/* Size */}
-                <div>
-                  <p className="text-xs font-medium text-gray-700 mb-1.5">גודל כרטיס</p>
-                  <div className="grid grid-cols-2 gap-2">
-                    {[
-                      { value: 'full', label: 'רוחב מלא', icon: <svg width="18" height="10" viewBox="0 0 18 10" fill="currentColor"><rect width="18" height="10" rx="2"/></svg> },
-                      { value: 'half', label: 'חצי', icon: <svg width="18" height="10" viewBox="0 0 18 10" fill="currentColor"><rect width="7" height="10" rx="2"/><rect x="11" width="7" height="10" rx="2"/></svg> },
-                    ].map(opt => (
-                      <button key={opt.value} onClick={() => updateService(editingIdx, 'size', opt.value)}
-                        className="flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-medium border-2 transition-all"
-                        style={(svcBeingEdited.size || 'full') === opt.value ? { borderColor: '#5BC4C8', background: '#f0fafa', color: '#2a9aa0' } : { borderColor: '#e5e7eb', color: '#6b7280' }}>
-                        {opt.icon}{opt.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Image */}
-                <div>
-                  <p className="text-xs font-medium text-gray-700 mb-1.5">תמונת כרטיס</p>
-                  <div className="flex items-center gap-3">
-                    <button onClick={() => fileRefs.current[editingIdx]?.click()} disabled={uploadingSet.has(editingIdx)}
-                      className="flex items-center gap-2 px-3 py-2 text-xs text-gray-500 border border-dashed border-gray-300 rounded-xl hover:border-indigo-300 hover:text-indigo-500 transition-colors disabled:opacity-60">
-                      {uploadingSet.has(editingIdx) ? <svg className="animate-spin" width="14" height="14" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
-                        : svcBeingEdited.image_url ? <img src={svcBeingEdited.image_url} alt="" className="w-7 h-7 rounded-lg object-cover" />
-                        : <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>}
-                      {uploadingSet.has(editingIdx) ? 'מעלה...' : svcBeingEdited.image_url ? 'שנה' : 'הוסף תמונה'}
-                    </button>
-                    <input ref={el => fileRefs.current[editingIdx] = el} type="file" accept="image/*" className="hidden" onChange={e => handleServiceImage(editingIdx, e.target.files?.[0])} />
-                    {svcBeingEdited.image_url && <button onClick={() => updateService(editingIdx, 'image_url', '')} className="text-xs text-red-400 hover:text-red-500">הסר</button>}
-                  </div>
-                </div>
-
-                {/* Premium: popup image + service URL */}
-                {isPremium && (
-                  <div className="rounded-xl p-3 border border-dashed space-y-3" style={{ borderColor: '#a78bfa55', background: '#7c3aed08' }}>
-                    <p className="text-xs font-bold" style={{ color: '#7c3aed' }}>✦ פרמיום</p>
-                    {/* Popup image */}
-                    <div>
-                      <p className="text-[10px] text-gray-500 mb-1.5">תמונה בפופאפ</p>
-                      <div className="flex items-center gap-3">
-                        <button onClick={() => popupFileRefs.current[editingIdx]?.click()} disabled={uploadingSet.has(`p${editingIdx}`)}
-                          className="flex items-center gap-2 px-3 py-2 text-xs border border-dashed rounded-xl transition-colors disabled:opacity-60"
-                          style={{ borderColor: '#a78bfa88', color: '#7c3aed' }}>
-                          {uploadingSet.has(`p${editingIdx}`) ? <svg className="animate-spin" width="14" height="14" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
-                            : svcBeingEdited.popup_image_url ? <img src={svcBeingEdited.popup_image_url} alt="" className="w-7 h-7 rounded-lg object-cover" />
-                            : <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>}
-                          {uploadingSet.has(`p${editingIdx}`) ? 'מעלה...' : svcBeingEdited.popup_image_url ? 'שנה' : 'הוסף תמונה'}
+                {/* Size + Image — two columns on desktop */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* Size */}
+                  <div>
+                    <p className="text-xs font-semibold text-gray-600 mb-1.5">גודל כרטיס</p>
+                    <div className="grid grid-cols-2 gap-2">
+                      {[
+                        { value: 'full', label: 'רוחב מלא', icon: <svg width="18" height="10" viewBox="0 0 18 10" fill="currentColor"><rect width="18" height="10" rx="2"/></svg> },
+                        { value: 'half', label: 'חצי', icon: <svg width="18" height="10" viewBox="0 0 18 10" fill="currentColor"><rect width="7" height="10" rx="2"/><rect x="11" width="7" height="10" rx="2"/></svg> },
+                      ].map(opt => (
+                        <button key={opt.value} onClick={() => updateService(editingIdx, 'size', opt.value)}
+                          className="flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-medium border-2 transition-all"
+                          style={(svcBeingEdited.size || 'full') === opt.value ? { borderColor: '#5BC4C8', background: '#f0fafa', color: '#2a9aa0' } : { borderColor: '#e5e7eb', color: '#6b7280' }}>
+                          {opt.icon}{opt.label}
                         </button>
-                        <input ref={el => popupFileRefs.current[editingIdx] = el} type="file" accept="image/*" className="hidden" onChange={e => handlePopupImage(editingIdx, e.target.files?.[0])} />
-                        {svcBeingEdited.popup_image_url && <button onClick={() => updateService(editingIdx, 'popup_image_url', '')} className="text-xs text-red-400">הסר</button>}
-                      </div>
+                      ))}
                     </div>
-                    {/* Service URL */}
-                    <div>
-                      <p className="text-[10px] text-gray-500 mb-1.5">קישור לקביעת תור</p>
-                      <input
-                        type="url"
-                        value={svcBeingEdited.service_url || ''}
-                        onChange={e => updateService(editingIdx, 'service_url', e.target.value)}
-                        placeholder="https://calendly.com/..."
-                        className="w-full border rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-indigo-400"
-                        style={{ borderColor: '#a78bfa55' }}
-                        dir="ltr"
-                      />
+                  </div>
+
+                  {/* Card image */}
+                  <div>
+                    <p className="text-xs font-semibold text-gray-600 mb-1.5">תמונת כרטיס</p>
+                    <div className="flex items-center gap-3">
+                      <button onClick={() => fileRefs.current[editingIdx]?.click()} disabled={uploadingSet.has(editingIdx)}
+                        className="flex items-center gap-2 px-3 py-2.5 text-xs text-gray-500 border border-dashed border-gray-300 rounded-xl hover:border-indigo-300 hover:text-indigo-500 transition-colors disabled:opacity-60 flex-1 justify-center">
+                        {uploadingSet.has(editingIdx) ? <svg className="animate-spin" width="14" height="14" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+                          : svcBeingEdited.image_url ? <img src={svcBeingEdited.image_url} alt="" className="w-7 h-7 rounded-lg object-cover" />
+                          : <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>}
+                        {uploadingSet.has(editingIdx) ? 'מעלה...' : svcBeingEdited.image_url ? 'שנה תמונה' : 'הוסף תמונה'}
+                      </button>
+                      <input ref={el => fileRefs.current[editingIdx] = el} type="file" accept="image/*" className="hidden" onChange={e => handleServiceImage(editingIdx, e.target.files?.[0])} />
+                      {svcBeingEdited.image_url && <button onClick={() => updateService(editingIdx, 'image_url', '')} className="text-xs text-red-400 hover:text-red-500">הסר</button>}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Premium section */}
+                {isPremium && (
+                  <div className="rounded-2xl p-4 border border-dashed space-y-4" style={{ borderColor: '#a78bfa55', background: '#7c3aed05' }}>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-bold px-2 py-0.5 rounded-full" style={{ background: '#7c3aed15', color: '#7c3aed' }}>✦ פרמיום</span>
+                      <span className="text-xs text-gray-400">תכונות נוספות לפופאפ השירות</span>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {/* Popup image */}
+                      <div>
+                        <p className="text-xs font-semibold mb-1.5" style={{ color: '#7c3aed' }}>תמונה בפופאפ</p>
+                        <div className="flex items-center gap-3">
+                          <button onClick={() => popupFileRefs.current[editingIdx]?.click()} disabled={uploadingSet.has(`p${editingIdx}`)}
+                            className="flex items-center gap-2 px-3 py-2.5 text-xs border border-dashed rounded-xl transition-colors disabled:opacity-60 flex-1 justify-center"
+                            style={{ borderColor: '#a78bfa88', color: '#7c3aed' }}>
+                            {uploadingSet.has(`p${editingIdx}`) ? <svg className="animate-spin" width="14" height="14" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+                              : svcBeingEdited.popup_image_url ? <img src={svcBeingEdited.popup_image_url} alt="" className="w-7 h-7 rounded-lg object-cover" />
+                              : <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>}
+                            {uploadingSet.has(`p${editingIdx}`) ? 'מעלה...' : svcBeingEdited.popup_image_url ? 'שנה' : 'הוסף תמונה'}
+                          </button>
+                          <input ref={el => popupFileRefs.current[editingIdx] = el} type="file" accept="image/*" className="hidden" onChange={e => handlePopupImage(editingIdx, e.target.files?.[0])} />
+                          {svcBeingEdited.popup_image_url && <button onClick={() => updateService(editingIdx, 'popup_image_url', '')} className="text-xs text-red-400">הסר</button>}
+                        </div>
+                      </div>
+                      {/* Service URL */}
+                      <div>
+                        <p className="text-xs font-semibold mb-1.5" style={{ color: '#7c3aed' }}>קישור לקביעת תור</p>
+                        <input
+                          type="url"
+                          value={svcBeingEdited.service_url || ''}
+                          onChange={e => updateService(editingIdx, 'service_url', e.target.value)}
+                          placeholder="https://calendly.com/..."
+                          className="w-full border rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-50"
+                          style={{ borderColor: '#a78bfa55' }}
+                          dir="ltr"
+                        />
+                      </div>
                     </div>
                   </div>
                 )}
               </div>
 
               {/* Footer */}
-              <div className="px-4 py-3 border-t border-gray-100 flex gap-2 flex-shrink-0">
+              <div className="px-6 py-4 border-t border-gray-100 flex gap-3 flex-shrink-0">
                 <button onClick={() => { removeService(editingIdx); closeModal(); }}
-                  className="px-4 py-2.5 rounded-xl text-xs font-medium text-red-500 bg-red-50 hover:bg-red-100 transition-colors">
+                  className="px-4 py-2.5 rounded-xl text-sm font-medium text-red-500 bg-red-50 hover:bg-red-100 transition-colors">
                   מחק שירות
                 </button>
                 <button onClick={closeModal}
                   className="flex-1 py-2.5 rounded-xl text-sm font-bold text-white transition-all"
                   style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
-                  סגור ✓
+                  שמור וסגור ✓
                 </button>
               </div>
             </motion.div>
