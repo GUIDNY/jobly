@@ -478,117 +478,101 @@ export default function StoreBuilderPage() {
 
           {/* ── Section: Product ── */}
           {activeSection === 'product' && (
-            <motion.div key="product" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
-              {/* Image upload — hero */}
+            <motion.div key="product" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="space-y-3">
+
+              {/* Image upload — shown always, compact on mobile */}
               <div className="bg-white rounded-2xl p-3 md:p-5 border border-gray-100" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
-                <p className="text-sm font-bold text-gray-800 mb-3">תמונת המוצר</p>
                 <div
                   onClick={() => fileRef.current?.click()}
                   className="relative cursor-pointer rounded-2xl overflow-hidden transition-all hover:opacity-90"
-                  style={{ height: 220, background: data.image ? 'transparent' : 'linear-gradient(135deg, #f9fafb, #f3f4f6)', border: data.image ? 'none' : '2px dashed #e5e7eb', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                  style={{ height: data.image ? 120 : 90, background: data.image ? 'transparent' : 'linear-gradient(135deg, #f9fafb, #f3f4f6)', border: data.image ? 'none' : '2px dashed #e5e7eb', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
                 >
                   {data.image ? (
-                    <>
-                      <img src={data.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-                      <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0)', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background 0.15s' }}
-                        onMouseEnter={e => e.currentTarget.style.background = 'rgba(0,0,0,0.3)'}
-                        onMouseLeave={e => e.currentTarget.style.background = 'rgba(0,0,0,0)'}>
-                        <span style={{ color: 'white', fontWeight: 700, fontSize: 13, opacity: 0, transition: 'opacity 0.15s' }}
-                          onMouseEnter={e => e.currentTarget.style.opacity = 1}
-                          onMouseLeave={e => e.currentTarget.style.opacity = 0}>
-                          החלף תמונה
-                        </span>
-                      </div>
-                    </>
+                    <img src={data.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
                   ) : uploading ? (
-                    <div className="flex flex-col items-center gap-3">
-                      <svg className="animate-spin w-8 h-8 text-gray-400" viewBox="0 0 24 24" fill="none">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
-                      </svg>
-                      <p className="text-sm text-gray-500">מעלה...</p>
+                    <div className="flex items-center gap-2">
+                      <svg className="animate-spin w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+                      <p className="text-xs text-gray-500">מעלה...</p>
                     </div>
                   ) : (
-                    <div className="flex flex-col items-center gap-3">
-                      <div className="w-14 h-14 rounded-2xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #F4938C22, #5BC4C822)' }}>
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F4938C" strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, #F4938C22, #5BC4C822)' }}>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F4938C" strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
                       </div>
-                      <div className="text-center">
-                        <p className="text-sm font-semibold text-gray-700">העלה תמונת מוצר</p>
-                        <p className="text-xs text-gray-400 mt-0.5">JPG, PNG · עד 10MB</p>
+                      <div>
+                        <p className="text-xs font-semibold text-gray-700">העלה תמונת מוצר</p>
+                        <p className="text-[10px] text-gray-400 mt-0.5">JPG, PNG · עד 10MB</p>
                       </div>
                     </div>
                   )}
                 </div>
                 <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={e => handleImageUpload(e.target.files?.[0])} />
-                {data.image && (
-                  <button onClick={() => upd('image', '')} className="text-xs text-red-400 hover:text-red-500 mt-2">הסר תמונה</button>
-                )}
+                {data.image && <button onClick={() => upd('image', '')} className="text-[10px] text-red-400 mt-1.5 block">הסר תמונה</button>}
               </div>
 
-              {/* Product basics */}
-              <div className="bg-white rounded-2xl p-3 md:p-5 border border-gray-100 space-y-3 md:space-y-4" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
-                <p className="text-xs md:text-sm font-bold text-gray-800">פרטי המוצר</p>
+              {/* ── Mobile compact buttons ── */}
+              <div className="md:hidden bg-white rounded-2xl p-3 border border-gray-100 space-y-2" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+                {/* Name + tagline */}
+                <button onClick={() => setShowProductSheet(true)} className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors">
+                  <span className="text-base">🏷️</span>
+                  <span className="text-xs font-medium text-gray-700 flex-1 text-right">{data.name || 'שם המוצר'}</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                {/* Price */}
+                <button onClick={() => setShowPriceSheet(true)} className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors">
+                  <span className="text-base">💰</span>
+                  <span className="text-xs font-medium text-gray-700 flex-1 text-right">{data.price ? `₪${data.price}${data.originalPrice ? ` (היה ₪${data.originalPrice})` : ''}` : 'הגדר מחיר'}</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                {/* Color */}
+                <button onClick={() => setShowColorSheet(true)} className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors">
+                  <div className="w-5 h-5 rounded-full flex-shrink-0" style={{ background: data.accentColor }} />
+                  <span className="text-xs font-medium text-gray-700 flex-1 text-right">צבע + שם חנות</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+              </div>
 
+              {/* ── Desktop full form ── */}
+              <div className="hidden md:block bg-white rounded-2xl p-5 border border-gray-100 space-y-4" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+                <p className="text-sm font-bold text-gray-800">פרטי המוצר</p>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[10px] md:text-xs font-semibold text-gray-500 mb-1">שם העסק / חנות</label>
-                    <input value={data.storeName} onChange={e => upd('storeName', e.target.value)}
-                      placeholder="הממתקים של תמי"
-                      className="w-full border border-gray-200 rounded-xl px-3 py-2 text-xs md:text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50" />
+                    <label className="block text-xs font-semibold text-gray-500 mb-1.5">שם העסק / חנות</label>
+                    <input value={data.storeName} onChange={e => upd('storeName', e.target.value)} placeholder="הממתקים של תמי" className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400" />
                   </div>
                   <div>
-                    <label className="block text-[10px] md:text-xs font-semibold text-gray-500 mb-1">צבע ראשי</label>
+                    <label className="block text-xs font-semibold text-gray-500 mb-1.5">צבע ראשי</label>
                     <div className="flex items-center gap-2">
-                      <input type="color" value={data.accentColor} onChange={e => upd('accentColor', e.target.value)}
-                        className="w-10 h-10 rounded-lg border border-gray-200 cursor-pointer p-0.5" />
+                      <input type="color" value={data.accentColor} onChange={e => upd('accentColor', e.target.value)} className="w-10 h-10 rounded-lg border border-gray-200 cursor-pointer p-0.5" />
                       <span className="text-xs text-gray-500">{data.accentColor}</span>
                     </div>
                   </div>
                 </div>
-
                 <div>
-                  <label className="block text-[10px] md:text-xs font-semibold text-gray-500 mb-1">שם המוצר *</label>
-                  <input value={data.name} onChange={e => upd('name', e.target.value)}
-                    placeholder="למשל: קורס צילום מקצועי"
-                    className="w-full border border-gray-200 rounded-xl px-3 py-2 text-xs md:text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50" />
+                  <label className="block text-xs font-semibold text-gray-500 mb-1.5">שם המוצר *</label>
+                  <input value={data.name} onChange={e => upd('name', e.target.value)} placeholder="למשל: קורס צילום מקצועי" className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400" />
                 </div>
-
                 <div>
-                  <label className="block text-[10px] md:text-xs font-semibold text-gray-500 mb-1">תגית / טקסט משנה</label>
-                  <input value={data.tagline} onChange={e => upd('tagline', e.target.value)}
-                    placeholder="תיאור קצר שמופיע מתחת לשם"
-                    className="w-full border border-gray-200 rounded-xl px-3 py-2 text-xs md:text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50" />
+                  <label className="block text-xs font-semibold text-gray-500 mb-1.5">תגית / טקסט משנה</label>
+                  <input value={data.tagline} onChange={e => upd('tagline', e.target.value)} placeholder="תיאור קצר שמופיע מתחת לשם" className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400" />
                 </div>
-
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[10px] md:text-xs font-semibold text-gray-500 mb-1">מחיר (₪) *</label>
-                    <input type="number" value={data.price} onChange={e => upd('price', e.target.value)}
-                      placeholder="199"
-                      className="w-full border border-gray-200 rounded-xl px-3 py-2 text-xs md:text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50" dir="ltr" />
+                    <label className="block text-xs font-semibold text-gray-500 mb-1.5">מחיר (₪) *</label>
+                    <input type="number" value={data.price} onChange={e => upd('price', e.target.value)} placeholder="199" className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400" dir="ltr" />
                   </div>
                   <div>
-                    <label className="block text-[10px] md:text-xs font-semibold text-gray-500 mb-1">מחיר מקורי (לפני הנחה)</label>
-                    <input type="number" value={data.originalPrice} onChange={e => upd('originalPrice', e.target.value)}
-                      placeholder="299"
-                      className="w-full border border-gray-200 rounded-xl px-3 py-2 text-xs md:text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50" dir="ltr" />
+                    <label className="block text-xs font-semibold text-gray-500 mb-1.5">מחיר מקורי</label>
+                    <input type="number" value={data.originalPrice} onChange={e => upd('originalPrice', e.target.value)} placeholder="299" className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400" dir="ltr" />
                   </div>
                 </div>
-
                 <div>
-                  <label className="block text-[10px] md:text-xs font-semibold text-gray-500 mb-1">טקסט כפתור קנייה</label>
+                  <label className="block text-xs font-semibold text-gray-500 mb-1.5">טקסט כפתור</label>
                   <div className="flex gap-2 flex-wrap">
-                    {['קנה עכשיו', 'הזמן עכשיו', 'לרכישה', 'שלם ורכוש'].map(opt => (
-                      <button key={opt} onClick={() => upd('ctaText', opt)}
-                        className="px-3 py-1.5 rounded-xl text-xs font-semibold border-2 transition-all"
-                        style={data.ctaText === opt ? { borderColor: '#F4938C', background: '#fff5f4', color: '#F4938C' } : { borderColor: '#e5e7eb', color: '#6b7280' }}>
-                        {opt}
-                      </button>
+                    {['קנה עכשיו','הזמן עכשיו','לרכישה','שלם ורכוש'].map(opt => (
+                      <button key={opt} onClick={() => upd('ctaText', opt)} className="px-3 py-1.5 rounded-xl text-xs font-semibold border-2 transition-all"
+                        style={data.ctaText === opt ? { borderColor: '#F4938C', background: '#fff5f4', color: '#F4938C' } : { borderColor: '#e5e7eb', color: '#6b7280' }}>{opt}</button>
                     ))}
-                    <input value={data.ctaText} onChange={e => upd('ctaText', e.target.value)}
-                      placeholder="טקסט מותאם..."
-                      className="flex-1 min-w-24 border border-gray-200 rounded-xl px-3 py-1.5 text-xs focus:outline-none focus:border-indigo-400" />
                   </div>
                 </div>
               </div>
@@ -597,36 +581,42 @@ export default function StoreBuilderPage() {
 
           {/* ── Section: Details ── */}
           {activeSection === 'details' && (
-            <motion.div key="details" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
-              <div className="bg-white rounded-2xl p-3 md:p-5 border border-gray-100 space-y-3 md:space-y-4" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
-                <p className="text-xs md:text-sm font-bold text-gray-800">תיאור המוצר</p>
-                <textarea value={data.description} onChange={e => upd('description', e.target.value)}
-                  placeholder="ספר על המוצר — מה הוא עושה, למה כדאי לקנות אותו, מה מיוחד בו..."
-                  rows={5}
-                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50 resize-none" />
+            <motion.div key="details" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="space-y-3">
+
+              {/* Mobile compact */}
+              <div className="md:hidden bg-white rounded-2xl p-3 border border-gray-100 space-y-2" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+                <button onClick={() => setShowDescSheet(true)} className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors">
+                  <span className="text-base">📄</span>
+                  <span className="text-xs font-medium text-gray-700 flex-1 text-right">{data.description ? 'תיאור המוצר ✓' : 'הוסף תיאור'}</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <button onClick={() => setShowBulletsSheet(true)} className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors">
+                  <span className="text-base">✅</span>
+                  <span className="text-xs font-medium text-gray-700 flex-1 text-right">יתרונות המוצר</span>
+                  {data.bullets.filter(b => b.trim()).length > 0 && (
+                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full text-white" style={{ background: '#F4938C' }}>{data.bullets.filter(b => b.trim()).length}</span>
+                  )}
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
               </div>
 
-              <div className="bg-white rounded-2xl p-3 md:p-5 border border-gray-100 space-y-3" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+              {/* Desktop full */}
+              <div className="hidden md:block bg-white rounded-2xl p-5 border border-gray-100 space-y-4" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+                <p className="text-sm font-bold text-gray-800">תיאור המוצר</p>
+                <textarea value={data.description} onChange={e => upd('description', e.target.value)} placeholder="ספר על המוצר..." rows={5} className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 resize-none" />
+              </div>
+              <div className="hidden md:block bg-white rounded-2xl p-5 border border-gray-100 space-y-3" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
                 <div className="flex items-center justify-between">
-                  <p className="text-xs md:text-sm font-bold text-gray-800">מה כלול? (רשימת יתרונות)</p>
-                  <button onClick={() => upd('bullets', [...data.bullets, ''])}
-                    className="text-xs font-bold px-3 py-1.5 rounded-xl text-white"
-                    style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
-                    + הוסף
-                  </button>
+                  <p className="text-sm font-bold text-gray-800">מה כלול?</p>
+                  <button onClick={() => upd('bullets', [...data.bullets, ''])} className="text-xs font-bold px-3 py-1.5 rounded-xl text-white" style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>+ הוסף</button>
                 </div>
                 {data.bullets.map((b, i) => (
                   <div key={i} className="flex items-center gap-2">
                     <div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: '#F4938C22' }}>
                       <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#F4938C" strokeWidth="3"><polyline points="20 6 9 17 4 12"/></svg>
                     </div>
-                    <input value={b} onChange={e => { const next = [...data.bullets]; next[i] = e.target.value; upd('bullets', next); }}
-                      placeholder={`יתרון ${i + 1}`}
-                      className="flex-1 border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-indigo-400" />
-                    {data.bullets.length > 1 && (
-                      <button onClick={() => upd('bullets', data.bullets.filter((_, idx) => idx !== i))}
-                        className="text-xs text-red-400 hover:text-red-500 px-2">✕</button>
-                    )}
+                    <input value={b} onChange={e => { const next = [...data.bullets]; next[i] = e.target.value; upd('bullets', next); }} placeholder={`יתרון ${i + 1}`} className="flex-1 border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-indigo-400" />
+                    {data.bullets.length > 1 && <button onClick={() => upd('bullets', data.bullets.filter((_, idx) => idx !== i))} className="text-xs text-red-400 px-2">✕</button>}
                   </div>
                 ))}
               </div>
@@ -635,37 +625,46 @@ export default function StoreBuilderPage() {
 
           {/* ── Section: Payment ── */}
           {activeSection === 'payment' && (
-            <motion.div key="payment" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
-              <div className="bg-white rounded-2xl p-3 md:p-5 border border-gray-100 space-y-3 md:space-y-4" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
-                <p className="text-xs md:text-sm font-bold text-gray-800">אמצעי תשלום (תגי אמון)</p>
+            <motion.div key="payment" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="space-y-3">
+
+              {/* Mobile compact */}
+              <div className="md:hidden bg-white rounded-2xl p-3 border border-gray-100 space-y-2" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+                <button onClick={() => setShowPaymentSheet(true)} className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors">
+                  <span className="text-base">💳</span>
+                  <span className="text-xs font-medium text-gray-700 flex-1 text-right">אמצעי תשלום</span>
+                  <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full text-white" style={{ background: '#F4938C' }}>{data.paymentMethods.length}</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl border border-dashed border-gray-200 bg-gray-50">
+                  <span className="text-base">🔒</span>
+                  <span className="text-xs text-gray-500 flex-1 text-right">לחץ "קנה עכשיו" לסליקה דמו</span>
+                </div>
+              </div>
+
+              {/* Desktop full */}
+              <div className="hidden md:block bg-white rounded-2xl p-5 border border-gray-100 space-y-4" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+                <p className="text-sm font-bold text-gray-800">אמצעי תשלום (תגי אמון)</p>
                 <p className="text-xs text-gray-400">בחר אילו לוגואים יוצגו מתחת לכפתור הקנייה</p>
                 <div className="grid grid-cols-2 gap-3">
                   {PAYMENT_METHODS.map(pm => (
-                    <button key={pm.id}
-                      onClick={() => {
-                        const has = data.paymentMethods.includes(pm.id);
-                        upd('paymentMethods', has ? data.paymentMethods.filter(x => x !== pm.id) : [...data.paymentMethods, pm.id]);
-                      }}
+                    <button key={pm.id} onClick={() => { const has = data.paymentMethods.includes(pm.id); upd('paymentMethods', has ? data.paymentMethods.filter(x => x !== pm.id) : [...data.paymentMethods, pm.id]); }}
                       className="flex items-center gap-3 p-3 rounded-xl border-2 transition-all"
                       style={data.paymentMethods.includes(pm.id) ? { borderColor: '#F4938C', background: '#fff5f4' } : { borderColor: '#e5e7eb', background: 'white' }}>
                       <PaymentBadge id={pm.id} />
                       <span className="text-sm font-medium text-gray-700">{pm.label}</span>
-                      {data.paymentMethods.includes(pm.id) && (
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F4938C" strokeWidth="2.5" className="mr-auto"><polyline points="20 6 9 17 4 12"/></svg>
-                      )}
+                      {data.paymentMethods.includes(pm.id) && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F4938C" strokeWidth="2.5" className="mr-auto"><polyline points="20 6 9 17 4 12"/></svg>}
                     </button>
                   ))}
                 </div>
               </div>
-
-              <div className="bg-white rounded-2xl p-3 md:p-5 border border-gray-100" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+              <div className="hidden md:block bg-white rounded-2xl p-5 border border-gray-100" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
                 <div className="flex items-center gap-3 p-4 rounded-2xl border-2 border-dashed" style={{ borderColor: '#F4938C44', background: '#fff5f4' }}>
                   <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
                   </div>
                   <div>
-                    <p className="text-xs md:text-sm font-bold text-gray-800">מסך סליקה דמו</p>
-                    <p className="text-xs text-gray-500 mt-0.5">לחץ על "קנה עכשיו" בתצוגה המקדימה לראות את חוויית הסליקה</p>
+                    <p className="text-sm font-bold text-gray-800">מסך סליקה דמו</p>
+                    <p className="text-xs text-gray-500 mt-0.5">לחץ על "קנה עכשיו" בתצוגה המקדימה</p>
                   </div>
                 </div>
               </div>
@@ -674,15 +673,25 @@ export default function StoreBuilderPage() {
 
           {/* ── Section: Reviews ── */}
           {activeSection === 'reviews' && (
-            <motion.div key="reviews" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
-              <div className="bg-white rounded-2xl p-3 md:p-5 border border-gray-100 space-y-3 md:space-y-4" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+            <motion.div key="reviews" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="space-y-3">
+
+              {/* Mobile compact */}
+              <div className="md:hidden bg-white rounded-2xl p-3 border border-gray-100 space-y-2" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+                <button onClick={() => setShowReviewsSheet(true)} className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors">
+                  <span className="text-base">⭐</span>
+                  <span className="text-xs font-medium text-gray-700 flex-1 text-right">ביקורות לקוחות</span>
+                  {data.reviews.length > 0 && (
+                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full text-white" style={{ background: '#F4938C' }}>{data.reviews.length}</span>
+                  )}
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+              </div>
+
+              {/* Desktop full */}
+              <div className="hidden md:block bg-white rounded-2xl p-5 border border-gray-100 space-y-4" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
                 <div className="flex items-center justify-between">
-                  <p className="text-xs md:text-sm font-bold text-gray-800">ביקורות לקוחות</p>
-                  <button onClick={() => upd('reviews', [...data.reviews, { name: '', rating: 5, text: '' }])}
-                    className="text-xs font-bold px-3 py-1.5 rounded-xl text-white"
-                    style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
-                    + הוסף ביקורת
-                  </button>
+                  <p className="text-sm font-bold text-gray-800">ביקורות לקוחות</p>
+                  <button onClick={() => upd('reviews', [...data.reviews, { name: '', rating: 5, text: '' }])} className="text-xs font-bold px-3 py-1.5 rounded-xl text-white" style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>+ הוסף</button>
                 </div>
                 {data.reviews.map((r, i) => (
                   <div key={i} className="border border-gray-100 rounded-2xl p-4 space-y-3 bg-gray-50">
@@ -694,16 +703,10 @@ export default function StoreBuilderPage() {
                           </button>
                         ))}
                       </div>
-                      <button onClick={() => upd('reviews', data.reviews.filter((_, idx) => idx !== i))}
-                        className="text-xs text-red-400 hover:text-red-500">מחק</button>
+                      <button onClick={() => upd('reviews', data.reviews.filter((_, idx) => idx !== i))} className="text-xs text-red-400">מחק</button>
                     </div>
-                    <input value={r.name} onChange={e => { const next = [...data.reviews]; next[i] = { ...r, name: e.target.value }; upd('reviews', next); }}
-                      placeholder="שם הלקוח"
-                      className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-indigo-400 bg-white" />
-                    <textarea value={r.text} onChange={e => { const next = [...data.reviews]; next[i] = { ...r, text: e.target.value }; upd('reviews', next); }}
-                      placeholder="מה אמר הלקוח?"
-                      rows={2}
-                      className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-indigo-400 resize-none bg-white" />
+                    <input value={r.name} onChange={e => { const next = [...data.reviews]; next[i] = { ...r, name: e.target.value }; upd('reviews', next); }} placeholder="שם הלקוח" className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-indigo-400 bg-white" />
+                    <textarea value={r.text} onChange={e => { const next = [...data.reviews]; next[i] = { ...r, text: e.target.value }; upd('reviews', next); }} placeholder="מה אמר הלקוח?" rows={2} className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-indigo-400 resize-none bg-white" />
                   </div>
                 ))}
               </div>
