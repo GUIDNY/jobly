@@ -1108,7 +1108,7 @@ function Step4({ form, update, dbCardId, onPublish, publishing, published, isLiv
         {/* BgStyle — only for classic */}
         {form.card_style !== 'premium' && (
           <>
-            <div className="h-px bg-gray-100 my-5" />
+            <div className="h-px bg-gray-100 my-3 md:my-5" />
             <BgStylePicker
               value={form.background_style || 'gradient'}
               onChange={v => update('background_style', v)}
