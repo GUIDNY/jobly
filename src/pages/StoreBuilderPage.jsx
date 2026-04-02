@@ -1271,6 +1271,111 @@ export default function StoreBuilderPage() {
         )}
       </AnimatePresence>
 
+      {/* ── Multi-store sheets ── */}
+      <AnimatePresence>
+        {/* Store info sheet */}
+        {showMultiInfoSheet && (
+          <>
+            <motion.div className="fixed inset-0 bg-black/40 z-50 md:hidden" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowMultiInfoSheet(false)} />
+            <motion.div className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl z-50 md:hidden" initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }} transition={{ type: 'spring', damping: 28, stiffness: 320 }}>
+              <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mt-3 mb-4" />
+              <div className="px-5 pb-8 space-y-4">
+                <h3 className="text-sm font-bold text-gray-900">פרטי החנות</h3>
+                <div>
+                  <label className="block text-[10px] font-semibold text-gray-500 mb-1">שם החנות</label>
+                  <input value={ms.storeName} onChange={e => updMulti('storeName', e.target.value)} placeholder="הממתקים של תמי" className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400" autoFocus />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-semibold text-gray-500 mb-1">תגית</label>
+                  <input value={ms.tagline} onChange={e => updMulti('tagline', e.target.value)} placeholder="חנות הבגדים שלנו" className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400" />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-semibold text-gray-500 mb-2">צבע ראשי</label>
+                  <div className="flex items-center gap-3">
+                    <input type="color" value={ms.accentColor} onChange={e => updMulti('accentColor', e.target.value)} className="w-12 h-12 rounded-xl border border-gray-200 cursor-pointer p-1" />
+                    <div className="flex gap-2 flex-wrap">
+                      {['#F4938C','#5BC4C8','#6366f1','#10B981','#F59E0B','#EF4444','#8B5CF6','#EC4899'].map(c => (
+                        <button key={c} onClick={() => updMulti('accentColor', c)} className="w-7 h-7 rounded-full border-2 transition-all" style={{ background: c, borderColor: ms.accentColor === c ? '#111' : 'transparent' }} />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                <button onClick={() => setShowMultiInfoSheet(false)} className="w-full py-3 rounded-xl text-sm font-bold text-white" style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>שמור ✓</button>
+              </div>
+            </motion.div>
+          </>
+        )}
+
+        {/* Social sheet */}
+        {showSocialSheet && (
+          <>
+            <motion.div className="fixed inset-0 bg-black/40 z-50 md:hidden" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowSocialSheet(false)} />
+            <motion.div className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl z-50 md:hidden" initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }} transition={{ type: 'spring', damping: 28, stiffness: 320 }}>
+              <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mt-3 mb-4" />
+              <div className="px-5 pb-8 space-y-4">
+                <h3 className="text-sm font-bold text-gray-900">רשתות חברתיות</h3>
+                {[
+                  { key: 'instagram', label: 'Instagram', placeholder: '@username', icon: '📸' },
+                  { key: 'facebook', label: 'Facebook', placeholder: 'שם הדף', icon: '👥' },
+                  { key: 'tiktok', label: 'TikTok', placeholder: '@username', icon: '🎵' },
+                  { key: 'whatsapp', label: 'WhatsApp', placeholder: '050-0000000', icon: '💬' },
+                ].map(s => (
+                  <div key={s.key}>
+                    <label className="block text-[10px] font-semibold text-gray-500 mb-1">{s.icon} {s.label}</label>
+                    <input value={ms.social?.[s.key] || ''} onChange={e => updMultiSocial(s.key, e.target.value)}
+                      placeholder={s.placeholder} dir="ltr"
+                      className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400" />
+                  </div>
+                ))}
+                <button onClick={() => setShowSocialSheet(false)} className="w-full py-3 rounded-xl text-sm font-bold text-white" style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>שמור ✓</button>
+              </div>
+            </motion.div>
+          </>
+        )}
+
+        {/* Categories modal */}
+        {editingCatIdx === -1 && (
+          <>
+            <motion.div className="fixed inset-0 bg-black/40 z-50 md:hidden" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setEditingCatIdx(null)} />
+            <motion.div className="fixed inset-x-4 top-16 bottom-4 bg-white rounded-2xl z-50 md:hidden flex flex-col overflow-hidden" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} transition={{ duration: 0.18 }} style={{ boxShadow: '0 24px 60px rgba(0,0,0,0.25)' }}>
+              <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 flex-shrink-0">
+                <h3 className="text-sm font-bold text-gray-900">קטגוריות ומוצרים</h3>
+                <button onClick={() => setEditingCatIdx(null)} className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+              </div>
+              <div className="flex-1 overflow-y-auto p-4 space-y-3">
+                {(ms.categories || []).map((cat, ci) => (
+                  <div key={ci} className="border border-gray-100 rounded-2xl p-3 bg-gray-50 space-y-3">
+                    <div className="flex items-center gap-2">
+                      <input value={cat.icon} onChange={e => updCategory(ci, { icon: e.target.value })} className="w-10 border border-gray-200 rounded-xl px-2 py-1.5 text-center text-base focus:outline-none bg-white" maxLength={2} />
+                      <input value={cat.name} onChange={e => updCategory(ci, { name: e.target.value })} placeholder="שם קטגוריה" className="flex-1 border border-gray-200 rounded-xl px-3 py-1.5 text-sm focus:outline-none bg-white" />
+                      <button onClick={() => updMulti('categories', (ms.categories || []).filter((_, i) => i !== ci))} className="text-xs text-red-400 px-1">מחק</button>
+                    </div>
+                    <div className="space-y-1.5">
+                      {(cat.products || []).map((p, pi) => (
+                        <div key={pi} className="flex items-center gap-2">
+                          <input value={p.name} onChange={e => updProduct(ci, pi, { name: e.target.value })} placeholder="שם מוצר" className="flex-1 border border-gray-200 rounded-xl px-2 py-1.5 text-xs focus:outline-none bg-white" />
+                          <input value={p.price} onChange={e => updProduct(ci, pi, { price: e.target.value })} placeholder="₪" className="w-14 border border-gray-200 rounded-xl px-2 py-1.5 text-xs focus:outline-none bg-white" dir="ltr" />
+                          <button onClick={() => updCategory(ci, { products: (cat.products || []).filter((_, i) => i !== pi) })} className="text-xs text-red-400">✕</button>
+                        </div>
+                      ))}
+                      <button onClick={() => updCategory(ci, { products: [...(cat.products || []), { name: '', price: '', image: '', description: '' }] })}
+                        className="text-xs text-indigo-500 font-medium py-1">+ הוסף מוצר</button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="px-4 py-3 border-t border-gray-100 flex gap-2 flex-shrink-0">
+                <button onClick={() => updMulti('categories', [...(ms.categories || []), { id: Date.now(), name: '', icon: '🛍️', image: '', products: [{ name: '', price: '', image: '', description: '' }] }])}
+                  className="px-4 py-2.5 rounded-xl text-xs font-bold border border-gray-200 text-gray-700">+ קטגוריה</button>
+                <button onClick={() => setEditingCatIdx(null)} className="flex-1 py-2.5 rounded-xl text-sm font-bold text-white" style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>סגור ✓</button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
       {/* Checkout demo modal */}
       <AnimatePresence>
         {showCheckout && <CheckoutModal data={data} onClose={() => setShowCheckout(false)} />}
