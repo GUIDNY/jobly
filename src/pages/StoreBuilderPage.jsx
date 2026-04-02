@@ -333,8 +333,150 @@ function CheckoutModal({ data, onClose }) {
   );
 }
 
+// ─── Multi-Store Preview ───────────────────────────────────────────────────────
+function MultiStorePreview({ ms, onProductClick }) {
+  const accent = ms.accentColor || '#F4938C';
+  const [activeCat, setActiveCat] = useState(null);
+
+  return (
+    <div dir="rtl" style={{ fontFamily: "'Heebo','Segoe UI',sans-serif", background: '#f8f9fa', minHeight: '100%' }}>
+      {/* Hero */}
+      <div style={{ position: 'relative', height: 160, background: ms.coverImage ? 'transparent' : `linear-gradient(135deg,${accent}44,${accent}11)`, overflow: 'hidden' }}>
+        {ms.coverImage
+          ? <img src={ms.coverImage} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          : <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              <span style={{ fontSize: 10, color: accent, fontWeight: 600 }}>תמונת כריכה</span>
+            </div>
+        }
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(transparent 40%, rgba(0,0,0,0.5))' }} />
+        <div style={{ position: 'absolute', bottom: 12, right: 14, left: 14, display: 'flex', alignItems: 'center', gap: 10 }}>
+          {ms.logoImage
+            ? <img src={ms.logoImage} alt="" style={{ width: 44, height: 44, borderRadius: 12, border: '2px solid white', objectFit: 'cover', flexShrink: 0 }} />
+            : <div style={{ width: 44, height: 44, borderRadius: 12, background: `linear-gradient(135deg,${accent},#5BC4C8)`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <span style={{ fontSize: 20 }}>🛍️</span>
+              </div>
+          }
+          <div>
+            <p style={{ color: 'white', fontWeight: 900, fontSize: 14, margin: 0, textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}>{ms.storeName || 'שם החנות'}</p>
+            {ms.tagline && <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: 10, margin: 0 }}>{ms.tagline}</p>}
+          </div>
+        </div>
+      </div>
+
+      {/* Social bar */}
+      {(ms.social?.instagram || ms.social?.facebook || ms.social?.tiktok || ms.social?.whatsapp) && (
+        <div style={{ background: 'white', padding: '8px 14px', display: 'flex', gap: 10, justifyContent: 'center', borderBottom: '1px solid #f3f4f6' }}>
+          {ms.social?.whatsapp && <div style={{ width: 28, height: 28, borderRadius: '50%', background: '#25D366', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2c-5.514 0-9.99 4.476-9.99 9.99 0 1.76.46 3.41 1.27 4.85L2 22l5.31-1.25A9.99 9.99 0 0 0 12 22c5.514 0 9.99-4.476 9.99-9.99C21.99 6.486 17.514 2 11.99 2z"/></svg>
+          </div>}
+          {ms.social?.instagram && <div style={{ width: 28, height: 28, borderRadius: '50%', background: 'linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke="white" strokeWidth="2"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" fill="none" stroke="white" strokeWidth="2"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="white" strokeWidth="2"/></svg>
+          </div>}
+          {ms.social?.facebook && <div style={{ width: 28, height: 28, borderRadius: '50%', background: '#1877F2', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </div>}
+          {ms.social?.tiktok && <div style={{ width: 28, height: 28, borderRadius: '50%', background: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.2 8.2 0 0 0 4.82 1.55V6.79a4.85 4.85 0 0 1-1.05-.1z"/></svg>
+          </div>}
+        </div>
+      )}
+
+      {/* Categories */}
+      <div style={{ padding: '12px 12px 80px' }}>
+        <p style={{ fontSize: 11, fontWeight: 800, color: '#374151', marginBottom: 8 }}>קטגוריות</p>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+          {(ms.categories || []).map((cat, i) => (
+            <div key={i} onClick={() => setActiveCat(activeCat === i ? null : i)}
+              style={{ borderRadius: 14, overflow: 'hidden', background: 'white', boxShadow: '0 2px 8px rgba(0,0,0,0.08)', cursor: 'pointer', border: activeCat === i ? `2px solid ${accent}` : '2px solid transparent' }}>
+              <div style={{ height: 64, background: cat.image ? 'transparent' : `linear-gradient(135deg,${accent}33,${accent}11)`, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
+                {cat.image
+                  ? <img src={cat.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  : <span style={{ fontSize: 24 }}>{cat.icon || '🛍️'}</span>
+                }
+              </div>
+              <div style={{ padding: '6px 8px' }}>
+                <p style={{ fontSize: 11, fontWeight: 700, color: '#111', margin: 0 }}>{cat.name || 'קטגוריה'}</p>
+                <p style={{ fontSize: 9, color: '#9ca3af', margin: 0 }}>{(cat.products || []).length} מוצרים</p>
+              </div>
+            </div>
+          ))}
+          {(ms.categories || []).length === 0 && (
+            <div style={{ gridColumn: 'span 2', height: 80, borderRadius: 14, border: '2px dashed #e5e7eb', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <span style={{ fontSize: 11, color: '#9ca3af' }}>הוסף קטגוריות</span>
+            </div>
+          )}
+        </div>
+
+        {/* Open category products inline */}
+        {activeCat !== null && ms.categories?.[activeCat] && (
+          <div style={{ marginTop: 10, background: 'white', borderRadius: 14, padding: '10px 10px', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
+            <p style={{ fontSize: 11, fontWeight: 800, color: '#374151', marginBottom: 8 }}>{ms.categories[activeCat].name}</p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              {(ms.categories[activeCat].products || []).filter(p => p.name).map((p, pi) => (
+                <div key={pi} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px', borderRadius: 10, border: '1px solid #f3f4f6' }}>
+                  <div style={{ width: 36, height: 36, borderRadius: 8, background: p.image ? 'transparent' : `${accent}22`, flexShrink: 0, overflow: 'hidden' }}>
+                    {p.image ? <img src={p.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><span style={{ fontSize: 16 }}>📦</span></div>}
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <p style={{ fontSize: 11, fontWeight: 700, color: '#111', margin: 0 }}>{p.name}</p>
+                    {p.price && <p style={{ fontSize: 10, color: accent, fontWeight: 800, margin: 0 }}>₪{p.price}</p>}
+                  </div>
+                  <button style={{ padding: '4px 8px', borderRadius: 8, background: accent, color: 'white', fontSize: 9, fontWeight: 700, border: 'none', cursor: 'pointer' }}>הוסף</button>
+                </div>
+              ))}
+              {(ms.categories[activeCat].products || []).filter(p => p.name).length === 0 && (
+                <p style={{ fontSize: 10, color: '#9ca3af', textAlign: 'center', padding: '8px 0' }}>אין מוצרים עדיין</p>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ─── Store Type Picker ─────────────────────────────────────────────────────────
+function StoreTypePicker({ value, onChange, accent }) {
+  const types = [
+    { id: 'single', label: 'מוצר אחד', icon: '📦' },
+    { id: 'multi', label: 'כמה מוצרים', icon: '🛍️' },
+  ];
+  return (
+    <div className="self-stretch bg-white rounded-2xl px-3 py-2.5 shadow-sm border border-gray-100">
+      <p className="text-[10px] text-gray-400 text-center font-medium mb-2 tracking-wide uppercase">סוג חנות</p>
+      <div className="flex gap-2 justify-center">
+        {types.map(t => {
+          const sel = value === t.id;
+          return (
+            <button key={t.id} onClick={() => onChange(t.id)}
+              className="flex flex-col items-center gap-1 px-4 py-2 rounded-xl border-2 transition-all text-center"
+              style={sel ? { borderColor: accent || '#F4938C', background: `${accent || '#F4938C'}11`, color: accent || '#F4938C' } : { borderColor: '#e5e7eb', color: '#9ca3af' }}>
+              <span style={{ fontSize: 18 }}>{t.icon}</span>
+              <span className="text-[10px] font-bold">{t.label}</span>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 // ─── Main Builder ──────────────────────────────────────────────────────────────
+const DEFAULT_MULTI = {
+  coverImage: '',
+  logoImage: '',
+  storeName: '',
+  tagline: '',
+  accentColor: '#F4938C',
+  social: { instagram: '', facebook: '', tiktok: '', whatsapp: '' },
+  categories: [
+    { id: 1, name: 'קטגוריה 1', icon: '🛍️', image: '', products: [{ name: '', price: '', image: '', description: '' }] },
+  ],
+};
+
 const DEFAULT_DATA = {
+  storeType: 'single',
   storeName: '',
   image: '',
   name: '',
@@ -350,6 +492,7 @@ const DEFAULT_DATA = {
     { name: 'שירה לוי', rating: 5, text: 'שירות מהיר ואיכות גבוהה' },
   ],
   accentColor: '#F4938C',
+  multi: DEFAULT_MULTI,
 };
 
 export default function StoreBuilderPage() {
