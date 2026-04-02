@@ -1072,8 +1072,8 @@ const COLORS = ['#4F46E5', '#5BC4C8', '#DB2777', '#DC2626', '#EA580C', '#16A34A'
 function Step4({ form, update, dbCardId, onPublish, publishing, published, isLive, slug, publishError, imagesUploading }) {
   return (
     <div className="space-y-4">
-      {/* Style picker */}
-      <div className="bg-white rounded-2xl md:rounded-3xl p-3 md:p-6 card-shadow">
+      {/* Style picker — hidden on mobile (already shown under phone preview) */}
+      <div className="hidden md:block bg-white rounded-2xl md:rounded-3xl p-3 md:p-6 card-shadow">
         <h2 className="text-sm md:text-lg font-bold text-gray-900 mb-1">סגנון הדף</h2>
         <p className="text-xs md:text-sm text-gray-400 mb-4">בחר את המראה שמתאים לעסק שלך</p>
         <StylePicker
