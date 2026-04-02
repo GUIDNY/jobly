@@ -1811,15 +1811,12 @@ function Step5({ form, update, dbCardId, userId }) {
         </div>
 
         {/* Payment system — coming soon (non-clickable) */}
-        <div className="flex items-center justify-between p-4 rounded-2xl border border-dashed border-gray-200 bg-gray-50 opacity-50 cursor-default select-none">
-          <div className="flex items-center gap-2">
-            <span className="text-lg">💳</span>
-            <div>
-              <p className="text-sm font-bold text-gray-500">מערכת סליקה</p>
-              <p className="text-xs text-gray-400 mt-0.5">קבלת תשלומים ישירות מהכרטיס</p>
-            </div>
+        <div className="flex items-center justify-between p-4 rounded-2xl border-2 border-dashed border-gray-200 opacity-50 cursor-default select-none">
+          <div>
+            <p className="text-sm font-bold text-gray-500">מערכת סליקה</p>
+            <p className="text-xs text-gray-400 mt-0.5">קבלת תשלומים ישירות מהכרטיס</p>
           </div>
-          <span className="text-xs px-2.5 py-1 rounded-full bg-gray-200 text-gray-400 font-medium">בקרוב</span>
+          <span className="text-xs px-2.5 py-1 rounded-full bg-gray-100 text-gray-400 font-medium">בקרוב</span>
         </div>
       </div>
 
