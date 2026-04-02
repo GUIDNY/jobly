@@ -1446,7 +1446,6 @@ function Step5({ form, update, dbCardId, userId }) {
   // Mobile sheet/modal states
   const [editingFaqIdx, setEditingFaqIdx] = useState(null); // null=closed, -1=list, 0..n=edit specific
   const [showVideoSheet, setShowVideoSheet] = useState(false);
-  const [showServiceUrlsSheet, setShowServiceUrlsSheet] = useState(false);
   const [editingReviewIdx, setEditingReviewIdx] = useState(null); // null=closed, -1=list, 0..n=edit specific
 
   const saveFaq = async (newFaq) => {
