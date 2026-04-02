@@ -89,12 +89,12 @@ export default function DashboardPage() {
           </div>
           <motion.button
             whileTap={{ scale: 0.97 }}
-            onClick={() => navigate('/builder')}
+            onClick={() => user?.is_admin ? setShowCreateModal(true) : navigate('/builder')}
             className="flex items-center gap-1.5 px-4 py-2.5 rounded-2xl text-white font-semibold text-sm"
             style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)', boxShadow: '0 4px 14px -2px rgba(91,196,200,0.35)' }}
           >
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            דף חדש
+            צור חדש
           </motion.button>
         </div>
 
