@@ -362,6 +362,15 @@ export default function StoreBuilderPage() {
   const [showPhonePreview, setShowPhonePreview] = useState(true);
   const fileRef = useRef(null);
 
+  // Mobile bottom-sheet states
+  const [showProductSheet, setShowProductSheet] = useState(false);
+  const [showPriceSheet, setShowPriceSheet] = useState(false);
+  const [showColorSheet, setShowColorSheet] = useState(false);
+  const [showDescSheet, setShowDescSheet] = useState(false);
+  const [showBulletsSheet, setShowBulletsSheet] = useState(false);
+  const [showPaymentSheet, setShowPaymentSheet] = useState(false);
+  const [showReviewsSheet, setShowReviewsSheet] = useState(false);
+
   const upd = (key, val) => setData(prev => ({ ...prev, [key]: val }));
 
   const handleImageUpload = async (file) => {
