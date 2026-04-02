@@ -969,21 +969,38 @@ function Step2({ form, update, userId, dbCardId, onUploadingChange }) {
                   </div>
                 </div>
 
-                {/* Premium popup image */}
+                {/* Premium: popup image + service URL */}
                 {isPremium && (
-                  <div className="rounded-xl p-3 border border-dashed" style={{ borderColor: '#a78bfa55', background: '#7c3aed08' }}>
-                    <p className="text-xs font-bold mb-1" style={{ color: '#7c3aed' }}>✦ תמונה בפופאפ (פרמיום)</p>
-                    <div className="flex items-center gap-3">
-                      <button onClick={() => popupFileRefs.current[editingIdx]?.click()} disabled={uploadingSet.has(`p${editingIdx}`)}
-                        className="flex items-center gap-2 px-3 py-2 text-xs border border-dashed rounded-xl transition-colors disabled:opacity-60"
-                        style={{ borderColor: '#a78bfa88', color: '#7c3aed' }}>
-                        {uploadingSet.has(`p${editingIdx}`) ? <svg className="animate-spin" width="14" height="14" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
-                          : svcBeingEdited.popup_image_url ? <img src={svcBeingEdited.popup_image_url} alt="" className="w-7 h-7 rounded-lg object-cover" />
-                          : <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>}
-                        {uploadingSet.has(`p${editingIdx}`) ? 'מעלה...' : svcBeingEdited.popup_image_url ? 'שנה' : 'הוסף תמונת פופאפ'}
-                      </button>
-                      <input ref={el => popupFileRefs.current[editingIdx] = el} type="file" accept="image/*" className="hidden" onChange={e => handlePopupImage(editingIdx, e.target.files?.[0])} />
-                      {svcBeingEdited.popup_image_url && <button onClick={() => updateService(editingIdx, 'popup_image_url', '')} className="text-xs text-red-400">הסר</button>}
+                  <div className="rounded-xl p-3 border border-dashed space-y-3" style={{ borderColor: '#a78bfa55', background: '#7c3aed08' }}>
+                    <p className="text-xs font-bold" style={{ color: '#7c3aed' }}>✦ פרמיום</p>
+                    {/* Popup image */}
+                    <div>
+                      <p className="text-[10px] text-gray-500 mb-1.5">תמונה בפופאפ</p>
+                      <div className="flex items-center gap-3">
+                        <button onClick={() => popupFileRefs.current[editingIdx]?.click()} disabled={uploadingSet.has(`p${editingIdx}`)}
+                          className="flex items-center gap-2 px-3 py-2 text-xs border border-dashed rounded-xl transition-colors disabled:opacity-60"
+                          style={{ borderColor: '#a78bfa88', color: '#7c3aed' }}>
+                          {uploadingSet.has(`p${editingIdx}`) ? <svg className="animate-spin" width="14" height="14" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+                            : svcBeingEdited.popup_image_url ? <img src={svcBeingEdited.popup_image_url} alt="" className="w-7 h-7 rounded-lg object-cover" />
+                            : <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>}
+                          {uploadingSet.has(`p${editingIdx}`) ? 'מעלה...' : svcBeingEdited.popup_image_url ? 'שנה' : 'הוסף תמונה'}
+                        </button>
+                        <input ref={el => popupFileRefs.current[editingIdx] = el} type="file" accept="image/*" className="hidden" onChange={e => handlePopupImage(editingIdx, e.target.files?.[0])} />
+                        {svcBeingEdited.popup_image_url && <button onClick={() => updateService(editingIdx, 'popup_image_url', '')} className="text-xs text-red-400">הסר</button>}
+                      </div>
+                    </div>
+                    {/* Service URL */}
+                    <div>
+                      <p className="text-[10px] text-gray-500 mb-1.5">קישור לקביעת תור</p>
+                      <input
+                        type="url"
+                        value={svcBeingEdited.service_url || ''}
+                        onChange={e => updateService(editingIdx, 'service_url', e.target.value)}
+                        placeholder="https://calendly.com/..."
+                        className="w-full border rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-indigo-400"
+                        style={{ borderColor: '#a78bfa55' }}
+                        dir="ltr"
+                      />
                     </div>
                   </div>
                 )}
