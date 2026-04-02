@@ -380,31 +380,65 @@ export default function BuilderPage() {
           </div>
         </div>
 
-        {/* Phone preview — left half on mobile, left side on desktop */}
-        <div className="w-1/2 md:w-auto md:flex-shrink-0 md:sticky md:top-16 md:self-start flex justify-center md:block">
+        {/* Phone preview — left half on mobile (collapses when hidden), left side on desktop */}
+        <div className="md:w-auto md:flex-shrink-0 md:sticky md:top-16 md:self-start flex justify-center md:block"
+          style={{ width: showPhonePreview ? '50%' : 'auto', transition: 'width 0.3s ease', flexShrink: 0 }}>
 
-          {/* Mobile: phone fills its half + style picker below */}
+          {/* Mobile: phone fills its half + style picker + eye toggle */}
           <div className="md:hidden flex flex-col items-center gap-3">
-            <div style={{ width: 182, height: 390, overflow: 'hidden', position: 'relative' }}>
-              <div style={{
-                transform: 'scale(0.70)',
-                transformOrigin: 'top left',
-                width: 260,
-                position: 'absolute',
-                top: 0,
-                left: 0,
-              }}>
-                <PhoneMockup>
-                  {form.card_style === 'premium'
-                    ? <PremiumPreview data={previewData} />
-                    : <CardPreview data={previewData} compact />}
-                </PhoneMockup>
-              </div>
-            </div>
-            <StylePicker value={form.card_style} color={form.primary_color} compact onChange={async (val) => {
-              update('card_style', val);
-              if (dbCardId) await updateCard(dbCardId, { card_style: val });
-            }} />
+            <AnimatePresence>
+              {showPhonePreview && (
+                <motion.div
+                  key="phone-preview"
+                  initial={{ opacity: 0, scaleY: 0.8 }}
+                  animate={{ opacity: 1, scaleY: 1 }}
+                  exit={{ opacity: 0, scaleY: 0.8 }}
+                  transition={{ duration: 0.2 }}
+                  style={{ transformOrigin: 'top center' }}
+                  className="flex flex-col items-center gap-3"
+                >
+                  <div style={{ width: 182, height: 390, overflow: 'hidden', position: 'relative' }}>
+                    <div style={{
+                      transform: 'scale(0.70)',
+                      transformOrigin: 'top left',
+                      width: 260,
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                    }}>
+                      <PhoneMockup>
+                        {form.card_style === 'premium'
+                          ? <PremiumPreview data={previewData} />
+                          : <CardPreview data={previewData} compact />}
+                      </PhoneMockup>
+                    </div>
+                  </div>
+                  <StylePicker value={form.card_style} color={form.primary_color} compact onChange={async (val) => {
+                    update('card_style', val);
+                    if (dbCardId) await updateCard(dbCardId, { card_style: val });
+                  }} />
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Eye toggle button */}
+            <button
+              onClick={() => setShowPhonePreview(v => !v)}
+              className="flex flex-col items-center gap-0.5 py-1 px-3 rounded-xl transition-colors hover:bg-gray-100"
+            >
+              {showPhonePreview ? (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              ) : (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6b7280" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/>
+                  <line x1="1" y1="1" x2="23" y2="23"/>
+                </svg>
+              )}
+              <span className="text-[9px] text-gray-400">{showPhonePreview ? 'הסתר' : 'הצג'}</span>
+            </button>
           </div>
 
           {/* Desktop: full size */}
