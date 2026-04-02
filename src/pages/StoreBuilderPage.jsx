@@ -469,9 +469,10 @@ const DEFAULT_MULTI = {
   storeName: '',
   tagline: '',
   accentColor: '#F4938C',
-  social: { instagram: '', facebook: '', tiktok: '', whatsapp: '' },
+  social: { instagram: '', facebook: '', tiktok: '', whatsapp: '', website: '' },
+  terms: '',
   categories: [
-    { id: 1, name: 'קטגוריה 1', icon: '🛍️', image: '', products: [{ name: '', price: '', image: '', description: '' }] },
+    { id: 1, name: 'קטגוריה 1', icon: '🛍️', image: '', displayMode: 'popup', products: [{ name: '', price: '', image: '', description: '' }] },
   ],
 };
 
