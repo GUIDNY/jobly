@@ -786,6 +786,210 @@ export default function StoreBuilderPage() {
         </div>
       </div>
 
+      {/* ════ Mobile Bottom Sheets ════ */}
+
+      {/* Sheet helper */}
+      {[
+        // [show, setShow, title, content]
+      ].map(() => null)}
+
+      <AnimatePresence>
+        {/* ── Product name + tagline sheet ── */}
+        {showProductSheet && (
+          <>
+            <motion.div className="fixed inset-0 bg-black/40 z-50 md:hidden" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowProductSheet(false)} />
+            <motion.div className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl z-50 md:hidden" initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }} transition={{ type: 'spring', damping: 28, stiffness: 320 }}>
+              <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mt-3 mb-4" />
+              <div className="px-5 pb-8 space-y-4">
+                <h3 className="text-sm font-bold text-gray-900">פרטי המוצר</h3>
+                <div>
+                  <label className="block text-[10px] font-semibold text-gray-500 mb-1">שם המוצר *</label>
+                  <input value={data.name} onChange={e => upd('name', e.target.value)} placeholder="למשל: קורס צילום מקצועי" className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400" autoFocus />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-semibold text-gray-500 mb-1">תגית / טקסט משנה</label>
+                  <input value={data.tagline} onChange={e => upd('tagline', e.target.value)} placeholder="תיאור קצר שמופיע מתחת לשם" className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400" />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-semibold text-gray-500 mb-1">טקסט כפתור</label>
+                  <div className="flex gap-2 flex-wrap">
+                    {['קנה עכשיו','הזמן עכשיו','לרכישה','שלם ורכוש'].map(opt => (
+                      <button key={opt} onClick={() => upd('ctaText', opt)} className="px-3 py-1.5 rounded-xl text-xs font-semibold border-2 transition-all"
+                        style={data.ctaText === opt ? { borderColor: '#F4938C', background: '#fff5f4', color: '#F4938C' } : { borderColor: '#e5e7eb', color: '#6b7280' }}>{opt}</button>
+                    ))}
+                  </div>
+                </div>
+                <button onClick={() => setShowProductSheet(false)} className="w-full py-3 rounded-xl text-sm font-bold text-white" style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>שמור ✓</button>
+              </div>
+            </motion.div>
+          </>
+        )}
+
+        {/* ── Price sheet ── */}
+        {showPriceSheet && (
+          <>
+            <motion.div className="fixed inset-0 bg-black/40 z-50 md:hidden" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowPriceSheet(false)} />
+            <motion.div className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl z-50 md:hidden" initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }} transition={{ type: 'spring', damping: 28, stiffness: 320 }}>
+              <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mt-3 mb-4" />
+              <div className="px-5 pb-8 space-y-4">
+                <h3 className="text-sm font-bold text-gray-900">מחיר המוצר</h3>
+                <div>
+                  <label className="block text-[10px] font-semibold text-gray-500 mb-1">מחיר (₪) *</label>
+                  <input type="number" value={data.price} onChange={e => upd('price', e.target.value)} placeholder="199" className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400" dir="ltr" autoFocus />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-semibold text-gray-500 mb-1">מחיר מקורי (לפני הנחה)</label>
+                  <input type="number" value={data.originalPrice} onChange={e => upd('originalPrice', e.target.value)} placeholder="299" className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400" dir="ltr" />
+                </div>
+                {data.price && data.originalPrice && Number(data.price) < Number(data.originalPrice) && (
+                  <div className="flex items-center gap-2 p-3 rounded-xl" style={{ background: '#f0fdf4' }}>
+                    <span className="text-base">🏷️</span>
+                    <span className="text-xs font-bold text-green-600">{Math.round((1 - Number(data.price)/Number(data.originalPrice))*100)}% הנחה יוצג בדף</span>
+                  </div>
+                )}
+                <button onClick={() => setShowPriceSheet(false)} className="w-full py-3 rounded-xl text-sm font-bold text-white" style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>שמור ✓</button>
+              </div>
+            </motion.div>
+          </>
+        )}
+
+        {/* ── Color + store name sheet ── */}
+        {showColorSheet && (
+          <>
+            <motion.div className="fixed inset-0 bg-black/40 z-50 md:hidden" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowColorSheet(false)} />
+            <motion.div className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl z-50 md:hidden" initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }} transition={{ type: 'spring', damping: 28, stiffness: 320 }}>
+              <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mt-3 mb-4" />
+              <div className="px-5 pb-8 space-y-4">
+                <h3 className="text-sm font-bold text-gray-900">מיתוג</h3>
+                <div>
+                  <label className="block text-[10px] font-semibold text-gray-500 mb-2">צבע ראשי</label>
+                  <div className="flex items-center gap-3">
+                    <input type="color" value={data.accentColor} onChange={e => upd('accentColor', e.target.value)} className="w-14 h-14 rounded-2xl border border-gray-200 cursor-pointer p-1" />
+                    <div>
+                      <p className="text-sm font-bold text-gray-800">{data.accentColor}</p>
+                      <div className="flex gap-2 mt-1.5 flex-wrap">
+                        {['#F4938C','#5BC4C8','#6366f1','#10B981','#F59E0B','#EF4444','#8B5CF6','#EC4899'].map(c => (
+                          <button key={c} onClick={() => upd('accentColor', c)} className="w-7 h-7 rounded-full border-2 transition-all" style={{ background: c, borderColor: data.accentColor === c ? '#111' : 'transparent' }} />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-[10px] font-semibold text-gray-500 mb-1">שם העסק / חנות</label>
+                  <input value={data.storeName} onChange={e => upd('storeName', e.target.value)} placeholder="הממתקים של תמי" className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400" />
+                </div>
+                <button onClick={() => setShowColorSheet(false)} className="w-full py-3 rounded-xl text-sm font-bold text-white" style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>שמור ✓</button>
+              </div>
+            </motion.div>
+          </>
+        )}
+
+        {/* ── Description sheet ── */}
+        {showDescSheet && (
+          <>
+            <motion.div className="fixed inset-0 bg-black/40 z-50 md:hidden" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowDescSheet(false)} />
+            <motion.div className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl z-50 md:hidden" style={{ maxHeight: '80vh' }} initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }} transition={{ type: 'spring', damping: 28, stiffness: 320 }}>
+              <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mt-3 mb-4" />
+              <div className="px-5 pb-8 space-y-4 overflow-y-auto">
+                <h3 className="text-sm font-bold text-gray-900">תיאור המוצר</h3>
+                <textarea value={data.description} onChange={e => upd('description', e.target.value)} placeholder="ספר על המוצר — מה הוא עושה, למה כדאי לקנות אותו, מה מיוחד בו..." rows={6} className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 resize-none" autoFocus />
+                <button onClick={() => setShowDescSheet(false)} className="w-full py-3 rounded-xl text-sm font-bold text-white" style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>שמור ✓</button>
+              </div>
+            </motion.div>
+          </>
+        )}
+
+        {/* ── Bullets sheet ── */}
+        {showBulletsSheet && (
+          <>
+            <motion.div className="fixed inset-0 bg-black/40 z-50 md:hidden" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowBulletsSheet(false)} />
+            <motion.div className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl z-50 md:hidden" style={{ maxHeight: '80vh' }} initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }} transition={{ type: 'spring', damping: 28, stiffness: 320 }}>
+              <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mt-3 mb-4" />
+              <div className="px-5 pb-8 space-y-3 overflow-y-auto">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-sm font-bold text-gray-900">יתרונות המוצר</h3>
+                  <button onClick={() => upd('bullets', [...data.bullets, ''])} className="text-xs font-bold px-3 py-1.5 rounded-xl text-white" style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>+ הוסף</button>
+                </div>
+                {data.bullets.map((b, i) => (
+                  <div key={i} className="flex items-center gap-2">
+                    <div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: '#F4938C22' }}>
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#F4938C" strokeWidth="3"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    <input value={b} onChange={e => { const next = [...data.bullets]; next[i] = e.target.value; upd('bullets', next); }} placeholder={`יתרון ${i + 1}`} className="flex-1 border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-indigo-400" />
+                    {data.bullets.length > 1 && <button onClick={() => upd('bullets', data.bullets.filter((_, idx) => idx !== i))} className="text-xs text-red-400 px-2">✕</button>}
+                  </div>
+                ))}
+                <button onClick={() => setShowBulletsSheet(false)} className="w-full py-3 rounded-xl text-sm font-bold text-white mt-2" style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>שמור ✓</button>
+              </div>
+            </motion.div>
+          </>
+        )}
+
+        {/* ── Payment sheet ── */}
+        {showPaymentSheet && (
+          <>
+            <motion.div className="fixed inset-0 bg-black/40 z-50 md:hidden" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowPaymentSheet(false)} />
+            <motion.div className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl z-50 md:hidden" initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }} transition={{ type: 'spring', damping: 28, stiffness: 320 }}>
+              <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mt-3 mb-4" />
+              <div className="px-5 pb-8 space-y-3">
+                <h3 className="text-sm font-bold text-gray-900">אמצעי תשלום</h3>
+                <p className="text-xs text-gray-400">בחר אילו לוגואים יוצגו מתחת לכפתור הקנייה</p>
+                <div className="grid grid-cols-2 gap-3">
+                  {PAYMENT_METHODS.map(pm => (
+                    <button key={pm.id} onClick={() => { const has = data.paymentMethods.includes(pm.id); upd('paymentMethods', has ? data.paymentMethods.filter(x => x !== pm.id) : [...data.paymentMethods, pm.id]); }}
+                      className="flex items-center gap-3 p-3 rounded-xl border-2 transition-all"
+                      style={data.paymentMethods.includes(pm.id) ? { borderColor: '#F4938C', background: '#fff5f4' } : { borderColor: '#e5e7eb', background: 'white' }}>
+                      <PaymentBadge id={pm.id} />
+                      <span className="text-sm font-medium text-gray-700">{pm.label}</span>
+                      {data.paymentMethods.includes(pm.id) && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F4938C" strokeWidth="2.5" className="mr-auto"><polyline points="20 6 9 17 4 12"/></svg>}
+                    </button>
+                  ))}
+                </div>
+                <button onClick={() => setShowPaymentSheet(false)} className="w-full py-3 rounded-xl text-sm font-bold text-white mt-1" style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>שמור ✓</button>
+              </div>
+            </motion.div>
+          </>
+        )}
+
+        {/* ── Reviews modal ── */}
+        {showReviewsSheet && (
+          <>
+            <motion.div className="fixed inset-0 bg-black/40 z-50 md:hidden" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowReviewsSheet(false)} />
+            <motion.div className="fixed inset-x-4 top-16 bottom-4 bg-white rounded-2xl z-50 md:hidden flex flex-col overflow-hidden" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} transition={{ duration: 0.18 }} style={{ boxShadow: '0 24px 60px rgba(0,0,0,0.25)' }}>
+              <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 flex-shrink-0">
+                <h3 className="text-sm font-bold text-gray-900">ביקורות לקוחות</h3>
+                <button onClick={() => setShowReviewsSheet(false)} className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+              </div>
+              <div className="flex-1 overflow-y-auto p-4 space-y-3">
+                {data.reviews.map((r, i) => (
+                  <div key={i} className="border border-gray-100 rounded-2xl p-4 space-y-3 bg-gray-50">
+                    <div className="flex items-center justify-between">
+                      <div className="flex gap-1">
+                        {[1,2,3,4,5].map(s => (
+                          <button key={s} onClick={() => { const next = [...data.reviews]; next[i] = { ...r, rating: s }; upd('reviews', next); }}>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill={s <= r.rating ? '#F59E0B' : '#e5e7eb'}><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                          </button>
+                        ))}
+                      </div>
+                      <button onClick={() => upd('reviews', data.reviews.filter((_, idx) => idx !== i))} className="text-xs text-red-400">מחק</button>
+                    </div>
+                    <input value={r.name} onChange={e => { const next = [...data.reviews]; next[i] = { ...r, name: e.target.value }; upd('reviews', next); }} placeholder="שם הלקוח" className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-indigo-400 bg-white" />
+                    <textarea value={r.text} onChange={e => { const next = [...data.reviews]; next[i] = { ...r, text: e.target.value }; upd('reviews', next); }} placeholder="מה אמר הלקוח?" rows={2} className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-indigo-400 resize-none bg-white" />
+                  </div>
+                ))}
+              </div>
+              <div className="px-4 py-3 border-t border-gray-100 flex gap-2 flex-shrink-0">
+                <button onClick={() => upd('reviews', [...data.reviews, { name: '', rating: 5, text: '' }])} className="px-4 py-2.5 rounded-xl text-xs font-bold border border-gray-200 text-gray-700">+ הוסף</button>
+                <button onClick={() => setShowReviewsSheet(false)} className="flex-1 py-2.5 rounded-xl text-sm font-bold text-white" style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>סגור ✓</button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
       {/* Checkout demo modal */}
       <AnimatePresence>
         {showCheckout && <CheckoutModal data={data} onClose={() => setShowCheckout(false)} />}
