@@ -505,6 +505,29 @@ export default function StoreBuilderPage() {
   const [showPhonePreview, setShowPhonePreview] = useState(true);
   const fileRef = useRef(null);
 
+  const storeType = data.storeType || 'single';
+  const setStoreType = (t) => upd('storeType', t);
+  const ms = data.multi || DEFAULT_MULTI;
+  const updMulti = (key, val) => setData(prev => ({ ...prev, multi: { ...(prev.multi || DEFAULT_MULTI), [key]: val } }));
+  const updMultiSocial = (key, val) => updMulti('social', { ...ms.social, [key]: val });
+  const updCategory = (idx, patch) => {
+    const cats = [...(ms.categories || [])];
+    cats[idx] = { ...cats[idx], ...patch };
+    updMulti('categories', cats);
+  };
+  const updProduct = (catIdx, prodIdx, patch) => {
+    const cats = [...(ms.categories || [])];
+    const prods = [...(cats[catIdx].products || [])];
+    prods[prodIdx] = { ...prods[prodIdx], ...patch };
+    cats[catIdx] = { ...cats[catIdx], products: prods };
+    updMulti('categories', cats);
+  };
+
+  // Multi-store editing state
+  const [editingCatIdx, setEditingCatIdx] = useState(null);
+  const [showMultiInfoSheet, setShowMultiInfoSheet] = useState(false);
+  const [showSocialSheet, setShowSocialSheet] = useState(false);
+
   // Mobile bottom-sheet states
   const [showProductSheet, setShowProductSheet] = useState(false);
   const [showPriceSheet, setShowPriceSheet] = useState(false);
