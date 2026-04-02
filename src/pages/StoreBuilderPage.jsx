@@ -414,13 +414,47 @@ export default function StoreBuilderPage() {
         </div>
       </nav>
 
-      <div className="max-w-7xl mx-auto px-4 py-6 flex gap-6 items-start">
+      {/* Mobile steps bar */}
+      <div className="md:hidden bg-white border-b border-gray-100">
+        <div className="px-3 pt-2.5 pb-2">
+          <div className="flex items-start">
+            {SECTIONS.map((s, i) => {
+              const currentIdx = SECTIONS.findIndex(x => x.id === activeSection);
+              return (
+                <div key={s.id} className="flex items-center flex-1 last:flex-none">
+                  <div className="flex flex-col items-center gap-1 flex-shrink-0 mx-auto">
+                    <button onClick={() => setActiveSection(s.id)}
+                      className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all"
+                      style={activeSection === s.id
+                        ? { background: 'linear-gradient(135deg, #F4938C, #5BC4C8)', color: 'white', boxShadow: '0 2px 8px rgba(244,147,140,0.4)' }
+                        : i < currentIdx
+                        ? { background: '#10B981', color: 'white' }
+                        : { background: '#f3f4f6', color: '#9ca3af' }}>
+                      {i < currentIdx ? '✓' : s.icon}
+                    </button>
+                    <span className="text-[9px] font-medium text-center leading-tight w-12 break-words"
+                      style={{ color: activeSection === s.id ? '#F4938C' : i < currentIdx ? '#10B981' : '#9ca3af' }}>
+                      {s.label}
+                    </span>
+                  </div>
+                  {i < SECTIONS.length - 1 && (
+                    <div className="flex-1 h-px mt-4 mx-0.5"
+                      style={{ background: i < SECTIONS.findIndex(x => x.id === activeSection) ? '#10B981' : '#e5e7eb' }} />
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-2 md:px-4 py-3 md:py-6 flex gap-2 md:gap-6 items-start">
 
         {/* ── Form Panel ── */}
-        <div className="flex-1 min-w-0 space-y-4">
+        <div className="flex-1 min-w-0 space-y-3 md:space-y-4">
 
-          {/* Section tabs */}
-          <div className="flex gap-2 bg-white rounded-2xl p-1.5 border border-gray-100" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+          {/* Section tabs — desktop only */}
+          <div className="hidden md:flex gap-2 bg-white rounded-2xl p-1.5 border border-gray-100" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
             {SECTIONS.map(s => (
               <button key={s.id} onClick={() => setActiveSection(s.id)}
                 className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-sm font-semibold transition-all"
@@ -428,7 +462,7 @@ export default function StoreBuilderPage() {
                   ? { background: 'linear-gradient(135deg, #F4938C22, #5BC4C822)', color: '#F4938C', boxShadow: '0 1px 4px rgba(244,147,140,0.2)' }
                   : { color: '#9ca3af' }}>
                 <span style={{ fontSize: 14 }}>{s.icon}</span>
-                <span className="hidden sm:inline">{s.label}</span>
+                <span>{s.label}</span>
               </button>
             ))}
           </div>
