@@ -947,12 +947,15 @@ export default function StoreBuilderPage() {
                   </div>
                 </div>
                 <div style={{ height: '100%', overflowY: 'auto' }}>
-                  <StorePreview data={data} onBuy={() => setShowCheckout(true)} />
+                  {storeType === 'multi'
+                    ? <MultiStorePreview ms={ms} />
+                    : <StorePreview data={data} onBuy={() => setShowCheckout(true)} />}
                 </div>
               </div>
             </div>
 
-            <p className="text-xs text-gray-400 text-center">לחץ "קנה עכשיו" לסליקה דמו</p>
+            <StoreTypePicker value={storeType} onChange={setStoreType} accent={storeType === 'multi' ? ms.accentColor : data.accentColor} />
+            <p className="text-xs text-gray-400 text-center">{storeType === 'single' ? 'לחץ "קנה עכשיו" לסליקה דמו' : 'לחץ על קטגוריה להצגת מוצרים'}</p>
           </div>
         </div>
       </div>
