@@ -914,7 +914,7 @@ function Step2({ form, update, userId, dbCardId, onUploadingChange }) {
               className="fixed inset-0 bg-black/50 z-50" onClick={closeModal} />
             <motion.div key="modal" initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ duration: 0.2 }}
-              className="fixed inset-x-4 top-16 bottom-4 md:inset-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-[660px] md:max-h-[85vh] bg-white rounded-2xl z-50 flex flex-col overflow-hidden"
+              className="fixed inset-x-4 top-16 bottom-4 md:inset-0 md:m-auto md:w-[660px] md:max-h-[85vh] md:h-fit bg-white rounded-2xl z-50 flex flex-col overflow-hidden"
               style={{ boxShadow: '0 32px 80px rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.05)' }}>
 
               {/* Header */}
