@@ -1123,9 +1123,9 @@ function Step4({ form, update, dbCardId, onPublish, publishing, published, isLiv
       <div className="bg-white rounded-2xl md:rounded-3xl p-3 md:p-6 card-shadow">
         <h2 className="text-sm md:text-base font-bold text-gray-900 mb-2">פרסם את הדף</h2>
         {slug ? (
-          <div className="flex items-center gap-2 rounded-lg md:rounded-xl px-3 py-2 md:px-4 md:py-3 mb-3 md:mb-4" style={{ background: '#f0fafa' }}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5BC4C8" strokeWidth="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
-            <span className="text-sm font-mono" style={{ color: '#2a9aa0' }}>vizzit.online/{slug}</span>
+          <div className="flex items-center gap-1.5 rounded-lg md:rounded-xl px-2.5 py-2 md:px-4 md:py-3 mb-3 md:mb-4 min-w-0 overflow-hidden" style={{ background: '#f0fafa' }}>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#5BC4C8" strokeWidth="2" className="flex-shrink-0"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+            <span className="text-[10px] md:text-sm font-mono truncate min-w-0" style={{ color: '#2a9aa0' }}>vizzit.online/{slug}</span>
           </div>
         ) : (
           <p className="text-xs md:text-sm text-orange-600 bg-orange-50 rounded-xl px-4 py-3 mb-3 md:mb-4">הגדר שם עסק וכתובת דף בשלב 1</p>
