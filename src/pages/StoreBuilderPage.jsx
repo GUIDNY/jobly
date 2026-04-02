@@ -838,7 +838,7 @@ export default function StoreBuilderPage() {
           )}
 
           {/* ── Section: Reviews ── */}
-          {activeSection === 'reviews' && (
+          {storeType === 'single' && activeSection === 'reviews' && (
             <motion.div key="reviews" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="space-y-3">
 
               {/* Mobile compact */}
