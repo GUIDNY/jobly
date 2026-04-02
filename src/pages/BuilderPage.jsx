@@ -575,48 +575,115 @@ function Step1({ form, update, slugStatus, slugSuggestions, dbCardId, onUploadin
         <p className="text-[10px] md:text-xs text-gray-400 mt-1 text-left">{form.description.length}/160</p>
       </div>
 
-      {/* Text styling */}
+      {/* Text styling — button opens sheet on mobile, inline on desktop */}
       <div>
-        <p className="text-[10px] md:text-xs font-semibold text-gray-500 mb-1.5 md:mb-2">סגנון טקסט</p>
-        <div className="grid grid-cols-2 gap-2 md:gap-3">
-          <div>
-            <p className="text-[11px] text-gray-400 mb-1.5">יישור שם</p>
-            <div className="flex gap-1">
-              {[
-                { value: 'right', icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="12" x2="9" y2="12"/><line x1="21" y1="18" x2="3" y2="18"/></svg> },
-                { value: 'center', icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="21" y1="6" x2="3" y2="6"/><line x1="18" y1="12" x2="6" y2="12"/><line x1="21" y1="18" x2="3" y2="18"/></svg> },
-                { value: 'left', icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="21" y1="6" x2="3" y2="6"/><line x1="15" y1="12" x2="3" y2="12"/><line x1="21" y1="18" x2="3" y2="18"/></svg> },
-              ].map(opt => (
-                <button key={opt.value} onClick={() => update('title_align', opt.value)}
-                  className="flex-1 flex items-center justify-center py-2 rounded-lg border-2 transition-all"
-                  style={form.title_align === opt.value
-                    ? { borderColor: '#5BC4C8', background: '#f0fafa', color: '#2a9aa0' }
-                    : { borderColor: '#e5e7eb', color: '#9ca3af' }}>
-                  {opt.icon}
-                </button>
-              ))}
+        {/* Mobile: compact button */}
+        <button onClick={() => setShowTextSheet(true)}
+          className="md:hidden flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+          <span className="text-xs font-medium text-gray-700 flex-1 text-right">סגנון טקסט</span>
+          <span className="text-[10px] text-gray-400">
+            {form.title_align === 'right' ? 'ימין' : form.title_align === 'left' ? 'שמאל' : 'מרכז'} · {(form.name_size || 'md').toUpperCase()}
+          </span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+
+        {/* Desktop: inline */}
+        <div className="hidden md:block">
+          <p className="text-xs font-semibold text-gray-500 mb-2">סגנון טקסט</p>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <p className="text-[11px] text-gray-400 mb-1.5">יישור שם</p>
+              <div className="flex gap-1">
+                {[
+                  { value: 'right', icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="12" x2="9" y2="12"/><line x1="21" y1="18" x2="3" y2="18"/></svg> },
+                  { value: 'center', icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="21" y1="6" x2="3" y2="6"/><line x1="18" y1="12" x2="6" y2="12"/><line x1="21" y1="18" x2="3" y2="18"/></svg> },
+                  { value: 'left', icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="21" y1="6" x2="3" y2="6"/><line x1="15" y1="12" x2="3" y2="12"/><line x1="21" y1="18" x2="3" y2="18"/></svg> },
+                ].map(opt => (
+                  <button key={opt.value} onClick={() => update('title_align', opt.value)}
+                    className="flex-1 flex items-center justify-center py-2 rounded-lg border-2 transition-all"
+                    style={form.title_align === opt.value ? { borderColor: '#5BC4C8', background: '#f0fafa', color: '#2a9aa0' } : { borderColor: '#e5e7eb', color: '#9ca3af' }}>
+                    {opt.icon}
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
-          <div>
-            <p className="text-[11px] text-gray-400 mb-1.5">גודל שם</p>
-            <div className="flex gap-1">
-              {[
-                { value: 'sm', label: 'S' },
-                { value: 'md', label: 'M' },
-                { value: 'lg', label: 'L' },
-              ].map(opt => (
-                <button key={opt.value} onClick={() => update('name_size', opt.value)}
-                  className="flex-1 py-2 rounded-lg border-2 text-xs font-bold transition-all"
-                  style={form.name_size === opt.value
-                    ? { borderColor: '#5BC4C8', background: '#f0fafa', color: '#2a9aa0' }
-                    : { borderColor: '#e5e7eb', color: '#9ca3af' }}>
-                  {opt.label}
-                </button>
-              ))}
+            <div>
+              <p className="text-[11px] text-gray-400 mb-1.5">גודל שם</p>
+              <div className="flex gap-1">
+                {[{ value: 'sm', label: 'S' }, { value: 'md', label: 'M' }, { value: 'lg', label: 'L' }].map(opt => (
+                  <button key={opt.value} onClick={() => update('name_size', opt.value)}
+                    className="flex-1 py-2 rounded-lg border-2 text-xs font-bold transition-all"
+                    style={form.name_size === opt.value ? { borderColor: '#5BC4C8', background: '#f0fafa', color: '#2a9aa0' } : { borderColor: '#e5e7eb', color: '#9ca3af' }}>
+                    {opt.label}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Text style bottom sheet */}
+      <AnimatePresence>
+        {showTextSheet && (
+          <>
+            <motion.div key="backdrop" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/40 z-50 md:hidden" onClick={() => setShowTextSheet(false)} />
+            <motion.div key="sheet" initial={{ y: 80, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 80, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl p-5 z-50 md:hidden"
+              style={{ boxShadow: '0 -8px 32px rgba(0,0,0,0.15)' }}>
+              <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mb-4" />
+              <p className="text-sm font-bold text-gray-900 mb-4">סגנון טקסט</p>
+
+              <div className="space-y-4">
+                <div>
+                  <p className="text-xs font-medium text-gray-500 mb-2">יישור שם העסק</p>
+                  <div className="flex gap-2">
+                    {[
+                      { value: 'right', label: 'ימין', icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="12" x2="9" y2="12"/><line x1="21" y1="18" x2="3" y2="18"/></svg> },
+                      { value: 'center', label: 'מרכז', icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="21" y1="6" x2="3" y2="6"/><line x1="18" y1="12" x2="6" y2="12"/><line x1="21" y1="18" x2="3" y2="18"/></svg> },
+                      { value: 'left', label: 'שמאל', icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="21" y1="6" x2="3" y2="6"/><line x1="15" y1="12" x2="3" y2="12"/><line x1="21" y1="18" x2="3" y2="18"/></svg> },
+                    ].map(opt => (
+                      <button key={opt.value} onClick={() => update('title_align', opt.value)}
+                        className="flex-1 flex flex-col items-center gap-1.5 py-3 rounded-xl border-2 transition-all"
+                        style={form.title_align === opt.value ? { borderColor: '#5BC4C8', background: '#f0fafa', color: '#2a9aa0' } : { borderColor: '#e5e7eb', color: '#9ca3af' }}>
+                        {opt.icon}
+                        <span className="text-[10px] font-medium">{opt.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <p className="text-xs font-medium text-gray-500 mb-2">גודל שם העסק</p>
+                  <div className="flex gap-2">
+                    {[
+                      { value: 'sm', label: 'קטן', sub: 'S' },
+                      { value: 'md', label: 'בינוני', sub: 'M' },
+                      { value: 'lg', label: 'גדול', sub: 'L' },
+                    ].map(opt => (
+                      <button key={opt.value} onClick={() => update('name_size', opt.value)}
+                        className="flex-1 flex flex-col items-center gap-1 py-3 rounded-xl border-2 transition-all"
+                        style={form.name_size === opt.value ? { borderColor: '#5BC4C8', background: '#f0fafa', color: '#2a9aa0' } : { borderColor: '#e5e7eb', color: '#9ca3af' }}>
+                        <span className="font-black" style={{ fontSize: opt.value === 'sm' ? 14 : opt.value === 'md' ? 18 : 24 }}>א</span>
+                        <span className="text-[10px] font-medium">{opt.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <button onClick={() => setShowTextSheet(false)}
+                className="w-full mt-5 py-3 rounded-xl text-sm font-bold text-white"
+                style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
+                סגור ✓
+              </button>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
 
       {/* Slug */}
       <div>
