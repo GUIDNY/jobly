@@ -1011,6 +1011,10 @@ function Step2({ form, update, userId, dbCardId, onUploadingChange }) {
 
 // ─── Step 3: Contact & Links ──────────────────────────────────────────────────
 function Step3({ form, update }) {
+  const [showLinksSheet, setShowLinksSheet] = useState(false);
+
+  const filledLinksCount = [form.instagram, form.facebook, form.tiktok, form.location_url].filter(Boolean).length;
+
   return (
     <div className="bg-white rounded-2xl md:rounded-3xl p-3 md:p-6 card-shadow space-y-3 md:space-y-5">
       <h2 className="text-sm md:text-lg font-bold text-gray-900">יצירת קשר וקישורים</h2>
@@ -1061,69 +1065,171 @@ function Step3({ form, update }) {
         />
       </div>
 
-      <hr className="border-gray-100" />
+      {/* Mobile: compact button for social links */}
+      <button
+        onClick={() => setShowLinksSheet(true)}
+        className="md:hidden flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors"
+      >
+        <span className="text-base">🔗</span>
+        <span className="text-xs font-medium text-gray-700 flex-1 text-right">קישורים לרשתות</span>
+        {filledLinksCount > 0 && (
+          <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full text-white" style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
+            {filledLinksCount}
+          </span>
+        )}
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
 
-      <div className="grid grid-cols-1 gap-3 md:gap-4">
-        {/* Instagram */}
-        <div>
-          <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
-            <span className="flex items-center gap-1.5"><span>📸</span> Instagram</span>
-          </label>
-          <input
-            type="text"
-            value={form.instagram}
-            onChange={e => update('instagram', e.target.value.replace('@', ''))}
-            placeholder="username"
-            className="w-full border border-gray-200 rounded-lg md:rounded-xl px-3 py-2 text-xs md:px-4 md:py-3 md:text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50"
-            dir="ltr"
-          />
-        </div>
+      {/* Desktop: inline social links grid */}
+      <div className="hidden md:block">
+        <hr className="border-gray-100 mb-4" />
+        <div className="grid grid-cols-1 gap-4">
+          {/* Instagram */}
+          <div>
+            <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
+              <span className="flex items-center gap-1.5"><span>📸</span> Instagram</span>
+            </label>
+            <input
+              type="text"
+              value={form.instagram}
+              onChange={e => update('instagram', e.target.value.replace('@', ''))}
+              placeholder="username"
+              className="w-full border border-gray-200 rounded-lg md:rounded-xl px-3 py-2 text-xs md:px-4 md:py-3 md:text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50"
+              dir="ltr"
+            />
+          </div>
 
-        {/* Facebook */}
-        <div>
-          <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
-            <span className="flex items-center gap-1.5"><span>👍</span> Facebook</span>
-          </label>
-          <input
-            type="text"
-            value={form.facebook}
-            onChange={e => update('facebook', e.target.value)}
-            placeholder="username or URL"
-            className="w-full border border-gray-200 rounded-lg md:rounded-xl px-3 py-2 text-xs md:px-4 md:py-3 md:text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50"
-            dir="ltr"
-          />
-        </div>
+          {/* Facebook */}
+          <div>
+            <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
+              <span className="flex items-center gap-1.5"><span>👍</span> Facebook</span>
+            </label>
+            <input
+              type="text"
+              value={form.facebook}
+              onChange={e => update('facebook', e.target.value)}
+              placeholder="username or URL"
+              className="w-full border border-gray-200 rounded-lg md:rounded-xl px-3 py-2 text-xs md:px-4 md:py-3 md:text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50"
+              dir="ltr"
+            />
+          </div>
 
-        {/* TikTok */}
-        <div>
-          <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
-            <span className="flex items-center gap-1.5"><span>🎵</span> TikTok</span>
-          </label>
-          <input
-            type="text"
-            value={form.tiktok}
-            onChange={e => update('tiktok', e.target.value.replace('@', ''))}
-            placeholder="username"
-            className="w-full border border-gray-200 rounded-lg md:rounded-xl px-3 py-2 text-xs md:px-4 md:py-3 md:text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50"
-            dir="ltr"
-          />
-        </div>
+          {/* TikTok */}
+          <div>
+            <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
+              <span className="flex items-center gap-1.5"><span>🎵</span> TikTok</span>
+            </label>
+            <input
+              type="text"
+              value={form.tiktok}
+              onChange={e => update('tiktok', e.target.value.replace('@', ''))}
+              placeholder="username"
+              className="w-full border border-gray-200 rounded-lg md:rounded-xl px-3 py-2 text-xs md:px-4 md:py-3 md:text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50"
+              dir="ltr"
+            />
+          </div>
 
-        {/* Location */}
-        <div>
-          <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
-            <span className="flex items-center gap-1.5"><span>📍</span> Google Maps</span>
-          </label>
-          <input
-            type="url"
-            value={form.location_url}
-            onChange={e => update('location_url', e.target.value)}
-            placeholder="https://maps.google.com/..."
-            className="w-full border border-gray-200 rounded-lg md:rounded-xl px-3 py-2 text-xs md:px-4 md:py-3 md:text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50"
-            dir="ltr"
-          />
+          {/* Location */}
+          <div>
+            <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
+              <span className="flex items-center gap-1.5"><span>📍</span> Google Maps</span>
+            </label>
+            <input
+              type="url"
+              value={form.location_url}
+              onChange={e => update('location_url', e.target.value)}
+              placeholder="https://maps.google.com/..."
+              className="w-full border border-gray-200 rounded-lg md:rounded-xl px-3 py-2 text-xs md:px-4 md:py-3 md:text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50"
+              dir="ltr"
+            />
+          </div>
         </div>
       </div>
+
+      {/* Social links bottom sheet (mobile only) */}
+      <AnimatePresence>
+        {showLinksSheet && (
+          <>
+            <motion.div key="links-backdrop" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/40 z-50 md:hidden" onClick={() => setShowLinksSheet(false)} />
+            <motion.div key="links-sheet" initial={{ y: 80, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 80, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl p-5 z-50 md:hidden"
+              style={{ boxShadow: '0 -8px 32px rgba(0,0,0,0.15)' }}>
+              <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mb-4" />
+              <p className="text-sm font-bold text-gray-900 mb-4">קישורים לרשתות</p>
+
+              <div className="space-y-3">
+                {/* Instagram */}
+                <div>
+                  <label className="block text-xs font-medium text-gray-700 mb-1">
+                    <span className="flex items-center gap-1.5"><span>📸</span> Instagram</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={form.instagram}
+                    onChange={e => update('instagram', e.target.value.replace('@', ''))}
+                    placeholder="username"
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50"
+                    dir="ltr"
+                  />
+                </div>
+
+                {/* Facebook */}
+                <div>
+                  <label className="block text-xs font-medium text-gray-700 mb-1">
+                    <span className="flex items-center gap-1.5"><span>👍</span> Facebook</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={form.facebook}
+                    onChange={e => update('facebook', e.target.value)}
+                    placeholder="username or URL"
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50"
+                    dir="ltr"
+                  />
+                </div>
+
+                {/* TikTok */}
+                <div>
+                  <label className="block text-xs font-medium text-gray-700 mb-1">
+                    <span className="flex items-center gap-1.5"><span>🎵</span> TikTok</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={form.tiktok}
+                    onChange={e => update('tiktok', e.target.value.replace('@', ''))}
+                    placeholder="username"
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50"
+                    dir="ltr"
+                  />
+                </div>
+
+                {/* Location */}
+                <div>
+                  <label className="block text-xs font-medium text-gray-700 mb-1">
+                    <span className="flex items-center gap-1.5"><span>📍</span> Google Maps</span>
+                  </label>
+                  <input
+                    type="url"
+                    value={form.location_url}
+                    onChange={e => update('location_url', e.target.value)}
+                    placeholder="https://maps.google.com/..."
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50"
+                    dir="ltr"
+                  />
+                </div>
+              </div>
+
+              <button onClick={() => setShowLinksSheet(false)}
+                className="w-full mt-5 py-3 rounded-xl text-sm font-bold text-white"
+                style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
+                סגור ✓
+              </button>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
