@@ -746,7 +746,7 @@ export default function StoreBuilderPage() {
           )}
 
           {/* ── Section: Details ── */}
-          {activeSection === 'details' && (
+          {storeType === 'single' && activeSection === 'details' && (
             <motion.div key="details" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="space-y-3">
 
               {/* Mobile compact */}
