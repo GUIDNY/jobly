@@ -702,47 +702,75 @@ export default function StoreBuilderPage() {
           )}
         </div>
 
-        {/* ── Phone Preview ── */}
-        <div className="hidden lg:flex flex-col items-center gap-3 flex-shrink-0 sticky top-20 self-start">
-          <div className="flex items-center gap-2 bg-white rounded-2xl px-4 py-2 border border-gray-100" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
-            <span className="w-2 h-2 rounded-full bg-green-400" style={{ boxShadow: '0 0 0 3px #bbf7d0' }} />
-            <span className="text-xs text-gray-500 font-medium">תצוגה חיה</span>
+        {/* ── Phone Preview Column ── */}
+        <div className="md:w-auto md:flex-shrink-0 md:sticky md:top-16 md:self-start flex justify-center md:block"
+          style={{ width: showPhonePreview ? '50%' : 'auto', transition: 'width 0.3s ease', flexShrink: 0 }}>
+
+          {/* Mobile: scaled phone + eye toggle */}
+          <div className="md:hidden flex flex-col items-center gap-2">
+            <AnimatePresence>
+              {showPhonePreview && (
+                <motion.div key="store-phone"
+                  initial={{ opacity: 0, scaleY: 0.8 }} animate={{ opacity: 1, scaleY: 1 }} exit={{ opacity: 0, scaleY: 0.8 }}
+                  transition={{ duration: 0.2 }} style={{ transformOrigin: 'top center' }}>
+                  <div style={{ width: 182, height: 390, overflow: 'hidden', position: 'relative' }}>
+                    <div style={{ transform: 'scale(0.70)', transformOrigin: 'top left', width: 260, position: 'absolute', top: 0, left: 0 }}>
+                      {/* Mini phone shell */}
+                      <div style={{ width: 260, background: '#0a0a0a', borderRadius: 44, padding: 8, boxShadow: '0 0 0 1.5px #2a2a2a' }}>
+                        <div style={{ position: 'absolute', top: 16, left: '50%', transform: 'translateX(-50%)', width: 70, height: 22, background: '#000', borderRadius: 11, zIndex: 10 }} />
+                        <div style={{ borderRadius: 36, overflow: 'hidden', background: '#f8f9fa', height: 520 }}>
+                          <StorePreview data={data} onBuy={() => setShowCheckout(true)} />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Eye toggle */}
+            <button onClick={() => setShowPhonePreview(v => !v)}
+              className="flex flex-col items-center gap-0.5 py-1 px-3 rounded-xl transition-colors hover:bg-gray-100">
+              {showPhonePreview ? (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+                </svg>
+              ) : (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6b7280" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/>
+                  <line x1="1" y1="1" x2="23" y2="23"/>
+                </svg>
+              )}
+              <span className="text-[9px] text-gray-400">{showPhonePreview ? 'הסתר' : 'הצג'}</span>
+            </button>
           </div>
 
-          {/* Phone shell */}
-          <div style={{
-            width: 280,
-            height: 580,
-            background: '#0a0a0a',
-            borderRadius: 44,
-            padding: 10,
-            boxShadow: '0 0 0 1.5px #2a2a2a, 0 32px 80px rgba(0,0,0,0.25)',
-            position: 'relative',
-            flexShrink: 0,
-          }}>
-            {/* Dynamic island */}
-            <div style={{ position: 'absolute', top: 20, left: '50%', transform: 'translateX(-50%)', width: 80, height: 24, background: '#000', borderRadius: 12, zIndex: 10 }} />
-            {/* Side buttons */}
-            <div style={{ position: 'absolute', right: -3, top: 120, width: 3, height: 60, background: '#1a1a1a', borderRadius: '0 2px 2px 0' }} />
+          {/* Desktop: full phone */}
+          <div className="hidden md:flex flex-col items-center gap-3">
+            <div className="flex items-center gap-2 self-stretch justify-center bg-white rounded-2xl px-4 py-2 shadow-sm border border-gray-100">
+              <span className="w-2 h-2 rounded-full bg-green-400 flex-shrink-0" style={{ boxShadow: '0 0 0 3px #bbf7d0' }} />
+              <span className="text-xs text-gray-500 font-medium">תצוגה חיה</span>
+            </div>
 
-            {/* Screen */}
-            <div style={{ borderRadius: 36, overflow: 'hidden', height: '100%', background: '#f8f9fa', position: 'relative' }}>
-              {/* Status bar */}
-              <div style={{ height: 44, background: data.image ? 'transparent' : '#f8f9fa', position: 'absolute', top: 0, left: 0, right: 0, zIndex: 5, display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', padding: '0 18px 6px' }}>
-                <span style={{ fontSize: 10, fontWeight: 700, color: data.image ? 'white' : '#111' }}>9:41</span>
-                <div style={{ display: 'flex', gap: 4 }}>
-                  <svg width="12" height="9" viewBox="0 0 17 12" fill="none">{[0,1,2,3].map(i => <rect key={i} x={i*4.5} y={12-(i+1)*3} width="3" height={(i+1)*3} rx="1" fill={data.image ? 'white' : '#111'} />)}</svg>
-                  <svg width="12" height="9" viewBox="0 0 15 12" fill={data.image ? 'white' : '#111'}><path d="M7.5 9.5a1 1 0 110 2 1 1 0 010-2z"/><path d="M4.5 7a4.5 4.5 0 016 0" stroke={data.image ? 'white' : '#111'} strokeWidth="1.5" fill="none" strokeLinecap="round"/><path d="M2 4.5a7.5 7.5 0 0111 0" stroke={data.image ? 'white' : '#111'} strokeWidth="1.5" fill="none" strokeLinecap="round"/></svg>
+            <div style={{ width: 280, height: 580, background: '#0a0a0a', borderRadius: 44, padding: 10, boxShadow: '0 0 0 1.5px #2a2a2a, 0 32px 80px rgba(0,0,0,0.25)', position: 'relative', flexShrink: 0 }}>
+              <div style={{ position: 'absolute', top: 20, left: '50%', transform: 'translateX(-50%)', width: 80, height: 24, background: '#000', borderRadius: 12, zIndex: 10 }} />
+              <div style={{ position: 'absolute', right: -3, top: 120, width: 3, height: 60, background: '#1a1a1a', borderRadius: '0 2px 2px 0' }} />
+              <div style={{ borderRadius: 36, overflow: 'hidden', height: '100%', background: '#f8f9fa', position: 'relative' }}>
+                <div style={{ height: 44, background: data.image ? 'transparent' : '#f8f9fa', position: 'absolute', top: 0, left: 0, right: 0, zIndex: 5, display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', padding: '0 18px 6px' }}>
+                  <span style={{ fontSize: 10, fontWeight: 700, color: data.image ? 'white' : '#111' }}>9:41</span>
+                  <div style={{ display: 'flex', gap: 4 }}>
+                    <svg width="12" height="9" viewBox="0 0 17 12" fill="none">{[0,1,2,3].map(i => <rect key={i} x={i*4.5} y={12-(i+1)*3} width="3" height={(i+1)*3} rx="1" fill={data.image ? 'white' : '#111'} />)}</svg>
+                    <svg width="12" height="9" viewBox="0 0 15 12" fill={data.image ? 'white' : '#111'}><path d="M7.5 9.5a1 1 0 110 2 1 1 0 010-2z"/><path d="M4.5 7a4.5 4.5 0 016 0" stroke={data.image ? 'white' : '#111'} strokeWidth="1.5" fill="none" strokeLinecap="round"/><path d="M2 4.5a7.5 7.5 0 0111 0" stroke={data.image ? 'white' : '#111'} strokeWidth="1.5" fill="none" strokeLinecap="round"/></svg>
+                  </div>
+                </div>
+                <div style={{ height: '100%', overflowY: 'auto' }}>
+                  <StorePreview data={data} onBuy={() => setShowCheckout(true)} />
                 </div>
               </div>
-
-              <div style={{ height: '100%', overflowY: 'auto', paddingTop: 0 }}>
-                <StorePreview data={data} onBuy={() => setShowCheckout(true)} />
-              </div>
             </div>
-          </div>
 
-          <p className="text-xs text-gray-400 text-center">לחץ "קנה עכשיו" לראות תהליך סליקה</p>
+            <p className="text-xs text-gray-400 text-center">לחץ "קנה עכשיו" לסליקה דמו</p>
+          </div>
         </div>
       </div>
 
