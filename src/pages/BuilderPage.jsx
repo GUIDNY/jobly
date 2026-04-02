@@ -330,8 +330,8 @@ export default function BuilderPage() {
       {/* Content — side by side on both mobile & desktop */}
       <div className="max-w-6xl mx-auto px-2 md:px-4 py-3 md:py-6 flex gap-2 md:gap-8 items-start">
 
-        {/* Form — right half on mobile, flex-1 on desktop */}
-        <div className="w-1/2 md:flex-1 min-w-0 overflow-hidden">
+        {/* Form — flex-1 always (expands when phone is hidden) */}
+        <div className="flex-1 min-w-0 overflow-hidden">
           <AnimatePresence mode="wait">
             <motion.div
               key={step}
