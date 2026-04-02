@@ -523,13 +523,13 @@ export default function StoreBuilderPage() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-semibold text-gray-500 mb-1.5">שם העסק / חנות</label>
+                    <label className="block text-[10px] md:text-xs font-semibold text-gray-500 mb-1">שם העסק / חנות</label>
                     <input value={data.storeName} onChange={e => upd('storeName', e.target.value)}
                       placeholder="הממתקים של תמי"
                       className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50" />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-gray-500 mb-1.5">צבע ראשי</label>
+                    <label className="block text-[10px] md:text-xs font-semibold text-gray-500 mb-1">צבע ראשי</label>
                     <div className="flex items-center gap-2">
                       <input type="color" value={data.accentColor} onChange={e => upd('accentColor', e.target.value)}
                         className="w-10 h-10 rounded-lg border border-gray-200 cursor-pointer p-0.5" />
@@ -539,14 +539,14 @@ export default function StoreBuilderPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-gray-500 mb-1.5">שם המוצר *</label>
+                  <label className="block text-[10px] md:text-xs font-semibold text-gray-500 mb-1">שם המוצר *</label>
                   <input value={data.name} onChange={e => upd('name', e.target.value)}
                     placeholder="למשל: קורס צילום מקצועי"
                     className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50" />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-gray-500 mb-1.5">תגית / טקסט משנה</label>
+                  <label className="block text-[10px] md:text-xs font-semibold text-gray-500 mb-1">תגית / טקסט משנה</label>
                   <input value={data.tagline} onChange={e => upd('tagline', e.target.value)}
                     placeholder="תיאור קצר שמופיע מתחת לשם"
                     className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50" />
@@ -554,13 +554,13 @@ export default function StoreBuilderPage() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-semibold text-gray-500 mb-1.5">מחיר (₪) *</label>
+                    <label className="block text-[10px] md:text-xs font-semibold text-gray-500 mb-1">מחיר (₪) *</label>
                     <input type="number" value={data.price} onChange={e => upd('price', e.target.value)}
                       placeholder="199"
                       className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50" dir="ltr" />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-gray-500 mb-1.5">מחיר מקורי (לפני הנחה)</label>
+                    <label className="block text-[10px] md:text-xs font-semibold text-gray-500 mb-1">מחיר מקורי (לפני הנחה)</label>
                     <input type="number" value={data.originalPrice} onChange={e => upd('originalPrice', e.target.value)}
                       placeholder="299"
                       className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50" dir="ltr" />
@@ -568,7 +568,7 @@ export default function StoreBuilderPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-gray-500 mb-1.5">טקסט כפתור קנייה</label>
+                  <label className="block text-[10px] md:text-xs font-semibold text-gray-500 mb-1">טקסט כפתור קנייה</label>
                   <div className="flex gap-2 flex-wrap">
                     {['קנה עכשיו', 'הזמן עכשיו', 'לרכישה', 'שלם ורכוש'].map(opt => (
                       <button key={opt} onClick={() => upd('ctaText', opt)}
