@@ -224,6 +224,64 @@ export default function DashboardPage() {
         )}
       </AnimatePresence>
 
+      {/* Create type picker — admin only */}
+      <AnimatePresence>
+        {showCreateModal && (
+          <motion.div className="fixed inset-0 z-50 flex items-center justify-center p-4"
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            onClick={() => setShowCreateModal(false)}>
+            <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
+            <motion.div
+              dir="rtl"
+              initial={{ scale: 0.92, opacity: 0, y: 16 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.92, opacity: 0, y: 16 }}
+              transition={{ type: 'spring', damping: 22, stiffness: 300 }}
+              className="relative z-10 bg-white rounded-3xl p-6 w-full max-w-md"
+              style={{ boxShadow: '0 32px 80px rgba(0,0,0,0.2)' }}
+              onClick={e => e.stopPropagation()}
+            >
+              <h2 className="text-lg font-black text-gray-900 mb-1">מה תרצה לבנות?</h2>
+              <p className="text-sm text-gray-400 mb-5">בחר את סוג הדף שתרצה ליצור</p>
+
+              <div className="grid grid-cols-2 gap-3">
+                {/* Link builder */}
+                <button onClick={() => { setShowCreateModal(false); navigate('/builder'); }}
+                  className="flex flex-col items-center gap-3 p-5 rounded-2xl border-2 border-gray-100 hover:border-indigo-200 hover:bg-indigo-50 transition-all text-center group">
+                  <div className="w-14 h-14 rounded-2xl flex items-center justify-center transition-all group-hover:scale-110"
+                    style={{ background: 'linear-gradient(135deg, #F4938C22, #5BC4C822)' }}>
+                    <span style={{ fontSize: 28 }}>🔗</span>
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-gray-800">בנה את הלינק שלך</p>
+                    <p className="text-xs text-gray-400 mt-0.5">כרטיס ביקור דיגיטלי</p>
+                  </div>
+                </button>
+
+                {/* Store builder */}
+                <button onClick={() => { setShowCreateModal(false); navigate('/store-builder'); }}
+                  className="flex flex-col items-center gap-3 p-5 rounded-2xl border-2 border-gray-100 hover:border-orange-200 hover:bg-orange-50 transition-all text-center group relative">
+                  <div className="absolute top-2 left-2">
+                    <span className="text-[9px] px-2 py-0.5 rounded-full font-bold" style={{ background: '#fef3c7', color: '#d97706' }}>בטא</span>
+                  </div>
+                  <div className="w-14 h-14 rounded-2xl flex items-center justify-center transition-all group-hover:scale-110"
+                    style={{ background: 'linear-gradient(135deg, #fed7aa, #fde68a)' }}>
+                    <span style={{ fontSize: 28 }}>🛍️</span>
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-gray-800">בנה את החנות שלך</p>
+                    <p className="text-xs text-gray-400 mt-0.5">דף מכירה למוצר אחד</p>
+                  </div>
+                </button>
+              </div>
+
+              <button onClick={() => setShowCreateModal(false)}
+                className="w-full mt-4 py-2 text-sm text-gray-400 hover:text-gray-600 transition-colors">
+                ביטול
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <AuthModal isOpen={authOpen} onClose={() => { setAuthOpen(false); navigate('/'); }} onSuccess={() => setAuthOpen(false)} />
     </div>
   );
