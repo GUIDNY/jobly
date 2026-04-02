@@ -878,6 +878,111 @@ export default function StoreBuilderPage() {
               </div>
             </motion.div>
           )}
+
+          {/* ══ MULTI-STORE SECTIONS ══ */}
+          {storeType === 'multi' && (
+            <motion.div key="multi" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="space-y-3">
+
+              {/* Mobile compact */}
+              <div className="md:hidden bg-white rounded-2xl p-3 border border-gray-100 space-y-2" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+                {/* Store info */}
+                <button onClick={() => setShowMultiInfoSheet(true)} className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors">
+                  <span className="text-base">🏪</span>
+                  <span className="text-xs font-medium text-gray-700 flex-1 text-right">{ms.storeName || 'פרטי החנות'}</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                {/* Social */}
+                <button onClick={() => setShowSocialSheet(true)} className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors">
+                  <span className="text-base">🔗</span>
+                  <span className="text-xs font-medium text-gray-700 flex-1 text-right">רשתות חברתיות</span>
+                  {Object.values(ms.social || {}).filter(Boolean).length > 0 && (
+                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full text-white" style={{ background: ms.accentColor || '#F4938C' }}>{Object.values(ms.social || {}).filter(Boolean).length}</span>
+                  )}
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                {/* Categories */}
+                <button onClick={() => setEditingCatIdx(-1)} className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors">
+                  <span className="text-base">📂</span>
+                  <span className="text-xs font-medium text-gray-700 flex-1 text-right">קטגוריות ומוצרים</span>
+                  <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full text-white" style={{ background: ms.accentColor || '#F4938C' }}>{(ms.categories || []).length}</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+              </div>
+
+              {/* Desktop full */}
+              <div className="hidden md:block space-y-4">
+                {/* Store info */}
+                <div className="bg-white rounded-2xl p-5 border border-gray-100 space-y-4" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+                  <p className="text-sm font-bold text-gray-800">פרטי החנות</p>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-semibold text-gray-500 mb-1.5">שם החנות</label>
+                      <input value={ms.storeName} onChange={e => updMulti('storeName', e.target.value)} placeholder="הממתקים של תמי" className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400" />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-gray-500 mb-1.5">צבע ראשי</label>
+                      <div className="flex items-center gap-2">
+                        <input type="color" value={ms.accentColor} onChange={e => updMulti('accentColor', e.target.value)} className="w-10 h-10 rounded-lg border border-gray-200 cursor-pointer p-0.5" />
+                        <span className="text-xs text-gray-500">{ms.accentColor}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-gray-500 mb-1.5">תגית</label>
+                    <input value={ms.tagline} onChange={e => updMulti('tagline', e.target.value)} placeholder="חנות הבגדים שלנו" className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400" />
+                  </div>
+                </div>
+
+                {/* Social */}
+                <div className="bg-white rounded-2xl p-5 border border-gray-100 space-y-3" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+                  <p className="text-sm font-bold text-gray-800">רשתות חברתיות</p>
+                  {[
+                    { key: 'instagram', label: 'Instagram', placeholder: '@username', icon: '📸' },
+                    { key: 'facebook', label: 'Facebook', placeholder: 'שם הדף', icon: '👥' },
+                    { key: 'tiktok', label: 'TikTok', placeholder: '@username', icon: '🎵' },
+                    { key: 'whatsapp', label: 'WhatsApp', placeholder: '050-0000000', icon: '💬' },
+                  ].map(s => (
+                    <div key={s.key} className="flex items-center gap-3">
+                      <span className="text-lg w-6 flex-shrink-0">{s.icon}</span>
+                      <input value={ms.social?.[s.key] || ''} onChange={e => updMultiSocial(s.key, e.target.value)}
+                        placeholder={s.placeholder} dir="ltr"
+                        className="flex-1 border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-indigo-400" />
+                    </div>
+                  ))}
+                </div>
+
+                {/* Categories */}
+                <div className="bg-white rounded-2xl p-5 border border-gray-100 space-y-4" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+                  <div className="flex items-center justify-between">
+                    <p className="text-sm font-bold text-gray-800">קטגוריות</p>
+                    <button onClick={() => updMulti('categories', [...(ms.categories || []), { id: Date.now(), name: '', icon: '🛍️', image: '', products: [{ name: '', price: '', image: '', description: '' }] }])}
+                      className="text-xs font-bold px-3 py-1.5 rounded-xl text-white" style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>+ הוסף</button>
+                  </div>
+                  {(ms.categories || []).map((cat, ci) => (
+                    <div key={ci} className="border border-gray-100 rounded-2xl p-4 space-y-3 bg-gray-50">
+                      <div className="flex items-center gap-3">
+                        <input value={cat.icon} onChange={e => updCategory(ci, { icon: e.target.value })} className="w-12 border border-gray-200 rounded-xl px-2 py-2 text-center text-lg focus:outline-none" maxLength={2} />
+                        <input value={cat.name} onChange={e => updCategory(ci, { name: e.target.value })} placeholder="שם קטגוריה" className="flex-1 border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-indigo-400 bg-white" />
+                        <button onClick={() => updMulti('categories', (ms.categories || []).filter((_, i) => i !== ci))} className="text-xs text-red-400 px-2">מחק</button>
+                      </div>
+                      <div className="space-y-2">
+                        <p className="text-xs font-semibold text-gray-500">מוצרים</p>
+                        {(cat.products || []).map((p, pi) => (
+                          <div key={pi} className="flex items-center gap-2">
+                            <input value={p.name} onChange={e => updProduct(ci, pi, { name: e.target.value })} placeholder="שם מוצר" className="flex-1 border border-gray-200 rounded-xl px-3 py-2 text-xs focus:outline-none bg-white" />
+                            <input value={p.price} onChange={e => updProduct(ci, pi, { price: e.target.value })} placeholder="₪" className="w-16 border border-gray-200 rounded-xl px-2 py-2 text-xs focus:outline-none bg-white" dir="ltr" />
+                            <button onClick={() => updCategory(ci, { products: (cat.products || []).filter((_, i) => i !== pi) })} className="text-xs text-red-400">✕</button>
+                          </div>
+                        ))}
+                        <button onClick={() => updCategory(ci, { products: [...(cat.products || []), { name: '', price: '', image: '', description: '' }] })}
+                          className="text-xs text-indigo-500 hover:text-indigo-600 font-medium">+ הוסף מוצר</button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          )}
         </div>
 
         {/* ── Phone Preview Column ── */}
