@@ -1480,7 +1480,6 @@ function Step5({ form, update, dbCardId, userId }) {
     );
   }
 
-  const filledServiceUrls = (form.services || []).filter(s => s.service_url).length;
 
   return (
     <div className="space-y-4 md:space-y-8">
