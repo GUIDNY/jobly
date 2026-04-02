@@ -471,7 +471,7 @@ export default function StoreBuilderPage() {
           {activeSection === 'product' && (
             <motion.div key="product" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
               {/* Image upload — hero */}
-              <div className="bg-white rounded-2xl p-5 border border-gray-100" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+              <div className="bg-white rounded-2xl p-3 md:p-5 border border-gray-100" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
                 <p className="text-sm font-bold text-gray-800 mb-3">תמונת המוצר</p>
                 <div
                   onClick={() => fileRef.current?.click()}
@@ -649,7 +649,7 @@ export default function StoreBuilderPage() {
                 </div>
               </div>
 
-              <div className="bg-white rounded-2xl p-5 border border-gray-100" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+              <div className="bg-white rounded-2xl p-3 md:p-5 border border-gray-100" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
                 <div className="flex items-center gap-3 p-4 rounded-2xl border-2 border-dashed" style={{ borderColor: '#F4938C44', background: '#fff5f4' }}>
                   <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
