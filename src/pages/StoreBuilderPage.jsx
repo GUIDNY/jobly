@@ -790,7 +790,7 @@ export default function StoreBuilderPage() {
           )}
 
           {/* ── Section: Payment ── */}
-          {activeSection === 'payment' && (
+          {storeType === 'single' && activeSection === 'payment' && (
             <motion.div key="payment" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="space-y-3">
 
               {/* Mobile compact */}
