@@ -263,33 +263,36 @@ export default function BuilderPage() {
       <div className="bg-white border-b border-gray-100">
         <div className="max-w-6xl mx-auto px-4">
 
-          {/* Mobile steps: circles row + active label below */}
+          {/* Mobile steps: circles + label under each */}
           <div className="md:hidden pt-2.5 pb-2">
-            <div className="flex items-center">
+            <div className="flex items-start">
               {visibleSteps.map((s, i) => (
                 <div key={s.id} className="flex items-center flex-1 last:flex-none">
-                  <button
-                    onClick={() => setStep(s.id)}
-                    className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 transition-all mx-auto"
-                    style={
-                      step === s.id
-                        ? { background: 'linear-gradient(135deg, #F4938C, #5BC4C8)', color: 'white', boxShadow: '0 2px 8px rgba(244,147,140,0.4)' }
-                        : i < currentIdx
-                        ? { background: '#10B981', color: 'white' }
-                        : { background: '#f3f4f6', color: '#9ca3af' }
-                    }
-                  >
-                    {i < currentIdx ? '✓' : i + 1}
-                  </button>
+                  <div className="flex flex-col items-center gap-1 flex-shrink-0 mx-auto">
+                    <button
+                      onClick={() => setStep(s.id)}
+                      className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all"
+                      style={
+                        step === s.id
+                          ? { background: 'linear-gradient(135deg, #F4938C, #5BC4C8)', color: 'white', boxShadow: '0 2px 8px rgba(244,147,140,0.4)' }
+                          : i < currentIdx
+                          ? { background: '#10B981', color: 'white' }
+                          : { background: '#f3f4f6', color: '#9ca3af' }
+                      }
+                    >
+                      {i < currentIdx ? '✓' : i + 1}
+                    </button>
+                    <span className="text-[9px] font-medium text-center leading-tight w-12 break-words"
+                      style={{ color: step === s.id ? '#F4938C' : i < currentIdx ? '#10B981' : '#9ca3af' }}>
+                      {s.label}
+                    </span>
+                  </div>
                   {i < visibleSteps.length - 1 && (
-                    <div className="flex-1 h-px mx-1" style={{ background: i < currentIdx ? '#10B981' : '#e5e7eb' }} />
+                    <div className="flex-1 h-px mt-4 mx-0.5" style={{ background: i < currentIdx ? '#10B981' : '#e5e7eb' }} />
                   )}
                 </div>
               ))}
             </div>
-            <p className="text-center text-xs font-semibold mt-2" style={{ color: '#F4938C' }}>
-              {visibleSteps[currentIdx]?.label}
-            </p>
           </div>
 
           {/* Desktop steps: full labels */}
