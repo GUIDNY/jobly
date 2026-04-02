@@ -897,7 +897,9 @@ export default function StoreBuilderPage() {
                       <div style={{ width: 260, background: '#0a0a0a', borderRadius: 44, padding: 8, boxShadow: '0 0 0 1.5px #2a2a2a' }}>
                         <div style={{ position: 'absolute', top: 16, left: '50%', transform: 'translateX(-50%)', width: 70, height: 22, background: '#000', borderRadius: 11, zIndex: 10 }} />
                         <div style={{ borderRadius: 36, overflow: 'hidden', background: '#f8f9fa', height: 520 }}>
-                          <StorePreview data={data} onBuy={() => setShowCheckout(true)} />
+                          {storeType === 'multi'
+                            ? <MultiStorePreview ms={ms} />
+                            : <StorePreview data={data} onBuy={() => setShowCheckout(true)} />}
                         </div>
                       </div>
                     </div>
