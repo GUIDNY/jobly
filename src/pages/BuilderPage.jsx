@@ -471,6 +471,7 @@ export default function BuilderPage() {
 function Step1({ form, update, slugStatus, slugSuggestions, dbCardId, onUploadingChange }) {
   const fileInputRef = useRef(null);
   const [uploadingImg, setUploadingImg] = useState(false);
+  const [showTextSheet, setShowTextSheet] = useState(false);
   const { user } = useAuth();
 
   const handleImage = async (e) => {
