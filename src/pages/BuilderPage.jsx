@@ -59,6 +59,7 @@ export default function BuilderPage() {
   const [slugStatus, setSlugStatus] = useState('idle'); // idle | checking | available | taken
   const [slugSuggestions, setSlugSuggestions] = useState([]);
   const [showPreview, setShowPreview] = useState(false);
+  const [showPhonePreview, setShowPhonePreview] = useState(true);
   const slugCheckTimer = useRef(null);
 
   // Require auth — wait for session to load before checking
