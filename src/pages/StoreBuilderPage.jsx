@@ -519,7 +519,7 @@ export default function StoreBuilderPage() {
 
               {/* Product basics */}
               <div className="bg-white rounded-2xl p-3 md:p-5 border border-gray-100 space-y-3 md:space-y-4" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
-                <p className="text-sm font-bold text-gray-800">פרטי המוצר</p>
+                <p className="text-xs md:text-sm font-bold text-gray-800">פרטי המוצר</p>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
@@ -590,7 +590,7 @@ export default function StoreBuilderPage() {
           {activeSection === 'details' && (
             <motion.div key="details" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
               <div className="bg-white rounded-2xl p-3 md:p-5 border border-gray-100 space-y-3 md:space-y-4" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
-                <p className="text-sm font-bold text-gray-800">תיאור המוצר</p>
+                <p className="text-xs md:text-sm font-bold text-gray-800">תיאור המוצר</p>
                 <textarea value={data.description} onChange={e => upd('description', e.target.value)}
                   placeholder="ספר על המוצר — מה הוא עושה, למה כדאי לקנות אותו, מה מיוחד בו..."
                   rows={5}
@@ -599,7 +599,7 @@ export default function StoreBuilderPage() {
 
               <div className="bg-white rounded-2xl p-3 md:p-5 border border-gray-100 space-y-3" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
                 <div className="flex items-center justify-between">
-                  <p className="text-sm font-bold text-gray-800">מה כלול? (רשימת יתרונות)</p>
+                  <p className="text-xs md:text-sm font-bold text-gray-800">מה כלול? (רשימת יתרונות)</p>
                   <button onClick={() => upd('bullets', [...data.bullets, ''])}
                     className="text-xs font-bold px-3 py-1.5 rounded-xl text-white"
                     style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
@@ -628,7 +628,7 @@ export default function StoreBuilderPage() {
           {activeSection === 'payment' && (
             <motion.div key="payment" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
               <div className="bg-white rounded-2xl p-3 md:p-5 border border-gray-100 space-y-3 md:space-y-4" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
-                <p className="text-sm font-bold text-gray-800">אמצעי תשלום (תגי אמון)</p>
+                <p className="text-xs md:text-sm font-bold text-gray-800">אמצעי תשלום (תגי אמון)</p>
                 <p className="text-xs text-gray-400">בחר אילו לוגואים יוצגו מתחת לכפתור הקנייה</p>
                 <div className="grid grid-cols-2 gap-3">
                   {PAYMENT_METHODS.map(pm => (
@@ -655,7 +655,7 @@ export default function StoreBuilderPage() {
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
                   </div>
                   <div>
-                    <p className="text-sm font-bold text-gray-800">מסך סליקה דמו</p>
+                    <p className="text-xs md:text-sm font-bold text-gray-800">מסך סליקה דמו</p>
                     <p className="text-xs text-gray-500 mt-0.5">לחץ על "קנה עכשיו" בתצוגה המקדימה לראות את חוויית הסליקה</p>
                   </div>
                 </div>
@@ -668,7 +668,7 @@ export default function StoreBuilderPage() {
             <motion.div key="reviews" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
               <div className="bg-white rounded-2xl p-3 md:p-5 border border-gray-100 space-y-3 md:space-y-4" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
                 <div className="flex items-center justify-between">
-                  <p className="text-sm font-bold text-gray-800">ביקורות לקוחות</p>
+                  <p className="text-xs md:text-sm font-bold text-gray-800">ביקורות לקוחות</p>
                   <button onClick={() => upd('reviews', [...data.reviews, { name: '', rating: 5, text: '' }])}
                     className="text-xs font-bold px-3 py-1.5 rounded-xl text-white"
                     style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
