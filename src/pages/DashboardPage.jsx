@@ -15,6 +15,7 @@ export default function DashboardPage() {
   const [deletingId, setDeletingId] = useState(null);
   const [confirmDelete, setConfirmDelete] = useState(null);
   const [copied, setCopied] = useState(null);
+  const [showCreateModal, setShowCreateModal] = useState(false);
 
   useEffect(() => {
     if (authLoading) return;
