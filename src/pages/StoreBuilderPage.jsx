@@ -334,105 +334,215 @@ function CheckoutModal({ data, onClose }) {
 }
 
 // ─── Multi-Store Preview ───────────────────────────────────────────────────────
-function MultiStorePreview({ ms, onProductClick }) {
+function MultiStorePreview({ ms, cart, onAddToCart, onCartOpen }) {
   const accent = ms.accentColor || '#F4938C';
   const [activeCat, setActiveCat] = useState(null);
+  const [popupCat, setPopupCat] = useState(null);
+  const cartCount = (cart || []).reduce((s, i) => s + (i.qty || 1), 0);
+
+  const handleCatClick = (cat, i) => {
+    if (cat.displayMode === 'popup') { setPopupCat(i); }
+    else { setActiveCat(activeCat === i ? null : i); }
+  };
 
   return (
-    <div dir="rtl" style={{ fontFamily: "'Heebo','Segoe UI',sans-serif", background: '#f8f9fa', minHeight: '100%' }}>
+    <div dir="rtl" style={{ fontFamily: "'Heebo','Segoe UI',sans-serif", background: '#f8f9fa', minHeight: '100%', display: 'flex', flexDirection: 'column', position: 'relative' }}>
       {/* Hero */}
-      <div style={{ position: 'relative', height: 160, background: ms.coverImage ? 'transparent' : `linear-gradient(135deg,${accent}44,${accent}11)`, overflow: 'hidden' }}>
+      <div style={{ position: 'relative', height: 160, background: ms.coverImage ? 'transparent' : `linear-gradient(135deg,${accent}44,${accent}11)`, overflow: 'hidden', flexShrink: 0 }}>
         {ms.coverImage
           ? <img src={ms.coverImage} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-          : <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+          : <div style={{ width:'100%', height:'100%', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', gap:6 }}>
               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-              <span style={{ fontSize: 10, color: accent, fontWeight: 600 }}>תמונת כריכה</span>
+              <span style={{ fontSize:10, color:accent, fontWeight:600 }}>תמונת כריכה</span>
             </div>
         }
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(transparent 40%, rgba(0,0,0,0.5))' }} />
-        <div style={{ position: 'absolute', bottom: 12, right: 14, left: 14, display: 'flex', alignItems: 'center', gap: 10 }}>
+        <div style={{ position:'absolute', inset:0, background:'linear-gradient(transparent 40%, rgba(0,0,0,0.55))' }} />
+        {/* Cart button */}
+        <button onClick={onCartOpen} style={{ position:'absolute', top:10, left:10, width:34, height:34, borderRadius:'50%', background:'rgba(255,255,255,0.15)', backdropFilter:'blur(8px)', border:'1px solid rgba(255,255,255,0.3)', display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer' }}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          {cartCount > 0 && <span style={{ position:'absolute', top:-5, right:-5, width:16, height:16, borderRadius:'50%', background:'#EF4444', color:'white', fontSize:9, fontWeight:800, display:'flex', alignItems:'center', justifyContent:'center' }}>{cartCount}</span>}
+        </button>
+        {/* Logo + name */}
+        <div style={{ position:'absolute', bottom:12, right:14, left:14, display:'flex', alignItems:'center', gap:10 }}>
           {ms.logoImage
-            ? <img src={ms.logoImage} alt="" style={{ width: 44, height: 44, borderRadius: 12, border: '2px solid white', objectFit: 'cover', flexShrink: 0 }} />
-            : <div style={{ width: 44, height: 44, borderRadius: 12, background: `linear-gradient(135deg,${accent},#5BC4C8)`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                <span style={{ fontSize: 20 }}>🛍️</span>
-              </div>
+            ? <img src={ms.logoImage} alt="" style={{ width:44, height:44, borderRadius:12, border:'2px solid white', objectFit:'cover', flexShrink:0 }} />
+            : <div style={{ width:44, height:44, borderRadius:12, background:`linear-gradient(135deg,${accent},#5BC4C8)`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}><span style={{ fontSize:20 }}>🛍️</span></div>
           }
           <div>
-            <p style={{ color: 'white', fontWeight: 900, fontSize: 14, margin: 0, textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}>{ms.storeName || 'שם החנות'}</p>
-            {ms.tagline && <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: 10, margin: 0 }}>{ms.tagline}</p>}
+            <p style={{ color:'white', fontWeight:900, fontSize:14, margin:0, textShadow:'0 1px 4px rgba(0,0,0,0.5)' }}>{ms.storeName || 'שם החנות'}</p>
+            {ms.tagline && <p style={{ color:'rgba(255,255,255,0.75)', fontSize:10, margin:0 }}>{ms.tagline}</p>}
           </div>
         </div>
       </div>
 
-      {/* Social bar */}
-      {(ms.social?.instagram || ms.social?.facebook || ms.social?.tiktok || ms.social?.whatsapp) && (
-        <div style={{ background: 'white', padding: '8px 14px', display: 'flex', gap: 10, justifyContent: 'center', borderBottom: '1px solid #f3f4f6' }}>
-          {ms.social?.whatsapp && <div style={{ width: 28, height: 28, borderRadius: '50%', background: '#25D366', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2c-5.514 0-9.99 4.476-9.99 9.99 0 1.76.46 3.41 1.27 4.85L2 22l5.31-1.25A9.99 9.99 0 0 0 12 22c5.514 0 9.99-4.476 9.99-9.99C21.99 6.486 17.514 2 11.99 2z"/></svg>
-          </div>}
-          {ms.social?.instagram && <div style={{ width: 28, height: 28, borderRadius: '50%', background: 'linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke="white" strokeWidth="2"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" fill="none" stroke="white" strokeWidth="2"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="white" strokeWidth="2"/></svg>
-          </div>}
-          {ms.social?.facebook && <div style={{ width: 28, height: 28, borderRadius: '50%', background: '#1877F2', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-          </div>}
-          {ms.social?.tiktok && <div style={{ width: 28, height: 28, borderRadius: '50%', background: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.2 8.2 0 0 0 4.82 1.55V6.79a4.85 4.85 0 0 1-1.05-.1z"/></svg>
-          </div>}
-        </div>
-      )}
-
-      {/* Categories */}
-      <div style={{ padding: '12px 12px 80px' }}>
-        <p style={{ fontSize: 11, fontWeight: 800, color: '#374151', marginBottom: 8 }}>קטגוריות</p>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+      {/* Categories grid */}
+      <div style={{ flex:1, padding:'12px 12px 0' }}>
+        <p style={{ fontSize:11, fontWeight:800, color:'#374151', marginBottom:8 }}>קטגוריות</p>
+        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8 }}>
           {(ms.categories || []).map((cat, i) => (
-            <div key={i} onClick={() => setActiveCat(activeCat === i ? null : i)}
-              style={{ borderRadius: 14, overflow: 'hidden', background: 'white', boxShadow: '0 2px 8px rgba(0,0,0,0.08)', cursor: 'pointer', border: activeCat === i ? `2px solid ${accent}` : '2px solid transparent' }}>
-              <div style={{ height: 64, background: cat.image ? 'transparent' : `linear-gradient(135deg,${accent}33,${accent}11)`, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
-                {cat.image
-                  ? <img src={cat.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                  : <span style={{ fontSize: 24 }}>{cat.icon || '🛍️'}</span>
-                }
+            <div key={i} onClick={() => handleCatClick(cat, i)}
+              style={{ borderRadius:14, overflow:'hidden', background:'white', boxShadow:'0 2px 8px rgba(0,0,0,0.08)', cursor:'pointer', border: activeCat === i ? `2px solid ${accent}` : '2px solid transparent', transition:'border 0.15s' }}>
+              <div style={{ height:64, background: cat.image ? 'transparent' : `linear-gradient(135deg,${accent}33,${accent}11)`, display:'flex', alignItems:'center', justifyContent:'center', position:'relative', overflow:'hidden' }}>
+                {cat.image ? <img src={cat.image} alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} /> : <span style={{ fontSize:24 }}>{cat.icon || '🛍️'}</span>}
+                <div style={{ position:'absolute', top:4, left:4, background:'rgba(0,0,0,0.45)', borderRadius:6, padding:'1px 5px' }}>
+                  <span style={{ color:'white', fontSize:7, fontWeight:700 }}>{cat.displayMode === 'popup' ? '⬆ popup' : '↓ רשימה'}</span>
+                </div>
               </div>
-              <div style={{ padding: '6px 8px' }}>
-                <p style={{ fontSize: 11, fontWeight: 700, color: '#111', margin: 0 }}>{cat.name || 'קטגוריה'}</p>
-                <p style={{ fontSize: 9, color: '#9ca3af', margin: 0 }}>{(cat.products || []).length} מוצרים</p>
+              <div style={{ padding:'6px 8px' }}>
+                <p style={{ fontSize:11, fontWeight:700, color:'#111', margin:0 }}>{cat.name || 'קטגוריה'}</p>
+                <p style={{ fontSize:9, color:'#9ca3af', margin:0 }}>{(cat.products||[]).length} מוצרים</p>
               </div>
             </div>
           ))}
-          {(ms.categories || []).length === 0 && (
-            <div style={{ gridColumn: 'span 2', height: 80, borderRadius: 14, border: '2px dashed #e5e7eb', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <span style={{ fontSize: 11, color: '#9ca3af' }}>הוסף קטגוריות</span>
+          {(ms.categories||[]).length === 0 && (
+            <div style={{ gridColumn:'span 2', height:80, borderRadius:14, border:'2px dashed #e5e7eb', display:'flex', alignItems:'center', justifyContent:'center' }}>
+              <span style={{ fontSize:11, color:'#9ca3af' }}>הוסף קטגוריות</span>
             </div>
           )}
         </div>
 
-        {/* Open category products inline */}
-        {activeCat !== null && ms.categories?.[activeCat] && (
-          <div style={{ marginTop: 10, background: 'white', borderRadius: 14, padding: '10px 10px', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
-            <p style={{ fontSize: 11, fontWeight: 800, color: '#374151', marginBottom: 8 }}>{ms.categories[activeCat].name}</p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-              {(ms.categories[activeCat].products || []).filter(p => p.name).map((p, pi) => (
-                <div key={pi} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px', borderRadius: 10, border: '1px solid #f3f4f6' }}>
-                  <div style={{ width: 36, height: 36, borderRadius: 8, background: p.image ? 'transparent' : `${accent}22`, flexShrink: 0, overflow: 'hidden' }}>
-                    {p.image ? <img src={p.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><span style={{ fontSize: 16 }}>📦</span></div>}
+        {/* Inline list (page mode) */}
+        {activeCat !== null && ms.categories?.[activeCat] && ms.categories[activeCat].displayMode !== 'popup' && (
+          <div style={{ marginTop:10, background:'white', borderRadius:14, padding:'10px', boxShadow:'0 2px 8px rgba(0,0,0,0.08)' }}>
+            <p style={{ fontSize:11, fontWeight:800, color:'#374151', marginBottom:8 }}>{ms.categories[activeCat].name}</p>
+            <div style={{ display:'flex', flexDirection:'column', gap:6 }}>
+              {(ms.categories[activeCat].products||[]).filter(p=>p.name).map((p,pi) => (
+                <div key={pi} style={{ display:'flex', alignItems:'center', gap:8, padding:'6px', borderRadius:10, border:'1px solid #f3f4f6' }}>
+                  <div style={{ width:36, height:36, borderRadius:8, background: p.image ? 'transparent' : `${accent}22`, flexShrink:0, overflow:'hidden', display:'flex', alignItems:'center', justifyContent:'center' }}>
+                    {p.image ? <img src={p.image} alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} /> : <span style={{ fontSize:16 }}>📦</span>}
                   </div>
-                  <div style={{ flex: 1 }}>
-                    <p style={{ fontSize: 11, fontWeight: 700, color: '#111', margin: 0 }}>{p.name}</p>
-                    {p.price && <p style={{ fontSize: 10, color: accent, fontWeight: 800, margin: 0 }}>₪{p.price}</p>}
+                  <div style={{ flex:1 }}>
+                    <p style={{ fontSize:11, fontWeight:700, color:'#111', margin:0 }}>{p.name}</p>
+                    {p.price && <p style={{ fontSize:10, color:accent, fontWeight:800, margin:0 }}>₪{p.price}</p>}
                   </div>
-                  <button style={{ padding: '4px 8px', borderRadius: 8, background: accent, color: 'white', fontSize: 9, fontWeight: 700, border: 'none', cursor: 'pointer' }}>הוסף</button>
+                  <button onClick={e => { e.stopPropagation(); onAddToCart(p); }} style={{ padding:'4px 8px', borderRadius:8, background:accent, color:'white', fontSize:9, fontWeight:700, border:'none', cursor:'pointer' }}>הוסף</button>
                 </div>
               ))}
-              {(ms.categories[activeCat].products || []).filter(p => p.name).length === 0 && (
-                <p style={{ fontSize: 10, color: '#9ca3af', textAlign: 'center', padding: '8px 0' }}>אין מוצרים עדיין</p>
-              )}
             </div>
           </div>
         )}
       </div>
+
+      {/* Footer */}
+      <div style={{ background:'white', borderTop:'1px solid #f3f4f6', padding:'10px 14px 14px', marginTop:12, flexShrink:0 }}>
+        {(ms.social?.instagram || ms.social?.facebook || ms.social?.tiktok || ms.social?.whatsapp || ms.social?.website) && (
+          <div style={{ display:'flex', gap:8, justifyContent:'center', marginBottom:8 }}>
+            {ms.social?.whatsapp && <div style={{ width:28, height:28, borderRadius:'50%', background:'#25D366', display:'flex', alignItems:'center', justifyContent:'center' }}><svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2c-5.514 0-9.99 4.476-9.99 9.99 0 1.76.46 3.41 1.27 4.85L2 22l5.31-1.25A9.99 9.99 0 0 0 12 22c5.514 0 9.99-4.476 9.99-9.99C21.99 6.486 17.514 2 11.99 2z"/></svg></div>}
+            {ms.social?.instagram && <div style={{ width:28, height:28, borderRadius:'50%', background:'linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)', display:'flex', alignItems:'center', justifyContent:'center' }}><svg width="14" height="14" viewBox="0 0 24 24" fill="white"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="white" strokeWidth="2"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" fill="none" stroke="white" strokeWidth="2"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="white" strokeWidth="2"/></svg></div>}
+            {ms.social?.facebook && <div style={{ width:28, height:28, borderRadius:'50%', background:'#1877F2', display:'flex', alignItems:'center', justifyContent:'center' }}><svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></div>}
+            {ms.social?.tiktok && <div style={{ width:28, height:28, borderRadius:'50%', background:'#000', display:'flex', alignItems:'center', justifyContent:'center' }}><svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.2 8.2 0 0 0 4.82 1.55V6.79a4.85 4.85 0 0 1-1.05-.1z"/></svg></div>}
+            {ms.social?.website && <div style={{ width:28, height:28, borderRadius:'50%', background:'#6366f1', display:'flex', alignItems:'center', justifyContent:'center' }}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>}
+          </div>
+        )}
+        {ms.terms && <p style={{ fontSize:8, color:'#9ca3af', textAlign:'center', margin:0, lineHeight:1.4 }}>{ms.terms}</p>}
+        {!ms.social?.instagram && !ms.social?.facebook && !ms.social?.whatsapp && !ms.terms && (
+          <p style={{ fontSize:9, color:'#d1d5db', textAlign:'center', margin:0 }}>פוטר · רשתות חברתיות · תקנון</p>
+        )}
+      </div>
+
+      {/* Category Popup overlay */}
+      <AnimatePresence>
+        {popupCat !== null && ms.categories?.[popupCat] && (
+          <motion.div initial={{ opacity:0 }} animate={{ opacity:1 }} exit={{ opacity:0 }}
+            style={{ position:'absolute', inset:0, background:'rgba(0,0,0,0.5)', zIndex:20, display:'flex', alignItems:'flex-end' }}
+            onClick={() => setPopupCat(null)}>
+            <motion.div initial={{ y:'100%' }} animate={{ y:0 }} exit={{ y:'100%' }}
+              transition={{ type:'spring', damping:28, stiffness:320 }}
+              onClick={e => e.stopPropagation()}
+              style={{ width:'100%', background:'white', borderRadius:'20px 20px 0 0', padding:'14px', maxHeight:'70%', overflowY:'auto' }}>
+              <div style={{ width:32, height:3, background:'#e5e7eb', borderRadius:2, margin:'0 auto 12px' }} />
+              <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:12 }}>
+                <div style={{ display:'flex', alignItems:'center', gap:8 }}>
+                  <span style={{ fontSize:20 }}>{ms.categories[popupCat].icon||'🛍️'}</span>
+                  <p style={{ fontSize:13, fontWeight:800, color:'#111', margin:0 }}>{ms.categories[popupCat].name}</p>
+                </div>
+                <button onClick={() => setPopupCat(null)} style={{ width:24, height:24, borderRadius:'50%', background:'#f3f4f6', border:'none', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center' }}>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6b7280" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+              </div>
+              <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
+                {(ms.categories[popupCat].products||[]).filter(p=>p.name).map((p,pi) => (
+                  <div key={pi} style={{ display:'flex', alignItems:'center', gap:10, padding:'8px 10px', borderRadius:12, border:'1px solid #f3f4f6', background:'#fafafa' }}>
+                    <div style={{ width:44, height:44, borderRadius:10, overflow:'hidden', flexShrink:0, background: p.image ? 'transparent' : `${accent}22`, display:'flex', alignItems:'center', justifyContent:'center' }}>
+                      {p.image ? <img src={p.image} alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} /> : <span style={{ fontSize:20 }}>📦</span>}
+                    </div>
+                    <div style={{ flex:1 }}>
+                      <p style={{ fontSize:12, fontWeight:700, color:'#111', margin:'0 0 2px' }}>{p.name}</p>
+                      {p.description && <p style={{ fontSize:9, color:'#6b7280', margin:'0 0 2px', lineHeight:1.3 }}>{p.description}</p>}
+                      {p.price && <p style={{ fontSize:12, color:accent, fontWeight:900, margin:0 }}>₪{p.price}</p>}
+                    </div>
+                    <button onClick={() => onAddToCart(p)} style={{ padding:'6px 10px', borderRadius:10, background:`linear-gradient(135deg,${accent},#5BC4C8)`, color:'white', fontSize:10, fontWeight:800, border:'none', cursor:'pointer', flexShrink:0 }}>+ הוסף</button>
+                  </div>
+                ))}
+                {(ms.categories[popupCat].products||[]).filter(p=>p.name).length === 0 && (
+                  <p style={{ fontSize:11, color:'#9ca3af', textAlign:'center', padding:'16px 0' }}>אין מוצרים עדיין</p>
+                )}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
+  );
+}
+
+// ─── Cart Sheet ────────────────────────────────────────────────────────────────
+function CartSheet({ cart, onClose, onUpdateQty, onCheckout, accent }) {
+  const total = cart.reduce((s, i) => s + (Number(i.price)||0) * i.qty, 0);
+  return (
+    <motion.div className="fixed inset-0 z-[100] flex items-end md:items-center justify-center"
+      initial={{ opacity:0 }} animate={{ opacity:1 }} exit={{ opacity:0 }}
+      onClick={e => { if (e.target === e.currentTarget) onClose(); }}>
+      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
+      <motion.div dir="rtl"
+        initial={{ y:'100%' }} animate={{ y:0 }} exit={{ y:'100%' }}
+        transition={{ type:'spring', damping:28, stiffness:320 }}
+        style={{ background:'white', borderRadius:'24px 24px 0 0', width:'100%', maxWidth:480, position:'relative', zIndex:1, maxHeight:'85vh', display:'flex', flexDirection:'column' }}
+        className="md:rounded-2xl md:mb-0">
+        <div style={{ width:40, height:4, background:'#e5e7eb', borderRadius:2, margin:'12px auto 0' }} />
+        <div className="flex items-center justify-between px-5 py-3 border-b border-gray-100 flex-shrink-0">
+          <h2 style={{ fontSize:16, fontWeight:900, color:'#111', margin:0 }}>🛒 סל קניות</h2>
+          <button onClick={onClose} style={{ width:30, height:30, borderRadius:'50%', background:'#f3f4f6', border:'none', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center' }}>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6b7280" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+        <div className="flex-1 overflow-y-auto p-4 space-y-3">
+          {cart.length === 0 ? (
+            <div style={{ textAlign:'center', padding:'40px 0' }}>
+              <p style={{ fontSize:36 }}>🛒</p>
+              <p style={{ fontSize:14, color:'#9ca3af', marginTop:8 }}>הסל ריק</p>
+            </div>
+          ) : cart.map((item, i) => (
+            <div key={i} style={{ display:'flex', alignItems:'center', gap:12, padding:'10px 12px', borderRadius:14, border:'1px solid #f3f4f6', background:'#fafafa' }}>
+              <div style={{ width:44, height:44, borderRadius:10, overflow:'hidden', flexShrink:0, background: item.image ? 'transparent' : `${accent||'#F4938C'}22`, display:'flex', alignItems:'center', justifyContent:'center' }}>
+                {item.image ? <img src={item.image} alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} /> : <span style={{ fontSize:20 }}>📦</span>}
+              </div>
+              <div style={{ flex:1 }}>
+                <p style={{ fontSize:13, fontWeight:700, color:'#111', margin:'0 0 2px' }}>{item.name}</p>
+                <p style={{ fontSize:12, fontWeight:900, color: accent||'#F4938C', margin:0 }}>₪{item.price}</p>
+              </div>
+              <div style={{ display:'flex', alignItems:'center', gap:6 }}>
+                <button onClick={() => onUpdateQty(i, item.qty - 1)} style={{ width:26, height:26, borderRadius:'50%', background:'#f3f4f6', border:'none', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', fontSize:14, fontWeight:700 }}>-</button>
+                <span style={{ fontSize:13, fontWeight:700, minWidth:20, textAlign:'center' }}>{item.qty}</span>
+                <button onClick={() => onUpdateQty(i, item.qty + 1)} style={{ width:26, height:26, borderRadius:'50%', background:`${accent||'#F4938C'}22`, border:'none', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', fontSize:14, fontWeight:700, color: accent||'#F4938C' }}>+</button>
+              </div>
+            </div>
+          ))}
+        </div>
+        {cart.length > 0 && (
+          <div style={{ padding:'12px 20px 24px', borderTop:'1px solid #f3f4f6', flexShrink:0 }}>
+            <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:14 }}>
+              <span style={{ fontSize:14, fontWeight:700, color:'#374151' }}>סה"כ</span>
+              <span style={{ fontSize:20, fontWeight:900, color: accent||'#F4938C' }}>₪{total.toFixed(2)}</span>
+            </div>
+            <button onClick={onCheckout} style={{ width:'100%', padding:'14px', borderRadius:14, background:`linear-gradient(135deg,${accent||'#F4938C'},#5BC4C8)`, color:'white', fontWeight:900, fontSize:15, border:'none', cursor:'pointer', boxShadow:`0 4px 20px ${accent||'#F4938C'}44` }}>
+              לתשלום →
+            </button>
+            <p style={{ fontSize:9, color:'#9ca3af', textAlign:'center', marginTop:8 }}>⚠️ סליקה דמו — לא בוצעה עסקה אמיתית</p>
+          </div>
+        )}
+      </motion.div>
+    </motion.div>
   );
 }
 
@@ -505,6 +615,8 @@ export default function StoreBuilderPage() {
   const [uploading, setUploading] = useState(false);
   const [showPhonePreview, setShowPhonePreview] = useState(true);
   const fileRef = useRef(null);
+  const coverRef = useRef(null);
+  const logoRef = useRef(null);
 
   const storeType = data.storeType || 'single';
   const setStoreType = (t) => upd('storeType', t);
@@ -522,6 +634,53 @@ export default function StoreBuilderPage() {
     prods[prodIdx] = { ...prods[prodIdx], ...patch };
     cats[catIdx] = { ...cats[catIdx], products: prods };
     updMulti('categories', cats);
+  };
+
+  // Multi-store steps
+  const MULTI_STEPS = [
+    { id: 'info',   label: 'חנות',     icon: '🏪' },
+    { id: 'cover',  label: 'כריכה',    icon: '🖼️' },
+    { id: 'logo',   label: 'לוגו',     icon: '✨' },
+    { id: 'cats',   label: 'קטגוריות', icon: '📂' },
+    { id: 'footer', label: 'פוטר',     icon: '🔗' },
+  ];
+  const [multiStep, setMultiStep] = useState('info');
+
+  // Cart
+  const [cart, setCart] = useState([]);
+  const [showCart, setShowCart] = useState(false);
+  const addToCart = (product) => {
+    setCart(prev => {
+      const idx = prev.findIndex(i => i.name === product.name);
+      if (idx >= 0) { const n = [...prev]; n[idx] = { ...n[idx], qty: n[idx].qty + 1 }; return n; }
+      return [...prev, { ...product, qty: 1 }];
+    });
+  };
+  const updateCartQty = (idx, qty) => {
+    if (qty <= 0) setCart(prev => prev.filter((_, i) => i !== idx));
+    else setCart(prev => { const n = [...prev]; n[idx] = { ...n[idx], qty }; return n; });
+  };
+
+  // Upload states
+  const [uploadingCover, setUploadingCover] = useState(false);
+  const [uploadingLogo, setUploadingLogo] = useState(false);
+
+  const handleCoverUpload = async (file) => {
+    if (!file || !user) return;
+    setUploadingCover(true);
+    try { const url = await uploadCardImage(user.id, file); updMulti('coverImage', url); }
+    catch(e) { console.error(e); } finally { setUploadingCover(false); }
+  };
+  const handleLogoUpload = async (file) => {
+    if (!file || !user) return;
+    setUploadingLogo(true);
+    try { const url = await uploadCardImage(user.id, file); updMulti('logoImage', url); }
+    catch(e) { console.error(e); } finally { setUploadingLogo(false); }
+  };
+  const handleProductImageUpload = async (catIdx, prodIdx, file) => {
+    if (!file || !user) return;
+    try { const url = await uploadCardImage(user.id, file); updProduct(catIdx, prodIdx, { image: url }); }
+    catch(e) { console.error(e); }
   };
 
   // Multi-store editing state
@@ -591,7 +750,7 @@ export default function StoreBuilderPage() {
       </nav>
 
       {/* Mobile steps bar — single product only */}
-      <div className={`${storeType === 'multi' ? 'hidden' : 'md:hidden'} bg-white border-b border-gray-100`}>
+      <div className={`${storeType !== 'single' ? 'hidden' : 'md:hidden'} bg-white border-b border-gray-100`}>
         <div className="px-3 pt-2.5 pb-2">
           <div className="flex items-start">
             {SECTIONS.map((s, i) => {
@@ -624,6 +783,42 @@ export default function StoreBuilderPage() {
         </div>
       </div>
 
+      {/* Multi-store steps bar — mobile */}
+      {storeType === 'multi' && (
+        <div className="md:hidden bg-white border-b border-gray-100">
+          <div className="px-3 pt-2.5 pb-2">
+            <div className="flex items-start">
+              {MULTI_STEPS.map((s, i) => {
+                const currentIdx = MULTI_STEPS.findIndex(x => x.id === multiStep);
+                return (
+                  <div key={s.id} className="flex items-center flex-1 last:flex-none">
+                    <div className="flex flex-col items-center gap-1 flex-shrink-0 mx-auto">
+                      <button onClick={() => setMultiStep(s.id)}
+                        className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold transition-all"
+                        style={multiStep === s.id
+                          ? { background:'linear-gradient(135deg,#F4938C,#5BC4C8)', color:'white', boxShadow:'0 2px 8px rgba(244,147,140,0.4)' }
+                          : i < currentIdx
+                          ? { background:'#10B981', color:'white' }
+                          : { background:'#f3f4f6', color:'#9ca3af' }}>
+                        {i < currentIdx ? '✓' : s.icon}
+                      </button>
+                      <span className="text-[8px] font-medium text-center leading-tight w-10 break-words"
+                        style={{ color: multiStep === s.id ? '#F4938C' : i < currentIdx ? '#10B981' : '#9ca3af' }}>
+                        {s.label}
+                      </span>
+                    </div>
+                    {i < MULTI_STEPS.length - 1 && (
+                      <div className="flex-1 h-px mt-3.5 mx-0.5"
+                        style={{ background: i < MULTI_STEPS.findIndex(x => x.id === multiStep) ? '#10B981' : '#e5e7eb' }} />
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="max-w-7xl mx-auto px-2 md:px-4 py-3 md:py-6 flex gap-2 md:gap-6 items-start">
 
         {/* ── Form Panel ── */}
@@ -642,6 +837,25 @@ export default function StoreBuilderPage() {
               </button>
             ))}
           </div>
+
+          {/* Desktop multi steps bar */}
+          {storeType === 'multi' && (
+            <div className="hidden md:flex gap-2 bg-white rounded-2xl p-1.5 border border-gray-100" style={{ boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
+              {MULTI_STEPS.map((s, i) => {
+                const currentIdx = MULTI_STEPS.findIndex(x => x.id === multiStep);
+                return (
+                  <button key={s.id} onClick={() => setMultiStep(s.id)}
+                    className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-sm font-semibold transition-all"
+                    style={multiStep === s.id
+                      ? { background:'linear-gradient(135deg,#F4938C22,#5BC4C822)', color:'#F4938C', boxShadow:'0 1px 4px rgba(244,147,140,0.2)' }
+                      : i < currentIdx ? { color:'#10B981' } : { color:'#9ca3af' }}>
+                    <span style={{ fontSize:14 }}>{i < currentIdx ? '✓' : s.icon}</span>
+                    <span>{s.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+          )}
 
           {/* ── Section: Product ── */}
           {storeType === 'single' && activeSection === 'product' && (
@@ -880,108 +1094,205 @@ export default function StoreBuilderPage() {
             </motion.div>
           )}
 
-          {/* ══ MULTI-STORE SECTIONS ══ */}
+          {/* ══ MULTI-STORE STEPS ══ */}
           {storeType === 'multi' && (
-            <motion.div key="multi" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="space-y-3">
+            <motion.div key={`multi-${multiStep}`} initial={{ opacity:0, x:16 }} animate={{ opacity:1, x:0 }} className="space-y-3">
 
-              {/* Mobile compact */}
-              <div className="md:hidden bg-white rounded-2xl p-3 border border-gray-100 space-y-2" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
-                {/* Store info */}
-                <button onClick={() => setShowMultiInfoSheet(true)} className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors">
-                  <span className="text-base">🏪</span>
-                  <span className="text-xs font-medium text-gray-700 flex-1 text-right">{ms.storeName || 'פרטי החנות'}</span>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
-                </button>
-                {/* Social */}
-                <button onClick={() => setShowSocialSheet(true)} className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors">
-                  <span className="text-base">🔗</span>
-                  <span className="text-xs font-medium text-gray-700 flex-1 text-right">רשתות חברתיות</span>
-                  {Object.values(ms.social || {}).filter(Boolean).length > 0 && (
-                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full text-white" style={{ background: ms.accentColor || '#F4938C' }}>{Object.values(ms.social || {}).filter(Boolean).length}</span>
-                  )}
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
-                </button>
-                {/* Categories */}
-                <button onClick={() => setEditingCatIdx(-1)} className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors">
-                  <span className="text-base">📂</span>
-                  <span className="text-xs font-medium text-gray-700 flex-1 text-right">קטגוריות ומוצרים</span>
-                  <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full text-white" style={{ background: ms.accentColor || '#F4938C' }}>{(ms.categories || []).length}</span>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
-                </button>
-              </div>
-
-              {/* Desktop full */}
-              <div className="hidden md:block space-y-4">
-                {/* Store info */}
-                <div className="bg-white rounded-2xl p-5 border border-gray-100 space-y-4" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+              {/* STEP: info */}
+              {multiStep === 'info' && (<>
+                <div className="bg-white rounded-2xl p-4 md:p-5 border border-gray-100 space-y-4" style={{ boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
                   <p className="text-sm font-bold text-gray-800">פרטי החנות</p>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs font-semibold text-gray-500 mb-1.5">שם החנות</label>
-                      <input value={ms.storeName} onChange={e => updMulti('storeName', e.target.value)} placeholder="הממתקים של תמי" className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400" />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-gray-500 mb-1.5">צבע ראשי</label>
-                      <div className="flex items-center gap-2">
-                        <input type="color" value={ms.accentColor} onChange={e => updMulti('accentColor', e.target.value)} className="w-10 h-10 rounded-lg border border-gray-200 cursor-pointer p-0.5" />
-                        <span className="text-xs text-gray-500">{ms.accentColor}</span>
+                  <div>
+                    <label className="block text-xs font-semibold text-gray-500 mb-1.5">שם החנות *</label>
+                    <input value={ms.storeName} onChange={e => updMulti('storeName', e.target.value)} placeholder="הממתקים של תמי" className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-gray-500 mb-1.5">תגית / תיאור קצר</label>
+                    <input value={ms.tagline} onChange={e => updMulti('tagline', e.target.value)} placeholder="הבגדים הכי טובים בעיר" className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-gray-500 mb-2">צבע ראשי</label>
+                    <div className="flex items-center gap-3">
+                      <input type="color" value={ms.accentColor} onChange={e => updMulti('accentColor', e.target.value)} className="w-10 h-10 rounded-lg border border-gray-200 cursor-pointer p-0.5" />
+                      <div className="flex gap-2 flex-wrap">
+                        {['#F4938C','#5BC4C8','#6366f1','#10B981','#F59E0B','#EF4444','#8B5CF6','#EC4899'].map(c => (
+                          <button key={c} onClick={() => updMulti('accentColor', c)} className="w-7 h-7 rounded-full border-2 transition-all" style={{ background:c, borderColor: ms.accentColor === c ? '#111' : 'transparent' }} />
+                        ))}
                       </div>
                     </div>
                   </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-gray-500 mb-1.5">תגית</label>
-                    <input value={ms.tagline} onChange={e => updMulti('tagline', e.target.value)} placeholder="חנות הבגדים שלנו" className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400" />
-                  </div>
                 </div>
+                <button onClick={() => setMultiStep('cover')} className="w-full py-3 rounded-2xl text-sm font-bold text-white" style={{ background:'linear-gradient(135deg,#F4938C,#5BC4C8)', boxShadow:'0 4px 16px rgba(244,147,140,0.3)' }}>
+                  הבא: תמונת כריכה →
+                </button>
+              </>)}
 
-                {/* Social */}
-                <div className="bg-white rounded-2xl p-5 border border-gray-100 space-y-3" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+              {/* STEP: cover */}
+              {multiStep === 'cover' && (<>
+                <div className="bg-white rounded-2xl p-4 md:p-5 border border-gray-100 space-y-4" style={{ boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
+                  <p className="text-sm font-bold text-gray-800">תמונת כריכה</p>
+                  <p className="text-xs text-gray-400">תמונה שתופיע ברקע ראש החנות</p>
+                  <div onClick={() => coverRef.current?.click()} className="relative cursor-pointer rounded-2xl overflow-hidden transition-all hover:opacity-90"
+                    style={{ height: ms.coverImage ? 160 : 120, background: ms.coverImage ? 'transparent' : 'linear-gradient(135deg,#f9fafb,#f3f4f6)', border: ms.coverImage ? 'none' : '2px dashed #e5e7eb', display:'flex', alignItems:'center', justifyContent:'center' }}>
+                    {ms.coverImage ? (
+                      <img src={ms.coverImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', display:'block' }} />
+                    ) : uploadingCover ? (
+                      <div className="flex items-center gap-2"><svg className="animate-spin w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg><p className="text-xs text-gray-500">מעלה...</p></div>
+                    ) : (
+                      <div className="flex flex-col items-center gap-3">
+                        <div className="w-12 h-12 rounded-2xl flex items-center justify-center" style={{ background:'linear-gradient(135deg,#F4938C22,#5BC4C822)' }}>
+                          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F4938C" strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                        </div>
+                        <div className="text-center">
+                          <p className="text-sm font-semibold text-gray-700">לחץ להעלאת תמונת כריכה</p>
+                          <p className="text-xs text-gray-400 mt-0.5">JPG, PNG · מומלץ 1200×400</p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  <input ref={coverRef} type="file" accept="image/*" className="hidden" onChange={e => handleCoverUpload(e.target.files?.[0])} />
+                  {ms.coverImage && <button onClick={() => updMulti('coverImage','')} className="text-xs text-red-400">הסר תמונה</button>}
+                </div>
+                <div className="flex gap-2">
+                  <button onClick={() => setMultiStep('info')} className="px-5 py-3 rounded-2xl text-sm font-bold text-gray-600 bg-white border border-gray-200">← חזור</button>
+                  <button onClick={() => setMultiStep('logo')} className="flex-1 py-3 rounded-2xl text-sm font-bold text-white" style={{ background:'linear-gradient(135deg,#F4938C,#5BC4C8)' }}>הבא: לוגו →</button>
+                </div>
+              </>)}
+
+              {/* STEP: logo */}
+              {multiStep === 'logo' && (<>
+                <div className="bg-white rounded-2xl p-4 md:p-5 border border-gray-100 space-y-4" style={{ boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
+                  <p className="text-sm font-bold text-gray-800">לוגו החנות</p>
+                  <p className="text-xs text-gray-400">יוצג מעל תמונת הכריכה עם שם החנות</p>
+                  <div className="flex items-center gap-4">
+                    <div onClick={() => logoRef.current?.click()} className="cursor-pointer hover:opacity-90 transition-opacity flex-shrink-0"
+                      style={{ width:80, height:80, borderRadius:20, overflow:'hidden', background: ms.logoImage ? 'transparent' : 'linear-gradient(135deg,#f9fafb,#f3f4f6)', border: ms.logoImage ? 'none' : '2px dashed #e5e7eb', display:'flex', alignItems:'center', justifyContent:'center' }}>
+                      {ms.logoImage ? (
+                        <img src={ms.logoImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} />
+                      ) : uploadingLogo ? (
+                        <svg className="animate-spin w-6 h-6 text-gray-400" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+                      ) : (
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                      )}
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-gray-700">לחץ על הריבוע להעלאה</p>
+                      <p className="text-xs text-gray-400 mt-1">PNG עם שקיפות עדיף · 200×200</p>
+                      {ms.logoImage && <button onClick={() => updMulti('logoImage','')} className="text-xs text-red-400 mt-1 block">הסר</button>}
+                    </div>
+                  </div>
+                  <input ref={logoRef} type="file" accept="image/*" className="hidden" onChange={e => handleLogoUpload(e.target.files?.[0])} />
+                </div>
+                <div className="flex gap-2">
+                  <button onClick={() => setMultiStep('cover')} className="px-5 py-3 rounded-2xl text-sm font-bold text-gray-600 bg-white border border-gray-200">← חזור</button>
+                  <button onClick={() => setMultiStep('cats')} className="flex-1 py-3 rounded-2xl text-sm font-bold text-white" style={{ background:'linear-gradient(135deg,#F4938C,#5BC4C8)' }}>הבא: קטגוריות →</button>
+                </div>
+              </>)}
+
+              {/* STEP: cats */}
+              {multiStep === 'cats' && (<>
+                <div className="bg-white rounded-2xl p-4 md:p-5 border border-gray-100 space-y-4" style={{ boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
+                  <div className="flex items-center justify-between">
+                    <p className="text-sm font-bold text-gray-800">קטגוריות ומוצרים</p>
+                    <button onClick={() => updMulti('categories',[...(ms.categories||[]),{ id:Date.now(), name:'', icon:'🛍️', image:'', displayMode:'popup', products:[{ name:'', price:'', image:'', description:'' }] }])}
+                      className="text-xs font-bold px-3 py-1.5 rounded-xl text-white" style={{ background:'linear-gradient(135deg,#F4938C,#5BC4C8)' }}>+ קטגוריה</button>
+                  </div>
+                  {(ms.categories||[]).map((cat, ci) => (
+                    <div key={ci} className="border border-gray-100 rounded-2xl p-4 space-y-3 bg-gray-50">
+                      {/* Category header */}
+                      <div className="flex items-center gap-2">
+                        <input value={cat.icon} onChange={e => updCategory(ci,{ icon:e.target.value })} className="w-10 border border-gray-200 rounded-xl px-2 py-1.5 text-center text-base focus:outline-none bg-white" maxLength={2} />
+                        <input value={cat.name} onChange={e => updCategory(ci,{ name:e.target.value })} placeholder="שם קטגוריה" className="flex-1 border border-gray-200 rounded-xl px-3 py-1.5 text-sm focus:outline-none bg-white" />
+                        <button onClick={() => updMulti('categories',(ms.categories||[]).filter((_,i)=>i!==ci))} className="text-xs text-red-400 px-2">מחק</button>
+                      </div>
+                      {/* Display mode */}
+                      <div>
+                        <p className="text-xs font-semibold text-gray-500 mb-1.5">אופן הצגה בלחיצה</p>
+                        <div className="flex gap-2">
+                          {[{ v:'popup', label:'פופ-אפ ⬆', desc:'חלונית מעל' },{ v:'page', label:'רשימה ↓', desc:'פתח מתחת' }].map(opt => (
+                            <button key={opt.v} onClick={() => updCategory(ci,{ displayMode:opt.v })}
+                              className="flex-1 py-2 px-3 rounded-xl border-2 text-xs font-bold transition-all text-right"
+                              style={cat.displayMode===opt.v ? { borderColor:ms.accentColor||'#F4938C', background:`${ms.accentColor||'#F4938C'}11`, color:ms.accentColor||'#F4938C' } : { borderColor:'#e5e7eb', color:'#9ca3af' }}>
+                              <div>{opt.label}</div>
+                              <div className="font-normal text-[10px] opacity-70">{opt.desc}</div>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                      {/* Products */}
+                      <div className="space-y-2">
+                        <p className="text-xs font-semibold text-gray-500">מוצרים</p>
+                        {(cat.products||[]).map((p,pi) => (
+                          <div key={pi} className="bg-white rounded-xl p-3 border border-gray-100 space-y-2">
+                            <div className="flex items-center gap-2">
+                              {/* Product image mini-upload */}
+                              <div onClick={() => { const inp = document.getElementById(`prod-img-${ci}-${pi}`); inp?.click(); }}
+                                style={{ width:40, height:40, borderRadius:10, overflow:'hidden', flexShrink:0, background: p.image ? 'transparent' : '#f3f4f6', display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer', border: p.image ? 'none' : '1.5px dashed #d1d5db' }}>
+                                {p.image ? <img src={p.image} alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} /> : <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>}
+                              </div>
+                              <input id={`prod-img-${ci}-${pi}`} type="file" accept="image/*" className="hidden" onChange={e => handleProductImageUpload(ci, pi, e.target.files?.[0])} />
+                              <input value={p.name} onChange={e => updProduct(ci,pi,{ name:e.target.value })} placeholder="שם המוצר" className="flex-1 border border-gray-200 rounded-xl px-2 py-1.5 text-xs focus:outline-none" />
+                              <input value={p.price} onChange={e => updProduct(ci,pi,{ price:e.target.value })} placeholder="₪מחיר" className="w-16 border border-gray-200 rounded-xl px-2 py-1.5 text-xs focus:outline-none" dir="ltr" />
+                              <button onClick={() => updCategory(ci,{ products:(cat.products||[]).filter((_,i)=>i!==pi) })} className="text-xs text-red-400 px-1">✕</button>
+                            </div>
+                            <input value={p.description||''} onChange={e => updProduct(ci,pi,{ description:e.target.value })} placeholder="תיאור קצר (אופציונלי)" className="w-full border border-gray-200 rounded-xl px-2 py-1.5 text-xs focus:outline-none" />
+                          </div>
+                        ))}
+                        <button onClick={() => updCategory(ci,{ products:[...(cat.products||[]),{ name:'', price:'', image:'', description:'' }] })}
+                          className="text-xs text-indigo-500 hover:text-indigo-600 font-medium py-1">+ הוסף מוצר</button>
+                      </div>
+                    </div>
+                  ))}
+                  {(ms.categories||[]).length === 0 && (
+                    <div className="border-2 border-dashed border-gray-200 rounded-2xl p-8 text-center">
+                      <p className="text-3xl mb-2">📂</p>
+                      <p className="text-sm text-gray-400">עדיין אין קטגוריות</p>
+                    </div>
+                  )}
+                </div>
+                <div className="flex gap-2">
+                  <button onClick={() => setMultiStep('logo')} className="px-5 py-3 rounded-2xl text-sm font-bold text-gray-600 bg-white border border-gray-200">← חזור</button>
+                  <button onClick={() => setMultiStep('footer')} className="flex-1 py-3 rounded-2xl text-sm font-bold text-white" style={{ background:'linear-gradient(135deg,#F4938C,#5BC4C8)' }}>הבא: פוטר →</button>
+                </div>
+              </>)}
+
+              {/* STEP: footer */}
+              {multiStep === 'footer' && (<>
+                <div className="bg-white rounded-2xl p-4 md:p-5 border border-gray-100 space-y-4" style={{ boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
                   <p className="text-sm font-bold text-gray-800">רשתות חברתיות</p>
+                  <p className="text-xs text-gray-400">הקישורים יוצגו כאייקונים בפוטר החנות</p>
                   {[
-                    { key: 'instagram', label: 'Instagram', placeholder: '@username', icon: '📸' },
-                    { key: 'facebook', label: 'Facebook', placeholder: 'שם הדף', icon: '👥' },
-                    { key: 'tiktok', label: 'TikTok', placeholder: '@username', icon: '🎵' },
-                    { key: 'whatsapp', label: 'WhatsApp', placeholder: '050-0000000', icon: '💬' },
+                    { key:'instagram', label:'Instagram', placeholder:'@username', icon:'📸', color:'#E1306C' },
+                    { key:'facebook',  label:'Facebook',  placeholder:'שם הדף',   icon:'👥', color:'#1877F2' },
+                    { key:'tiktok',    label:'TikTok',    placeholder:'@username', icon:'🎵', color:'#000' },
+                    { key:'whatsapp',  label:'WhatsApp',  placeholder:'050-0000000', icon:'💬', color:'#25D366' },
+                    { key:'website',   label:'אתר',       placeholder:'https://...', icon:'🌐', color:'#6366f1' },
                   ].map(s => (
                     <div key={s.key} className="flex items-center gap-3">
-                      <span className="text-lg w-6 flex-shrink-0">{s.icon}</span>
-                      <input value={ms.social?.[s.key] || ''} onChange={e => updMultiSocial(s.key, e.target.value)}
+                      <div style={{ width:32, height:32, borderRadius:'50%', background:s.color, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
+                        <span style={{ fontSize:14 }}>{s.icon}</span>
+                      </div>
+                      <input value={ms.social?.[s.key]||''} onChange={e => updMultiSocial(s.key, e.target.value)}
                         placeholder={s.placeholder} dir="ltr"
                         className="flex-1 border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-indigo-400" />
                     </div>
                   ))}
                 </div>
-
-                {/* Categories */}
-                <div className="bg-white rounded-2xl p-5 border border-gray-100 space-y-4" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
-                  <div className="flex items-center justify-between">
-                    <p className="text-sm font-bold text-gray-800">קטגוריות</p>
-                    <button onClick={() => updMulti('categories', [...(ms.categories || []), { id: Date.now(), name: '', icon: '🛍️', image: '', products: [{ name: '', price: '', image: '', description: '' }] }])}
-                      className="text-xs font-bold px-3 py-1.5 rounded-xl text-white" style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>+ הוסף</button>
-                  </div>
-                  {(ms.categories || []).map((cat, ci) => (
-                    <div key={ci} className="border border-gray-100 rounded-2xl p-4 space-y-3 bg-gray-50">
-                      <div className="flex items-center gap-3">
-                        <input value={cat.icon} onChange={e => updCategory(ci, { icon: e.target.value })} className="w-12 border border-gray-200 rounded-xl px-2 py-2 text-center text-lg focus:outline-none" maxLength={2} />
-                        <input value={cat.name} onChange={e => updCategory(ci, { name: e.target.value })} placeholder="שם קטגוריה" className="flex-1 border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-indigo-400 bg-white" />
-                        <button onClick={() => updMulti('categories', (ms.categories || []).filter((_, i) => i !== ci))} className="text-xs text-red-400 px-2">מחק</button>
-                      </div>
-                      <div className="space-y-2">
-                        <p className="text-xs font-semibold text-gray-500">מוצרים</p>
-                        {(cat.products || []).map((p, pi) => (
-                          <div key={pi} className="flex items-center gap-2">
-                            <input value={p.name} onChange={e => updProduct(ci, pi, { name: e.target.value })} placeholder="שם מוצר" className="flex-1 border border-gray-200 rounded-xl px-3 py-2 text-xs focus:outline-none bg-white" />
-                            <input value={p.price} onChange={e => updProduct(ci, pi, { price: e.target.value })} placeholder="₪" className="w-16 border border-gray-200 rounded-xl px-2 py-2 text-xs focus:outline-none bg-white" dir="ltr" />
-                            <button onClick={() => updCategory(ci, { products: (cat.products || []).filter((_, i) => i !== pi) })} className="text-xs text-red-400">✕</button>
-                          </div>
-                        ))}
-                        <button onClick={() => updCategory(ci, { products: [...(cat.products || []), { name: '', price: '', image: '', description: '' }] })}
-                          className="text-xs text-indigo-500 hover:text-indigo-600 font-medium">+ הוסף מוצר</button>
-                      </div>
-                    </div>
-                  ))}
+                <div className="bg-white rounded-2xl p-4 md:p-5 border border-gray-100 space-y-3" style={{ boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
+                  <p className="text-sm font-bold text-gray-800">תקנון / תנאי שימוש</p>
+                  <p className="text-xs text-gray-400">יוצג בטקסט קטן בתחתית הפוטר</p>
+                  <textarea value={ms.terms||''} onChange={e => updMulti('terms', e.target.value)}
+                    placeholder="כל הזכויות שמורות. ביטול עד 14 ימים מיום הרכישה..."
+                    rows={4} className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 resize-none" />
                 </div>
-              </div>
+                <div className="flex gap-2">
+                  <button onClick={() => setMultiStep('cats')} className="px-5 py-3 rounded-2xl text-sm font-bold text-gray-600 bg-white border border-gray-200">← חזור</button>
+                  <button className="flex-1 py-3 rounded-2xl text-sm font-bold text-white" style={{ background:'linear-gradient(135deg,#F4938C,#5BC4C8)', boxShadow:'0 4px 16px rgba(244,147,140,0.35)' }}>
+                    פרסם חנות 🚀
+                  </button>
+                </div>
+              </>)}
+
             </motion.div>
           )}
         </div>
@@ -1004,7 +1315,7 @@ export default function StoreBuilderPage() {
                         <div style={{ position: 'absolute', top: 16, left: '50%', transform: 'translateX(-50%)', width: 70, height: 22, background: '#000', borderRadius: 11, zIndex: 10 }} />
                         <div style={{ borderRadius: 36, overflow: 'hidden', background: '#f8f9fa', height: 520 }}>
                           {storeType === 'multi'
-                            ? <MultiStorePreview ms={ms} />
+                            ? <MultiStorePreview ms={ms} cart={cart} onAddToCart={addToCart} onCartOpen={() => setShowCart(true)} />
                             : <StorePreview data={data} onBuy={() => setShowCheckout(true)} />}
                         </div>
                       </div>
@@ -1056,7 +1367,7 @@ export default function StoreBuilderPage() {
                 </div>
                 <div style={{ height: '100%', overflowY: 'auto' }}>
                   {storeType === 'multi'
-                    ? <MultiStorePreview ms={ms} />
+                    ? <MultiStorePreview ms={ms} cart={cart} onAddToCart={addToCart} onCartOpen={() => setShowCart(true)} />
                     : <StorePreview data={data} onBuy={() => setShowCheckout(true)} />}
                 </div>
               </div>
@@ -1069,11 +1380,6 @@ export default function StoreBuilderPage() {
       </div>
 
       {/* ════ Mobile Bottom Sheets ════ */}
-
-      {/* Sheet helper */}
-      {[
-        // [show, setShow, title, content]
-      ].map(() => null)}
 
       <AnimatePresence>
         {/* ── Product name + tagline sheet ── */}
@@ -1368,12 +1674,25 @@ export default function StoreBuilderPage() {
                 ))}
               </div>
               <div className="px-4 py-3 border-t border-gray-100 flex gap-2 flex-shrink-0">
-                <button onClick={() => updMulti('categories', [...(ms.categories || []), { id: Date.now(), name: '', icon: '🛍️', image: '', products: [{ name: '', price: '', image: '', description: '' }] }])}
+                <button onClick={() => updMulti('categories', [...(ms.categories || []), { id: Date.now(), name: '', icon: '🛍️', image: '', displayMode: 'popup', products: [{ name: '', price: '', image: '', description: '' }] }])}
                   className="px-4 py-2.5 rounded-xl text-xs font-bold border border-gray-200 text-gray-700">+ קטגוריה</button>
                 <button onClick={() => setEditingCatIdx(null)} className="flex-1 py-2.5 rounded-xl text-sm font-bold text-white" style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>סגור ✓</button>
               </div>
             </motion.div>
           </>
+        )}
+      </AnimatePresence>
+
+      {/* Cart sheet */}
+      <AnimatePresence>
+        {showCart && (
+          <CartSheet
+            cart={cart}
+            accent={ms.accentColor || '#F4938C'}
+            onClose={() => setShowCart(false)}
+            onUpdateQty={updateCartQty}
+            onCheckout={() => { setShowCart(false); setShowCheckout(true); }}
+          />
         )}
       </AnimatePresence>
 
