@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../lib/AuthContext';
 import AuthModal from '../components/AuthModal';
 import LogoMark from '../components/LogoMark';
-import { getMyCards, deleteCard } from '../lib/cardsApi';
+import { getMyCards, deleteCard, getMyStores, deleteStore } from '../lib/cardsApi';
 
 export default function DashboardPage() {
   const { user, logout, loading: authLoading, isPro } = useAuth();
