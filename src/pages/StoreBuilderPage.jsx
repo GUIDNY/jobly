@@ -379,21 +379,24 @@ function MultiStorePreview({ ms, cart, onAddToCart, onCartOpen }) {
       <div style={{ flex:1, padding:'12px 12px 0' }}>
         <p style={{ fontSize:11, fontWeight:800, color:'#374151', marginBottom:8 }}>קטגוריות</p>
         <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8 }}>
-          {(ms.categories || []).map((cat, i) => (
-            <div key={i} onClick={() => handleCatClick(cat, i)}
-              style={{ borderRadius:14, overflow:'hidden', background:'white', boxShadow:'0 2px 8px rgba(0,0,0,0.08)', cursor:'pointer', border: activeCat === i ? `2px solid ${accent}` : '2px solid transparent', transition:'border 0.15s' }}>
-              <div style={{ height:64, background: cat.image ? 'transparent' : `linear-gradient(135deg,${accent}33,${accent}11)`, display:'flex', alignItems:'center', justifyContent:'center', position:'relative', overflow:'hidden' }}>
-                {cat.image ? <img src={cat.image} alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} /> : <span style={{ fontSize:24 }}>{cat.icon || '🛍️'}</span>}
-                <div style={{ position:'absolute', top:4, left:4, background:'rgba(0,0,0,0.45)', borderRadius:6, padding:'1px 5px' }}>
-                  <span style={{ color:'white', fontSize:7, fontWeight:700 }}>{cat.displayMode === 'popup' ? '⬆ popup' : '↓ רשימה'}</span>
+          {(ms.categories || []).map((cat, i) => {
+            const fullWidth = (cat.size||'half') === 'full';
+            return (
+              <div key={i} onClick={() => handleCatClick(cat, i)}
+                style={{ gridColumn: fullWidth ? 'span 2' : 'span 1', borderRadius:14, overflow:'hidden', background:'white', boxShadow:'0 2px 8px rgba(0,0,0,0.08)', cursor:'pointer', border: activeCat === i ? `2px solid ${accent}` : '2px solid transparent', transition:'border 0.15s' }}>
+                <div style={{ height: fullWidth ? 90 : 64, background: cat.image ? 'transparent' : `linear-gradient(135deg,${accent}33,${accent}11)`, display:'flex', alignItems:'center', justifyContent:'center', position:'relative', overflow:'hidden' }}>
+                  {cat.image ? <img src={cat.image} alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} /> : <span style={{ fontSize:24 }}>{cat.icon || '🛍️'}</span>}
+                  <div style={{ position:'absolute', top:4, left:4, background:'rgba(0,0,0,0.45)', borderRadius:6, padding:'1px 5px' }}>
+                    <span style={{ color:'white', fontSize:7, fontWeight:700 }}>{cat.displayMode === 'popup' ? '⬆ popup' : '↓ רשימה'}</span>
+                  </div>
+                </div>
+                <div style={{ padding:'6px 8px' }}>
+                  <p style={{ fontSize:11, fontWeight:700, color:'#111', margin:0 }}>{cat.name || 'קטגוריה'}</p>
+                  <p style={{ fontSize:9, color:'#9ca3af', margin:0 }}>{(cat.products||[]).length} מוצרים</p>
                 </div>
               </div>
-              <div style={{ padding:'6px 8px' }}>
-                <p style={{ fontSize:11, fontWeight:700, color:'#111', margin:0 }}>{cat.name || 'קטגוריה'}</p>
-                <p style={{ fontSize:9, color:'#9ca3af', margin:0 }}>{(cat.products||[]).length} מוצרים</p>
-              </div>
-            </div>
-          ))}
+            );
+          })}
           {(ms.categories||[]).length === 0 && (
             <div style={{ gridColumn:'span 2', height:80, borderRadius:14, border:'2px dashed #e5e7eb', display:'flex', alignItems:'center', justifyContent:'center' }}>
               <span style={{ fontSize:11, color:'#9ca3af' }}>הוסף קטגוריות</span>
