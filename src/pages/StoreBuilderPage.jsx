@@ -1,9 +1,9 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
 import LogoMark from '../components/LogoMark';
-import { uploadCardImage } from '../lib/cardsApi';
+import { uploadCardImage, createStore, updateStore, publishStore, getStoreById, checkStoreSlugAvailable, toSlug } from '../lib/cardsApi';
 
 // ─── Trust badge SVGs ──────────────────────────────────────────────────────────
 const PAYMENT_METHODS = [
