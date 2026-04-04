@@ -426,6 +426,19 @@ function MultiStorePreview({ ms, cart, onAddToCart, onCartOpen }) {
         )}
       </div>
 
+      {/* About section */}
+      {(ms.aboutText || ms.aboutTitle) && (
+        <div style={{ margin:'10px 12px 0', background:'white', borderRadius:14, padding:'12px', boxShadow:'0 2px 8px rgba(0,0,0,0.06)' }}>
+          <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:8 }}>
+            <div style={{ width:28, height:28, borderRadius:8, background:`linear-gradient(135deg,${ms.accentColor||'#F4938C'},#5BC4C8)`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
+              <span style={{ fontSize:13 }}>📖</span>
+            </div>
+            <p style={{ fontSize:12, fontWeight:800, color:'#111', margin:0 }}>{ms.aboutTitle || 'אודות החנות'}</p>
+          </div>
+          <p style={{ fontSize:11, color:'#6b7280', lineHeight:1.6, margin:0, whiteSpace:'pre-wrap' }}>{ms.aboutText}</p>
+        </div>
+      )}
+
       {/* Footer */}
       <div style={{ background:'white', borderTop:'1px solid #f3f4f6', padding:'10px 14px 14px', marginTop:12, flexShrink:0 }}>
         {(ms.social?.instagram || ms.social?.facebook || ms.social?.tiktok || ms.social?.whatsapp || ms.social?.website) && (
