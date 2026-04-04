@@ -633,14 +633,79 @@ const DEFAULT_DATA = {
 export default function StoreBuilderPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { storeId: routeStoreId } = useParams();
   const [data, setData] = useState(DEFAULT_DATA);
   const [activeSection, setActiveSection] = useState('product');
   const [showCheckout, setShowCheckout] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [showPhonePreview, setShowPhonePreview] = useState(true);
+  const [dbStoreId, setDbStoreId] = useState(null);
+  const [saving, setSaving] = useState(false);
+  const [publishing, setPublishing] = useState(false);
+  const [published, setPublished] = useState(false);
+  const [publishedSlug, setPublishedSlug] = useState('');
+  const [slugInput, setSlugInput] = useState('');
+  const [slugAvailable, setSlugAvailable] = useState(null);
+  const [slugChecking, setSlugChecking] = useState(false);
   const fileRef = useRef(null);
   const coverRef = useRef(null);
   const logoRef = useRef(null);
+
+  // Load existing store if editing
+  useEffect(() => {
+    if (!routeStoreId || !user) return;
+    getStoreById(routeStoreId).then(store => {
+      if (store) {
+        setData(store.data);
+        setDbStoreId(store.id);
+        setPublished(store.is_published);
+        setPublishedSlug(store.slug || '');
+        setSlugInput(store.slug || '');
+      }
+    }).catch(console.error);
+  }, [routeStoreId, user]);
+
+  const handleSave = async () => {
+    if (!user) return;
+    setSaving(true);
+    try {
+      if (dbStoreId) {
+        await updateStore(dbStoreId, data);
+      } else {
+        const store = await createStore(user.id, data);
+        setDbStoreId(store.id);
+        navigate(`/store-builder/${store.id}`, { replace: true });
+      }
+    } catch(e) { console.error(e); } finally { setSaving(false); }
+  };
+
+  const handlePublish = async () => {
+    if (!user || !slugInput.trim()) return;
+    setPublishing(true);
+    try {
+      let id = dbStoreId;
+      if (!id) {
+        const store = await createStore(user.id, data);
+        id = store.id;
+        setDbStoreId(id);
+        navigate(`/store-builder/${id}`, { replace: true });
+      } else {
+        await updateStore(id, data);
+      }
+      await publishStore(id, slugInput.trim());
+      setPublished(true);
+      setPublishedSlug(slugInput.trim());
+    } catch(e) { console.error(e); alert('שגיאה בפרסום: ' + e.message); } finally { setPublishing(false); }
+  };
+
+  const checkSlug = async (val) => {
+    setSlugInput(val);
+    if (!val || val.length < 2) { setSlugAvailable(null); return; }
+    setSlugChecking(true);
+    const ok = await checkStoreSlugAvailable(val, dbStoreId);
+    setSlugAvailable(ok);
+    setSlugChecking(false);
+  };
 
   const storeType = data.storeType || 'single';
   const setStoreType = (t) => upd('storeType', t);
