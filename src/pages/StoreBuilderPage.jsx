@@ -833,12 +833,16 @@ export default function StoreBuilderPage() {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <button className="px-4 py-2 rounded-xl text-sm font-medium text-gray-600 bg-gray-100 hover:bg-gray-200 transition-colors">
-              שמור טיוטה
+            <button onClick={handleSave} disabled={saving} className="px-4 py-2 rounded-xl text-sm font-medium text-gray-600 bg-gray-100 hover:bg-gray-200 transition-colors disabled:opacity-60">
+              {saving ? 'שומר...' : dbStoreId ? 'שמור' : 'שמור טיוטה'}
             </button>
-            <button className="px-4 py-2 rounded-xl text-sm font-bold text-white transition-all" style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)', boxShadow: '0 2px 10px rgba(244,147,140,0.4)' }}>
-              פרסם חנות
-            </button>
+            {published && publishedSlug && (
+              <a href={`/store/${publishedSlug}`} target="_blank" rel="noopener noreferrer"
+                className="px-4 py-2 rounded-xl text-sm font-bold transition-all"
+                style={{ background: '#10B981', color: 'white' }}>
+                צפה בחנות ↗
+              </a>
+            )}
           </div>
         </div>
       </nav>
