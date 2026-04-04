@@ -1677,15 +1677,26 @@ export default function StoreBuilderPage() {
                       <input value={cat.name} onChange={e => updCategory(ci, { name: e.target.value })} placeholder="שם קטגוריה" className="flex-1 border border-gray-200 rounded-xl px-3 py-1.5 text-sm focus:outline-none bg-white" />
                       <button onClick={() => updMulti('categories', (ms.categories || []).filter((_, i) => i !== ci))} className="text-xs text-red-400 px-1">מחק</button>
                     </div>
-                    <div className="space-y-1.5">
+                    <div className="space-y-2">
                       {(cat.products || []).map((p, pi) => (
-                        <div key={pi} className="flex items-center gap-2">
-                          <input value={p.name} onChange={e => updProduct(ci, pi, { name: e.target.value })} placeholder="שם מוצר" className="flex-1 border border-gray-200 rounded-xl px-2 py-1.5 text-xs focus:outline-none bg-white" />
-                          <input value={p.price} onChange={e => updProduct(ci, pi, { price: e.target.value })} placeholder="₪" className="w-14 border border-gray-200 rounded-xl px-2 py-1.5 text-xs focus:outline-none bg-white" dir="ltr" />
-                          <button onClick={() => updCategory(ci, { products: (cat.products || []).filter((_, i) => i !== pi) })} className="text-xs text-red-400">✕</button>
+                        <div key={pi} className="bg-white rounded-xl p-2 border border-gray-100 space-y-1.5">
+                          <div className="flex items-center gap-2">
+                            <input value={p.name} onChange={e => updProduct(ci, pi, { name: e.target.value })} placeholder="שם מוצר" className="flex-1 border border-gray-200 rounded-xl px-2 py-1.5 text-xs focus:outline-none" />
+                            <input value={p.price} onChange={e => updProduct(ci, pi, { price: e.target.value })} placeholder="₪" className="w-14 border border-gray-200 rounded-xl px-2 py-1.5 text-xs focus:outline-none" dir="ltr" />
+                            <button onClick={() => updCategory(ci, { products: (cat.products || []).filter((_, i) => i !== pi) })} className="text-xs text-red-400">✕</button>
+                          </div>
+                          <div className="flex gap-1.5">
+                            {[{v:'full',label:'רוחב מלא'},{v:'half',label:'חצי רוחב'}].map(opt => (
+                              <button key={opt.v} onClick={() => updProduct(ci,pi,{size:opt.v})}
+                                className="flex-1 py-1 rounded-lg border text-[10px] font-bold transition-all"
+                                style={(p.size||'full')===opt.v ? {borderColor:ms.accentColor||'#F4938C',background:`${ms.accentColor||'#F4938C'}15`,color:ms.accentColor||'#F4938C'} : {borderColor:'#e5e7eb',color:'#9ca3af'}}>
+                                {opt.label}
+                              </button>
+                            ))}
+                          </div>
                         </div>
                       ))}
-                      <button onClick={() => updCategory(ci, { products: [...(cat.products || []), { name: '', price: '', image: '', description: '' }] })}
+                      <button onClick={() => updCategory(ci, { products: [...(cat.products || []), { name: '', price: '', image: '', description: '', size: 'full' }] })}
                         className="text-xs text-indigo-500 font-medium py-1">+ הוסף מוצר</button>
                     </div>
                   </div>
