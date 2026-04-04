@@ -705,6 +705,11 @@ export default function StoreBuilderPage() {
     try { const url = await uploadCardImage(user.id, file); updProduct(catIdx, prodIdx, { image: url }); }
     catch(e) { console.error(e); }
   };
+  const handleCategoryImageUpload = async (catIdx, file) => {
+    if (!file || !user) return;
+    try { const url = await uploadCardImage(user.id, file); updCategory(catIdx, { image: url }); }
+    catch(e) { console.error(e); }
+  };
 
   // Multi-store editing state
   const [editingCatIdx, setEditingCatIdx] = useState(null);
