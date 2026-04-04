@@ -1213,9 +1213,18 @@ export default function StoreBuilderPage() {
                               <button onClick={() => updCategory(ci,{ products:(cat.products||[]).filter((_,i)=>i!==pi) })} className="text-xs text-red-400 px-1">✕</button>
                             </div>
                             <input value={p.description||''} onChange={e => updProduct(ci,pi,{ description:e.target.value })} placeholder="תיאור קצר (אופציונלי)" className="w-full border border-gray-200 rounded-xl px-2 py-1.5 text-xs focus:outline-none" />
+                            <div className="flex gap-1.5">
+                              {[{v:'full',label:'רוחב מלא'},{v:'half',label:'חצי רוחב'}].map(opt => (
+                                <button key={opt.v} onClick={() => updProduct(ci,pi,{size:opt.v})}
+                                  className="flex-1 py-1 rounded-lg border text-[10px] font-bold transition-all"
+                                  style={(p.size||'full')===opt.v ? {borderColor:ms.accentColor||'#F4938C',background:`${ms.accentColor||'#F4938C'}15`,color:ms.accentColor||'#F4938C'} : {borderColor:'#e5e7eb',color:'#9ca3af'}}>
+                                  {opt.label}
+                                </button>
+                              ))}
+                            </div>
                           </div>
                         ))}
-                        <button onClick={() => updCategory(ci,{ products:[...(cat.products||[]),{ name:'', price:'', image:'', description:'' }] })}
+                        <button onClick={() => updCategory(ci,{ products:[...(cat.products||[]),{ name:'', price:'', image:'', description:'', size:'full' }] })}
                           className="text-xs text-indigo-500 hover:text-indigo-600 font-medium py-1">+ הוסף מוצר</button>
                       </div>
                     </div>
