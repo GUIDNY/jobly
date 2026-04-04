@@ -1102,96 +1102,46 @@ export default function StoreBuilderPage() {
 
               {/* STEP: info */}
               {multiStep === 'info' && (<>
-                {/* Mobile compact */}
-                <div className="md:hidden bg-white rounded-2xl p-3 border border-gray-100 space-y-2" style={{ boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
+                <div className="bg-white rounded-2xl p-3 border border-gray-100 space-y-2" style={{ boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
                   <button onClick={() => setShowMultiInfoSheet(true)} className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors">
                     <span className="text-base">🏪</span>
-                    <span className="text-xs font-medium text-gray-700 flex-1 text-right">{ms.storeName || 'שם החנות'}</span>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
-                  </button>
-                  <button onClick={() => setShowMultiInfoSheet(true)} className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors">
-                    <div className="w-5 h-5 rounded-full flex-shrink-0" style={{ background: ms.accentColor }} />
-                    <span className="text-xs font-medium text-gray-700 flex-1 text-right">צבע + תגית</span>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
-                  </button>
-                </div>
-                {/* Desktop full form */}
-                <div className="hidden md:block bg-white rounded-2xl p-4 md:p-5 border border-gray-100 space-y-4" style={{ boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
-                  <p className="text-sm font-bold text-gray-800">פרטי החנות</p>
-                  <div>
-                    <label className="block text-xs font-semibold text-gray-500 mb-1.5">שם החנות *</label>
-                    <input value={ms.storeName} onChange={e => updMulti('storeName', e.target.value)} placeholder="הממתקים של תמי" className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400" />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-gray-500 mb-1.5">תגית / תיאור קצר</label>
-                    <input value={ms.tagline} onChange={e => updMulti('tagline', e.target.value)} placeholder="הבגדים הכי טובים בעיר" className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400" />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-gray-500 mb-2">צבע ראשי</label>
-                    <div className="flex items-center gap-3">
-                      <input type="color" value={ms.accentColor} onChange={e => updMulti('accentColor', e.target.value)} className="w-10 h-10 rounded-lg border border-gray-200 cursor-pointer p-0.5" />
-                      <div className="flex gap-2 flex-wrap">
-                        {['#F4938C','#5BC4C8','#6366f1','#10B981','#F59E0B','#EF4444','#8B5CF6','#EC4899'].map(c => (
-                          <button key={c} onClick={() => updMulti('accentColor', c)} className="w-7 h-7 rounded-full border-2 transition-all" style={{ background:c, borderColor: ms.accentColor === c ? '#111' : 'transparent' }} />
-                        ))}
-                      </div>
+                    <div className="flex-1 text-right">
+                      <p className="text-xs font-medium text-gray-700">{ms.storeName || 'שם החנות'}</p>
+                      {ms.tagline && <p className="text-[10px] text-gray-400">{ms.tagline}</p>}
                     </div>
-                  </div>
+                    <div className="w-5 h-5 rounded-full flex-shrink-0 border-2 border-white shadow-sm" style={{ background: ms.accentColor }} />
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
+                  </button>
+                  <button onClick={() => setShowCoverLogoSheet(true)} className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors">
+                    <span className="text-base">🖼️</span>
+                    <div className="flex-1 text-right">
+                      <p className="text-xs font-medium text-gray-700">כריכה ולוגו</p>
+                      <p className="text-[10px] text-gray-400">{[ms.coverImage && 'כריכה ✓', ms.logoImage && 'לוגו ✓'].filter(Boolean).join(' · ') || 'לא הועלה עדיין'}</p>
+                    </div>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
+                  </button>
                 </div>
-                <button onClick={() => setMultiStep('cover')} className="w-full py-3 rounded-2xl text-sm font-bold text-white" style={{ background:'linear-gradient(135deg,#F4938C,#5BC4C8)', boxShadow:'0 4px 16px rgba(244,147,140,0.3)' }}>
-                  הבא: כריכה ולוגו →
+                <button onClick={() => setMultiStep('about')} className="w-full py-3 rounded-2xl text-sm font-bold text-white" style={{ background:'linear-gradient(135deg,#F4938C,#5BC4C8)', boxShadow:'0 4px 16px rgba(244,147,140,0.3)' }}>
+                  הבא: אודות החנות →
                 </button>
               </>)}
 
-              {/* STEP: cover + logo */}
-              {multiStep === 'cover' && (<>
-                <div className="bg-white rounded-2xl p-4 md:p-5 border border-gray-100 space-y-5" style={{ boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
-                  {/* Cover */}
+              {/* STEP: about */}
+              {multiStep === 'about' && (<>
+                <div className="bg-white rounded-2xl p-4 md:p-5 border border-gray-100 space-y-4" style={{ boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
                   <div>
-                    <p className="text-sm font-bold text-gray-800 mb-1">תמונת כריכה</p>
-                    <p className="text-xs text-gray-400 mb-2">רקע ראש החנות · JPG, PNG · מומלץ 1200×400</p>
-                    <div onClick={() => coverRef.current?.click()} className="relative cursor-pointer rounded-2xl overflow-hidden transition-all hover:opacity-90"
-                      style={{ height: ms.coverImage ? 140 : 100, background: ms.coverImage ? 'transparent' : 'linear-gradient(135deg,#f9fafb,#f3f4f6)', border: ms.coverImage ? 'none' : '2px dashed #e5e7eb', display:'flex', alignItems:'center', justifyContent:'center' }}>
-                      {ms.coverImage ? (
-                        <img src={ms.coverImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', display:'block' }} />
-                      ) : uploadingCover ? (
-                        <div className="flex items-center gap-2"><svg className="animate-spin w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg><p className="text-xs text-gray-500">מעלה...</p></div>
-                      ) : (
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background:'linear-gradient(135deg,#F4938C22,#5BC4C822)' }}>
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F4938C" strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                          </div>
-                          <p className="text-sm font-semibold text-gray-700">העלה כריכה</p>
-                        </div>
-                      )}
-                    </div>
-                    <input ref={coverRef} type="file" accept="image/*" className="hidden" onChange={e => handleCoverUpload(e.target.files?.[0])} />
-                    {ms.coverImage && <button onClick={() => updMulti('coverImage','')} className="text-xs text-red-400 mt-1 block">הסר</button>}
+                    <p className="text-sm font-bold text-gray-800 mb-0.5">אודות החנות</p>
+                    <p className="text-xs text-gray-400">סיפור אישי, מי אתם, מה מיוחד בכם — יוצג בדף החנות</p>
                   </div>
-
-                  <div className="h-px bg-gray-100" />
-
-                  {/* Logo */}
                   <div>
-                    <p className="text-sm font-bold text-gray-800 mb-1">לוגו החנות</p>
-                    <p className="text-xs text-gray-400 mb-2">יוצג מעל הכריכה עם שם החנות · PNG שקוף עדיף · 200×200</p>
-                    <div className="flex items-center gap-4">
-                      <div onClick={() => logoRef.current?.click()} className="cursor-pointer hover:opacity-90 transition-opacity flex-shrink-0"
-                        style={{ width:72, height:72, borderRadius:18, overflow:'hidden', background: ms.logoImage ? 'transparent' : 'linear-gradient(135deg,#f9fafb,#f3f4f6)', border: ms.logoImage ? 'none' : '2px dashed #e5e7eb', display:'flex', alignItems:'center', justifyContent:'center' }}>
-                        {ms.logoImage ? (
-                          <img src={ms.logoImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} />
-                        ) : uploadingLogo ? (
-                          <svg className="animate-spin w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
-                        ) : (
-                          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                        )}
-                      </div>
-                      <div>
-                        <p className="text-sm font-semibold text-gray-700">לחץ להעלאת לוגו</p>
-                        {ms.logoImage && <button onClick={() => updMulti('logoImage','')} className="text-xs text-red-400 mt-1 block">הסר</button>}
-                      </div>
-                    </div>
-                    <input ref={logoRef} type="file" accept="image/*" className="hidden" onChange={e => handleLogoUpload(e.target.files?.[0])} />
+                    <label className="block text-xs font-semibold text-gray-500 mb-1.5">כותרת (אופציונלי)</label>
+                    <input value={ms.aboutTitle||''} onChange={e => updMulti('aboutTitle', e.target.value)} placeholder="הסיפור שלנו" className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-gray-500 mb-1.5">הסיפור / אודות</label>
+                    <textarea value={ms.aboutText||''} onChange={e => updMulti('aboutText', e.target.value)}
+                      placeholder="ספרו על העסק שלכם — מתי הוקם, מה הערכים שלכם, מה מייחד אתכם מאחרים..."
+                      rows={5} className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 resize-none" />
                   </div>
                 </div>
                 <div className="flex gap-2">
