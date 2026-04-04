@@ -463,20 +463,23 @@ function MultiStorePreview({ ms, cart, onAddToCart, onCartOpen }) {
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6b7280" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                 </button>
               </div>
-              <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
-                {(ms.categories[popupCat].products||[]).filter(p=>p.name).map((p,pi) => (
-                  <div key={pi} style={{ display:'flex', alignItems:'center', gap:10, padding:'8px 10px', borderRadius:12, border:'1px solid #f3f4f6', background:'#fafafa' }}>
-                    <div style={{ width:44, height:44, borderRadius:10, overflow:'hidden', flexShrink:0, background: p.image ? 'transparent' : `${accent}22`, display:'flex', alignItems:'center', justifyContent:'center' }}>
-                      {p.image ? <img src={p.image} alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} /> : <span style={{ fontSize:20 }}>📦</span>}
+              <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8 }}>
+                {(ms.categories[popupCat].products||[]).filter(p=>p.name).map((p,pi) => {
+                  const full = (p.size||'full')==='full';
+                  return (
+                    <div key={pi} style={{ gridColumn: full ? 'span 2' : 'span 1', display:'flex', alignItems:'center', gap:10, padding: full ? '8px 10px' : '10px 8px', borderRadius:12, border:'1px solid #f3f4f6', background:'#fafafa', flexDirection: full ? 'row' : 'column' }}>
+                      <div style={{ width: full ? 44 : '100%', height: full ? 44 : 80, borderRadius:10, overflow:'hidden', flexShrink:0, background: p.image ? 'transparent' : `${accent}22`, display:'flex', alignItems:'center', justifyContent:'center' }}>
+                        {p.image ? <img src={p.image} alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} /> : <span style={{ fontSize: full ? 20 : 28 }}>📦</span>}
+                      </div>
+                      <div style={{ flex: full ? 1 : 'none', textAlign: full ? 'right' : 'center', width: full ? 'auto' : '100%' }}>
+                        <p style={{ fontSize:12, fontWeight:700, color:'#111', margin:'0 0 2px' }}>{p.name}</p>
+                        {p.description && <p style={{ fontSize:9, color:'#6b7280', margin:'0 0 2px', lineHeight:1.3 }}>{p.description}</p>}
+                        {p.price && <p style={{ fontSize:12, color:accent, fontWeight:900, margin:0 }}>₪{p.price}</p>}
+                      </div>
+                      <button onClick={() => onAddToCart(p)} style={{ padding:'6px 10px', borderRadius:10, background:`linear-gradient(135deg,${accent},#5BC4C8)`, color:'white', fontSize:10, fontWeight:800, border:'none', cursor:'pointer', flexShrink:0, alignSelf: full ? 'auto' : 'stretch' }}>+ הוסף</button>
                     </div>
-                    <div style={{ flex:1 }}>
-                      <p style={{ fontSize:12, fontWeight:700, color:'#111', margin:'0 0 2px' }}>{p.name}</p>
-                      {p.description && <p style={{ fontSize:9, color:'#6b7280', margin:'0 0 2px', lineHeight:1.3 }}>{p.description}</p>}
-                      {p.price && <p style={{ fontSize:12, color:accent, fontWeight:900, margin:0 }}>₪{p.price}</p>}
-                    </div>
-                    <button onClick={() => onAddToCart(p)} style={{ padding:'6px 10px', borderRadius:10, background:`linear-gradient(135deg,${accent},#5BC4C8)`, color:'white', fontSize:10, fontWeight:800, border:'none', cursor:'pointer', flexShrink:0 }}>+ הוסף</button>
-                  </div>
-                ))}
+                  );
+                })}
                 {(ms.categories[popupCat].products||[]).filter(p=>p.name).length === 0 && (
                   <p style={{ fontSize:11, color:'#9ca3af', textAlign:'center', padding:'16px 0' }}>אין מוצרים עדיין</p>
                 )}
