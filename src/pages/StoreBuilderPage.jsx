@@ -1402,10 +1402,30 @@ export default function StoreBuilderPage() {
                     placeholder="כל הזכויות שמורות. ביטול עד 14 ימים מיום הרכישה..."
                     rows={4} className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 resize-none" />
                 </div>
+                {/* Slug + publish */}
+                <div className="bg-white rounded-2xl p-4 md:p-5 border border-gray-100 space-y-3" style={{ boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
+                  <p className="text-sm font-bold text-gray-800">כתובת החנות</p>
+                  <p className="text-xs text-gray-400">הכתובת שבה הלקוחות יגיעו לחנות שלך</p>
+                  <div className="flex items-center gap-2 bg-gray-50 rounded-xl px-3 py-2 border border-gray-200">
+                    <span className="text-xs text-gray-400 flex-shrink-0">vizzit.online/store/</span>
+                    <input value={slugInput} onChange={e => checkSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g,''))}
+                      placeholder="my-store" dir="ltr"
+                      className="flex-1 bg-transparent text-sm font-bold text-gray-800 outline-none" />
+                    {slugChecking && <svg className="animate-spin w-4 h-4 text-gray-400 flex-shrink-0" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>}
+                    {!slugChecking && slugAvailable === true && <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>}
+                    {!slugChecking && slugAvailable === false && <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#EF4444" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>}
+                  </div>
+                  {slugInput.length < 2 && <button onClick={() => { const s = toSlug(ms.storeName || 'my-store'); checkSlug(s); }} className="text-xs text-indigo-500 font-medium">⚡ הצע כתובת אוטומטית</button>}
+                  {slugAvailable === false && <p className="text-xs text-red-500">הכתובת תפוסה, נסה אחרת</p>}
+                  {published && <p className="text-xs text-green-600 font-bold">✓ החנות פורסמה בהצלחה</p>}
+                </div>
+
                 <div className="flex gap-2">
                   <button onClick={() => setMultiStep('cats')} className="px-5 py-3 rounded-2xl text-sm font-bold text-gray-600 bg-white border border-gray-200">← חזור</button>
-                  <button className="flex-1 py-3 rounded-2xl text-sm font-bold text-white" style={{ background:'linear-gradient(135deg,#F4938C,#5BC4C8)', boxShadow:'0 4px 16px rgba(244,147,140,0.35)' }}>
-                    פרסם חנות 🚀
+                  <button onClick={handlePublish} disabled={publishing || !slugInput || slugAvailable === false}
+                    className="flex-1 py-3 rounded-2xl text-sm font-bold text-white disabled:opacity-50"
+                    style={{ background:'linear-gradient(135deg,#F4938C,#5BC4C8)', boxShadow:'0 4px 16px rgba(244,147,140,0.35)' }}>
+                    {publishing ? 'מפרסם...' : published ? 'עדכן ופרסם מחדש 🚀' : 'פרסם חנות 🚀'}
                   </button>
                 </div>
               </>)}
