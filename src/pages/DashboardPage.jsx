@@ -43,6 +43,19 @@ export default function DashboardPage() {
     }
   };
 
+  const handleDeleteStore = async (storeId) => {
+    setDeletingId(storeId);
+    try {
+      await deleteStore(storeId);
+      setStores(prev => prev.filter(s => s.id !== storeId));
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setDeletingId(null);
+      setConfirmDeleteStore(null);
+    }
+  };
+
   const handleCopyLink = (slug) => {
     navigator.clipboard.writeText(`https://vizzit.online/${slug}`);
     setCopied(slug);
