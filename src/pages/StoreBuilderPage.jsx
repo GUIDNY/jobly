@@ -1325,14 +1325,13 @@ export default function StoreBuilderPage() {
                     </div>
                   ))}
                 </div>
-                <div className="bg-white rounded-2xl p-4 md:p-5 border border-gray-100 space-y-3" style={{ boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
+                <div className="hidden md:block bg-white rounded-2xl p-4 md:p-5 border border-gray-100 space-y-3" style={{ boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
                   <p className="text-sm font-bold text-gray-800">תקנון / תנאי שימוש</p>
                   <p className="text-xs text-gray-400">יוצג בטקסט קטן בתחתית הפוטר</p>
                   <textarea value={ms.terms||''} onChange={e => updMulti('terms', e.target.value)}
                     placeholder="כל הזכויות שמורות. ביטול עד 14 ימים מיום הרכישה..."
                     rows={4} className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 resize-none" />
                 </div>
-                </div>{/* end hidden md:block */}
                 <div className="flex gap-2">
                   <button onClick={() => setMultiStep('cats')} className="px-5 py-3 rounded-2xl text-sm font-bold text-gray-600 bg-white border border-gray-200">← חזור</button>
                   <button className="flex-1 py-3 rounded-2xl text-sm font-bold text-white" style={{ background:'linear-gradient(135deg,#F4938C,#5BC4C8)', boxShadow:'0 4px 16px rgba(244,147,140,0.35)' }}>
