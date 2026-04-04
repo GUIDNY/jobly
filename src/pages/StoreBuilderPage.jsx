@@ -1140,64 +1140,59 @@ export default function StoreBuilderPage() {
                 </button>
               </>)}
 
-              {/* STEP: cover */}
+              {/* STEP: cover + logo */}
               {multiStep === 'cover' && (<>
-                <div className="bg-white rounded-2xl p-4 md:p-5 border border-gray-100 space-y-4" style={{ boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
-                  <p className="text-sm font-bold text-gray-800">תמונת כריכה</p>
-                  <p className="text-xs text-gray-400">תמונה שתופיע ברקע ראש החנות</p>
-                  <div onClick={() => coverRef.current?.click()} className="relative cursor-pointer rounded-2xl overflow-hidden transition-all hover:opacity-90"
-                    style={{ height: ms.coverImage ? 160 : 120, background: ms.coverImage ? 'transparent' : 'linear-gradient(135deg,#f9fafb,#f3f4f6)', border: ms.coverImage ? 'none' : '2px dashed #e5e7eb', display:'flex', alignItems:'center', justifyContent:'center' }}>
-                    {ms.coverImage ? (
-                      <img src={ms.coverImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', display:'block' }} />
-                    ) : uploadingCover ? (
-                      <div className="flex items-center gap-2"><svg className="animate-spin w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg><p className="text-xs text-gray-500">מעלה...</p></div>
-                    ) : (
-                      <div className="flex flex-col items-center gap-3">
-                        <div className="w-12 h-12 rounded-2xl flex items-center justify-center" style={{ background:'linear-gradient(135deg,#F4938C22,#5BC4C822)' }}>
-                          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F4938C" strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                <div className="bg-white rounded-2xl p-4 md:p-5 border border-gray-100 space-y-5" style={{ boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
+                  {/* Cover */}
+                  <div>
+                    <p className="text-sm font-bold text-gray-800 mb-1">תמונת כריכה</p>
+                    <p className="text-xs text-gray-400 mb-2">רקע ראש החנות · JPG, PNG · מומלץ 1200×400</p>
+                    <div onClick={() => coverRef.current?.click()} className="relative cursor-pointer rounded-2xl overflow-hidden transition-all hover:opacity-90"
+                      style={{ height: ms.coverImage ? 140 : 100, background: ms.coverImage ? 'transparent' : 'linear-gradient(135deg,#f9fafb,#f3f4f6)', border: ms.coverImage ? 'none' : '2px dashed #e5e7eb', display:'flex', alignItems:'center', justifyContent:'center' }}>
+                      {ms.coverImage ? (
+                        <img src={ms.coverImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', display:'block' }} />
+                      ) : uploadingCover ? (
+                        <div className="flex items-center gap-2"><svg className="animate-spin w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg><p className="text-xs text-gray-500">מעלה...</p></div>
+                      ) : (
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background:'linear-gradient(135deg,#F4938C22,#5BC4C822)' }}>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F4938C" strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                          </div>
+                          <p className="text-sm font-semibold text-gray-700">העלה כריכה</p>
                         </div>
-                        <div className="text-center">
-                          <p className="text-sm font-semibold text-gray-700">לחץ להעלאת תמונת כריכה</p>
-                          <p className="text-xs text-gray-400 mt-0.5">JPG, PNG · מומלץ 1200×400</p>
-                        </div>
-                      </div>
-                    )}
+                      )}
+                    </div>
+                    <input ref={coverRef} type="file" accept="image/*" className="hidden" onChange={e => handleCoverUpload(e.target.files?.[0])} />
+                    {ms.coverImage && <button onClick={() => updMulti('coverImage','')} className="text-xs text-red-400 mt-1 block">הסר</button>}
                   </div>
-                  <input ref={coverRef} type="file" accept="image/*" className="hidden" onChange={e => handleCoverUpload(e.target.files?.[0])} />
-                  {ms.coverImage && <button onClick={() => updMulti('coverImage','')} className="text-xs text-red-400">הסר תמונה</button>}
+
+                  <div className="h-px bg-gray-100" />
+
+                  {/* Logo */}
+                  <div>
+                    <p className="text-sm font-bold text-gray-800 mb-1">לוגו החנות</p>
+                    <p className="text-xs text-gray-400 mb-2">יוצג מעל הכריכה עם שם החנות · PNG שקוף עדיף · 200×200</p>
+                    <div className="flex items-center gap-4">
+                      <div onClick={() => logoRef.current?.click()} className="cursor-pointer hover:opacity-90 transition-opacity flex-shrink-0"
+                        style={{ width:72, height:72, borderRadius:18, overflow:'hidden', background: ms.logoImage ? 'transparent' : 'linear-gradient(135deg,#f9fafb,#f3f4f6)', border: ms.logoImage ? 'none' : '2px dashed #e5e7eb', display:'flex', alignItems:'center', justifyContent:'center' }}>
+                        {ms.logoImage ? (
+                          <img src={ms.logoImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} />
+                        ) : uploadingLogo ? (
+                          <svg className="animate-spin w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+                        ) : (
+                          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                        )}
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-gray-700">לחץ להעלאת לוגו</p>
+                        {ms.logoImage && <button onClick={() => updMulti('logoImage','')} className="text-xs text-red-400 mt-1 block">הסר</button>}
+                      </div>
+                    </div>
+                    <input ref={logoRef} type="file" accept="image/*" className="hidden" onChange={e => handleLogoUpload(e.target.files?.[0])} />
+                  </div>
                 </div>
                 <div className="flex gap-2">
                   <button onClick={() => setMultiStep('info')} className="px-5 py-3 rounded-2xl text-sm font-bold text-gray-600 bg-white border border-gray-200">← חזור</button>
-                  <button onClick={() => setMultiStep('logo')} className="flex-1 py-3 rounded-2xl text-sm font-bold text-white" style={{ background:'linear-gradient(135deg,#F4938C,#5BC4C8)' }}>הבא: לוגו →</button>
-                </div>
-              </>)}
-
-              {/* STEP: logo */}
-              {multiStep === 'logo' && (<>
-                <div className="bg-white rounded-2xl p-4 md:p-5 border border-gray-100 space-y-4" style={{ boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
-                  <p className="text-sm font-bold text-gray-800">לוגו החנות</p>
-                  <p className="text-xs text-gray-400">יוצג מעל תמונת הכריכה עם שם החנות</p>
-                  <div className="flex items-center gap-4">
-                    <div onClick={() => logoRef.current?.click()} className="cursor-pointer hover:opacity-90 transition-opacity flex-shrink-0"
-                      style={{ width:80, height:80, borderRadius:20, overflow:'hidden', background: ms.logoImage ? 'transparent' : 'linear-gradient(135deg,#f9fafb,#f3f4f6)', border: ms.logoImage ? 'none' : '2px dashed #e5e7eb', display:'flex', alignItems:'center', justifyContent:'center' }}>
-                      {ms.logoImage ? (
-                        <img src={ms.logoImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} />
-                      ) : uploadingLogo ? (
-                        <svg className="animate-spin w-6 h-6 text-gray-400" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
-                      ) : (
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                      )}
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold text-gray-700">לחץ על הריבוע להעלאה</p>
-                      <p className="text-xs text-gray-400 mt-1">PNG עם שקיפות עדיף · 200×200</p>
-                      {ms.logoImage && <button onClick={() => updMulti('logoImage','')} className="text-xs text-red-400 mt-1 block">הסר</button>}
-                    </div>
-                  </div>
-                  <input ref={logoRef} type="file" accept="image/*" className="hidden" onChange={e => handleLogoUpload(e.target.files?.[0])} />
-                </div>
-                <div className="flex gap-2">
-                  <button onClick={() => setMultiStep('cover')} className="px-5 py-3 rounded-2xl text-sm font-bold text-gray-600 bg-white border border-gray-200">← חזור</button>
                   <button onClick={() => setMultiStep('cats')} className="flex-1 py-3 rounded-2xl text-sm font-bold text-white" style={{ background:'linear-gradient(135deg,#F4938C,#5BC4C8)' }}>הבא: קטגוריות →</button>
                 </div>
               </>)}
