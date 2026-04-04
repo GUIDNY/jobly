@@ -101,12 +101,12 @@ export default function DashboardPage() {
           <div>
             <h1 className="text-xl font-bold text-gray-900">הדפים שלי</h1>
             <p className="text-sm text-gray-400 mt-0.5">
-              {cards.length > 0 ? `${cards.length} דף${cards.length !== 1 ? 'ים' : ''} · ${publishedCards.length} פורסמו` : 'נהל את כרטיסי הביקור שלך'}
+              {cards.length + stores.length > 0 ? `${cards.length} כרטיסים · ${stores.length} חנויות` : 'צור את הדף הדיגיטלי שלך'}
             </p>
           </div>
           <motion.button
             whileTap={{ scale: 0.97 }}
-            onClick={() => user?.is_admin ? setShowCreateModal(true) : navigate('/builder')}
+            onClick={() => setShowCreateModal(true)}
             className="flex items-center gap-1.5 px-4 py-2.5 rounded-2xl text-white font-semibold text-sm"
             style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)', boxShadow: '0 4px 14px -2px rgba(91,196,200,0.35)' }}
           >
