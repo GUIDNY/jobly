@@ -1780,6 +1780,15 @@ export default function StoreBuilderPage() {
                       <input value={cat.name} onChange={e => updCategory(ci, { name: e.target.value })} placeholder="שם קטגוריה" className="flex-1 border border-gray-200 rounded-xl px-3 py-1.5 text-sm focus:outline-none bg-white" />
                       <button onClick={() => updMulti('categories', (ms.categories || []).filter((_, i) => i !== ci))} className="text-xs text-red-400 px-1">מחק</button>
                     </div>
+                    <div className="flex gap-1.5">
+                      {[{v:'half',label:'חצי מסך'},{v:'full',label:'100% מסך'}].map(opt => (
+                        <button key={opt.v} onClick={() => updCategory(ci,{size:opt.v})}
+                          className="flex-1 py-1.5 rounded-xl border-2 text-xs font-bold transition-all"
+                          style={(cat.size||'half')===opt.v ? {borderColor:ms.accentColor||'#F4938C',background:`${ms.accentColor||'#F4938C'}15`,color:ms.accentColor||'#F4938C'} : {borderColor:'#e5e7eb',color:'#9ca3af'}}>
+                          {opt.label}
+                        </button>
+                      ))}
+                    </div>
                     <div className="space-y-2">
                       {(cat.products || []).map((p, pi) => (
                         <div key={pi} className="bg-white rounded-xl p-2 border border-gray-100 space-y-1.5">
