@@ -687,6 +687,7 @@ export default function StoreBuilderPage() {
   // Multi-store editing state
   const [editingCatIdx, setEditingCatIdx] = useState(null);
   const [showMultiInfoSheet, setShowMultiInfoSheet] = useState(false);
+  const [showCoverLogoSheet, setShowCoverLogoSheet] = useState(false);
   const [showSocialSheet, setShowSocialSheet] = useState(false);
 
   // Mobile bottom-sheet states
