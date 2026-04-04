@@ -122,10 +122,68 @@ export default function DashboardPage() {
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
             </svg>
           </div>
-        ) : cards.length === 0 ? (
-          <EmptyState onCreateClick={() => navigate('/builder')} />
+        ) : cards.length === 0 && stores.length === 0 ? (
+          <EmptyState onCreateClick={() => setShowCreateModal(true)} />
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <>
+          {/* Stores */}
+          {stores.length > 0 && (
+            <div className="mb-6">
+              <p className="text-sm font-bold text-gray-500 mb-3">🛍️ החנויות שלי</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <AnimatePresence>
+                  {stores.map((store, i) => {
+                    const ms = store.data?.multi || store.data || {};
+                    const accent = ms.accentColor || store.data?.accentColor || '#F4938C';
+                    const name = ms.storeName || store.data?.storeName || store.data?.name || 'חנות';
+                    return (
+                      <motion.div key={store.id} initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }} exit={{ opacity:0, scale:0.95 }} transition={{ delay: i*0.06 }}
+                        className="bg-white rounded-3xl overflow-hidden border border-gray-100" style={{ boxShadow:'0 2px 16px rgba(0,0,0,0.06)' }}>
+                        <div className="h-16 flex items-center justify-between px-4" style={{ background:`linear-gradient(135deg,${accent},${accent}cc)` }}>
+                          <div className="flex items-center gap-2.5 min-w-0">
+                            {ms.logoImage ? <img src={ms.logoImage} alt="" className="w-10 h-10 rounded-xl object-cover border-2 border-white/40 flex-shrink-0"/> : <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center flex-shrink-0"><span style={{ fontSize:18 }}>🛍️</span></div>}
+                            <div className="min-w-0">
+                              <p className="text-white font-bold text-sm truncate">{name}</p>
+                              <p className="text-white/60 text-[11px]">{store.is_published ? `vizzit.online/store/${store.slug}` : 'טיוטה'}</p>
+                            </div>
+                          </div>
+                          <span className="text-[11px] px-2 py-0.5 rounded-full font-bold flex-shrink-0" style={store.is_published ? { background:'#10B981', color:'white' } : { background:'rgba(255,255,255,0.2)', color:'rgba(255,255,255,0.85)' }}>
+                            {store.is_published ? 'פורסם' : 'טיוטה'}
+                          </span>
+                        </div>
+                        <div className="p-4">
+                          <div className="grid grid-cols-2 gap-2 mb-3">
+                            <button onClick={() => navigate(`/store-builder/${store.id}`)}
+                              className="flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-sm font-semibold border border-gray-200 text-gray-700 hover:bg-gray-50 transition-colors">
+                              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                              ערוך
+                            </button>
+                            {store.is_published ? (
+                              <a href={`/store/${store.slug}`} target="_blank" rel="noopener noreferrer"
+                                className="flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-sm font-semibold bg-green-50 text-green-600 hover:bg-green-100 transition-colors">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                צפה
+                              </a>
+                            ) : (
+                              <button onClick={() => navigate(`/store-builder/${store.id}`)}
+                                className="flex items-center justify-center py-2.5 rounded-xl text-sm font-semibold bg-indigo-50 text-indigo-600 hover:bg-indigo-100 transition-colors">פרסם</button>
+                            )}
+                          </div>
+                          <button onClick={() => setConfirmDeleteStore(store.id)} className="w-full py-1.5 text-xs text-red-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-colors">מחק חנות</button>
+                        </div>
+                      </motion.div>
+                    );
+                  })}
+                </AnimatePresence>
+              </div>
+            </div>
+          )}
+
+          {/* Cards */}
+          {cards.length > 0 && (
+            <div>
+              {stores.length > 0 && <p className="text-sm font-bold text-gray-500 mb-3">🔗 הכרטיסים שלי</p>}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             <AnimatePresence>
               {cards.map((card, i) => (
                 <motion.div
