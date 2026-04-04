@@ -1786,6 +1786,11 @@ export default function StoreBuilderPage() {
                 {(ms.categories || []).map((cat, ci) => (
                   <div key={ci} className="border border-gray-100 rounded-2xl p-3 bg-gray-50 space-y-3">
                     <div className="flex items-center gap-2">
+                      <div onClick={() => { document.getElementById(`cat-img-m-${ci}`)?.click(); }}
+                        style={{ width:40, height:40, borderRadius:10, overflow:'hidden', flexShrink:0, background: cat.image ? 'transparent' : '#f3f4f6', display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer', border: cat.image ? 'none' : '1.5px dashed #d1d5db' }}>
+                        {cat.image ? <img src={cat.image} alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} /> : <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>}
+                      </div>
+                      <input id={`cat-img-m-${ci}`} type="file" accept="image/*" className="hidden" onChange={e => handleCategoryImageUpload(ci, e.target.files?.[0])} />
                       <input value={cat.icon} onChange={e => updCategory(ci, { icon: e.target.value })} className="w-10 border border-gray-200 rounded-xl px-2 py-1.5 text-center text-base focus:outline-none bg-white" maxLength={2} />
                       <input value={cat.name} onChange={e => updCategory(ci, { name: e.target.value })} placeholder="שם קטגוריה" className="flex-1 border border-gray-200 rounded-xl px-3 py-1.5 text-sm focus:outline-none bg-white" />
                       <button onClick={() => updMulti('categories', (ms.categories || []).filter((_, i) => i !== ci))} className="text-xs text-red-400 px-1">מחק</button>
