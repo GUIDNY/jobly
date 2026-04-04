@@ -1280,6 +1280,7 @@ export default function StoreBuilderPage() {
                     </div>
                   )}
                 </div>
+                </div>{/* end hidden md:block */}
                 <div className="flex gap-2">
                   <button onClick={() => setMultiStep('logo')} className="px-5 py-3 rounded-2xl text-sm font-bold text-gray-600 bg-white border border-gray-200">← חזור</button>
                   <button onClick={() => setMultiStep('footer')} className="flex-1 py-3 rounded-2xl text-sm font-bold text-white" style={{ background:'linear-gradient(135deg,#F4938C,#5BC4C8)' }}>הבא: פוטר →</button>
