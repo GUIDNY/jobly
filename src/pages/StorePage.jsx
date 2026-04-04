@@ -98,7 +98,7 @@ function SingleStorePage({ d }) {
       <div style={{ background:'white', borderRadius:'24px 24px 0 0', marginTop:-20, padding:'20px 16px 100px', position:'relative' }}>
         <h1 style={{ fontSize:24, fontWeight:900, color:'#111', margin:'0 0 4px' }}>{d.name||'שם המוצר'}</h1>
         {d.tagline && <p style={{ fontSize:14, color:'#6b7280', margin:'0 0 12px' }}>{d.tagline}</p>}
-        {d.reviews?.length > 0 && <div style={{ display:'flex', alignItems:'center', gap:4, marginBottom:12 }}>{[1,2,3,4,5].map(s=><svg key={s} width="14" height="14" viewBox="0 0 24 24" fill={s<=4.5?'#F59E0B':'#e5e7eb'}><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>}<span style={{ fontSize:12, color:'#6b7280' }}>({d.reviews.length} ביקורות)</span></div>}
+        {d.reviews?.length > 0 && <div style={{ display:'flex', alignItems:'center', gap:4, marginBottom:12 }}>{[1,2,3,4,5].map(s=>{const gold=s<=4.5;return(<svg key={s} width="14" height="14" viewBox="0 0 24 24" fill={gold?'#F59E0B':'#e5e7eb'}><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>);})}<span style={{ fontSize:12, color:'#6b7280' }}>({d.reviews.length} ביקורות)</span></div>}
         <div style={{ display:'flex', alignItems:'baseline', gap:10, marginBottom:18 }}>
           <span style={{ fontSize:32, fontWeight:900, color:accent }}>₪{d.price||'0'}</span>
           {d.originalPrice && <span style={{ fontSize:16, color:'#9ca3af', textDecoration:'line-through' }}>₪{d.originalPrice}</span>}
