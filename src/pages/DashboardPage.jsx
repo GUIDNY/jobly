@@ -271,8 +271,37 @@ export default function DashboardPage() {
               ))}
             </AnimatePresence>
           </div>
+          </div>
+          )}
+          </>
         )}
       </div>
+
+      {/* Delete store confirm */}
+      <AnimatePresence>
+        {confirmDeleteStore && (
+          <motion.div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4"
+            initial={{ opacity:0 }} animate={{ opacity:1 }} exit={{ opacity:0 }}
+            onClick={() => setConfirmDeleteStore(null)}>
+            <motion.div className="bg-white rounded-3xl p-6 max-w-sm w-full" dir="rtl"
+              initial={{ scale:0.9, opacity:0 }} animate={{ scale:1, opacity:1 }} exit={{ scale:0.9, opacity:0 }}
+              onClick={e => e.stopPropagation()}>
+              <div className="w-12 h-12 mx-auto mb-3 rounded-2xl bg-red-50 flex items-center justify-center">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>
+              </div>
+              <h3 className="text-lg font-bold text-gray-900 text-center mb-1">מחיקת חנות</h3>
+              <p className="text-sm text-gray-500 text-center mb-5">פעולה זו אינה ניתנת לביטול.</p>
+              <div className="flex gap-3">
+                <button onClick={() => setConfirmDeleteStore(null)} className="flex-1 py-2.5 rounded-xl text-sm font-medium border border-gray-200 text-gray-700">ביטול</button>
+                <button onClick={() => handleDeleteStore(confirmDeleteStore)} disabled={deletingId===confirmDeleteStore}
+                  className="flex-1 py-2.5 rounded-xl text-sm font-medium bg-red-500 text-white hover:bg-red-600 disabled:opacity-60">
+                  {deletingId===confirmDeleteStore ? 'מוחק...' : 'מחק'}
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <AnimatePresence>
         {confirmDelete && (
