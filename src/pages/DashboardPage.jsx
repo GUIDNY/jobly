@@ -10,18 +10,22 @@ export default function DashboardPage() {
   const { user, logout, loading: authLoading, isPro } = useAuth();
   const navigate = useNavigate();
   const [cards, setCards] = useState([]);
+  const [stores, setStores] = useState([]);
   const [loading, setLoading] = useState(true);
   const [authOpen, setAuthOpen] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
   const [confirmDelete, setConfirmDelete] = useState(null);
+  const [confirmDeleteStore, setConfirmDeleteStore] = useState(null);
   const [copied, setCopied] = useState(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
 
   useEffect(() => {
     if (authLoading) return;
     if (!user) { setAuthOpen(true); return; }
-    getMyCards(user.id)
-      .then(setCards)
+    Promise.all([
+      getMyCards(user.id),
+      getMyStores(user.id),
+    ]).then(([c, s]) => { setCards(c); setStores(s); })
       .catch(console.error)
       .finally(() => setLoading(false));
   }, [user, authLoading]);
