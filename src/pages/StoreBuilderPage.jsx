@@ -1136,7 +1136,7 @@ export default function StoreBuilderPage() {
                   </div>
                 </div>
                 <button onClick={() => setMultiStep('cover')} className="w-full py-3 rounded-2xl text-sm font-bold text-white" style={{ background:'linear-gradient(135deg,#F4938C,#5BC4C8)', boxShadow:'0 4px 16px rgba(244,147,140,0.3)' }}>
-                  הבא: תמונת כריכה →
+                  הבא: כריכה ולוגו →
                 </button>
               </>)}
 
