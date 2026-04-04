@@ -405,19 +405,22 @@ function MultiStorePreview({ ms, cart, onAddToCart, onCartOpen }) {
         {activeCat !== null && ms.categories?.[activeCat] && ms.categories[activeCat].displayMode !== 'popup' && (
           <div style={{ marginTop:10, background:'white', borderRadius:14, padding:'10px', boxShadow:'0 2px 8px rgba(0,0,0,0.08)' }}>
             <p style={{ fontSize:11, fontWeight:800, color:'#374151', marginBottom:8 }}>{ms.categories[activeCat].name}</p>
-            <div style={{ display:'flex', flexDirection:'column', gap:6 }}>
-              {(ms.categories[activeCat].products||[]).filter(p=>p.name).map((p,pi) => (
-                <div key={pi} style={{ display:'flex', alignItems:'center', gap:8, padding:'6px', borderRadius:10, border:'1px solid #f3f4f6' }}>
-                  <div style={{ width:36, height:36, borderRadius:8, background: p.image ? 'transparent' : `${accent}22`, flexShrink:0, overflow:'hidden', display:'flex', alignItems:'center', justifyContent:'center' }}>
-                    {p.image ? <img src={p.image} alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} /> : <span style={{ fontSize:16 }}>📦</span>}
+            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:6 }}>
+              {(ms.categories[activeCat].products||[]).filter(p=>p.name).map((p,pi) => {
+                const full = (p.size||'full')==='full';
+                return (
+                  <div key={pi} style={{ gridColumn: full ? 'span 2' : 'span 1', display:'flex', alignItems:'center', gap:8, padding:'6px', borderRadius:10, border:'1px solid #f3f4f6', flexDirection: full ? 'row' : 'column' }}>
+                    <div style={{ width: full ? 36 : '100%', height: full ? 36 : 60, borderRadius:8, background: p.image ? 'transparent' : `${accent}22`, flexShrink:0, overflow:'hidden', display:'flex', alignItems:'center', justifyContent:'center' }}>
+                      {p.image ? <img src={p.image} alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} /> : <span style={{ fontSize:16 }}>📦</span>}
+                    </div>
+                    <div style={{ flex: full ? 1 : 'none', textAlign: full ? 'right' : 'center', width: full ? 'auto' : '100%' }}>
+                      <p style={{ fontSize:11, fontWeight:700, color:'#111', margin:0 }}>{p.name}</p>
+                      {p.price && <p style={{ fontSize:10, color:accent, fontWeight:800, margin:0 }}>₪{p.price}</p>}
+                    </div>
+                    <button onClick={e => { e.stopPropagation(); onAddToCart(p); }} style={{ padding:'4px 8px', borderRadius:8, background:accent, color:'white', fontSize:9, fontWeight:700, border:'none', cursor:'pointer', flexShrink:0, alignSelf: full ? 'auto' : 'stretch' }}>הוסף</button>
                   </div>
-                  <div style={{ flex:1 }}>
-                    <p style={{ fontSize:11, fontWeight:700, color:'#111', margin:0 }}>{p.name}</p>
-                    {p.price && <p style={{ fontSize:10, color:accent, fontWeight:800, margin:0 }}>₪{p.price}</p>}
-                  </div>
-                  <button onClick={e => { e.stopPropagation(); onAddToCart(p); }} style={{ padding:'4px 8px', borderRadius:8, background:accent, color:'white', fontSize:9, fontWeight:700, border:'none', cursor:'pointer' }}>הוסף</button>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         )}
