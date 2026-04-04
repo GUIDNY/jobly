@@ -1289,7 +1289,24 @@ export default function StoreBuilderPage() {
 
               {/* STEP: footer */}
               {multiStep === 'footer' && (<>
-                <div className="bg-white rounded-2xl p-4 md:p-5 border border-gray-100 space-y-4" style={{ boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
+                {/* Mobile compact */}
+                <div className="md:hidden bg-white rounded-2xl p-3 border border-gray-100 space-y-2" style={{ boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
+                  <button onClick={() => setShowSocialSheet(true)} className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors">
+                    <span className="text-base">🔗</span>
+                    <span className="text-xs font-medium text-gray-700 flex-1 text-right">רשתות חברתיות</span>
+                    {(ms.social?.instagram || ms.social?.facebook || ms.social?.whatsapp || ms.social?.tiktok) && (
+                      <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full text-white" style={{ background: ms.accentColor||'#F4938C' }}>✓</span>
+                    )}
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
+                  </button>
+                  <button onClick={() => setShowSocialSheet(true)} className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors">
+                    <span className="text-base">📋</span>
+                    <span className="text-xs font-medium text-gray-700 flex-1 text-right">{ms.terms ? 'תקנון ✓' : 'הוסף תקנון'}</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
+                  </button>
+                </div>
+                {/* Desktop full forms */}
+                <div className="hidden md:block bg-white rounded-2xl p-4 md:p-5 border border-gray-100 space-y-4" style={{ boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
                   <p className="text-sm font-bold text-gray-800">רשתות חברתיות</p>
                   <p className="text-xs text-gray-400">הקישורים יוצגו כאייקונים בפוטר החנות</p>
                   {[
