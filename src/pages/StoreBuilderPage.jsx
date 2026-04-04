@@ -1218,6 +1218,19 @@ export default function StoreBuilderPage() {
                           ))}
                         </div>
                       </div>
+                      {/* Size */}
+                      <div>
+                        <p className="text-xs font-semibold text-gray-500 mb-1.5">גודל בגריד</p>
+                        <div className="flex gap-2">
+                          {[{ v:'half', label:'חצי מסך' },{ v:'full', label:'100% מסך' }].map(opt => (
+                            <button key={opt.v} onClick={() => updCategory(ci,{ size:opt.v })}
+                              className="flex-1 py-2 px-3 rounded-xl border-2 text-xs font-bold transition-all"
+                              style={(cat.size||'half')===opt.v ? { borderColor:ms.accentColor||'#F4938C', background:`${ms.accentColor||'#F4938C'}11`, color:ms.accentColor||'#F4938C' } : { borderColor:'#e5e7eb', color:'#9ca3af' }}>
+                              {opt.label}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
                       {/* Products */}
                       <div className="space-y-2">
                         <p className="text-xs font-semibold text-gray-500">מוצרים</p>
