@@ -222,6 +222,84 @@ export async function uploadCardImage(userId, file) {
   return publicUrl;
 }
 
+// ─── Stores ────────────────────────────────────────────────────────────────────
+
+export async function getMyStores(userId) {
+  const { data, error } = await supabase
+    .from('stores')
+    .select('*')
+    .eq('user_id', userId)
+    .order('created_at', { ascending: false });
+  if (error) throw error;
+  return data || [];
+}
+
+export async function getStoreBySlug(slug) {
+  const { data, error } = await supabase
+    .from('stores')
+    .select('*')
+    .eq('slug', slug)
+    .eq('is_published', true)
+    .single();
+  if (error) throw error;
+  return data;
+}
+
+export async function getStoreById(id) {
+  const { data, error } = await supabase
+    .from('stores')
+    .select('*')
+    .eq('id', id)
+    .single();
+  if (error) throw error;
+  return data;
+}
+
+export async function createStore(userId, storeData) {
+  const { data, error } = await supabase
+    .from('stores')
+    .insert({ user_id: userId, data: storeData, store_type: storeData.storeType || 'multi', is_published: false })
+    .select()
+    .single();
+  if (error) throw error;
+  return data;
+}
+
+export async function updateStore(storeId, storeData) {
+  const { data, error } = await supabase
+    .from('stores')
+    .update({ data: storeData, store_type: storeData.storeType || 'multi', updated_at: new Date().toISOString() })
+    .eq('id', storeId)
+    .select()
+    .single();
+  if (error) throw error;
+  return data;
+}
+
+export async function publishStore(storeId, slug) {
+  const { data, error } = await supabase
+    .from('stores')
+    .update({ is_published: true, slug, updated_at: new Date().toISOString() })
+    .eq('id', storeId)
+    .select()
+    .single();
+  if (error) throw error;
+  return data;
+}
+
+export async function deleteStore(storeId) {
+  const { error } = await supabase.from('stores').delete().eq('id', storeId);
+  if (error) throw error;
+}
+
+export async function checkStoreSlugAvailable(slug, excludeId = null) {
+  if (!slug || slug.length < 2) return false;
+  let query = supabase.from('stores').select('id').eq('slug', slug);
+  if (excludeId) query = query.neq('id', excludeId);
+  const { data } = await query;
+  return !data || data.length === 0;
+}
+
 // LocalStorage helpers for pre-auth data
 const LS_KEY = 'mycard_draft';
 
