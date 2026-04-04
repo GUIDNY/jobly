@@ -12,7 +12,8 @@
       "Bash(curl -s -X PATCH \"https://api.supabase.com/v1/projects/tfyodjqusfwqmbjgwikf/storage/buckets/card-images\" -H \"Authorization: Bearer sbp_b06d9099322deca1f901848c13d2b3b903df8f47\" -H \"Content-Type: application/json\" -d '{:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(npm run:*)"
     ]
   }
 }

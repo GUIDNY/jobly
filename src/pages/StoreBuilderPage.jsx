@@ -640,7 +640,6 @@ export default function StoreBuilderPage() {
   const MULTI_STEPS = [
     { id: 'info',   label: 'חנות',     icon: '🏪' },
     { id: 'cover',  label: 'כריכה',    icon: '🖼️' },
-    { id: 'logo',   label: 'לוגו',     icon: '✨' },
     { id: 'cats',   label: 'קטגוריות', icon: '📂' },
     { id: 'footer', label: 'פוטר',     icon: '🔗' },
   ];
