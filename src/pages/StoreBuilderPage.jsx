@@ -670,7 +670,7 @@ export default function StoreBuilderPage() {
     { id: 'about',   label: 'אודות',    icon: '📖' },
     { id: 'cats',    label: 'קטגוריות', icon: '📂' },
     { id: 'payment', label: 'תשלום',    icon: '💳' },
-    { id: 'footer',  label: 'פוטר',     icon: '🔗' },
+    { id: 'footer',  label: 'פוטר ופרסום', icon: '🔗' },
   ];
   const [multiStep, setMultiStep] = useState('info');
 
