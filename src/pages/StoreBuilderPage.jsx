@@ -1198,7 +1198,8 @@ export default function StoreBuilderPage() {
 
               {/* STEP: info */}
               {multiStep === 'info' && (<>
-                <div className="bg-white rounded-2xl p-3 border border-gray-100 space-y-2" style={{ boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
+                {/* Mobile compact buttons */}
+                <div className="md:hidden bg-white rounded-2xl p-3 border border-gray-100 space-y-2" style={{ boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
                   <button onClick={() => setShowMultiInfoSheet(true)} className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors">
                     <span className="text-base">🏪</span>
                     <div className="flex-1 text-right">
@@ -1216,6 +1217,51 @@ export default function StoreBuilderPage() {
                     </div>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
                   </button>
+                </div>
+                {/* Desktop full form */}
+                <div className="hidden md:block bg-white rounded-2xl p-5 border border-gray-100 space-y-4" style={{ boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
+                  <p className="text-sm font-bold text-gray-800">פרטי החנות</p>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-semibold text-gray-500 mb-1.5">שם החנות *</label>
+                      <input value={ms.storeName} onChange={e => updMulti('storeName', e.target.value)} placeholder="הממתקים של תמי" className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400" />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-gray-500 mb-1.5">תגית</label>
+                      <input value={ms.tagline} onChange={e => updMulti('tagline', e.target.value)} placeholder="הטוב ביותר בעיר" className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400" />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-gray-500 mb-2">צבע ראשי</label>
+                    <div className="flex items-center gap-3">
+                      <input type="color" value={ms.accentColor} onChange={e => updMulti('accentColor', e.target.value)} className="w-10 h-10 rounded-xl border border-gray-200 cursor-pointer p-0.5" />
+                      <div className="flex gap-2 flex-wrap">
+                        {['#F4938C','#5BC4C8','#6366f1','#10B981','#F59E0B','#EF4444','#8B5CF6','#EC4899'].map(c => (
+                          <button key={c} onClick={() => updMulti('accentColor', c)} className="w-7 h-7 rounded-full border-2 transition-all" style={{ background:c, borderColor: ms.accentColor===c ? '#111' : 'transparent' }} />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    {/* Cover */}
+                    <div>
+                      <label className="block text-xs font-semibold text-gray-500 mb-1.5">תמונת כריכה</label>
+                      <div onClick={() => coverRef.current?.click()} className="cursor-pointer hover:opacity-90 transition-opacity rounded-xl overflow-hidden border-2 border-dashed border-gray-200 flex items-center justify-center" style={{ height:100, background: ms.coverImage ? 'transparent' : '#f9fafb' }}>
+                        {ms.coverImage ? <img src={ms.coverImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }}/> : uploadingCover ? <svg className="animate-spin w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg> : <div className="text-center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="1.5" className="mx-auto mb-1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><p className="text-[10px] text-gray-400">העלה כריכה</p></div>}
+                      </div>
+                      <input ref={coverRef} type="file" accept="image/*" className="hidden" onChange={e => handleCoverUpload(e.target.files?.[0])} />
+                      {ms.coverImage && <button onClick={() => updMulti('coverImage','')} className="text-[10px] text-red-400 mt-1">הסר</button>}
+                    </div>
+                    {/* Logo */}
+                    <div>
+                      <label className="block text-xs font-semibold text-gray-500 mb-1.5">לוגו</label>
+                      <div onClick={() => logoRef.current?.click()} className="cursor-pointer hover:opacity-90 transition-opacity rounded-xl overflow-hidden border-2 border-dashed border-gray-200 flex items-center justify-center" style={{ height:100, background: ms.logoImage ? 'transparent' : '#f9fafb' }}>
+                        {ms.logoImage ? <img src={ms.logoImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }}/> : uploadingLogo ? <svg className="animate-spin w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg> : <div className="text-center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="1.5" className="mx-auto mb-1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><p className="text-[10px] text-gray-400">העלה לוגו</p></div>}
+                      </div>
+                      <input ref={logoRef} type="file" accept="image/*" className="hidden" onChange={e => handleLogoUpload(e.target.files?.[0])} />
+                      {ms.logoImage && <button onClick={() => updMulti('logoImage','')} className="text-[10px] text-red-400 mt-1">הסר</button>}
+                    </div>
+                  </div>
                 </div>
                 <button onClick={() => setMultiStep('about')} className="w-full py-3 rounded-2xl text-sm font-bold text-white" style={{ background:'linear-gradient(135deg,#F4938C,#5BC4C8)', boxShadow:'0 4px 16px rgba(244,147,140,0.3)' }}>
                   הבא: אודות החנות →
