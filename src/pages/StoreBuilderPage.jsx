@@ -1404,6 +1404,21 @@ export default function StoreBuilderPage() {
                     </div>
                   )}
                 </div>
+                {/* Warehouse tip */}
+                {dbStoreId && (
+                  <div className="flex items-center gap-3 bg-amber-50 border border-amber-100 rounded-2xl px-4 py-3">
+                    <span className="text-lg flex-shrink-0">🏠</span>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs font-bold text-amber-800">ניהול מלאי מתקדם — במחסן</p>
+                      <p className="text-[11px] text-amber-600 mt-0.5">הוסף מוצרים, ערוך, סדר מחדש ונהל כמויות</p>
+                    </div>
+                    <button onClick={() => navigate(`/warehouse/${dbStoreId}`)}
+                      className="text-xs font-bold px-3 py-1.5 rounded-xl text-white flex-shrink-0"
+                      style={{ background:'linear-gradient(135deg,#f59e0b,#d97706)' }}>
+                      מחסן →
+                    </button>
+                  </div>
+                )}
                 <div className="flex gap-2">
                   <button onClick={() => setMultiStep('about')} className="px-5 py-3 rounded-2xl text-sm font-bold text-gray-600 bg-white border border-gray-200">← חזור</button>
                   <button onClick={() => setMultiStep('payment')} className="flex-1 py-3 rounded-2xl text-sm font-bold text-white" style={{ background:'linear-gradient(135deg,#F4938C,#5BC4C8)' }}>הבא: תשלום →</button>
