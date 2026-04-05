@@ -1048,34 +1048,49 @@ export default function StoreBuilderPage() {
           {storeType === 'single' && activeSection === 'payment' && (
             <motion.div key="payment" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="space-y-3">
 
-              {/* WhatsApp — active */}
-              <div className="bg-white rounded-2xl p-4 border border-gray-100 space-y-3" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
-                <div className="flex items-center gap-2.5">
+              {/* Mobile compact */}
+              <div className="md:hidden bg-white rounded-2xl p-3 border border-gray-100 space-y-2" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+                <button onClick={() => setShowPaymentSheet(true)} className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors">
+                  <span className="text-base">💬</span>
+                  <span className="text-xs font-medium text-gray-700 flex-1 text-right">וואטסאפ להזמנות</span>
+                  {data.whatsapp ? <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full text-white" style={{ background: '#25D366' }}>✓</span> : null}
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl border border-dashed border-gray-200 bg-gray-50">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                  <span className="text-xs text-gray-400 flex-1 text-right">סליקת אשראי — בקרוב</span>
+                  <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full text-white" style={{ background: 'linear-gradient(135deg,#F4938C,#5BC4C8)' }}>בקרוב</span>
+                </div>
+              </div>
+
+              {/* Desktop full — WhatsApp */}
+              <div className="hidden md:block bg-white rounded-2xl p-5 border border-gray-100 space-y-3" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+                <div className="flex items-center gap-2">
                   <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg,#25D366,#128C7E)' }}>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2c-5.514 0-9.99 4.476-9.99 9.99 0 1.76.46 3.41 1.27 4.85L2 22l5.31-1.25A9.99 9.99 0 0012 22c5.514 0 9.99-4.476 9.99-9.99C21.99 6.486 17.514 2 11.99 2z"/></svg>
                   </div>
-                  <div className="flex-1 min-w-0">
+                  <div>
                     <p className="text-sm font-bold text-gray-800">וואטסאפ להזמנות</p>
                     <p className="text-xs text-gray-400">כפתור ה-CTA יפתח שיחת וואטסאפ</p>
                   </div>
-                  <span className="text-[10px] font-black px-2 py-0.5 rounded-full text-white flex-shrink-0" style={{ background: '#25D366' }}>פעיל</span>
+                  <span className="mr-auto text-[10px] font-black px-2 py-0.5 rounded-full text-white" style={{ background: '#25D366' }}>פעיל</span>
                 </div>
                 <input value={data.whatsapp || ''} onChange={e => upd('whatsapp', e.target.value)}
                   placeholder="050-0000000" dir="ltr"
                   className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-[#25D366] transition-colors" />
               </div>
 
-              {/* Credit card — coming soon */}
-              <div className="bg-white rounded-2xl p-4 border border-gray-100 space-y-3" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)', opacity: 0.7 }}>
-                <div className="flex items-center gap-2.5">
+              {/* Desktop full — Credit card coming soon */}
+              <div className="hidden md:block bg-white rounded-2xl p-5 border border-gray-100 space-y-3" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)', opacity: 0.7 }}>
+                <div className="flex items-center gap-2">
                   <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: '#f3f4f6' }}>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
                   </div>
-                  <div className="flex-1 min-w-0">
+                  <div>
                     <p className="text-sm font-bold text-gray-500">סליקת אשראי ישירה</p>
                     <p className="text-xs text-gray-400">Visa · Mastercard · Bit · Apple Pay</p>
                   </div>
-                  <span className="text-[10px] font-black px-2 py-0.5 rounded-full text-white flex-shrink-0" style={{ background: 'linear-gradient(135deg,#F4938C,#5BC4C8)' }}>בקרוב</span>
+                  <span className="mr-auto text-[10px] font-black px-2 py-0.5 rounded-full text-white" style={{ background: 'linear-gradient(135deg,#F4938C,#5BC4C8)' }}>בקרוב</span>
                 </div>
                 <div className="flex gap-2 opacity-50">
                   {PAYMENT_METHODS.map(pm => <PaymentBadge key={pm.id} id={pm.id} />)}
