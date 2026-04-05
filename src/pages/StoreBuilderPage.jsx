@@ -1864,6 +1864,7 @@ export default function StoreBuilderPage() {
             </motion.div>
           </>
         )}
+        </AnimatePresence>
 
         {/* Social sheet */}
         {showSocialSheet && (
