@@ -1365,6 +1365,22 @@ export default function StoreBuilderPage() {
                               <button onClick={() => updCategory(ci,{ products:(cat.products||[]).filter((_,i)=>i!==pi) })} className="text-xs text-red-400 px-1">✕</button>
                             </div>
                             <input value={p.description||''} onChange={e => updProduct(ci,pi,{ description:e.target.value })} placeholder="תיאור קצר (אופציונלי)" className="w-full border border-gray-200 rounded-xl px-2 py-1.5 text-xs focus:outline-none" />
+                            {/* Inventory */}
+                            <div className="flex items-center gap-2">
+                              <button onClick={() => updProduct(ci,pi,{ inStock: !(p.inStock ?? true) })}
+                                className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg border text-[10px] font-bold transition-all flex-shrink-0"
+                                style={(p.inStock ?? true)
+                                  ? { borderColor:'#10B981', background:'#f0fdf4', color:'#10B981' }
+                                  : { borderColor:'#EF4444', background:'#fef2f2', color:'#EF4444' }}>
+                                <div className="w-2 h-2 rounded-full" style={{ background:(p.inStock ?? true) ? '#10B981' : '#EF4444' }} />
+                                {(p.inStock ?? true) ? 'במלאי' : 'אזל'}
+                              </button>
+                              {(p.inStock ?? true) && (
+                                <input value={p.quantity||''} onChange={e => updProduct(ci,pi,{ quantity:e.target.value })}
+                                  placeholder="כמות (ריק = ∞)" dir="ltr" type="number" min="0"
+                                  className="flex-1 border border-gray-200 rounded-xl px-2 py-1 text-xs focus:outline-none focus:border-green-400" />
+                              )}
+                            </div>
                             <div className="flex gap-1.5">
                               {[{v:'full',label:'רוחב מלא'},{v:'half',label:'חצי רוחב'}].map(opt => (
                                 <button key={opt.v} onClick={() => updProduct(ci,pi,{size:opt.v})}
