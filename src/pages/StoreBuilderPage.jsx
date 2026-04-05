@@ -729,6 +729,7 @@ export default function StoreBuilderPage() {
   const [showDescSheet, setShowDescSheet] = useState(false);
   const [showBulletsSheet, setShowBulletsSheet] = useState(false);
   const [showPaymentSheet, setShowPaymentSheet] = useState(false);
+  const [showMultiPaymentSheet, setShowMultiPaymentSheet] = useState(false);
   const [showReviewsSheet, setShowReviewsSheet] = useState(false);
 
   const upd = (key, val) => setData(prev => ({ ...prev, [key]: val }));
