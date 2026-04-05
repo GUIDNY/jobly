@@ -23,6 +23,7 @@ export default function App() {
           <Route path="/store-builder" element={<StoreBuilderPage />} />
           <Route path="/store-builder/:storeId" element={<StoreBuilderPage />} />
           <Route path="/store/:slug" element={<StorePage />} />
+          <Route path="/warehouse/:storeId" element={<WarehousePage />} />
           <Route path="/admin" element={<VizzitAdmin />} />
           <Route path="/pro" element={<ProUpgrade />} />
           <Route path="/c/:slug" element={<CardPage />} />
