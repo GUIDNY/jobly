@@ -1565,7 +1565,7 @@ export default function StoreBuilderPage() {
                 </div>
 
                 <div className="flex gap-2">
-                  <button onClick={() => setMultiStep('cats')} className="px-5 py-3 rounded-2xl text-sm font-bold text-gray-600 bg-white border border-gray-200">← חזור</button>
+                  <button onClick={() => setMultiStep('payment')} className="px-5 py-3 rounded-2xl text-sm font-bold text-gray-600 bg-white border border-gray-200">← חזור</button>
                   <button onClick={handlePublish} disabled={publishing || !slugInput || slugAvailable === false}
                     className="flex-1 py-3 rounded-2xl text-sm font-bold text-white disabled:opacity-50"
                     style={{ background:'linear-gradient(135deg,#F4938C,#5BC4C8)', boxShadow:'0 4px 16px rgba(244,147,140,0.35)' }}>
