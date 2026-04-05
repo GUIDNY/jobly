@@ -184,152 +184,88 @@ function StorePreview({ data, onBuy }) {
   );
 }
 
-// ─── Demo Checkout Modal ───────────────────────────────────────────────────────
+// ─── Demo Checkout Modal (WhatsApp) ───────────────────────────────────────────
 function CheckoutModal({ data, onClose }) {
-  const [step, setStep] = useState('form'); // form | success
-  const [cardNum, setCardNum] = useState('');
-  const [expiry, setExpiry] = useState('');
-  const [cvv, setCvv] = useState('');
-  const [name, setName] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [sent, setSent] = useState(false);
+  const [customerName, setCustomerName] = useState('');
+  const [note, setNote] = useState('');
   const accent = data.accentColor || '#F4938C';
 
-  const handlePay = () => {
-    setLoading(true);
-    setTimeout(() => { setLoading(false); setStep('success'); }, 1800);
+  const sendWhatsApp = () => {
+    const msg = `שלום, אני מעוניין/ת להזמין:\n• ${data.name||'המוצר'} — ₪${data.price||'0'}${customerName ? `\n\nשם: ${customerName}` : ''}${note ? `\nהערה: ${note}` : ''}`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+    setSent(true);
   };
 
-  const formatCard = (v) => v.replace(/\D/g, '').slice(0, 16).replace(/(.{4})/g, '$1 ').trim();
-  const formatExpiry = (v) => { const d = v.replace(/\D/g, '').slice(0, 4); return d.length > 2 ? `${d.slice(0,2)}/${d.slice(2)}` : d; };
-
   return (
-    <motion.div
-      className="fixed inset-0 z-[100] flex items-end md:items-center justify-center"
-      initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
-    >
+    <motion.div className="fixed inset-0 z-[100] flex items-end md:items-center justify-center"
+      initial={{ opacity:0 }} animate={{ opacity:1 }} exit={{ opacity:0 }}
+      onClick={e => { if (e.target===e.currentTarget) onClose(); }}>
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
-      <motion.div
-        dir="rtl"
-        initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
-        transition={{ type: 'spring', damping: 28, stiffness: 320 }}
-        style={{ background: 'white', borderRadius: '24px 24px 0 0', width: '100%', maxWidth: 480, position: 'relative', zIndex: 1, maxHeight: '90vh', overflowY: 'auto' }}
-        className="md:rounded-2xl md:mb-0"
-      >
-        {/* Handle */}
-        <div style={{ width: 40, height: 4, background: '#e5e7eb', borderRadius: 2, margin: '12px auto 0' }} />
-
-        {step === 'success' ? (
-          <div style={{ padding: '32px 24px 40px', textAlign: 'center' }}>
-            <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', damping: 15 }}>
-              <div style={{ width: 80, height: 80, borderRadius: '50%', background: 'linear-gradient(135deg, #10B981, #059669)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px', boxShadow: '0 8px 32px rgba(16,185,129,0.4)' }}>
-                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+      <motion.div dir="rtl" initial={{ y:'100%' }} animate={{ y:0 }} exit={{ y:'100%' }}
+        transition={{ type:'spring', damping:28, stiffness:320 }}
+        style={{ background:'white', borderRadius:'24px 24px 0 0', width:'100%', maxWidth:480, position:'relative', zIndex:1, maxHeight:'90vh', overflowY:'auto' }}
+        className="md:rounded-2xl">
+        <div style={{ width:40, height:4, background:'#e5e7eb', borderRadius:2, margin:'12px auto 0' }} />
+        <AnimatePresence mode="wait">
+          {sent ? (
+            <motion.div key="success" initial={{ opacity:0, scale:0.9 }} animate={{ opacity:1, scale:1 }}
+              style={{ padding:'32px 24px 48px', textAlign:'center' }}>
+              <div style={{ width:80, height:80, borderRadius:'50%', background:'linear-gradient(135deg,#25D366,#128C7E)', display:'flex', alignItems:'center', justifyContent:'center', margin:'0 auto 20px', boxShadow:'0 8px 32px rgba(37,211,102,0.35)' }}>
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2c-5.514 0-9.99 4.476-9.99 9.99 0 1.76.46 3.41 1.27 4.85L2 22l5.31-1.25A9.99 9.99 0 0012 22c5.514 0 9.99-4.476 9.99-9.99C21.99 6.486 17.514 2 11.99 2z"/></svg>
+              </div>
+              <h2 style={{ fontSize:22, fontWeight:900, color:'#111', marginBottom:8 }}>ההזמנה נשלחה! 🎉</h2>
+              <p style={{ fontSize:13, color:'#6b7280', marginBottom:28, lineHeight:1.6 }}>פתחנו וואטסאפ עם פרטי ההזמנה.<br/>זהו דמו — בחנות אמיתית יישלח לבעל החנות.</p>
+              <button onClick={onClose} style={{ width:'100%', padding:'14px', borderRadius:14, background:'linear-gradient(135deg,#25D366,#128C7E)', color:'white', fontWeight:800, fontSize:15, border:'none', cursor:'pointer' }}>סגור</button>
+            </motion.div>
+          ) : (
+            <motion.div key="form" initial={{ opacity:0 }} animate={{ opacity:1 }} style={{ padding:'16px 20px 36px' }}>
+              <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:20 }}>
+                <div>
+                  <h2 style={{ fontSize:17, fontWeight:900, color:'#111', margin:0 }}>סיום הזמנה</h2>
+                  <p style={{ fontSize:11, color:'#9ca3af', margin:0 }}>דמו — כך יראה ללקוח</p>
+                </div>
+                <button onClick={onClose} style={{ width:30, height:30, borderRadius:'50%', background:'#f3f4f6', border:'none', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center' }}>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6b7280" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+              </div>
+              <div style={{ background:'#f9fafb', borderRadius:14, padding:'12px 14px', marginBottom:18, display:'flex', alignItems:'center', gap:12 }}>
+                {data.image && <img src={data.image} alt="" style={{ width:44, height:44, borderRadius:10, objectFit:'cover', flexShrink:0 }}/>}
+                <div style={{ flex:1 }}><p style={{ fontSize:13, fontWeight:700, color:'#111', margin:0 }}>{data.name||'המוצר'}</p></div>
+                <p style={{ fontSize:16, fontWeight:900, color:accent, margin:0 }}>₪{data.price||'0'}</p>
+              </div>
+              <div style={{ display:'flex', flexDirection:'column', gap:10, marginBottom:18 }}>
+                <div>
+                  <label style={{ fontSize:11, fontWeight:700, color:'#374151', display:'block', marginBottom:5 }}>שם (אופציונלי)</label>
+                  <input value={customerName} onChange={e=>setCustomerName(e.target.value)} placeholder="ישראל ישראלי"
+                    style={{ width:'100%', padding:'10px 12px', borderRadius:12, border:'1.5px solid #e5e7eb', fontSize:14, outline:'none', boxSizing:'border-box', fontFamily:'inherit' }} />
+                </div>
+                <div>
+                  <label style={{ fontSize:11, fontWeight:700, color:'#374151', display:'block', marginBottom:5 }}>הערה (אופציונלי)</label>
+                  <input value={note} onChange={e=>setNote(e.target.value)} placeholder="צבע, מידה, הוראות..."
+                    style={{ width:'100%', padding:'10px 12px', borderRadius:12, border:'1.5px solid #e5e7eb', fontSize:14, outline:'none', boxSizing:'border-box', fontFamily:'inherit' }} />
+                </div>
+              </div>
+              <button onClick={sendWhatsApp}
+                style={{ width:'100%', padding:'15px', borderRadius:14, background:'linear-gradient(135deg,#25D366,#128C7E)', color:'white', fontWeight:900, fontSize:15, border:'none', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', gap:10, boxShadow:'0 4px 20px rgba(37,211,102,0.35)', marginBottom:16 }}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2c-5.514 0-9.99 4.476-9.99 9.99 0 1.76.46 3.41 1.27 4.85L2 22l5.31-1.25A9.99 9.99 0 0012 22c5.514 0 9.99-4.476 9.99-9.99C21.99 6.486 17.514 2 11.99 2z"/></svg>
+                שלח הזמנה בוואטסאפ
+              </button>
+              <div style={{ border:'1.5px solid #f3f4f6', borderRadius:16, padding:'12px 14px', position:'relative', overflow:'hidden' }}>
+                <div style={{ position:'absolute', top:8, left:8, background:'linear-gradient(135deg,#F4938C,#5BC4C8)', borderRadius:20, padding:'2px 8px' }}>
+                  <span style={{ fontSize:9, fontWeight:900, color:'white' }}>בקרוב</span>
+                </div>
+                <div style={{ opacity:0.4 }}>
+                  <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:6, marginTop:4 }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#374151" strokeWidth="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                    <span style={{ fontSize:12, fontWeight:800, color:'#374151' }}>סליקת אשראי ישירה</span>
+                  </div>
+                  <p style={{ fontSize:10, color:'#9ca3af', margin:0 }}>תשלום בכרטיס אשראי יתווסף בקרוב</p>
+                </div>
               </div>
             </motion.div>
-            <h2 style={{ fontSize: 22, fontWeight: 900, color: '#111', marginBottom: 8 }}>התשלום הצליח! 🎉</h2>
-            <p style={{ fontSize: 14, color: '#6b7280', marginBottom: 6 }}>ההזמנה שלך התקבלה בהצלחה</p>
-            <p style={{ fontSize: 12, color: '#9ca3af', marginBottom: 28 }}>אישור נשלח לאימייל שלך</p>
-            <div style={{ background: '#f0fdf4', borderRadius: 16, padding: '16px 20px', marginBottom: 24 }}>
-              <p style={{ fontSize: 12, color: '#374151', margin: '0 0 4px', fontWeight: 600 }}>{data.name || 'המוצר'}</p>
-              <p style={{ fontSize: 18, fontWeight: 900, color: '#10B981' }}>₪{data.price || '0'}</p>
-            </div>
-            <button onClick={onClose} style={{ width: '100%', padding: '14px', borderRadius: 14, background: 'linear-gradient(135deg, #10B981, #059669)', color: 'white', fontWeight: 800, fontSize: 15, border: 'none', cursor: 'pointer' }}>
-              סגור
-            </button>
-            <p style={{ fontSize: 10, color: '#9ca3af', marginTop: 12 }}>⚠️ זהו תשלום דמו — לא בוצעה עסקה אמיתית</p>
-          </div>
-        ) : (
-          <div style={{ padding: '20px 20px 32px' }}>
-            {/* Header */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
-              <div>
-                <h2 style={{ fontSize: 16, fontWeight: 900, color: '#111', margin: 0 }}>השלמת הרכישה</h2>
-                <p style={{ fontSize: 11, color: '#9ca3af', margin: 0 }}>זהו תהליך תשלום דמו</p>
-              </div>
-              <button onClick={onClose} style={{ width: 30, height: 30, borderRadius: '50%', background: '#f3f4f6', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6b7280" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-              </button>
-            </div>
-
-            {/* Order summary */}
-            <div style={{ background: '#f9fafb', borderRadius: 14, padding: '12px 14px', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 12 }}>
-              {data.image && <img src={data.image} alt="" style={{ width: 48, height: 48, borderRadius: 10, objectFit: 'cover', flexShrink: 0 }} />}
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <p style={{ fontSize: 13, fontWeight: 700, color: '#111', margin: '0 0 2px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{data.name || 'המוצר'}</p>
-                <p style={{ fontSize: 11, color: '#6b7280', margin: 0 }}>כמות: 1</p>
-              </div>
-              <p style={{ fontSize: 16, fontWeight: 900, color: accent, flexShrink: 0 }}>₪{data.price || '0'}</p>
-            </div>
-
-            {/* Card form */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              <div>
-                <label style={{ fontSize: 11, fontWeight: 700, color: '#374151', display: 'block', marginBottom: 5 }}>מספר כרטיס</label>
-                <div style={{ position: 'relative' }}>
-                  <input
-                    value={cardNum}
-                    onChange={e => setCardNum(formatCard(e.target.value))}
-                    placeholder="0000 0000 0000 0000"
-                    dir="ltr"
-                    style={{ width: '100%', padding: '11px 40px 11px 12px', borderRadius: 12, border: '1.5px solid #e5e7eb', fontSize: 14, outline: 'none', boxSizing: 'border-box', letterSpacing: '1px', background: '#fafafa' }}
-                  />
-                  <div style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', display: 'flex', gap: 3 }}>
-                    <div style={{ width: 12, height: 8, borderRadius: 2, background: '#EB001B' }} />
-                    <div style={{ width: 12, height: 8, borderRadius: 2, background: '#F79E1B', marginLeft: -5 }} />
-                  </div>
-                </div>
-              </div>
-
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 10 }}>
-                <div>
-                  <label style={{ fontSize: 11, fontWeight: 700, color: '#374151', display: 'block', marginBottom: 5 }}>תוקף</label>
-                  <input value={expiry} onChange={e => setExpiry(formatExpiry(e.target.value))} placeholder="MM/YY" dir="ltr"
-                    style={{ width: '100%', padding: '11px 12px', borderRadius: 12, border: '1.5px solid #e5e7eb', fontSize: 13, outline: 'none', boxSizing: 'border-box', background: '#fafafa' }} />
-                </div>
-                <div>
-                  <label style={{ fontSize: 11, fontWeight: 700, color: '#374151', display: 'block', marginBottom: 5 }}>CVV</label>
-                  <input value={cvv} onChange={e => setCvv(e.target.value.replace(/\D/g, '').slice(0, 4))} placeholder="•••"
-                    style={{ width: '100%', padding: '11px 12px', borderRadius: 12, border: '1.5px solid #e5e7eb', fontSize: 13, outline: 'none', boxSizing: 'border-box', background: '#fafafa' }} />
-                </div>
-                <div>
-                  <label style={{ fontSize: 11, fontWeight: 700, color: '#374151', display: 'block', marginBottom: 5 }}>ת.ז.</label>
-                  <input placeholder="000000000"
-                    style={{ width: '100%', padding: '11px 12px', borderRadius: 12, border: '1.5px solid #e5e7eb', fontSize: 13, outline: 'none', boxSizing: 'border-box', background: '#fafafa' }} />
-                </div>
-              </div>
-
-              <div>
-                <label style={{ fontSize: 11, fontWeight: 700, color: '#374151', display: 'block', marginBottom: 5 }}>שם בעל הכרטיס</label>
-                <input value={name} onChange={e => setName(e.target.value)} placeholder="Israel Israeli"
-                  dir="ltr"
-                  style={{ width: '100%', padding: '11px 12px', borderRadius: 12, border: '1.5px solid #e5e7eb', fontSize: 13, outline: 'none', boxSizing: 'border-box', background: '#fafafa' }} />
-              </div>
-
-              {/* Pay button */}
-              <button
-                onClick={handlePay}
-                disabled={loading}
-                style={{ width: '100%', padding: '14px', borderRadius: 14, background: `linear-gradient(135deg, ${accent}, #5BC4C8)`, color: 'white', fontWeight: 900, fontSize: 15, border: 'none', cursor: loading ? 'not-allowed' : 'pointer', opacity: loading ? 0.8 : 1, transition: 'opacity 0.15s', marginTop: 4, boxShadow: `0 4px 20px ${accent}44` }}
-              >
-                {loading ? (
-                  <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
-                    <svg className="animate-spin" width="16" height="16" viewBox="0 0 24 24" fill="none">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="white" strokeWidth="4"/>
-                      <path className="opacity-75" fill="white" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
-                    </svg>
-                    מעבד תשלום...
-                  </span>
-                ) : `שלם ₪${data.price || '0'}`}
-              </button>
-
-              {/* Security note */}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5 }}>
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-                <span style={{ fontSize: 10, color: '#9ca3af' }}>תשלום מאובטח · SSL מוצפן</span>
-              </div>
-            </div>
-          </div>
-        )}
+          )}
+        </AnimatePresence>
       </motion.div>
     </motion.div>
   );
