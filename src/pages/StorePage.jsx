@@ -503,7 +503,7 @@ function MultiStorePage({ ms }) {
 
   if (isDesktop) {
     return (
-      <div dir="rtl" style={{ fontFamily: "'Heebo','Segoe UI',sans-serif", background: '#f0f2f5', minHeight: '100vh' }}>
+      <div dir="rtl" style={{ fontFamily: "'Heebo','Segoe UI',sans-serif", background: '#f4f6f8', minHeight: '100vh' }}>
         {/* Desktop sticky nav */}
         <div style={{ background: 'white', borderBottom: '1px solid #e5e7eb', padding: '0 40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 64, position: 'sticky', top: 0, zIndex: 40, boxShadow: '0 1px 0 rgba(0,0,0,0.06)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
