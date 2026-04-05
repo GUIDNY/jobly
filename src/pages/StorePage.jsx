@@ -224,7 +224,21 @@ function SingleStorePage({ d }) {
               {d.ctaText || 'הזמן עכשיו בוואטסאפ'}
             </button>
 
-            {d.paymentMethods?.length > 0 && <div style={{ display:'flex', gap:8, marginBottom:24, flexWrap:'wrap' }}>{d.paymentMethods.map(id=><PaymentBadge key={id} id={id}/>)}</div>}
+            {/* Payment coming soon */}
+            <div style={{ border:'1.5px solid #f3f4f6', borderRadius:16, padding:'14px 16px', marginBottom:20, position:'relative', overflow:'hidden' }}>
+              <div style={{ position:'absolute', top:10, left:10, background:'linear-gradient(135deg,#F4938C,#5BC4C8)', borderRadius:20, padding:'2px 10px' }}>
+                <span style={{ fontSize:9, fontWeight:900, color:'white', letterSpacing:'0.05em' }}>בקרוב</span>
+              </div>
+              <div style={{ opacity:0.4 }}>
+                <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:8, marginTop:4 }}>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#374151" strokeWidth="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                  <span style={{ fontSize:13, fontWeight:800, color:'#374151' }}>סליקת אשראי ישירה</span>
+                </div>
+                <div style={{ display:'flex', gap:6, flexWrap:'wrap' }}>
+                  {['visa','mastercard','bit','apple'].map(id=><PaymentBadge key={id} id={id}/>)}
+                </div>
+              </div>
+            </div>
 
             <div style={{ height:1, background:'#f3f4f6', margin:'20px 0' }}/>
 
