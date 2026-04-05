@@ -210,9 +210,9 @@ export default function HomePage() {
                   בנה את הלינק שלך
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
                 </motion.button>
-                <button onClick={() => document.getElementById('showcase')?.scrollIntoView({ behavior: 'smooth' })}
+                <button onClick={() => navigate('/store-builder')}
                   className="px-6 py-3.5 rounded-xl text-sm font-semibold text-gray-600 border border-gray-200 hover:bg-gray-50 transition-colors">
-                  ראה דוגמאות
+                  בנה את החנות שלך
                 </button>
               </div>
 
