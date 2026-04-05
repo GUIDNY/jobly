@@ -836,11 +836,11 @@ export default function CardPage() {
               {card.business_name}
             </p>
             <div className="flex justify-center">
-              <a href="/" className="inline-flex items-center gap-1.5 opacity-30 hover:opacity-70 transition-opacity">
-                <div className="w-4 h-4 rounded-md flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
-                  <LogoMark size={9} color="white" />
+              <a href="/" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full opacity-30 hover:opacity-70 transition-opacity" style={{ border: '1px solid rgba(255,255,255,0.08)' }}>
+                <div className="w-3.5 h-3.5 rounded flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
+                  <LogoMark size={8} color="white" />
                 </div>
-                <span className="text-[10px] text-white">DESIGNED WITH <strong>VIZZIT</strong></span>
+                <span className="text-[10px] text-white font-medium">נוצר עם <strong>Vizzit</strong></span>
               </a>
             </div>
           </div>
