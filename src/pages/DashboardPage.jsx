@@ -18,6 +18,7 @@ export default function DashboardPage() {
   const [confirmDeleteStore, setConfirmDeleteStore] = useState(null);
   const [copied, setCopied] = useState(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [warehouseStore, setWarehouseStore] = useState(null);
 
   useEffect(() => {
     if (authLoading) return;
