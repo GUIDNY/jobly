@@ -328,7 +328,7 @@ export default function CardPage() {
   if (isClassic && !isEditMode) {
     const fixedBarHeight = ((card.instagram || card.facebook || card.tiktok || card.location_url) ? 52 : 0) + 36;
     return (
-      <div dir="rtl" style={{ background: '#f8fafc', minHeight: '100vh' }}>
+      <div dir="rtl" style={{ background: 'linear-gradient(160deg,#eef6f7 0%,#f5fbfb 100%)', minHeight: '100vh' }}>
         {isOwner && (
           <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 h-11"
             style={{ background: 'rgba(7,9,16,0.95)', backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
@@ -345,14 +345,17 @@ export default function CardPage() {
             </div>
           </div>
         )}
-        <div className={isOwner ? 'pt-11' : ''}>
-          <div style={{ paddingBottom: `${fixedBarHeight + 24}px` }}>
-            <CardPreview data={card} compact={false} showActions={true} showSocial={false} />
+        {/* Centered card wrapper */}
+        <div className={isOwner ? 'pt-11' : ''} style={{ display: 'flex', justifyContent: 'center', paddingTop: isOwner ? 0 : 32, paddingBottom: 32 }}>
+          <div style={{ width: '100%', maxWidth: 520, background: 'white', borderRadius: 24, overflow: 'hidden', boxShadow: '0 8px 48px rgba(0,0,0,0.12)', marginTop: isOwner ? 0 : 0 }}>
+            <div style={{ paddingBottom: `${fixedBarHeight + 24}px` }}>
+              <CardPreview data={card} compact={false} showActions={true} showSocial={false} />
+            </div>
           </div>
         </div>
         {/* Bottom bar */}
-        <div className="fixed bottom-0 left-0 right-0 z-20"
-          style={{ background: 'rgba(255,255,255,0.97)', backdropFilter: 'blur(20px)', borderTop: '1px solid rgba(0,0,0,0.06)', boxShadow: '0 -4px 24px rgba(0,0,0,0.06)' }}>
+        <div className="fixed bottom-0 z-20"
+          style={{ left: '50%', transform: 'translateX(-50%)', width: '100%', maxWidth: 520, background: 'rgba(255,255,255,0.97)', backdropFilter: 'blur(20px)', borderTop: '1px solid rgba(0,0,0,0.06)', borderRadius: '0', boxShadow: '0 -4px 24px rgba(0,0,0,0.06)' }}>
           {(card.instagram || card.facebook || card.tiktok || card.location_url) && (
             <div className="flex justify-center gap-2.5 px-4 pt-2.5 pb-1">
               {card.instagram && (
