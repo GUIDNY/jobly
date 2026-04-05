@@ -1392,7 +1392,7 @@ export default function StoreBuilderPage() {
                             </div>
                           </div>
                         ))}
-                        <button onClick={() => updCategory(ci,{ products:[...(cat.products||[]),{ name:'', price:'', image:'', description:'', size:'full' }] })}
+                        <button onClick={() => updCategory(ci,{ products:[...(cat.products||[]),{ name:'', price:'', image:'', description:'', size:'full', inStock:true, quantity:'' }] })}
                           className="text-xs text-indigo-500 hover:text-indigo-600 font-medium py-1">+ הוסף מוצר</button>
                       </div>
                     </div>
