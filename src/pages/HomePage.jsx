@@ -217,36 +217,6 @@ export default function HomePage() {
                 </button>
               </div>
 
-              {/* Mobile-only phone preview — shown between buttons and builder */}
-              <div className="md:hidden flex justify-center mb-6">
-                <div style={{ position: 'relative', width: 148, height: 318, overflow: 'hidden', flexShrink: 0 }}>
-                  <div style={{ transform: 'scale(0.57)', transformOrigin: 'top center', position: 'absolute', top: 0, left: -32 }}>
-                    <PhoneMockup>
-                      <AnimatePresence mode="wait">
-                        {!form.avatar_url ? (
-                          <motion.button key="mob-upload" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                            onClick={() => fileInputRef.current?.click()}
-                            className="w-full h-full flex flex-col items-center justify-center gap-3 cursor-pointer"
-                            style={{ background: `linear-gradient(160deg, ${form.primary_color} 0%, ${form.primary_color}99 100%)` }} dir="rtl">
-                            <div className="w-16 h-16 rounded-full border-2 border-dashed border-white/40 flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.1)' }}>
-                              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
-                            </div>
-                            <div className="text-center">
-                              <p className="text-white font-black text-sm">הוסף תמונה</p>
-                              <p className="text-white/60 text-xs mt-0.5">לחץ להעלאה</p>
-                            </div>
-                          </motion.button>
-                        ) : (
-                          <motion.div key="mob-card" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }} className="h-full">
-                            <CardPreview data={heroPhoneData} compact />
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </PhoneMockup>
-                  </div>
-                </div>
-              </div>
-
               {/* Interactive mini-builder */}
               <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden"
                 style={{ boxShadow: '0 4px 24px rgba(0,0,0,0.07)' }}>
