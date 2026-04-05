@@ -1049,14 +1049,15 @@ export default function StoreBuilderPage() {
               {/* Mobile compact */}
               <div className="md:hidden bg-white rounded-2xl p-3 border border-gray-100 space-y-2" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
                 <button onClick={() => setShowPaymentSheet(true)} className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors">
-                  <span className="text-base">💳</span>
-                  <span className="text-xs font-medium text-gray-700 flex-1 text-right">אמצעי תשלום</span>
-                  <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full text-white" style={{ background: '#F4938C' }}>{data.paymentMethods.length}</span>
+                  <span className="text-base">💬</span>
+                  <span className="text-xs font-medium text-gray-700 flex-1 text-right">וואטסאפ להזמנות</span>
+                  {data.whatsapp ? <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full text-white" style={{ background: '#25D366' }}>✓</span> : null}
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
                 </button>
                 <div className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl border border-dashed border-gray-200 bg-gray-50">
-                  <span className="text-base">🔒</span>
-                  <span className="text-xs text-gray-500 flex-1 text-right">לחץ "קנה עכשיו" לסליקה דמו</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                  <span className="text-xs text-gray-400 flex-1 text-right">סליקת אשראי — בקרוב</span>
+                  <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full text-white" style={{ background: 'linear-gradient(135deg,#F4938C,#5BC4C8)' }}>בקרוב</span>
                 </div>
               </div>
 
