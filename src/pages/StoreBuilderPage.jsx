@@ -749,6 +749,7 @@ export default function StoreBuilderPage() {
     { id: 'details', label: 'פרטים', icon: '📝' },
     { id: 'payment', label: 'תשלום', icon: '💳' },
     { id: 'reviews', label: 'ביקורות', icon: '⭐' },
+    { id: 'publish', label: 'פרסום', icon: '🚀' },
   ];
 
   return (
