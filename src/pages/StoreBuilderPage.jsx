@@ -1549,6 +1549,24 @@ export default function StoreBuilderPage() {
                   {published && <p className="text-xs text-green-600 font-bold">✓ החנות פורסמה בהצלחה</p>}
                 </div>
 
+                {published && dbStoreId && (
+                  <motion.div initial={{ opacity:0, y:8 }} animate={{ opacity:1, y:0 }}
+                    className="bg-amber-50 border border-amber-100 rounded-2xl p-4 space-y-2">
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg">🏠</span>
+                      <div>
+                        <p className="text-sm font-bold text-amber-800">החנות פורסמה! עכשיו נהל את המלאי</p>
+                        <p className="text-xs text-amber-600">במחסן תוכל לעדכן כמויות, להוסיף מוצרים ולראות אנליטיקס</p>
+                      </div>
+                    </div>
+                    <button onClick={() => navigate(`/warehouse/${dbStoreId}`)}
+                      className="w-full py-2.5 rounded-xl text-sm font-bold text-white"
+                      style={{ background:'linear-gradient(135deg,#f59e0b,#d97706)' }}>
+                      כנס למחסן 🏠
+                    </button>
+                  </motion.div>
+                )}
+
                 <div className="flex gap-2">
                   <button onClick={() => setMultiStep('payment')} className="px-5 py-3 rounded-2xl text-sm font-bold text-gray-600 bg-white border border-gray-200">← חזור</button>
                   <button onClick={handlePublish} disabled={publishing || !slugInput || slugAvailable === false}
