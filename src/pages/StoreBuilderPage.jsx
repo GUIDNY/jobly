@@ -1840,6 +1840,38 @@ export default function StoreBuilderPage() {
           </>
         )}
 
+        {/* ── Multi-store Payment sheet ── */}
+        {showMultiPaymentSheet && (
+          <>
+            <motion.div className="fixed inset-0 bg-black/40 z-50 md:hidden" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowMultiPaymentSheet(false)} />
+            <motion.div className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl z-50 md:hidden" initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }} transition={{ type: 'spring', damping: 28, stiffness: 320 }}>
+              <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mt-3 mb-4" />
+              <div className="px-5 pb-8 space-y-4">
+                <div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <h3 className="text-sm font-bold text-gray-900">וואטסאפ להזמנות</h3>
+                    <span className="text-[10px] font-black px-2 py-0.5 rounded-full text-white" style={{ background: '#25D366' }}>פעיל</span>
+                  </div>
+                  <input value={ms.social?.whatsapp || ''} onChange={e => updMultiSocial('whatsapp', e.target.value)}
+                    placeholder="050-0000000" dir="ltr"
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-[#25D366] transition-colors" />
+                  <p className="text-xs text-gray-400 mt-1.5">הלקוח ילחץ על "הזמן בוואטסאפ" ויפתח שיחה עם פרטי הסל</p>
+                </div>
+                <div className="p-4 rounded-2xl border border-dashed border-gray-200 bg-gray-50">
+                  <div className="flex items-center justify-between mb-3">
+                    <p className="text-sm font-bold text-gray-500">סליקת אשראי ישירה</p>
+                    <span className="text-[10px] font-black px-2 py-0.5 rounded-full text-white" style={{ background: 'linear-gradient(135deg,#F4938C,#5BC4C8)' }}>בקרוב</span>
+                  </div>
+                  <div className="flex gap-2 opacity-50">
+                    {PAYMENT_METHODS.map(pm => <PaymentBadge key={pm.id} id={pm.id} />)}
+                  </div>
+                </div>
+                <button onClick={() => setShowMultiPaymentSheet(false)} className="w-full py-3 rounded-xl text-sm font-bold text-white" style={{ background: 'linear-gradient(135deg, #25D366, #128C7E)' }}>שמור ✓</button>
+              </div>
+            </motion.div>
+          </>
+        )}
+
         {/* ── Reviews modal ── */}
         {showReviewsSheet && (
           <>
