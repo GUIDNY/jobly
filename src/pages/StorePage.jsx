@@ -722,78 +722,8 @@ function MultiStorePage({ ms }) {
         </motion.div>
       )}
 
-      {/* Cart sheet */}
-      <AnimatePresence>
-        {showCart && (
-          <motion.div className="fixed inset-0 z-50 flex items-end justify-center" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={e => { if (e.target === e.currentTarget) setShowCart(false); }}>
-            <div className="absolute inset-0 bg-black/50" />
-            <motion.div dir="rtl" initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }} transition={{ type: 'spring', damping: 28, stiffness: 320 }}
-              style={{ background: 'white', borderRadius: '24px 24px 0 0', width: '100%', maxWidth: 640, position: 'relative', zIndex: 1, maxHeight: '85vh', display: 'flex', flexDirection: 'column' }}>
-              <div style={{ width: 40, height: 4, background: '#e5e7eb', borderRadius: 2, margin: '12px auto 0' }} />
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 20px', borderBottom: '1px solid #f3f4f6' }}>
-                <h2 style={{ fontSize: 16, fontWeight: 900, color: '#111', margin: 0 }}>🛒 סל קניות</h2>
-                <button onClick={() => setShowCart(false)} style={{ width: 30, height: 30, borderRadius: '50%', background: '#f3f4f6', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6b7280" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-              </div>
-              <div style={{ flex: 1, overflowY: 'auto', padding: '16px', display: 'flex', flexDirection: 'column', gap: 12 }}>
-                {cart.length === 0
-                  ? <div style={{ textAlign: 'center', padding: '40px 0' }}><p style={{ fontSize: 36 }}>🛒</p><p style={{ fontSize: 14, color: '#9ca3af' }}>הסל ריק</p></div>
-                  : cart.map((item, i) => (
-                    <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 12px', borderRadius: 14, border: '1px solid #f3f4f6', background: '#fafafa' }}>
-                      {item.image && <img src={item.image} alt="" style={{ width: 44, height: 44, borderRadius: 10, objectFit: 'cover', flexShrink: 0 }} />}
-                      <div style={{ flex: 1 }}>
-                        <p style={{ fontSize: 13, fontWeight: 700, color: '#111', margin: '0 0 2px' }}>{item.name}</p>
-                        <p style={{ fontSize: 13, fontWeight: 900, color: accent, margin: 0 }}>₪{item.price}</p>
-                      </div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                        <button onClick={() => updateQty(i, item.qty - 1)} style={{ width: 28, height: 28, borderRadius: '50%', background: '#f3f4f6', border: 'none', cursor: 'pointer', fontSize: 16, fontWeight: 700 }}>-</button>
-                        <span style={{ fontSize: 14, fontWeight: 700, minWidth: 20, textAlign: 'center' }}>{item.qty}</span>
-                        <button onClick={() => updateQty(i, item.qty + 1)} style={{ width: 28, height: 28, borderRadius: '50%', background: `${accent}22`, border: 'none', cursor: 'pointer', fontSize: 16, fontWeight: 700, color: accent }}>+</button>
-                      </div>
-                    </div>
-                  ))
-                }
-              </div>
-              {cart.length > 0 && (
-                <div style={{ padding: '12px 20px 28px', borderTop: '1px solid #f3f4f6' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
-                    <span style={{ fontSize: 14, fontWeight: 700, color: '#374151' }}>סה"כ</span>
-                    <span style={{ fontSize: 22, fontWeight: 900, color: accent }}>₪{cartTotal.toFixed(2)}</span>
-                  </div>
-                  <button onClick={() => { setShowCart(false); setShowCheckout(true); }}
-                    style={{ width: '100%', padding: '14px', borderRadius: 14, background: 'linear-gradient(135deg,#25D366,#128C7E)', color: 'white', fontWeight: 900, fontSize: 15, border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, boxShadow: '0 4px 20px rgba(37,211,102,0.35)' }}>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2c-5.514 0-9.99 4.476-9.99 9.99 0 1.76.46 3.41 1.27 4.85L2 22l5.31-1.25A9.99 9.99 0 0012 22c5.514 0 9.99-4.476 9.99-9.99C21.99 6.486 17.514 2 11.99 2z"/></svg>
-                    הזמן בוואטסאפ →
-                  </button>
-                </div>
-              )}
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Category popup */}
-      <AnimatePresence>
-        {popupCat !== null && ms.categories?.[popupCat] && (
-          <motion.div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 50, display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setPopupCat(null)}>
-            <motion.div dir="rtl" initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }} transition={{ type: 'spring', damping: 28, stiffness: 320 }}
-              onClick={e => e.stopPropagation()}
-              style={{ background: 'white', borderRadius: '24px 24px 0 0', width: '100%', maxWidth: 640, padding: '16px', maxHeight: '80vh', overflowY: 'auto' }}>
-              <div style={{ width: 36, height: 4, background: '#e5e7eb', borderRadius: 2, margin: '0 auto 14px' }} />
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                  <span style={{ fontSize: 22 }}>{ms.categories[popupCat].icon || '🛍️'}</span>
-                  <p style={{ fontSize: 15, fontWeight: 800, color: '#111', margin: 0 }}>{ms.categories[popupCat].name}</p>
-                </div>
-                <button onClick={() => setPopupCat(null)} style={{ width: 28, height: 28, borderRadius: '50%', background: '#f3f4f6', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6b7280" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-                {(ms.categories[popupCat].products || []).filter(p => p.name).map((p, pi) => <ProductCard key={pi} p={p} full={(p.size || 'full') === 'full'} />)}
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <CartModal />
+      <CategoryPopup />
 
       {/* WhatsApp Checkout */}
       <AnimatePresence>
