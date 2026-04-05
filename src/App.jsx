@@ -9,6 +9,7 @@ import VizzitAdmin from './pages/VizzitAdmin';
 import ProUpgrade from './pages/ProUpgrade';
 import StoreBuilderPage from './pages/StoreBuilderPage';
 import StorePage from './pages/StorePage';
+import WarehousePage from './pages/WarehousePage';
 
 export default function App() {
   return (
