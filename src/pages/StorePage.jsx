@@ -523,13 +523,36 @@ function MultiStorePage({ ms }) {
         </div>
 
         {/* Hero cover */}
-        <div style={{ position: 'relative', height: 380, background: ms.coverImage ? 'transparent' : `linear-gradient(135deg,${accent}44,${accent}11)`, overflow: 'hidden' }}>
-          {ms.coverImage ? <img src={ms.coverImage} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><span style={{ fontSize: 64 }}>🛍️</span></div>}
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(transparent 50%,rgba(0,0,0,0.6))' }} />
-          <div style={{ position: 'absolute', bottom: 32, right: 0, left: 0, maxWidth: 1200, margin: '0 auto', padding: '0 40px' }}>
-            <h1 style={{ color: 'white', fontWeight: 900, fontSize: 40, margin: '0 0 8px', textShadow: '0 2px 12px rgba(0,0,0,0.5)' }}>{ms.storeName || 'החנות שלי'}</h1>
-            {ms.tagline && <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: 18, margin: 0 }}>{ms.tagline}</p>}
-          </div>
+        <div style={{ position: 'relative', height: 420, overflow: 'hidden', background: ms.coverImage ? 'transparent' : `linear-gradient(135deg, ${accent} 0%, ${accent}bb 50%, #5BC4C8 100%)` }}>
+          {ms.coverImage
+            ? <img src={ms.coverImage} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            : (
+              <div style={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden' }}>
+                {/* Decorative circles */}
+                <div style={{ position: 'absolute', top: -60, right: -60, width: 320, height: 320, borderRadius: '50%', background: 'rgba(255,255,255,0.08)' }} />
+                <div style={{ position: 'absolute', bottom: -80, left: 60, width: 240, height: 240, borderRadius: '50%', background: 'rgba(255,255,255,0.06)' }} />
+                <div style={{ position: 'absolute', top: 40, left: '40%', width: 160, height: 160, borderRadius: '50%', background: 'rgba(255,255,255,0.05)' }} />
+                {/* Logo + name centered */}
+                <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 20 }}>
+                  {ms.logoImage
+                    ? <img src={ms.logoImage} alt="" style={{ width: 100, height: 100, borderRadius: 28, objectFit: 'cover', border: '4px solid rgba(255,255,255,0.3)', boxShadow: '0 12px 40px rgba(0,0,0,0.2)' }} />
+                    : <div style={{ width: 88, height: 88, borderRadius: 24, background: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid rgba(255,255,255,0.3)' }}><span style={{ fontSize: 40 }}>🛍️</span></div>
+                  }
+                  <div style={{ textAlign: 'center' }}>
+                    <h1 style={{ color: 'white', fontWeight: 900, fontSize: 44, margin: '0 0 8px', letterSpacing: '-0.5px', textShadow: '0 2px 20px rgba(0,0,0,0.2)' }}>{ms.storeName || 'החנות שלי'}</h1>
+                    {ms.tagline && <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: 17, margin: 0 }}>{ms.tagline}</p>}
+                  </div>
+                </div>
+              </div>
+            )
+          }
+          <div style={{ position: 'absolute', inset: 0, background: ms.coverImage ? 'linear-gradient(transparent 40%, rgba(0,0,0,0.65))' : 'none' }} />
+          {ms.coverImage && (
+            <div style={{ position: 'absolute', bottom: 32, right: 0, left: 0, maxWidth: 1200, margin: '0 auto', padding: '0 40px' }}>
+              <h1 style={{ color: 'white', fontWeight: 900, fontSize: 44, margin: '0 0 8px', textShadow: '0 2px 16px rgba(0,0,0,0.5)', letterSpacing: '-0.5px' }}>{ms.storeName || 'החנות שלי'}</h1>
+              {ms.tagline && <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: 18, margin: 0 }}>{ms.tagline}</p>}
+            </div>
+          )}
         </div>
 
         {/* Main content: sidebar + categories */}
