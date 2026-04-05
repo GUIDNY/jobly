@@ -591,17 +591,39 @@ function MultiStorePage({ ms }) {
 
           {/* Categories + products */}
           <div>
-            <h2 style={{ fontSize: 22, fontWeight: 900, color: '#111', margin: '0 0 20px' }}>קטגוריות</h2>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 16, marginBottom: 28 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 24 }}>
+              <h2 style={{ fontSize: 22, fontWeight: 900, color: '#111', margin: 0 }}>קטגוריות</h2>
+              <span style={{ fontSize: 12, fontWeight: 700, color: '#9ca3af', background: '#f3f4f6', padding: '3px 10px', borderRadius: 20 }}>{(ms.categories || []).length}</span>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 20, marginBottom: 28 }}>
               {(ms.categories || []).map((cat, i) => (
                 <div key={i} onClick={() => handleCatClick(cat, i)}
-                  style={{ borderRadius: 20, overflow: 'hidden', background: 'white', boxShadow: activeCat === i ? `0 0 0 2px ${accent}, 0 4px 20px rgba(0,0,0,0.12)` : '0 2px 12px rgba(0,0,0,0.08)', cursor: 'pointer', transition: 'all 0.15s', transform: activeCat === i ? 'translateY(-2px)' : undefined }}>
-                  <div style={{ height: 120, background: cat.image ? 'transparent' : `linear-gradient(135deg,${accent}33,${accent}11)`, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-                    {cat.image ? <img src={cat.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ fontSize: 36 }}>{cat.icon || '🛍️'}</span>}
+                  style={{ borderRadius: 20, overflow: 'hidden', background: 'white', cursor: 'pointer', transition: 'all 0.2s cubic-bezier(0.25,0.46,0.45,0.94)',
+                    boxShadow: activeCat === i ? `0 0 0 2.5px ${accent}, 0 12px 32px rgba(0,0,0,0.14)` : '0 2px 16px rgba(0,0,0,0.07)',
+                    transform: activeCat === i ? 'translateY(-4px)' : 'translateY(0)' }}>
+                  {/* Image area */}
+                  <div style={{ position: 'relative', height: 180, background: cat.image ? 'transparent' : `linear-gradient(135deg,${accent}55,${accent}22)`, overflow: 'hidden' }}>
+                    {cat.image
+                      ? <img src={cat.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.3s ease', transformOrigin: 'center' }} />
+                      : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><span style={{ fontSize: 52 }}>{cat.icon || '🛍️'}</span></div>
+                    }
+                    {/* Gradient overlay */}
+                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(transparent 55%, rgba(0,0,0,0.45))' }} />
+                    {/* Product count badge */}
+                    <div style={{ position: 'absolute', top: 12, left: 12, background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(8px)', borderRadius: 20, padding: '3px 10px' }}>
+                      <span style={{ fontSize: 11, fontWeight: 800, color: '#374151' }}>{(cat.products || []).filter(p => p.name).length} פריטים</span>
+                    </div>
+                    {/* Name overlay */}
+                    <div style={{ position: 'absolute', bottom: 14, right: 14, left: 14 }}>
+                      <p style={{ color: 'white', fontWeight: 900, fontSize: 18, margin: 0, textShadow: '0 1px 8px rgba(0,0,0,0.5)' }}>{cat.name || 'קטגוריה'}</p>
+                    </div>
                   </div>
-                  <div style={{ padding: '12px 14px' }}>
-                    <p style={{ fontSize: 15, fontWeight: 800, color: '#111', margin: '0 0 2px' }}>{cat.name || 'קטגוריה'}</p>
-                    <p style={{ fontSize: 12, color: '#9ca3af', margin: 0 }}>{(cat.products || []).filter(p => p.name).length} מוצרים</p>
+                  {/* Hover CTA */}
+                  <div style={{ padding: '12px 14px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <span style={{ fontSize: 13, color: '#6b7280', fontWeight: 600 }}>{(cat.products || []).filter(p => p.name).length} מוצרים</span>
+                    <div style={{ width: 30, height: 30, borderRadius: '50%', background: `${accent}18`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                    </div>
                   </div>
                 </div>
               ))}
