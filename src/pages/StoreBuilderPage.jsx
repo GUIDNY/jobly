@@ -1286,23 +1286,8 @@ export default function StoreBuilderPage() {
 
               {/* STEP: cats */}
               {multiStep === 'cats' && (<>
-                {/* Mobile compact */}
-                <div className="md:hidden bg-white rounded-2xl p-3 border border-gray-100 space-y-2" style={{ boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
-                  <button onClick={() => setEditingCatIdx(-1)} className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors">
-                    <span className="text-base">📂</span>
-                    <span className="text-xs font-medium text-gray-700 flex-1 text-right">
-                      {(ms.categories||[]).length > 0
-                        ? `${ms.categories.length} קטגוריות · ${(ms.categories||[]).reduce((s,c)=>s+(c.products||[]).filter(p=>p.name).length,0)} מוצרים`
-                        : 'הוסף קטגוריות ומוצרים'}
-                    </span>
-                    {(ms.categories||[]).length > 0 && (
-                      <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full text-white" style={{ background: ms.accentColor||'#F4938C' }}>{ms.categories.length}</span>
-                    )}
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
-                  </button>
-                </div>
-                {/* Desktop full form */}
-                <div className="hidden md:block bg-white rounded-2xl p-4 md:p-5 border border-gray-100 space-y-4" style={{ boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
+                {/* Full form — mobile + desktop */}
+                <div className="bg-white rounded-2xl p-4 border border-gray-100 space-y-4" style={{ boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
                   <div className="flex items-center justify-between">
                     <p className="text-sm font-bold text-gray-800">קטגוריות ומוצרים</p>
                     <button onClick={() => updMulti('categories',[...(ms.categories||[]),{ id:Date.now(), name:'', icon:'🛍️', image:'', displayMode:'popup', products:[{ name:'', price:'', image:'', description:'' }] }])}
