@@ -1471,21 +1471,6 @@ export default function StoreBuilderPage() {
                     <span className="text-xs font-medium text-gray-700 flex-1 text-right">{ms.terms ? 'תקנון ✓' : 'הוסף תקנון'}</span>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
                   </button>
-                  {/* Payment row */}
-                  <div className="px-3 py-2.5 rounded-xl border border-gray-200 space-y-2">
-                    <div className="flex items-center gap-2">
-                      <span className="text-base">💬</span>
-                      <span className="text-xs font-medium text-gray-700 flex-1 text-right">וואטסאפ להזמנות</span>
-                      {ms.social?.whatsapp && <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full text-white" style={{ background: '#25D366' }}>✓</span>}
-                    </div>
-                    <input value={ms.social?.whatsapp || ''} onChange={e => updMultiSocial('whatsapp', e.target.value)}
-                      placeholder="050-0000000" dir="ltr"
-                      className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-[#25D366] transition-colors" />
-                    <div className="flex items-center justify-between">
-                      <span className="text-[10px] text-gray-400">סליקת אשראי</span>
-                      <span className="text-[10px] font-black px-2 py-0.5 rounded-full text-white" style={{ background: 'linear-gradient(135deg,#F4938C,#5BC4C8)' }}>בקרוב</span>
-                    </div>
-                  </div>
                 </div>
                 {/* Desktop full forms */}
                 <div className="hidden md:block bg-white rounded-2xl p-4 md:p-5 border border-gray-100 space-y-4" style={{ boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
