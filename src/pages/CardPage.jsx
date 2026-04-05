@@ -579,7 +579,7 @@ export default function CardPage() {
           <section className="px-5 pb-10">
             {/* Section label */}
             <div className="flex items-center gap-3 mb-4">
-              <span className="text-[10px] font-bold tracking-[0.25em] uppercase" style={{ color: accent }}>OUR EXPERTISE</span>
+              <span className="text-[10px] font-bold tracking-[0.2em] uppercase" style={{ color: accent }}>השירותים שלנו</span>
               <div className="flex-1 h-px" style={{ background: BORDER }} />
             </div>
 
