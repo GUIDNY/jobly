@@ -1439,6 +1439,45 @@ export default function StoreBuilderPage() {
                     placeholder="כל הזכויות שמורות. ביטול עד 14 ימים מיום הרכישה..."
                     rows={4} className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 resize-none" />
                 </div>
+                {/* ── Payment section ── */}
+                <div className="bg-white rounded-2xl p-4 md:p-5 border border-gray-100 space-y-4" style={{ boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
+                  <p className="text-sm font-bold text-gray-800">תשלום והזמנות</p>
+
+                  {/* WhatsApp — active */}
+                  <div className="rounded-2xl border-2 p-4 space-y-2" style={{ borderColor: '#25D36633', background: '#f0fdf4' }}>
+                    <div className="flex items-center gap-2">
+                      <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg,#25D366,#128C7E)' }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2c-5.514 0-9.99 4.476-9.99 9.99 0 1.76.46 3.41 1.27 4.85L2 22l5.31-1.25A9.99 9.99 0 0012 22c5.514 0 9.99-4.476 9.99-9.99C21.99 6.486 17.514 2 11.99 2z"/></svg>
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-sm font-bold text-gray-800">וואטסאפ להזמנות</p>
+                        <p className="text-xs text-gray-500">הלקוח ישלח את הסל ישירות לוואטסאפ שלך</p>
+                      </div>
+                      <span className="text-[10px] font-black px-2 py-0.5 rounded-full text-white flex-shrink-0" style={{ background: '#25D366' }}>פעיל</span>
+                    </div>
+                    <input value={ms.social?.whatsapp || ''} onChange={e => updMultiSocial('whatsapp', e.target.value)}
+                      placeholder="050-0000000" dir="ltr"
+                      className="w-full border border-green-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-[#25D366] bg-white transition-colors" />
+                  </div>
+
+                  {/* Credit card — coming soon */}
+                  <div className="rounded-2xl border border-dashed border-gray-200 p-4 space-y-2" style={{ background: '#fafafa', opacity: 0.75 }}>
+                    <div className="flex items-center gap-2">
+                      <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: '#f3f4f6' }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-sm font-bold text-gray-400">סליקת אשראי ישירה</p>
+                        <p className="text-xs text-gray-400">Visa · Mastercard · Bit · Apple Pay</p>
+                      </div>
+                      <span className="text-[10px] font-black px-2 py-0.5 rounded-full text-white flex-shrink-0" style={{ background: 'linear-gradient(135deg,#F4938C,#5BC4C8)' }}>בקרוב</span>
+                    </div>
+                    <div className="flex gap-2 opacity-50">
+                      {PAYMENT_METHODS.map(pm => <PaymentBadge key={pm.id} id={pm.id} />)}
+                    </div>
+                  </div>
+                </div>
+
                 {/* Slug + publish */}
                 <div className="bg-white rounded-2xl p-4 md:p-5 border border-gray-100 space-y-3" style={{ boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
                   <p className="text-sm font-bold text-gray-800">כתובת החנות</p>
