@@ -1832,6 +1832,7 @@ export default function StoreBuilderPage() {
         )}
 
         {/* Store info sheet */}
+        <AnimatePresence>
         {showMultiInfoSheet && (
           <>
             <motion.div className="fixed inset-0 bg-black/40 z-50 md:hidden" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowMultiInfoSheet(false)} />
