@@ -559,6 +559,7 @@ const DEFAULT_DATA = {
   ctaText: 'קנה עכשיו',
   description: '',
   bullets: ['', '', ''],
+  whatsapp: '',
   paymentMethods: ['visa', 'mastercard', 'bit'],
   reviews: [
     { name: 'דני כהן', rating: 5, text: 'מוצר מעולה, ממליץ בחום!' },
