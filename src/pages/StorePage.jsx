@@ -556,7 +556,7 @@ function MultiStorePage({ ms }) {
         </div>
 
         {/* Main content: sidebar + categories */}
-        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '36px 40px 80px', display: 'grid', gridTemplateColumns: '280px 1fr', gap: 32 }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '40px 40px 100px', display: 'grid', gridTemplateColumns: '260px 1fr', gap: 36 }}>
           {/* Sidebar */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
             {/* About */}
