@@ -549,7 +549,7 @@ const DEFAULT_MULTI = {
 };
 
 const DEFAULT_DATA = {
-  storeType: 'single',
+  storeType: 'multi',
   storeName: '',
   image: '',
   name: '',
