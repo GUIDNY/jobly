@@ -359,7 +359,7 @@ function MultiStorePreview({ ms, cart, onAddToCart, onCartOpen }) {
                 if (firstShape === 'square') {
                   return (
                     <div key={i} onClick={() => cat.displayMode !== 'page' && setPopupCat(i)}
-                      style={{ borderRadius: 8, overflow: 'hidden', border: '1.5px solid #ebebeb', cursor: 'pointer', background: 'white' }}>
+                      style={{ borderRadius: 8, overflow: 'hidden', border: '1.5px solid #ebebeb', cursor: 'pointer', background: 'white', gridColumn: cat.size === 'full' ? 'span 2' : 'span 1' }}>
                       <div style={{ width: '100%', aspectRatio: '1', background: '#f5f5f5', overflow: 'hidden' }}>
                         {cat.image ? <img src={cat.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <Placeholder cat={cat} />}
                       </div>
