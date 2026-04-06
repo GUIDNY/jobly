@@ -16,7 +16,9 @@
       "Bash(npm run:*)",
       "Bash(vercel --prod)",
       "Bash(curl -s -X POST https://api.supabase.com/v1/projects/tfyodjqusfwqmbjgwikf/database/query -H 'Authorization: Bearer sbp_755d6b5cc0f9f6234fc1fc1a665287fd84a72939' -H 'Content-Type: application/json' -d '{\"query\": \"SELECT table_name, row_security FROM information_schema.tables t JOIN pg_class c ON c.relname = t.table_name WHERE table_schema = '\\\\''public'\\\\'' AND table_name = '\\\\''stores'\\\\'';\"}')",
-      "Bash(curl -s -X POST https://api.supabase.com/v1/projects/tfyodjqusfwqmbjgwikf/database/query -H 'Authorization: Bearer sbp_755d6b5cc0f9f6234fc1fc1a665287fd84a72939' -H 'Content-Type: application/json' -d '{\"query\": \"SELECT table_name FROM information_schema.tables WHERE table_schema = '\\\\''public'\\\\'' AND table_name = '\\\\''stores'\\\\'';\"}')"
+      "Bash(curl -s -X POST https://api.supabase.com/v1/projects/tfyodjqusfwqmbjgwikf/database/query -H 'Authorization: Bearer sbp_755d6b5cc0f9f6234fc1fc1a665287fd84a72939' -H 'Content-Type: application/json' -d '{\"query\": \"SELECT table_name FROM information_schema.tables WHERE table_schema = '\\\\''public'\\\\'' AND table_name = '\\\\''stores'\\\\'';\"}')",
+      "Bash(grep -n \"MULTI-STORE STEPS\\\\|motion.div key=\\\\`multi\\\\|space-y-3 md:space\\\\|hidden md:flex gap-2\\\\|MULTI_STEPS\")",
+      "Read(//tmp/**)"
     ]
   }
 }

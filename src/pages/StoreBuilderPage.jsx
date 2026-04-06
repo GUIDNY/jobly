@@ -903,6 +903,24 @@ export default function StoreBuilderPage() {
             ))}
           </div>
 
+          {/* Desktop multi steps bar */}
+          {storeType === 'multi' && (
+            <div className="hidden md:flex gap-2 bg-white rounded-2xl p-1.5 border border-gray-100" style={{ boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
+              {MULTI_STEPS.map((s, i) => {
+                const currentIdx = MULTI_STEPS.findIndex(x => x.id === multiStep);
+                return (
+                  <button key={s.id} onClick={() => setMultiStep(s.id)}
+                    className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-sm font-semibold transition-all"
+                    style={multiStep === s.id
+                      ? { background:'linear-gradient(135deg,#F4938C22,#5BC4C822)', color:'#F4938C', boxShadow:'0 1px 4px rgba(244,147,140,0.2)' }
+                      : i < currentIdx ? { color:'#10B981' } : { color:'#9ca3af' }}>
+                    <span style={{ fontSize:14 }}>{i < currentIdx ? '✓' : s.icon}</span>
+                    <span>{s.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+          )}
 
           {/* ── Section: Product ── */}
           {storeType === 'single' && activeSection === 'product' && (
@@ -1193,12 +1211,10 @@ export default function StoreBuilderPage() {
 
           {/* ══ MULTI-STORE STEPS ══ */}
           {storeType === 'multi' && (
-            <div className="space-y-3 md:space-y-8">
+            <motion.div key={`multi-${multiStep}`} initial={{ opacity:0, x:16 }} animate={{ opacity:1, x:0 }} className="space-y-3">
 
               {/* STEP: info */}
-              <div className={multiStep !== 'info' ? 'hidden md:block' : ''}>
-                {/* Desktop section header */}
-                <p className="hidden md:block text-xs font-bold text-gray-400 uppercase tracking-widest px-1 mb-3">🏪 פרטי החנות</p>
+              {multiStep === 'info' && (<>
                 {/* Mobile compact buttons */}
                 <div className="md:hidden bg-white rounded-2xl p-3 border border-gray-100 space-y-2" style={{ boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
                   <button onClick={() => setShowMultiInfoSheet(true)} className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors">
@@ -1264,14 +1280,13 @@ export default function StoreBuilderPage() {
                     </div>
                   </div>
                 </div>
-                <button onClick={() => setMultiStep('about')} className="md:hidden w-full py-3 rounded-2xl text-sm font-bold text-white" style={{ background:'linear-gradient(135deg,#F4938C,#5BC4C8)', boxShadow:'0 4px 16px rgba(244,147,140,0.3)' }}>
+                <button onClick={() => setMultiStep('about')} className="w-full py-3 rounded-2xl text-sm font-bold text-white" style={{ background:'linear-gradient(135deg,#F4938C,#5BC4C8)', boxShadow:'0 4px 16px rgba(244,147,140,0.3)' }}>
                   הבא: אודות החנות →
                 </button>
-              </div>
+              </>)}
 
               {/* STEP: about */}
-              <div className={multiStep !== 'about' ? 'hidden md:block' : ''}>
-                <p className="hidden md:block text-xs font-bold text-gray-400 uppercase tracking-widest px-1 mb-3">📖 אודות החנות</p>
+              {multiStep === 'about' && (<>
                 <div className="bg-white rounded-2xl p-4 md:p-5 border border-gray-100 space-y-4" style={{ boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
                   <div>
                     <p className="text-sm font-bold text-gray-800 mb-0.5">אודות החנות</p>
@@ -1288,15 +1303,14 @@ export default function StoreBuilderPage() {
                       rows={5} className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 resize-none" />
                   </div>
                 </div>
-                <div className="md:hidden flex gap-2">
+                <div className="flex gap-2">
                   <button onClick={() => setMultiStep('info')} className="px-5 py-3 rounded-2xl text-sm font-bold text-gray-600 bg-white border border-gray-200">← חזור</button>
                   <button onClick={() => setMultiStep('cats')} className="flex-1 py-3 rounded-2xl text-sm font-bold text-white" style={{ background:'linear-gradient(135deg,#F4938C,#5BC4C8)' }}>הבא: קטגוריות →</button>
                 </div>
-              </div>
+              </>)}
 
               {/* STEP: cats */}
-              <div className={multiStep !== 'cats' ? 'hidden md:block' : ''}>
-                <p className="hidden md:block text-xs font-bold text-gray-400 uppercase tracking-widest px-1 mb-3">📂 קטגוריות ומוצרים</p>
+              {multiStep === 'cats' && (<>
                 {/* Mobile compact */}
                 <div className="md:hidden bg-white rounded-2xl p-3 border border-gray-100 space-y-2" style={{ boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
                   <button onClick={() => setEditingCatIdx(-1)} className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors">
