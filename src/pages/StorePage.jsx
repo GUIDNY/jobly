@@ -977,17 +977,18 @@ function MultiStorePage({ ms }) {
               </div>
             )}
             {ms.terms && (
-              <div style={{ background: 'white', borderRadius: 20, padding: '16px 20px', boxShadow: '0 2px 12px rgba(0,0,0,0.06)' }}>
-                <p style={{ fontSize: 12, fontWeight: 700, color: '#374151', marginBottom: 8 }}>תקנון ותנאי שימוש</p>
-                <p style={{ fontSize: 11, color: '#9ca3af', lineHeight: 1.7, margin: 0 }}>{ms.terms}</p>
+              <div style={{ padding: '20px 20px 0', borderTop: '1px solid #e8e8e8', marginTop: 20 }}>
+                <p style={{ fontSize: 11, fontWeight: 800, color: '#888', margin: '0 0 10px', letterSpacing: '1.5px', textTransform: 'uppercase' }}>תקנון ותנאי שימוש</p>
+                <p style={{ fontSize: 13, color: '#666', lineHeight: 1.8, margin: 0 }}>{ms.terms}</p>
               </div>
             )}
             {!hasSocial && !ms.terms && (
-              <div style={{ background: 'white', borderRadius: 20, padding: '40px 24px', textAlign: 'center', boxShadow: '0 2px 12px rgba(0,0,0,0.06)' }}>
-                <p style={{ fontSize: 32, margin: '0 0 12px' }}>📱</p>
-                <p style={{ fontSize: 14, color: '#9ca3af' }}>אין פרטי קשר להצגה</p>
+              <div style={{ padding: '60px 24px', textAlign: 'center' }}>
+                <p style={{ fontSize: 40, margin: '0 0 14px' }}>📱</p>
+                <p style={{ fontSize: 15, color: '#aaa' }}>אין פרטי קשר להצגה</p>
               </div>
             )}
+            <div style={{ height: 20 }} />
           </motion.div>
         )}
       </div>
