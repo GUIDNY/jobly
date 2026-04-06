@@ -386,6 +386,17 @@ function SingleStorePage({ d }) {
               <p style={{ fontSize: 13, color: '#6b7280', lineHeight: 1.75, whiteSpace: 'pre-wrap', margin: 0 }}>{d.description}</p>
             </div>
           )}
+          {d.videoUrl && (
+            <div style={{ marginBottom: 18 }}>
+              <p style={{ fontSize: 12, fontWeight: 800, color: '#374151', marginBottom: 10, letterSpacing: '0.3px' }}>סרטון המוצר</p>
+              <div style={{ borderRadius: 14, overflow: 'hidden', background: '#000' }}>
+                {mbYtId
+                  ? <iframe width="100%" height="210" src={`https://www.youtube.com/embed/${mbYtId}`} frameBorder="0" allowFullScreen style={{ display: 'block' }} />
+                  : <video src={d.videoUrl} controls style={{ width: '100%', maxHeight: 220, display: 'block' }} />
+                }
+              </div>
+            </div>
+          )}
           {d.reviews?.filter(r => r.text).length > 0 && (
             <div>
               <p style={{ fontSize: 12, fontWeight: 800, color: '#374151', marginBottom: 12, letterSpacing: '0.3px' }}>מה אומרים הלקוחות</p>
