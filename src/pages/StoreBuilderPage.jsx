@@ -1264,13 +1264,14 @@ export default function StoreBuilderPage() {
                     </div>
                   </div>
                 </div>
-                <button onClick={() => setMultiStep('about')} className="w-full py-3 rounded-2xl text-sm font-bold text-white" style={{ background:'linear-gradient(135deg,#F4938C,#5BC4C8)', boxShadow:'0 4px 16px rgba(244,147,140,0.3)' }}>
+                <button onClick={() => setMultiStep('about')} className="md:hidden w-full py-3 rounded-2xl text-sm font-bold text-white" style={{ background:'linear-gradient(135deg,#F4938C,#5BC4C8)', boxShadow:'0 4px 16px rgba(244,147,140,0.3)' }}>
                   הבא: אודות החנות →
                 </button>
-              </>)}
+              </div>
 
               {/* STEP: about */}
-              {multiStep === 'about' && (<>
+              <div className={multiStep !== 'about' ? 'hidden md:block' : ''}>
+                <p className="hidden md:block text-xs font-bold text-gray-400 uppercase tracking-widest px-1 mb-3">📖 אודות החנות</p>
                 <div className="bg-white rounded-2xl p-4 md:p-5 border border-gray-100 space-y-4" style={{ boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
                   <div>
                     <p className="text-sm font-bold text-gray-800 mb-0.5">אודות החנות</p>
