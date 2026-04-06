@@ -2050,6 +2050,12 @@ export default function StoreBuilderPage() {
                     placeholder="כל הזכויות שמורות. ביטול עד 14 ימים מיום הרכישה..."
                     rows={3} className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 resize-none" />
                 </div>
+                <div>
+                  <label className="block text-[10px] font-semibold text-gray-500 mb-1">↩️ מדיניות ביטולים</label>
+                  <textarea value={ms.cancelPolicy||''} onChange={e => updMulti('cancelPolicy', e.target.value)}
+                    placeholder="ניתן לבטל הזמנה עד 48 שעות לאחר הרכישה..."
+                    rows={3} className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 resize-none" />
+                </div>
               </div>
               <div className="px-4 py-3 border-t border-gray-100 flex-shrink-0">
                 <button onClick={() => setShowSocialSheet(false)} className="w-full py-3 rounded-xl text-sm font-bold text-white" style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>שמור ✓</button>
