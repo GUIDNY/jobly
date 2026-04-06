@@ -326,26 +326,66 @@ function MultiStorePreview({ ms, cart, onAddToCart, onCartOpen }) {
       )}
 
       {/* Categories */}
-      {(ms.categories || []).length > 0 && (
-        <div style={{ padding: '10px 10px 6px' }}>
-          <p style={{ fontSize: 8, fontWeight: 800, color: '#111', margin: '0 0 6px', letterSpacing: '0.3px' }}>קטגוריות מובילות</p>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 5 }}>
-            {ms.categories.slice(0, 4).map((cat, i) => (
-              <div key={i} onClick={() => cat.displayMode !== 'page' && setPopupCat(i)}
-                style={{ borderRadius: 8, overflow: 'hidden', background: '#f5f5f5', cursor: 'pointer', position: 'relative', height: 56 }}>
-                {cat.image
-                  ? <img src={cat.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                  : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: `${accent}22` }}><span style={{ fontSize: 18 }}>{cat.icon || '🛍️'}</span></div>
-                }
-                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(transparent 30%, rgba(0,0,0,0.55))' }} />
-                <div style={{ position: 'absolute', bottom: 0, right: 0, left: 0, padding: '3px 6px 4px' }}>
-                  <p style={{ color: 'white', fontWeight: 800, fontSize: 7.5, margin: 0, textShadow: '0 1px 3px rgba(0,0,0,0.6)' }}>{cat.name || 'קטגוריה'}</p>
-                </div>
-              </div>
-            ))}
+      {(ms.categories || []).length > 0 && (() => {
+        const firstShape = ms.categories[0]?.displayShape || 'banner';
+        const gridCols = firstShape === 'circle' ? '1fr 1fr 1fr' : '1fr 1fr';
+        const Placeholder = ({ cat }) => (
+          <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: `${accent}15`, gap: 3 }}>
+            <span style={{ fontSize: firstShape === 'circle' ? 20 : 16 }}>{cat.icon || '🛍️'}</span>
           </div>
-        </div>
-      )}
+        );
+        return (
+          <div style={{ padding: '10px 10px 6px' }}>
+            <p style={{ fontSize: 8, fontWeight: 800, color: '#111', margin: '0 0 6px', letterSpacing: '0.3px' }}>קטגוריות מובילות</p>
+            <div style={{ display: 'grid', gridTemplateColumns: gridCols, gap: firstShape === 'banner' ? 3 : 5, padding: firstShape !== 'banner' ? '0 2px' : 0 }}>
+              {ms.categories.slice(0, firstShape === 'circle' ? 6 : 4).map((cat, i) => {
+
+                if (firstShape === 'circle') {
+                  return (
+                    <div key={i} onClick={() => cat.displayMode !== 'page' && setPopupCat(i)}
+                      style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, cursor: 'pointer', padding: '4px 2px' }}>
+                      <div style={{ width: 46, height: 46, borderRadius: '50%', overflow: 'hidden', border: `2px solid ${accent}33`, flexShrink: 0, background: '#f5f5f5' }}>
+                        {cat.image ? <img src={cat.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <Placeholder cat={cat} />}
+                      </div>
+                      <p style={{ fontSize: 6.5, fontWeight: 700, color: '#111', margin: 0, textAlign: 'center', lineHeight: 1.2 }}>{cat.name || 'קטגוריה'}</p>
+                    </div>
+                  );
+                }
+
+                if (firstShape === 'square') {
+                  return (
+                    <div key={i} onClick={() => cat.displayMode !== 'page' && setPopupCat(i)}
+                      style={{ borderRadius: 8, overflow: 'hidden', border: '1.5px solid #ebebeb', cursor: 'pointer', background: 'white' }}>
+                      <div style={{ width: '100%', aspectRatio: '1', background: '#f5f5f5', overflow: 'hidden' }}>
+                        {cat.image ? <img src={cat.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <Placeholder cat={cat} />}
+                      </div>
+                      <div style={{ padding: '4px 6px 5px' }}>
+                        <p style={{ fontSize: 7.5, fontWeight: 800, color: '#111', margin: 0 }}>{cat.name || 'קטגוריה'}</p>
+                        <p style={{ fontSize: 6.5, color: '#aaa', margin: 0 }}>{(cat.products||[]).filter(p=>p.name).length} פריטים</p>
+                      </div>
+                    </div>
+                  );
+                }
+
+                // Banner (default)
+                return (
+                  <div key={i} onClick={() => cat.displayMode !== 'page' && setPopupCat(i)}
+                    style={{ borderRadius: 0, overflow: 'hidden', cursor: 'pointer', position: 'relative', height: 56, background: '#1a1a1a' }}>
+                    {cat.image
+                      ? <img src={cat.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      : <Placeholder cat={cat} />
+                    }
+                    {cat.image && <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(transparent 25%, rgba(0,0,0,0.6))' }} />}
+                    <div style={{ position: 'absolute', bottom: 0, right: 0, left: 0, padding: '3px 6px 5px' }}>
+                      <p style={{ color: 'white', fontWeight: 800, fontSize: 7.5, margin: 0, textShadow: '0 1px 3px rgba(0,0,0,0.7)' }}>{cat.name || 'קטגוריה'}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        );
+      })()}
 
       {/* Featured products */}
       {featuredProducts.length > 0 && (
