@@ -1275,7 +1275,7 @@ function MultiStorePage({ ms }) {
       })()}
 
       {/* ── Footer ── */}
-      <footer style={{ background: '#0f0f0f', padding: '32px 20px 48px', textAlign: 'center', marginTop: 4 }}>
+      <footer style={{ background: `linear-gradient(160deg, ${accent}25 0%, #0f0f0f 35%)`, padding: '32px 20px 48px', textAlign: 'center', marginTop: 4 }}>
         {ms.logoImage
           ? <img src={ms.logoImage} alt="" style={{ height: 44, maxWidth: 130, objectFit: 'contain', marginBottom: 10, borderRadius: 8 }} />
           : <p style={{ fontWeight: 900, fontSize: 18, color: 'white', margin: '0 0 6px' }}>{ms.storeName || 'החנות שלי'}</p>
