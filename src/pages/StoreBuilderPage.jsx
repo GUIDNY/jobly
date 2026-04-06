@@ -1063,6 +1063,10 @@ export default function StoreBuilderPage() {
               <div className="hidden md:block bg-white rounded-2xl p-5 border border-gray-100 space-y-4" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
                 <p className="text-sm font-bold text-gray-800">תיאור המוצר</p>
                 <textarea value={data.description} onChange={e => upd('description', e.target.value)} placeholder="ספר על המוצר..." rows={5} className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 resize-none" />
+                <div>
+                  <label className="block text-xs font-semibold text-gray-500 mb-1.5">🎬 סרטון (YouTube / קישור ישיר) — אופציונלי</label>
+                  <input value={data.videoUrl||''} onChange={e => upd('videoUrl', e.target.value)} placeholder="https://youtube.com/watch?v=..." className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400" dir="ltr" />
+                </div>
               </div>
               <div className="hidden md:block bg-white rounded-2xl p-5 border border-gray-100 space-y-3" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
                 <div className="flex items-center justify-between">
