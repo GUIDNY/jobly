@@ -1193,10 +1193,12 @@ export default function StoreBuilderPage() {
 
           {/* ══ MULTI-STORE STEPS ══ */}
           {storeType === 'multi' && (
-            <motion.div key={`multi-${multiStep}`} initial={{ opacity:0, x:16 }} animate={{ opacity:1, x:0 }} className="space-y-3">
+            <div className="space-y-3 md:space-y-8">
 
               {/* STEP: info */}
-              {multiStep === 'info' && (<>
+              <div className={multiStep !== 'info' ? 'hidden md:block' : ''}>
+                {/* Desktop section header */}
+                <p className="hidden md:block text-xs font-bold text-gray-400 uppercase tracking-widest px-1 mb-3">🏪 פרטי החנות</p>
                 {/* Mobile compact buttons */}
                 <div className="md:hidden bg-white rounded-2xl p-3 border border-gray-100 space-y-2" style={{ boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
                   <button onClick={() => setShowMultiInfoSheet(true)} className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors">
