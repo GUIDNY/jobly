@@ -1434,6 +1434,15 @@ export default function StoreBuilderPage() {
                                 </button>
                               ))}
                             </div>
+                            {/* Featured product toggle */}
+                            <button onClick={() => updProduct(ci,pi,{ featured: !p.featured })}
+                              className="flex items-center gap-2 w-full px-3 py-1.5 rounded-xl border text-[11px] font-bold transition-all"
+                              style={p.featured
+                                ? { borderColor:'#F59E0B', background:'#fffbeb', color:'#D97706' }
+                                : { borderColor:'#e5e7eb', background:'white', color:'#9ca3af' }}>
+                              <span>{p.featured ? '⭐' : '☆'}</span>
+                              {p.featured ? 'מוצר נבחר — יוצג בדף הראשי' : 'הפוך למוצר נבחר'}
+                            </button>
                           </div>
                         ))}
                         <button onClick={() => updCategory(ci,{ products:[...(cat.products||[]),{ name:'', price:'', image:'', description:'', size:'full', inStock:true, quantity:'' }] })}
