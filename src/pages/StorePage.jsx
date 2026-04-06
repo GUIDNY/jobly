@@ -811,29 +811,33 @@ function MultiStorePage({ ms }) {
         </button>
       </div>
 
-      {/* ── Compact hero ── */}
-      <div style={{ position: 'relative', height: 160, background: ms.coverImage ? 'transparent' : `linear-gradient(135deg,${accent},${accent}bb 60%,#5BC4C8)`, overflow: 'hidden' }}>
+      {/* ── Hero ── */}
+      <div style={{ position: 'relative', height: 210, background: ms.coverImage ? 'transparent' : `linear-gradient(150deg,${accent} 0%,${accent}cc 50%,#5BC4C8 100%)`, overflow: 'hidden' }}>
         {ms.coverImage
           ? <img src={ms.coverImage} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           : (
             <>
-              <div style={{ position: 'absolute', top: -40, right: -40, width: 200, height: 200, borderRadius: '50%', background: 'rgba(255,255,255,0.07)' }} />
-              <div style={{ position: 'absolute', bottom: -50, left: 20, width: 160, height: 160, borderRadius: '50%', background: 'rgba(255,255,255,0.05)' }} />
-              <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+              <div style={{ position: 'absolute', top: -60, right: -60, width: 240, height: 240, borderRadius: '50%', background: 'rgba(255,255,255,0.08)' }} />
+              <div style={{ position: 'absolute', bottom: -60, left: 10, width: 200, height: 200, borderRadius: '50%', background: 'rgba(255,255,255,0.06)' }} />
+              <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
                 {ms.logoImage
-                  ? <img src={ms.logoImage} alt="" style={{ width: 56, height: 56, borderRadius: 16, border: '3px solid rgba(255,255,255,0.4)', objectFit: 'cover' }} />
-                  : <div style={{ width: 52, height: 52, borderRadius: 16, background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><span style={{ fontSize: 26 }}>🛍️</span></div>
+                  ? <img src={ms.logoImage} alt="" style={{ width: 68, height: 68, borderRadius: 20, border: '3px solid rgba(255,255,255,0.5)', objectFit: 'cover', boxShadow: '0 8px 24px rgba(0,0,0,0.2)' }} />
+                  : <div style={{ width: 64, height: 64, borderRadius: 20, background: 'rgba(255,255,255,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 8px 24px rgba(0,0,0,0.15)' }}><span style={{ fontSize: 32 }}>🛍️</span></div>
                 }
-                <p style={{ color: 'white', fontWeight: 900, fontSize: 20, margin: 0, textShadow: '0 1px 8px rgba(0,0,0,0.2)' }}>{ms.storeName || 'החנות שלי'}</p>
+                <p style={{ color: 'white', fontWeight: 900, fontSize: 22, margin: 0, textShadow: '0 2px 10px rgba(0,0,0,0.25)', letterSpacing: '-0.3px' }}>{ms.storeName || 'החנות שלי'}</p>
+                {ms.tagline && <p style={{ color: 'rgba(255,255,255,0.85)', fontWeight: 600, fontSize: 13, margin: 0, textShadow: '0 1px 4px rgba(0,0,0,0.2)' }}>{ms.tagline}</p>}
               </div>
             </>
           )
         }
-        {ms.coverImage && <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(transparent 30%, rgba(0,0,0,0.5))' }} />}
+        {ms.coverImage && <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.08) 0%, transparent 30%, rgba(0,0,0,0.55) 100%)' }} />}
         {ms.coverImage && (
-          <div style={{ position: 'absolute', bottom: 14, right: 16, left: 16, display: 'flex', alignItems: 'center', gap: 10 }}>
-            {ms.logoImage && <img src={ms.logoImage} alt="" style={{ width: 40, height: 40, borderRadius: 11, border: '2px solid white', objectFit: 'cover', flexShrink: 0 }} />}
-            <p style={{ color: 'white', fontWeight: 900, fontSize: 17, margin: 0, textShadow: '0 1px 6px rgba(0,0,0,0.5)' }}>{ms.storeName || 'החנות שלי'}</p>
+          <div style={{ position: 'absolute', bottom: 16, right: 16, left: 16, display: 'flex', alignItems: 'center', gap: 12 }}>
+            {ms.logoImage && <img src={ms.logoImage} alt="" style={{ width: 46, height: 46, borderRadius: 13, border: '2.5px solid rgba(255,255,255,0.9)', objectFit: 'cover', flexShrink: 0, boxShadow: '0 4px 12px rgba(0,0,0,0.2)' }} />}
+            <div>
+              <p style={{ color: 'white', fontWeight: 900, fontSize: 18, margin: 0, textShadow: '0 1px 8px rgba(0,0,0,0.5)', lineHeight: 1.2 }}>{ms.storeName || 'החנות שלי'}</p>
+              {ms.tagline && <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: 12, margin: 0, textShadow: '0 1px 4px rgba(0,0,0,0.4)' }}>{ms.tagline}</p>}
+            </div>
           </div>
         )}
       </div>
