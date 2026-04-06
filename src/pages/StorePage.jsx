@@ -1194,11 +1194,11 @@ function MultiStorePage({ ms }) {
           </div>
         )}
 
-        <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 16, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16 }}>
-          <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.2)', margin: 0 }}>© {ms.storeName || 'החנות שלי'}</p>
+        <div style={{ borderTop: `1px solid ${accent}33`, paddingTop: 16, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16 }}>
+          <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.25)', margin: 0 }}>© {ms.storeName || 'החנות שלי'}</p>
           {(ms.terms || ms.cancelPolicy) && (
             <button onClick={() => setShowTermsPopup(true)}
-              style={{ background: 'none', border: '1px solid rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.45)', fontSize: 11, fontWeight: 600, padding: '6px 14px', borderRadius: 20, cursor: 'pointer' }}>
+              style={{ background: `${accent}18`, border: `1px solid ${accent}55`, color: accent, fontSize: 11, fontWeight: 700, padding: '6px 14px', borderRadius: 20, cursor: 'pointer' }}>
               תקנון ומדיניות
             </button>
           )}
