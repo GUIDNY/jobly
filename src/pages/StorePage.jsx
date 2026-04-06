@@ -933,11 +933,11 @@ function MultiStorePage({ ms }) {
 
         {/* TAB: צרו קשר */}
         {activeTab === 'contact' && (
-          <motion.div key="contact" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.18 }} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          <motion.div key="contact" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.2 }} style={{ display: 'flex', flexDirection: 'column' }}>
             {hasSocial && (
-              <div style={{ background: 'white', borderRadius: 20, padding: '18px 20px', boxShadow: '0 2px 12px rgba(0,0,0,0.06)' }}>
-                <p style={{ fontSize: 13, fontWeight: 800, color: '#374151', marginBottom: 14 }}>עקבו אחרינו</p>
-                <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+              <div style={{ padding: '20px 20px 0' }}>
+                <p style={{ fontSize: 11, fontWeight: 800, color: '#888', margin: '0 0 14px', letterSpacing: '1.5px', textTransform: 'uppercase' }}>עקבו אחרינו</p>
+                <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
                   {ms.social?.whatsapp && (
                     <a href={`https://wa.me/${ms.social.whatsapp.replace(/\D/g,'').replace(/^0/,'972')}`} target="_blank" rel="noopener noreferrer"
                       style={{ display: 'flex', alignItems: 'center', gap: 10, flex: '1 1 calc(50% - 6px)', padding: '10px 14px', borderRadius: 14, background: '#f0fdf4', textDecoration: 'none', border: '1px solid #bbf7d0' }}>
