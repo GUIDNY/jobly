@@ -859,7 +859,7 @@ function MultiStorePage({ ms }) {
       </div>
 
       {/* ── Tab content ── */}
-      <div style={{ padding: '16px 14px 120px' }}>
+      <div style={{ padding: '14px 12px 120px' }}>
 
         {/* TAB: קטגוריות */}
         {activeTab === 'cats' && (
