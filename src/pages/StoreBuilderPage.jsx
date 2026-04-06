@@ -2140,6 +2140,33 @@ export default function StoreBuilderPage() {
                       <input value={cat.name} onChange={e => updCategory(ci, { name: e.target.value })} placeholder="שם קטגוריה" className="flex-1 border border-gray-200 rounded-xl px-3 py-1.5 text-sm focus:outline-none bg-white" />
                       <button onClick={() => updMulti('categories', (ms.categories || []).filter((_, i) => i !== ci))} className="text-xs text-red-400 px-1">מחק</button>
                     </div>
+                    {/* Display mode */}
+                    <div>
+                      <p className="text-[10px] font-semibold text-gray-500 mb-1">אופן הצגה בלחיצה</p>
+                      <div className="flex gap-1.5">
+                        {[{ v:'popup', label:'פופ-אפ ⬆' },{ v:'page', label:'רשימה ↓' }].map(opt => (
+                          <button key={opt.v} onClick={() => updCategory(ci,{ displayMode:opt.v })}
+                            className="flex-1 py-1.5 rounded-xl border-2 text-xs font-bold transition-all"
+                            style={cat.displayMode===opt.v ? {borderColor:ms.accentColor||'#F4938C',background:`${ms.accentColor||'#F4938C'}11`,color:ms.accentColor||'#F4938C'} : {borderColor:'#e5e7eb',color:'#9ca3af'}}>
+                            {opt.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                    {/* Display shape */}
+                    <div>
+                      <p className="text-[10px] font-semibold text-gray-500 mb-1">צורת הצגה</p>
+                      <div className="flex gap-1.5">
+                        {[{v:'banner',label:'באנר',icon:'🖼'},{v:'square',label:'כרטיס',icon:'▪️'},{v:'circle',label:'עיגול',icon:'⬤'}].map(opt => (
+                          <button key={opt.v} onClick={() => updCategory(ci,{ displayShape:opt.v })}
+                            className="flex-1 py-1.5 rounded-xl border-2 text-xs font-bold transition-all text-center"
+                            style={(cat.displayShape||'banner')===opt.v ? {borderColor:ms.accentColor||'#F4938C',background:`${ms.accentColor||'#F4938C'}11`,color:ms.accentColor||'#F4938C'} : {borderColor:'#e5e7eb',color:'#9ca3af'}}>
+                            <span>{opt.icon}</span> {opt.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                    {/* Size */}
                     <div className="flex gap-1.5">
                       {[{v:'half',label:'חצי מסך'},{v:'full',label:'100% מסך'}].map(opt => (
                         <button key={opt.v} onClick={() => updCategory(ci,{size:opt.v})}
@@ -2149,16 +2176,30 @@ export default function StoreBuilderPage() {
                         </button>
                       ))}
                     </div>
+                    {/* Products */}
                     <div className="space-y-2">
+                      <p className="text-[10px] font-semibold text-gray-500">מוצרים</p>
                       {(cat.products || []).map((p, pi) => (
-                        <div key={pi} className="bg-white rounded-xl p-2 border border-gray-100 space-y-1.5">
+                        <div key={pi} className="bg-white rounded-xl p-2.5 border border-gray-100 space-y-2">
                           <div className="flex items-center gap-2">
+                            <div onClick={() => document.getElementById(`prod-img-m-${ci}-${pi}`)?.click()}
+                              style={{ width:36,height:36,borderRadius:8,overflow:'hidden',flexShrink:0,background:p.image?'transparent':'#f3f4f6',display:'flex',alignItems:'center',justifyContent:'center',cursor:'pointer',border:p.image?'none':'1.5px dashed #d1d5db' }}>
+                              {p.image ? <img src={p.image} alt="" style={{ width:'100%',height:'100%',objectFit:'cover' }} /> : <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>}
+                            </div>
+                            <input id={`prod-img-m-${ci}-${pi}`} type="file" accept="image/*" className="hidden" onChange={e => handleProductImageUpload(ci,pi,e.target.files?.[0])} />
                             <input value={p.name} onChange={e => updProduct(ci, pi, { name: e.target.value })} placeholder="שם מוצר" className="flex-1 border border-gray-200 rounded-xl px-2 py-1.5 text-xs focus:outline-none" />
                             <input value={p.price} onChange={e => updProduct(ci, pi, { price: e.target.value })} placeholder="₪" className="w-14 border border-gray-200 rounded-xl px-2 py-1.5 text-xs focus:outline-none" dir="ltr" />
                             <button onClick={() => updCategory(ci, { products: (cat.products || []).filter((_, i) => i !== pi) })} className="text-xs text-red-400">✕</button>
                           </div>
+                          <input value={p.description||''} onChange={e => updProduct(ci,pi,{description:e.target.value})} placeholder="תיאור קצר (אופציונלי)" className="w-full border border-gray-200 rounded-xl px-2 py-1.5 text-xs focus:outline-none" />
                           <div className="flex gap-1.5">
-                            {[{v:'full',label:'רוחב מלא'},{v:'half',label:'חצי רוחב'}].map(opt => (
+                            <button onClick={() => updProduct(ci,pi,{ inStock: !(p.inStock ?? true) })}
+                              className="flex items-center gap-1 px-2 py-1 rounded-lg border text-[10px] font-bold transition-all flex-shrink-0"
+                              style={(p.inStock??true) ? {borderColor:'#10B981',background:'#f0fdf4',color:'#10B981'} : {borderColor:'#EF4444',background:'#fef2f2',color:'#EF4444'}}>
+                              <div className="w-1.5 h-1.5 rounded-full" style={{ background:(p.inStock??true)?'#10B981':'#EF4444' }} />
+                              {(p.inStock??true) ? 'במלאי' : 'אזל'}
+                            </button>
+                            {[{v:'full',label:'מלא'},{v:'half',label:'חצי'}].map(opt => (
                               <button key={opt.v} onClick={() => updProduct(ci,pi,{size:opt.v})}
                                 className="flex-1 py-1 rounded-lg border text-[10px] font-bold transition-all"
                                 style={(p.size||'full')===opt.v ? {borderColor:ms.accentColor||'#F4938C',background:`${ms.accentColor||'#F4938C'}15`,color:ms.accentColor||'#F4938C'} : {borderColor:'#e5e7eb',color:'#9ca3af'}}>
@@ -2166,9 +2207,15 @@ export default function StoreBuilderPage() {
                               </button>
                             ))}
                           </div>
+                          <button onClick={() => updProduct(ci,pi,{ featured: !p.featured })}
+                            className="flex items-center gap-1.5 w-full px-2.5 py-1.5 rounded-xl border text-[10px] font-bold transition-all"
+                            style={p.featured ? {borderColor:'#F59E0B',background:'#fffbeb',color:'#D97706'} : {borderColor:'#e5e7eb',background:'white',color:'#9ca3af'}}>
+                            <span>{p.featured ? '⭐' : '☆'}</span>
+                            {p.featured ? 'מוצר מוביל — יוצג בקרוסלה' : 'הפוך למוצר מוביל'}
+                          </button>
                         </div>
                       ))}
-                      <button onClick={() => updCategory(ci, { products: [...(cat.products || []), { name: '', price: '', image: '', description: '', size: 'full' }] })}
+                      <button onClick={() => updCategory(ci, { products: [...(cat.products || []), { name: '', price: '', image: '', description: '', size: 'full', inStock: true, quantity: '', featured: false }] })}
                         className="text-xs text-indigo-500 font-medium py-1">+ הוסף מוצר</button>
                     </div>
                   </div>
