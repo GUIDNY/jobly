@@ -1324,7 +1324,28 @@ export default function StoreBuilderPage() {
               {/* STEP: cats */}
               {multiStep === 'cats' && (<>
                 {/* Mobile compact */}
-                <div className="md:hidden bg-white rounded-2xl p-3 border border-gray-100 space-y-2" style={{ boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
+                <div className="md:hidden bg-white rounded-2xl p-3 border border-gray-100 space-y-3" style={{ boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
+                  {/* Global shape picker - mobile */}
+                  <div>
+                    <p className="text-xs font-semibold text-gray-500 mb-1.5">צורת תצוגה לכל הקטגוריות</p>
+                    <div className="flex gap-2">
+                      {[
+                        { v:'banner', label:'באנר', icon:'🖼' },
+                        { v:'square', label:'כרטיס', icon:'▪️' },
+                        { v:'circle', label:'עיגול', icon:'⬤' },
+                      ].map(opt => (
+                        <button key={opt.v}
+                          onClick={() => updMulti('categories', (ms.categories||[]).map(c => ({ ...c, displayShape: opt.v })))}
+                          className="flex-1 py-1.5 px-1 rounded-xl border-2 text-[10px] font-bold transition-all text-center"
+                          style={((ms.categories||[])[0]?.displayShape||'banner')===opt.v
+                            ? { borderColor:ms.accentColor||'#F4938C', background:`${ms.accentColor||'#F4938C'}11`, color:ms.accentColor||'#F4938C' }
+                            : { borderColor:'#e5e7eb', color:'#9ca3af' }}>
+                          <div className="text-sm">{opt.icon}</div>
+                          <div>{opt.label}</div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
                   <button onClick={() => setEditingCatIdx(-1)} className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors">
                     <span className="text-base">📂</span>
                     <span className="text-xs font-medium text-gray-700 flex-1 text-right">
