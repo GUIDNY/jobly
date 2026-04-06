@@ -941,14 +941,10 @@ function MultiStorePage({ ms }) {
             </div>
           )}
         </button>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, position: 'absolute', left: '50%', transform: 'translateX(-50%)' }}>
-          {ms.logoImage
-            ? <img src={ms.logoImage} alt="" style={{ height: 34, maxWidth: 130, objectFit: 'contain' }} />
-            : <p style={{ fontWeight: 900, fontSize: 15, color: '#111', margin: 0, letterSpacing: '0.8px', whiteSpace: 'nowrap' }}>{ms.storeName || 'החנות שלי'}</p>
-          }
-          {ms.tagline && !ms.logoImage && <p style={{ fontSize: 9, color: '#9ca3af', margin: 0, letterSpacing: '1.5px', textTransform: 'uppercase' }}>{ms.tagline}</p>}
-        </div>
-        <div style={{ width: 38, flexShrink: 0 }} />
+        {ms.logoImage
+          ? <img src={ms.logoImage} alt="" style={{ height: 32, maxWidth: 120, objectFit: 'contain' }} />
+          : <p style={{ fontWeight: 900, fontSize: 15, color: '#111', margin: 0, letterSpacing: '0.5px', whiteSpace: 'nowrap' }}>{ms.storeName || 'החנות שלי'}</p>
+        }
       </div>
 
       {/* ── Hero ── */}
