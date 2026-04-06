@@ -1366,6 +1366,7 @@ export default function StoreBuilderPage() {
                               <button onClick={() => updCategory(ci,{ products:(cat.products||[]).filter((_,i)=>i!==pi) })} className="text-xs text-red-400 px-1">✕</button>
                             </div>
                             <input value={p.description||''} onChange={e => updProduct(ci,pi,{ description:e.target.value })} placeholder="תיאור קצר (אופציונלי)" className="w-full border border-gray-200 rounded-xl px-2 py-1.5 text-xs focus:outline-none" />
+                            <input value={p.videoUrl||''} onChange={e => updProduct(ci,pi,{ videoUrl:e.target.value })} placeholder="🎬 קישור לסרטון (YouTube / ישיר)" className="w-full border border-gray-200 rounded-xl px-2 py-1.5 text-xs focus:outline-none" dir="ltr" />
                             {/* Inventory */}
                             <div className="flex items-center gap-2">
                               <button onClick={() => updProduct(ci,pi,{ inStock: !(p.inStock ?? true) })}
