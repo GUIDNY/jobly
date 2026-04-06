@@ -677,6 +677,42 @@ function MultiStorePage({ ms }) {
             </AnimatePresence>
           </section>
 
+          {/* SECTION: מוצרים מובילים (carousel) */}
+          {(() => {
+            const featured = (ms.categories || []).flatMap(cat =>
+              (cat.products || []).filter(p => p.name && p.featured)
+            );
+            if (!featured.length) return null;
+            return (
+              <section style={{ marginBottom: 80 }}>
+                <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 24 }}>
+                  <h2 style={{ fontSize: 22, fontWeight: 900, color: '#111', margin: 0 }}>מוצרים מובילים</h2>
+                  <span style={{ fontSize: 12, color: '#aaa' }}>{featured.length} מוצרים</span>
+                </div>
+                <div style={{ display: 'flex', gap: 16, overflowX: 'auto', paddingBottom: 8, scrollSnapType: 'x mandatory' }}
+                  className="hide-scrollbar">
+                  {featured.map((p, i) => (
+                    <div key={i} onClick={() => setSelectedProduct(p)}
+                      style={{ flexShrink: 0, width: 200, scrollSnapAlign: 'start', cursor: 'pointer' }}>
+                      <div style={{ position: 'relative', width: 200, height: 200, borderRadius: 12, overflow: 'hidden', background: '#f5f5f5', marginBottom: 10 }}>
+                        {p.image
+                          ? <img src={p.image} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.3s' }} />
+                          : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><span style={{ fontSize: 56 }}>🛍️</span></div>
+                        }
+                        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 50%)' }} />
+                        <div style={{ position: 'absolute', bottom: 12, left: 12, width: 34, height: 34, borderRadius: '50%', background: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 10px rgba(0,0,0,0.18)' }}>
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#111" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                        </div>
+                      </div>
+                      <p style={{ fontSize: 13, fontWeight: 700, color: '#111', margin: '0 0 4px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.name}</p>
+                      {p.price && <p style={{ fontSize: 16, fontWeight: 900, color: accent, margin: 0 }}>₪{p.price}</p>}
+                    </div>
+                  ))}
+                </div>
+              </section>
+            );
+          })()}
+
           {/* FOOTER */}
           <footer style={{ background: '#0f0f0f', borderRadius: 20, overflow: 'hidden', marginTop: 20 }}>
             {/* Top band */}
