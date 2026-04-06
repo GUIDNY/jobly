@@ -780,11 +780,11 @@ function MultiStorePage({ ms }) {
     );
   }
 
-  // ── Mobile layout (redesigned) ───────────────────────────────────────────────
+  // ── Mobile layout ───────────────────────────────────────────────────────────
   const TABS = [
-    { id: 'cats',    label: 'קטגוריות', icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg> },
-    { id: 'about',   label: 'אז מה אנחנו', icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg> },
-    { id: 'contact', label: 'צרו קשר',  icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg> },
+    { id: 'cats',    label: 'קטגוריות' },
+    { id: 'about',   label: 'אז מה אנחנו' },
+    { id: 'contact', label: 'צרו קשר' },
   ];
 
   const hasSocial = ms.social?.instagram || ms.social?.facebook || ms.social?.whatsapp || ms.social?.tiktok || ms.social?.website;
