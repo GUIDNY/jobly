@@ -768,11 +768,11 @@ function MultiStorePage({ ms }) {
             </div>
 
             {/* Bottom bar */}
-            <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', padding: '16px 56px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(0,0,0,0.2)' }}>
-              <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.2)', margin: 0 }}>© {new Date().getFullYear()} {ms.storeName || 'החנות שלי'}. כל הזכויות שמורות.</p>
+            <div style={{ borderTop: `1px solid ${accent}33`, padding: '16px 56px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(0,0,0,0.2)' }}>
+              <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.25)', margin: 0 }}>© {new Date().getFullYear()} {ms.storeName || 'החנות שלי'}. כל הזכויות שמורות.</p>
               {(ms.terms || ms.cancelPolicy) && (
                 <button onClick={() => setShowTermsPopup(true)}
-                  style={{ background: 'none', border: '1px solid rgba(255,255,255,0.12)', color: 'rgba(255,255,255,0.4)', fontSize: 11, fontWeight: 600, padding: '7px 18px', borderRadius: 20, cursor: 'pointer', letterSpacing: '0.3px' }}>
+                  style={{ background: `${accent}18`, border: `1px solid ${accent}55`, color: accent, fontSize: 11, fontWeight: 700, padding: '7px 18px', borderRadius: 20, cursor: 'pointer', letterSpacing: '0.3px' }}>
                   תקנון ומדיניות
                 </button>
               )}
