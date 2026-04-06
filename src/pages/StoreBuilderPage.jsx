@@ -1441,7 +1441,7 @@ export default function StoreBuilderPage() {
                                 ? { borderColor:'#F59E0B', background:'#fffbeb', color:'#D97706' }
                                 : { borderColor:'#e5e7eb', background:'white', color:'#9ca3af' }}>
                               <span>{p.featured ? '⭐' : '☆'}</span>
-                              {p.featured ? 'מוצר נבחר — יוצג בדף הראשי' : 'הפוך למוצר נבחר'}
+                              {p.featured ? 'מוצר מוביל — יוצג בקרוסלה' : 'הפוך למוצר מוביל'}
                             </button>
                           </div>
                         ))}
