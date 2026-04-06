@@ -855,34 +855,28 @@ function MultiStorePage({ ms }) {
 
         {/* TAB: קטגוריות */}
         {activeTab === 'cats' && (
-          <motion.div key="cats" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.18 }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 14 }}>
+          <motion.div key="cats" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.2 }}>
+            {/* Category banners – editorial style */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2 }}>
               {(ms.categories || []).map((cat, i) => (
                 <div key={i} onClick={() => handleCatClick(cat, i)}
-                  style={{ borderRadius: 20, overflow: 'hidden', background: 'white', cursor: 'pointer',
-                    boxShadow: activeCat === i ? `0 0 0 2.5px ${accent}, 0 8px 28px rgba(0,0,0,0.14)` : '0 2px 12px rgba(0,0,0,0.08)',
-                    transform: activeCat === i ? 'translateY(-3px)' : 'none', transition: 'all 0.22s' }}>
-                  <div style={{ height: 140, background: cat.image ? 'transparent' : `linear-gradient(135deg,${accent}55,${accent}22)`, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', position: 'relative' }}>
-                    {cat.image
-                      ? <img src={cat.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                      : <span style={{ fontSize: 44 }}>{cat.icon || '🛍️'}</span>
-                    }
-                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(transparent 40%, rgba(0,0,0,0.45))' }} />
-                    <div style={{ position: 'absolute', top: 8, right: 8, background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(6px)', borderRadius: 20, padding: '3px 9px' }}>
-                      <span style={{ fontSize: 9, fontWeight: 800, color: 'white' }}>{(cat.products||[]).filter(p=>p.name).length} פריטים</span>
-                    </div>
-                  </div>
-                  <div style={{ padding: '9px 12px 11px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <p style={{ fontSize: 13, fontWeight: 800, color: '#111', margin: 0 }}>{cat.name || 'קטגוריה'}</p>
-                    <div style={{ width: 24, height: 24, borderRadius: '50%', background: `${accent}20`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-                    </div>
+                  style={{ position: 'relative', height: 170, overflow: 'hidden', cursor: 'pointer',
+                    outline: activeCat === i ? `2px solid ${accent}` : 'none',
+                    transition: 'outline 0.15s' }}>
+                  {cat.image
+                    ? <img src={cat.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.3s', transform: activeCat === i ? 'scale(1.04)' : 'scale(1)' }} />
+                    : <div style={{ width: '100%', height: '100%', background: '#1a1a1a', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><span style={{ fontSize: 48 }}>{cat.icon || '🛍️'}</span></div>
+                  }
+                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.7) 100%)' }} />
+                  <div style={{ position: 'absolute', bottom: 0, right: 0, left: 0, padding: '10px 12px 12px' }}>
+                    <p style={{ color: 'white', fontWeight: 900, fontSize: 14, margin: '0 0 2px', lineHeight: 1.2 }}>{cat.name || 'קטגוריה'}</p>
+                    <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: 10, margin: 0, fontWeight: 500 }}>{(cat.products||[]).filter(p=>p.name).length} פריטים</p>
                   </div>
                 </div>
               ))}
               {(ms.categories || []).length === 0 && (
-                <div style={{ gridColumn: 'span 2', height: 100, borderRadius: 18, border: '2px dashed #e5e7eb', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <p style={{ fontSize: 13, color: '#9ca3af' }}>אין קטגוריות עדיין</p>
+                <div style={{ gridColumn: 'span 2', height: 140, background: '#f5f5f5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <p style={{ fontSize: 13, color: '#aaa' }}>אין קטגוריות עדיין</p>
                 </div>
               )}
             </div>
@@ -891,15 +885,14 @@ function MultiStorePage({ ms }) {
             <AnimatePresence>
               {activeCat !== null && ms.categories?.[activeCat]?.displayMode !== 'popup' && (
                 <motion.div key="inline" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}
-                  style={{ background: 'white', borderRadius: 18, padding: '14px 12px', marginBottom: 10, boxShadow: '0 2px 12px rgba(0,0,0,0.07)' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
-                    <span style={{ fontSize: 18 }}>{ms.categories[activeCat].icon || '🛍️'}</span>
-                    <p style={{ fontSize: 14, fontWeight: 800, color: '#111', margin: 0 }}>{ms.categories[activeCat].name}</p>
-                    <button onClick={() => setActiveCat(null)} style={{ marginRight: 'auto', width: 24, height: 24, borderRadius: '50%', background: '#f3f4f6', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#6b7280" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                  style={{ background: 'white', borderTop: '1px solid #e8e8e8', padding: '16px 12px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
+                    <p style={{ fontSize: 15, fontWeight: 900, color: '#111', margin: 0 }}>{ms.categories[activeCat].name}</p>
+                    <button onClick={() => setActiveCat(null)} style={{ width: 28, height: 28, borderRadius: '50%', background: '#f3f4f6', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#6b7280" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                     </button>
                   </div>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
                     {(ms.categories[activeCat].products || []).filter(p => p.name).map((p, pi) => <ProductCard key={pi} p={p} cols={2} />)}
                   </div>
                 </motion.div>
