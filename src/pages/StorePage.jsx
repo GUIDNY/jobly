@@ -922,25 +922,87 @@ function MultiStorePage({ ms }) {
         </section>
       )}
 
+      {/* ── SECTION: מוצרים נבחרים ── */}
+      {(() => {
+        const featuredProducts = (ms.categories || []).flatMap(cat =>
+          (cat.products || []).filter(p => p.name && p.featured)
+        );
+        if (!featuredProducts.length) return null;
+        return (
+          <section style={{ borderBottom: '1px solid #ebebeb' }}>
+            <div style={{ padding: '24px 20px 14px', display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
+              <h2 style={{ fontSize: 18, fontWeight: 900, color: '#111', margin: 0, letterSpacing: '-0.3px' }}>מוצרים נבחרים</h2>
+              <span style={{ fontSize: 11, color: '#aaa' }}>⭐ {featuredProducts.length} מוצרים</span>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1 }}>
+              {featuredProducts.map((p, i) => <ProductCard key={i} p={p} cols={2} />)}
+            </div>
+            <div style={{ height: 16 }} />
+          </section>
+        );
+      })()}
+
       {/* ── SECTION: קטגוריות מובילות ── */}
       {(ms.categories || []).length > 0 && (() => {
         const featuredCats = ms.categories.slice(0, 4);
         const extraCats = ms.categories.slice(4);
-        const CatBanner = ({ cat, i }) => (
-          <div onClick={() => handleCatClick(cat, i)}
-            style={{ position: 'relative', height: 160, overflow: 'hidden', cursor: 'pointer',
-              outline: activeCat === i ? `2.5px solid ${accent}` : 'none', transition: 'outline 0.15s' }}>
-            {cat.image
-              ? <img src={cat.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.35s', transform: activeCat === i ? 'scale(1.05)' : 'scale(1)' }} />
-              : <div style={{ width: '100%', height: '100%', background: '#1a1a1a', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><span style={{ fontSize: 44 }}>{cat.icon || '🛍️'}</span></div>
-            }
-            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 25%, rgba(0,0,0,0.72) 100%)' }} />
-            <div style={{ position: 'absolute', bottom: 0, right: 0, left: 0, padding: '8px 12px 13px' }}>
-              <p style={{ color: 'white', fontWeight: 900, fontSize: 14, margin: '0 0 2px', lineHeight: 1.2 }}>{cat.name || 'קטגוריה'}</p>
-              <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 10, margin: 0 }}>{(cat.products||[]).filter(p=>p.name).length} פריטים</p>
+
+        // Category card that adapts to displayShape
+        const CatBanner = ({ cat, i }) => {
+          const shape = cat.displayShape || 'banner';
+          const isActive = activeCat === i;
+          const prodCount = (cat.products||[]).filter(p=>p.name).length;
+
+          if (shape === 'circle') {
+            return (
+              <div onClick={() => handleCatClick(cat, i)}
+                style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, padding: '14px 8px', cursor: 'pointer', background: isActive ? `${accent}08` : 'white', transition: 'background 0.15s' }}>
+                <div style={{ width: 80, height: 80, borderRadius: '50%', overflow: 'hidden', border: isActive ? `3px solid ${accent}` : '3px solid #ebebeb', flexShrink: 0, background: cat.image ? 'transparent' : '#f0f0f0', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'border-color 0.15s' }}>
+                  {cat.image ? <img src={cat.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ fontSize: 36 }}>{cat.icon || '🛍️'}</span>}
+                </div>
+                <p style={{ fontSize: 12, fontWeight: 800, color: '#111', margin: 0, textAlign: 'center', lineHeight: 1.3 }}>{cat.name || 'קטגוריה'}</p>
+                <p style={{ fontSize: 10, color: '#aaa', margin: 0 }}>{prodCount} פריטים</p>
+              </div>
+            );
+          }
+
+          if (shape === 'square') {
+            return (
+              <div onClick={() => handleCatClick(cat, i)}
+                style={{ borderRadius: 16, overflow: 'hidden', cursor: 'pointer', background: 'white', border: isActive ? `2px solid ${accent}` : '2px solid #ebebeb', transition: 'border-color 0.15s' }}>
+                <div style={{ width: '100%', aspectRatio: '1', background: cat.image ? 'transparent' : '#f5f5f5', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+                  {cat.image ? <img src={cat.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ fontSize: 44 }}>{cat.icon || '🛍️'}</span>}
+                </div>
+                <div style={{ padding: '10px 12px 12px' }}>
+                  <p style={{ fontSize: 13, fontWeight: 800, color: '#111', margin: '0 0 2px' }}>{cat.name || 'קטגוריה'}</p>
+                  <p style={{ fontSize: 10, color: '#aaa', margin: 0 }}>{prodCount} פריטים</p>
+                </div>
+              </div>
+            );
+          }
+
+          // Default: banner
+          return (
+            <div onClick={() => handleCatClick(cat, i)}
+              style={{ position: 'relative', height: 160, overflow: 'hidden', cursor: 'pointer',
+                outline: isActive ? `2.5px solid ${accent}` : 'none', transition: 'outline 0.15s' }}>
+              {cat.image
+                ? <img src={cat.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.35s', transform: isActive ? 'scale(1.05)' : 'scale(1)' }} />
+                : <div style={{ width: '100%', height: '100%', background: '#1a1a1a', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><span style={{ fontSize: 44 }}>{cat.icon || '🛍️'}</span></div>
+              }
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 25%, rgba(0,0,0,0.72) 100%)' }} />
+              <div style={{ position: 'absolute', bottom: 0, right: 0, left: 0, padding: '8px 12px 13px' }}>
+                <p style={{ color: 'white', fontWeight: 900, fontSize: 14, margin: '0 0 2px', lineHeight: 1.2 }}>{cat.name || 'קטגוריה'}</p>
+                <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 10, margin: 0 }}>{prodCount} פריטים</p>
+              </div>
             </div>
-          </div>
-        );
+          );
+        };
+
+        // Determine grid: circles use 3 cols, others 2
+        const firstShape = featuredCats[0]?.displayShape || 'banner';
+        const gridCols = firstShape === 'circle' ? '1fr 1fr 1fr' : '1fr 1fr';
+
         return (
           <section>
             <div style={{ padding: '24px 20px 14px', display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
@@ -948,7 +1010,7 @@ function MultiStorePage({ ms }) {
               <span style={{ fontSize: 11, color: '#aaa' }}>{ms.categories.length} קטגוריות</span>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: gridCols, gap: firstShape === 'banner' ? 2 : 10, padding: firstShape !== 'banner' ? '0 12px' : 0 }}>
               {featuredCats.map((cat, i) => <CatBanner key={i} cat={cat} i={i} />)}
             </div>
 
