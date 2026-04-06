@@ -543,8 +543,9 @@ const DEFAULT_MULTI = {
   aboutText: '',
   social: { instagram: '', facebook: '', tiktok: '', whatsapp: '', website: '' },
   terms: '',
+  cancelPolicy: '',
   categories: [
-    { id: 1, name: 'קטגוריה 1', icon: '🛍️', image: '', displayMode: 'popup', products: [{ name: '', price: '', image: '', description: '', size: 'full', inStock: true, quantity: '' }] },
+    { id: 1, name: 'קטגוריה 1', icon: '🛍️', image: '', displayMode: 'popup', products: [{ name: '', price: '', image: '', description: '', videoUrl: '', size: 'full', inStock: true, quantity: '' }] },
   ],
 };
 
