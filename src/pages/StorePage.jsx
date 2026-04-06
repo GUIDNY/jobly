@@ -576,11 +576,18 @@ function MultiStorePage({ ms }) {
     </AnimatePresence>
   );
 
+  const DT_TABS = [
+    { id: 'cats',    label: 'קטגוריות',    icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg> },
+    { id: 'about',   label: 'אז מה אנחנו', icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg> },
+    { id: 'contact', label: 'צרו קשר',     icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg> },
+  ];
+  const dtHasSocial = ms.social?.instagram || ms.social?.facebook || ms.social?.whatsapp || ms.social?.tiktok || ms.social?.website;
+
   if (isDesktop) {
     return (
       <div dir="rtl" style={{ fontFamily: "'Heebo','Segoe UI',sans-serif", background: '#f4f6f8', minHeight: '100vh' }}>
-        {/* Desktop sticky nav */}
-        <div style={{ background: 'white', borderBottom: '1px solid #e5e7eb', padding: '0 40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 64, position: 'sticky', top: 0, zIndex: 40, boxShadow: '0 1px 0 rgba(0,0,0,0.06)' }}>
+        {/* Sticky nav */}
+        <div style={{ background: 'white', borderBottom: '1px solid #e5e7eb', padding: '0 40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 64, position: 'sticky', top: 0, zIndex: 40, boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
             {ms.logoImage
               ? <img src={ms.logoImage} alt="" style={{ width: 40, height: 40, borderRadius: 12, objectFit: 'cover' }} />
@@ -591,143 +598,234 @@ function MultiStorePage({ ms }) {
               {ms.tagline && <p style={{ fontSize: 12, color: '#6b7280', margin: 0 }}>{ms.tagline}</p>}
             </div>
           </div>
-          <button onClick={() => setShowCart(true)} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '9px 18px', borderRadius: 14, background: cartCount > 0 ? `linear-gradient(135deg,${accent},#5BC4C8)` : '#f3f4f6', color: cartCount > 0 ? 'white' : '#374151', fontWeight: 700, fontSize: 14, border: 'none', cursor: 'pointer', transition: 'all 0.2s' }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
-            סל {cartCount > 0 ? `(${cartCount}) · ₪${cartTotal.toFixed(0)}` : ''}
+          <button onClick={() => setShowCart(true)} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '9px 20px', borderRadius: 24, background: cartCount > 0 ? `linear-gradient(135deg,${accent},#5BC4C8)` : '#f3f4f6', color: cartCount > 0 ? 'white' : '#374151', fontWeight: 700, fontSize: 14, border: 'none', cursor: 'pointer', transition: 'all 0.2s' }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+            {cartCount > 0 ? `סל (${cartCount}) · ₪${cartTotal.toFixed(0)}` : 'סל קניות'}
           </button>
         </div>
 
-        {/* Hero cover */}
-        <div style={{ position: 'relative', height: 420, overflow: 'hidden', background: ms.coverImage ? 'transparent' : `linear-gradient(135deg, ${accent} 0%, ${accent}bb 50%, #5BC4C8 100%)` }}>
+        {/* Compact hero */}
+        <div style={{ position: 'relative', height: 280, overflow: 'hidden', background: ms.coverImage ? 'transparent' : `linear-gradient(135deg,${accent},${accent}cc 60%,#5BC4C8)` }}>
           {ms.coverImage
             ? <img src={ms.coverImage} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             : (
-              <div style={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden' }}>
-                {/* Decorative circles */}
-                <div style={{ position: 'absolute', top: -60, right: -60, width: 320, height: 320, borderRadius: '50%', background: 'rgba(255,255,255,0.08)' }} />
-                <div style={{ position: 'absolute', bottom: -80, left: 60, width: 240, height: 240, borderRadius: '50%', background: 'rgba(255,255,255,0.06)' }} />
-                <div style={{ position: 'absolute', top: 40, left: '40%', width: 160, height: 160, borderRadius: '50%', background: 'rgba(255,255,255,0.05)' }} />
-                {/* Logo + name centered */}
-                <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 20 }}>
+              <>
+                <div style={{ position: 'absolute', top: -60, right: -80, width: 320, height: 320, borderRadius: '50%', background: 'rgba(255,255,255,0.08)' }} />
+                <div style={{ position: 'absolute', bottom: -80, left: 80, width: 240, height: 240, borderRadius: '50%', background: 'rgba(255,255,255,0.06)' }} />
+                <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 16 }}>
                   {ms.logoImage
-                    ? <img src={ms.logoImage} alt="" style={{ width: 100, height: 100, borderRadius: 28, objectFit: 'cover', border: '4px solid rgba(255,255,255,0.3)', boxShadow: '0 12px 40px rgba(0,0,0,0.2)' }} />
-                    : <div style={{ width: 88, height: 88, borderRadius: 24, background: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid rgba(255,255,255,0.3)' }}><span style={{ fontSize: 40 }}>🛍️</span></div>
+                    ? <img src={ms.logoImage} alt="" style={{ width: 80, height: 80, borderRadius: 22, objectFit: 'cover', border: '3px solid rgba(255,255,255,0.4)', boxShadow: '0 8px 32px rgba(0,0,0,0.2)' }} />
+                    : <div style={{ width: 72, height: 72, borderRadius: 20, background: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid rgba(255,255,255,0.3)' }}><span style={{ fontSize: 34 }}>🛍️</span></div>
                   }
                   <div style={{ textAlign: 'center' }}>
-                    <h1 style={{ color: 'white', fontWeight: 900, fontSize: 44, margin: '0 0 8px', letterSpacing: '-0.5px', textShadow: '0 2px 20px rgba(0,0,0,0.2)' }}>{ms.storeName || 'החנות שלי'}</h1>
-                    {ms.tagline && <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: 17, margin: 0 }}>{ms.tagline}</p>}
+                    <h1 style={{ color: 'white', fontWeight: 900, fontSize: 36, margin: '0 0 6px', textShadow: '0 2px 16px rgba(0,0,0,0.2)' }}>{ms.storeName || 'החנות שלי'}</h1>
+                    {ms.tagline && <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: 15, margin: 0 }}>{ms.tagline}</p>}
                   </div>
                 </div>
-              </div>
+              </>
             )
           }
-          <div style={{ position: 'absolute', inset: 0, background: ms.coverImage ? 'linear-gradient(transparent 40%, rgba(0,0,0,0.65))' : 'none' }} />
+          <div style={{ position: 'absolute', inset: 0, background: ms.coverImage ? 'linear-gradient(transparent 30%, rgba(0,0,0,0.6))' : 'none' }} />
           {ms.coverImage && (
-            <div style={{ position: 'absolute', bottom: 32, right: 0, left: 0, maxWidth: 1200, margin: '0 auto', padding: '0 40px' }}>
-              <h1 style={{ color: 'white', fontWeight: 900, fontSize: 44, margin: '0 0 8px', textShadow: '0 2px 16px rgba(0,0,0,0.5)', letterSpacing: '-0.5px' }}>{ms.storeName || 'החנות שלי'}</h1>
-              {ms.tagline && <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: 18, margin: 0 }}>{ms.tagline}</p>}
+            <div style={{ position: 'absolute', bottom: 28, right: 0, left: 0, maxWidth: 1100, margin: '0 auto', padding: '0 40px', display: 'flex', alignItems: 'center', gap: 16 }}>
+              {ms.logoImage && <img src={ms.logoImage} alt="" style={{ width: 60, height: 60, borderRadius: 16, objectFit: 'cover', border: '3px solid rgba(255,255,255,0.5)', flexShrink: 0 }} />}
+              <div>
+                <h1 style={{ color: 'white', fontWeight: 900, fontSize: 36, margin: '0 0 4px', textShadow: '0 2px 12px rgba(0,0,0,0.4)' }}>{ms.storeName || 'החנות שלי'}</h1>
+                {ms.tagline && <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: 15, margin: 0 }}>{ms.tagline}</p>}
+              </div>
             </div>
           )}
         </div>
 
-        {/* Main content: sidebar + categories */}
-        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '40px 40px 100px', display: 'grid', gridTemplateColumns: '260px 1fr', gap: 36 }}>
-          {/* Sidebar */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-            {/* About */}
-            {(ms.aboutText || ms.aboutTitle) && (
-              <div style={{ background: 'white', borderRadius: 20, padding: '20px', boxShadow: '0 2px 12px rgba(0,0,0,0.06)' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
-                  <div style={{ width: 34, height: 34, borderRadius: 10, background: `linear-gradient(135deg,${accent},#5BC4C8)`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><span style={{ fontSize: 16 }}>📖</span></div>
-                  <p style={{ fontSize: 15, fontWeight: 800, color: '#111', margin: 0 }}>{ms.aboutTitle || 'אודות החנות'}</p>
-                </div>
-                <p style={{ fontSize: 13, color: '#6b7280', lineHeight: 1.7, margin: 0, whiteSpace: 'pre-wrap' }}>{ms.aboutText}</p>
-              </div>
-            )}
-            {/* Social */}
-            {(ms.social?.instagram || ms.social?.facebook || ms.social?.whatsapp || ms.social?.tiktok || ms.social?.website) && (
-              <div style={{ background: 'white', borderRadius: 20, padding: '20px', boxShadow: '0 2px 12px rgba(0,0,0,0.06)' }}>
-                <p style={{ fontSize: 13, fontWeight: 800, color: '#374151', marginBottom: 14 }}>עקבו אחרינו</p>
-                <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                  {ms.social?.whatsapp && <a href={`https://wa.me/${ms.social.whatsapp.replace(/\D/g,'').replace(/^0/,'972')}`} target="_blank" rel="noopener noreferrer" style={{ width: 42, height: 42, borderRadius: '50%', background: '#25D366', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none' }}><svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2c-5.514 0-9.99 4.476-9.99 9.99 0 1.76.46 3.41 1.27 4.85L2 22l5.31-1.25A9.99 9.99 0 0012 22c5.514 0 9.99-4.476 9.99-9.99C21.99 6.486 17.514 2 11.99 2z"/></svg></a>}
-                  {ms.social?.instagram && <a href={`https://instagram.com/${ms.social.instagram.replace('@','')}`} target="_blank" rel="noopener noreferrer" style={{ width: 42, height: 42, borderRadius: '50%', background: 'linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>}
-                  {ms.social?.facebook && <a href={`https://facebook.com/${ms.social.facebook}`} target="_blank" rel="noopener noreferrer" style={{ width: 42, height: 42, borderRadius: '50%', background: '#1877F2', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>}
-                  {ms.social?.tiktok && <a href={`https://tiktok.com/@${ms.social.tiktok.replace('@','')}`} target="_blank" rel="noopener noreferrer" style={{ width: 42, height: 42, borderRadius: '50%', background: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.2 8.2 0 004.82 1.55V6.79a4.85 4.85 0 01-1.05-.1z"/></svg></a>}
-                  {ms.social?.website && <a href={ms.social.website} target="_blank" rel="noopener noreferrer" style={{ width: 42, height: 42, borderRadius: '50%', background: '#6366f1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></a>}
-                </div>
-              </div>
-            )}
-            {ms.terms && (
-              <div style={{ background: 'white', borderRadius: 20, padding: '16px 20px', boxShadow: '0 2px 12px rgba(0,0,0,0.06)' }}>
-                <p style={{ fontSize: 11, color: '#9ca3af', lineHeight: 1.6, margin: 0 }}>{ms.terms}</p>
-              </div>
-            )}
-          </div>
-
-          {/* Categories + products */}
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 24 }}>
-              <h2 style={{ fontSize: 22, fontWeight: 900, color: '#111', margin: 0 }}>קטגוריות</h2>
-              <span style={{ fontSize: 12, fontWeight: 700, color: '#9ca3af', background: '#f3f4f6', padding: '3px 10px', borderRadius: 20 }}>{(ms.categories || []).length}</span>
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 20, marginBottom: 28 }}>
-              {(ms.categories || []).map((cat, i) => (
-                <div key={i} onClick={() => handleCatClick(cat, i)}
-                  style={{ borderRadius: 20, overflow: 'hidden', background: 'white', cursor: 'pointer', transition: 'all 0.2s cubic-bezier(0.25,0.46,0.45,0.94)',
-                    boxShadow: activeCat === i ? `0 0 0 2.5px ${accent}, 0 12px 32px rgba(0,0,0,0.14)` : '0 2px 16px rgba(0,0,0,0.07)',
-                    transform: activeCat === i ? 'translateY(-4px)' : 'translateY(0)' }}>
-                  {/* Image area */}
-                  <div style={{ position: 'relative', height: 180, background: cat.image ? 'transparent' : `linear-gradient(135deg,${accent}55,${accent}22)`, overflow: 'hidden' }}>
-                    {cat.image
-                      ? <img src={cat.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.3s ease', transformOrigin: 'center' }} />
-                      : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><span style={{ fontSize: 52 }}>{cat.icon || '🛍️'}</span></div>
-                    }
-                    {/* Gradient overlay */}
-                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(transparent 55%, rgba(0,0,0,0.45))' }} />
-                    {/* Product count badge */}
-                    <div style={{ position: 'absolute', top: 12, left: 12, background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(8px)', borderRadius: 20, padding: '3px 10px' }}>
-                      <span style={{ fontSize: 11, fontWeight: 800, color: '#374151' }}>{(cat.products || []).filter(p => p.name).length} פריטים</span>
-                    </div>
-                    {/* Name overlay */}
-                    <div style={{ position: 'absolute', bottom: 14, right: 14, left: 14 }}>
-                      <p style={{ color: 'white', fontWeight: 900, fontSize: 18, margin: 0, textShadow: '0 1px 8px rgba(0,0,0,0.5)' }}>{cat.name || 'קטגוריה'}</p>
-                    </div>
-                  </div>
-                  {/* Hover CTA */}
-                  <div style={{ padding: '12px 14px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <span style={{ fontSize: 13, color: '#6b7280', fontWeight: 600 }}>{(cat.products || []).filter(p => p.name).length} מוצרים</span>
-                    <div style={{ width: 30, height: 30, borderRadius: '50%', background: `${accent}18`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Inline products for 'page' display mode */}
-            <AnimatePresence>
-              {activeCat !== null && ms.categories?.[activeCat]?.displayMode !== 'popup' && (
-                <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 12 }}>
-                  <h3 style={{ fontSize: 18, fontWeight: 800, color: '#111', margin: '0 0 16px' }}>{ms.categories[activeCat].name}</h3>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 16, marginBottom: 28 }}>
-                    {(ms.categories[activeCat].products || []).filter(p => p.name).map((p, pi) => <ProductCard key={pi} p={p} cols={3} />)}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+        {/* Sticky tab bar */}
+        <div style={{ position: 'sticky', top: 64, zIndex: 39, background: 'white', borderBottom: '1px solid #f0f0f0', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
+          <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 40px', display: 'flex' }}>
+            {DT_TABS.map(tab => (
+              <button key={tab.id} onClick={() => { setActiveTab(tab.id); setActiveCat(null); }}
+                style={{ padding: '16px 28px', display: 'flex', alignItems: 'center', gap: 8, border: 'none', background: 'none', cursor: 'pointer', position: 'relative', color: activeTab === tab.id ? accent : '#9ca3af', fontWeight: activeTab === tab.id ? 800 : 600, fontSize: 14, transition: 'color 0.2s' }}>
+                {tab.icon}
+                {tab.label}
+                {activeTab === tab.id && (
+                  <div style={{ position: 'absolute', bottom: 0, left: '15%', right: '15%', height: 3, borderRadius: 2, background: `linear-gradient(90deg,${accent},#5BC4C8)` }} />
+                )}
+              </button>
+            ))}
           </div>
         </div>
 
-        {/* Sticky WhatsApp bar */}
+        {/* Tab content */}
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '36px 40px 120px' }}>
+          <AnimatePresence mode="wait">
+
+            {/* TAB: קטגוריות */}
+            {activeTab === 'cats' && (
+              <motion.div key="cats" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.18 }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 18, marginBottom: 28 }}>
+                  {(ms.categories || []).map((cat, i) => (
+                    <div key={i} onClick={() => handleCatClick(cat, i)}
+                      style={{ borderRadius: 20, overflow: 'hidden', background: 'white', cursor: 'pointer', transition: 'all 0.2s',
+                        boxShadow: activeCat === i ? `0 0 0 2.5px ${accent}, 0 12px 32px rgba(0,0,0,0.12)` : '0 2px 14px rgba(0,0,0,0.07)',
+                        transform: activeCat === i ? 'translateY(-4px)' : 'none' }}>
+                      <div style={{ position: 'relative', height: 160, background: cat.image ? 'transparent' : `linear-gradient(135deg,${accent}55,${accent}22)`, overflow: 'hidden' }}>
+                        {cat.image
+                          ? <img src={cat.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                          : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><span style={{ fontSize: 48 }}>{cat.icon || '🛍️'}</span></div>
+                        }
+                        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(transparent 50%, rgba(0,0,0,0.5))' }} />
+                        <div style={{ position: 'absolute', top: 10, left: 10, background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(6px)', borderRadius: 20, padding: '2px 9px' }}>
+                          <span style={{ fontSize: 10, fontWeight: 800, color: '#374151' }}>{(cat.products||[]).filter(p=>p.name).length} פריטים</span>
+                        </div>
+                        <div style={{ position: 'absolute', bottom: 12, right: 12, left: 12 }}>
+                          <p style={{ color: 'white', fontWeight: 900, fontSize: 15, margin: 0, textShadow: '0 1px 6px rgba(0,0,0,0.5)' }}>{cat.name || 'קטגוריה'}</p>
+                        </div>
+                      </div>
+                      <div style={{ padding: '10px 12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <span style={{ fontSize: 12, color: '#6b7280', fontWeight: 600 }}>{(cat.products||[]).filter(p=>p.name).length} מוצרים</span>
+                        <div style={{ width: 26, height: 26, borderRadius: '50%', background: `${accent}18`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <AnimatePresence>
+                  {activeCat !== null && ms.categories?.[activeCat]?.displayMode !== 'popup' && (
+                    <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 12 }}
+                      style={{ background: 'white', borderRadius: 20, padding: '24px', boxShadow: '0 2px 16px rgba(0,0,0,0.07)', marginBottom: 16 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
+                        <span style={{ fontSize: 22 }}>{ms.categories[activeCat].icon || '🛍️'}</span>
+                        <h3 style={{ fontSize: 18, fontWeight: 900, color: '#111', margin: 0 }}>{ms.categories[activeCat].name}</h3>
+                        <button onClick={() => setActiveCat(null)} style={{ marginRight: 'auto', width: 28, height: 28, borderRadius: '50%', background: '#f3f4f6', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6b7280" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                        </button>
+                      </div>
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 16 }}>
+                        {(ms.categories[activeCat].products||[]).filter(p=>p.name).map((p,pi) => <ProductCard key={pi} p={p} cols={3} />)}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            )}
+
+            {/* TAB: אז מה אנחנו */}
+            {activeTab === 'about' && (
+              <motion.div key="about" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.18 }}
+                style={{ maxWidth: 720, display: 'flex', flexDirection: 'column', gap: 20 }}>
+                {(ms.aboutText || ms.aboutTitle) ? (
+                  <div style={{ background: 'white', borderRadius: 20, padding: '28px', boxShadow: '0 2px 14px rgba(0,0,0,0.07)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
+                      <div style={{ width: 42, height: 42, borderRadius: 13, background: `linear-gradient(135deg,${accent},#5BC4C8)`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><span style={{ fontSize: 20 }}>📖</span></div>
+                      <h2 style={{ fontSize: 20, fontWeight: 900, color: '#111', margin: 0 }}>{ms.aboutTitle || 'אז מה אנחנו?'}</h2>
+                    </div>
+                    <p style={{ fontSize: 15, color: '#374151', lineHeight: 1.8, margin: 0, whiteSpace: 'pre-wrap' }}>{ms.aboutText}</p>
+                  </div>
+                ) : (
+                  <div style={{ background: 'white', borderRadius: 20, padding: '40px', textAlign: 'center', boxShadow: '0 2px 14px rgba(0,0,0,0.07)' }}>
+                    <div style={{ width: 60, height: 60, borderRadius: 18, background: `linear-gradient(135deg,${accent},#5BC4C8)`, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}><span style={{ fontSize: 28 }}>🏪</span></div>
+                    <p style={{ fontSize: 18, fontWeight: 800, color: '#111', margin: '0 0 8px' }}>{ms.storeName || 'החנות שלי'}</p>
+                    {ms.tagline && <p style={{ fontSize: 14, color: '#6b7280', margin: 0 }}>{ms.tagline}</p>}
+                  </div>
+                )}
+                {ms.terms && (
+                  <div style={{ background: 'white', borderRadius: 20, padding: '24px', boxShadow: '0 2px 14px rgba(0,0,0,0.07)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+                      <div style={{ width: 36, height: 36, borderRadius: 11, background: '#f3f4f6', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><span style={{ fontSize: 17 }}>📋</span></div>
+                      <p style={{ fontSize: 15, fontWeight: 800, color: '#374151', margin: 0 }}>תקנון ותנאי שימוש</p>
+                    </div>
+                    <p style={{ fontSize: 13, color: '#6b7280', lineHeight: 1.8, margin: 0, whiteSpace: 'pre-wrap' }}>{ms.terms}</p>
+                  </div>
+                )}
+                {ms.cancelPolicy && (
+                  <div style={{ background: 'white', borderRadius: 20, padding: '24px', boxShadow: '0 2px 14px rgba(0,0,0,0.07)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+                      <div style={{ width: 36, height: 36, borderRadius: 11, background: '#fef2f2', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><span style={{ fontSize: 17 }}>↩️</span></div>
+                      <p style={{ fontSize: 15, fontWeight: 800, color: '#374151', margin: 0 }}>מדיניות ביטולים</p>
+                    </div>
+                    <p style={{ fontSize: 13, color: '#6b7280', lineHeight: 1.8, margin: 0, whiteSpace: 'pre-wrap' }}>{ms.cancelPolicy}</p>
+                  </div>
+                )}
+              </motion.div>
+            )}
+
+            {/* TAB: צרו קשר */}
+            {activeTab === 'contact' && (
+              <motion.div key="contact" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.18 }}
+                style={{ maxWidth: 720, display: 'flex', flexDirection: 'column', gap: 20 }}>
+                {dtHasSocial && (
+                  <div style={{ background: 'white', borderRadius: 20, padding: '28px', boxShadow: '0 2px 14px rgba(0,0,0,0.07)' }}>
+                    <p style={{ fontSize: 15, fontWeight: 800, color: '#374151', marginBottom: 18 }}>דרכי יצירת קשר</p>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                      {ms.social?.whatsapp && (
+                        <a href={`https://wa.me/${ms.social.whatsapp.replace(/\D/g,'').replace(/^0/,'972')}`} target="_blank" rel="noopener noreferrer"
+                          style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 18px', borderRadius: 16, background: '#f0fdf4', textDecoration: 'none', border: '1px solid #bbf7d0' }}>
+                          <div style={{ width: 40, height: 40, borderRadius: '50%', background: '#25D366', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2c-5.514 0-9.99 4.476-9.99 9.99 0 1.76.46 3.41 1.27 4.85L2 22l5.31-1.25A9.99 9.99 0 0012 22c5.514 0 9.99-4.476 9.99-9.99C21.99 6.486 17.514 2 11.99 2z"/></svg></div>
+                          <div><p style={{ fontSize: 14, fontWeight: 700, color: '#111', margin: 0 }}>WhatsApp</p><p style={{ fontSize: 12, color: '#6b7280', margin: 0 }}>{ms.social.whatsapp}</p></div>
+                        </a>
+                      )}
+                      {ms.social?.instagram && (
+                        <a href={`https://instagram.com/${ms.social.instagram.replace('@','')}`} target="_blank" rel="noopener noreferrer"
+                          style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 18px', borderRadius: 16, background: '#fdf2f8', textDecoration: 'none', border: '1px solid #f9a8d4' }}>
+                          <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div>
+                          <div><p style={{ fontSize: 14, fontWeight: 700, color: '#111', margin: 0 }}>Instagram</p><p style={{ fontSize: 12, color: '#6b7280', margin: 0 }}>{ms.social.instagram}</p></div>
+                        </a>
+                      )}
+                      {ms.social?.facebook && (
+                        <a href={`https://facebook.com/${ms.social.facebook}`} target="_blank" rel="noopener noreferrer"
+                          style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 18px', borderRadius: 16, background: '#eff6ff', textDecoration: 'none', border: '1px solid #bfdbfe' }}>
+                          <div style={{ width: 40, height: 40, borderRadius: '50%', background: '#1877F2', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></div>
+                          <div><p style={{ fontSize: 14, fontWeight: 700, color: '#111', margin: 0 }}>Facebook</p><p style={{ fontSize: 12, color: '#6b7280', margin: 0 }}>{ms.social.facebook}</p></div>
+                        </a>
+                      )}
+                      {ms.social?.tiktok && (
+                        <a href={`https://tiktok.com/@${ms.social.tiktok.replace('@','')}`} target="_blank" rel="noopener noreferrer"
+                          style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 18px', borderRadius: 16, background: '#f9fafb', textDecoration: 'none', border: '1px solid #e5e7eb' }}>
+                          <div style={{ width: 40, height: 40, borderRadius: '50%', background: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.2 8.2 0 004.82 1.55V6.79a4.85 4.85 0 01-1.05-.1z"/></svg></div>
+                          <div><p style={{ fontSize: 14, fontWeight: 700, color: '#111', margin: 0 }}>TikTok</p><p style={{ fontSize: 12, color: '#6b7280', margin: 0 }}>{ms.social.tiktok}</p></div>
+                        </a>
+                      )}
+                      {ms.social?.website && (
+                        <a href={ms.social.website} target="_blank" rel="noopener noreferrer"
+                          style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 18px', borderRadius: 16, background: '#f5f3ff', textDecoration: 'none', border: '1px solid #ddd6fe' }}>
+                          <div style={{ width: 40, height: 40, borderRadius: '50%', background: '#6366f1', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div>
+                          <div><p style={{ fontSize: 14, fontWeight: 700, color: '#111', margin: 0 }}>אתר</p><p style={{ fontSize: 12, color: '#6b7280', margin: 0, maxWidth: 120, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{ms.social.website}</p></div>
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                )}
+                {ms.terms && (
+                  <div style={{ background: 'white', borderRadius: 20, padding: '24px', boxShadow: '0 2px 14px rgba(0,0,0,0.07)' }}>
+                    <p style={{ fontSize: 13, fontWeight: 800, color: '#374151', marginBottom: 10 }}>תקנון ותנאי שימוש</p>
+                    <p style={{ fontSize: 12, color: '#9ca3af', lineHeight: 1.7, margin: 0, whiteSpace: 'pre-wrap' }}>{ms.terms}</p>
+                  </div>
+                )}
+                {!dtHasSocial && !ms.terms && (
+                  <div style={{ background: 'white', borderRadius: 20, padding: '60px 40px', textAlign: 'center', boxShadow: '0 2px 14px rgba(0,0,0,0.07)' }}>
+                    <p style={{ fontSize: 36, margin: '0 0 12px' }}>📱</p>
+                    <p style={{ fontSize: 15, color: '#9ca3af' }}>אין פרטי קשר להצגה</p>
+                  </div>
+                )}
+              </motion.div>
+            )}
+
+          </AnimatePresence>
+        </div>
+
+        {/* Sticky cart bar */}
         <AnimatePresence>
           {cartCount > 0 && (
             <motion.div initial={{ y: 80 }} animate={{ y: 0 }} exit={{ y: 80 }}
-              style={{ position: 'fixed', bottom: 0, left: 0, right: 0, background: 'white', borderTop: '1px solid #f3f4f6', padding: '12px 40px', display: 'flex', justifyContent: 'center', gap: 14, boxShadow: '0 -4px 24px rgba(0,0,0,0.1)', zIndex: 50 }}>
-              <button onClick={() => setShowCart(true)} style={{ padding: '13px 28px', borderRadius: 14, background: '#f3f4f6', border: '1.5px solid #e5e7eb', color: '#374151', fontWeight: 700, fontSize: 14, cursor: 'pointer' }}>
-                🛒 סל ({cartCount}) · ₪{cartTotal.toFixed(0)}
-              </button>
+              style={{ position: 'fixed', bottom: 0, left: 0, right: 0, background: 'rgba(255,255,255,0.96)', backdropFilter: 'blur(16px)', borderTop: '1px solid rgba(0,0,0,0.08)', padding: '14px 40px', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 12, boxShadow: '0 -4px 30px rgba(0,0,0,0.1)', zIndex: 50 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#f9fafb', borderRadius: 16, padding: '10px 20px', border: '1px solid #e5e7eb' }}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#374151" strokeWidth="2.5" strokeLinecap="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+                <span style={{ fontWeight: 700, fontSize: 14, color: '#374151' }}>{cartCount} פריטים</span>
+                <span style={{ width: 1, height: 16, background: '#e5e7eb' }} />
+                <span style={{ fontWeight: 900, fontSize: 16, color: '#111' }}>₪{cartTotal.toFixed(0)}</span>
+                <button onClick={() => setShowCart(true)} style={{ fontSize: 12, color: accent, fontWeight: 700, background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>הצג סל</button>
+              </div>
               <button onClick={() => setShowCheckout(true)}
-                style={{ padding: '13px 36px', borderRadius: 14, background: 'linear-gradient(135deg,#25D366,#128C7E)', color: 'white', fontWeight: 900, fontSize: 15, border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 10, boxShadow: '0 4px 20px rgba(37,211,102,0.3)' }}>
+                style={{ padding: '12px 32px', borderRadius: 16, background: 'linear-gradient(135deg,#25D366,#128C7E)', color: 'white', fontWeight: 900, fontSize: 15, border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 10, boxShadow: '0 4px 20px rgba(37,211,102,0.35)' }}>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2c-5.514 0-9.99 4.476-9.99 9.99 0 1.76.46 3.41 1.27 4.85L2 22l5.31-1.25A9.99 9.99 0 0012 22c5.514 0 9.99-4.476 9.99-9.99C21.99 6.486 17.514 2 11.99 2z"/></svg>
                 הזמן בוואטסאפ
               </button>
@@ -737,6 +835,7 @@ function MultiStorePage({ ms }) {
 
         <CartModal />
         <CategoryPopup />
+        {selectedProduct && <ProductDetailModal />}
         <AnimatePresence>
           {showCheckout && <WhatsAppCheckout items={cart} storeName={ms.storeName} whatsappNumber={whatsappNumber} accent={accent} total={cartTotal.toFixed(2)} onClose={() => setShowCheckout(false)} />}
         </AnimatePresence>
