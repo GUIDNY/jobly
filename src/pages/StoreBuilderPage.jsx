@@ -374,7 +374,7 @@ function MultiStorePreview({ ms, cart, onAddToCart, onCartOpen }) {
                 // Banner (default)
                 return (
                   <div key={i} onClick={() => cat.displayMode !== 'page' && setPopupCat(i)}
-                    style={{ borderRadius: 0, overflow: 'hidden', cursor: 'pointer', position: 'relative', height: 56, background: '#1a1a1a' }}>
+                    style={{ borderRadius: 0, overflow: 'hidden', cursor: 'pointer', position: 'relative', height: cat.size === 'full' ? 70 : 56, background: '#1a1a1a', gridColumn: cat.size === 'full' ? 'span 2' : 'span 1' }}>
                     {cat.image
                       ? <img src={cat.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                       : <Placeholder cat={cat} />
