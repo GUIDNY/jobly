@@ -1342,8 +1342,29 @@ export default function StoreBuilderPage() {
                 <div className="hidden md:block bg-white rounded-2xl p-4 md:p-5 border border-gray-100 space-y-4" style={{ boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
                   <div className="flex items-center justify-between">
                     <p className="text-sm font-bold text-gray-800">קטגוריות ומוצרים</p>
-                    <button onClick={() => updMulti('categories',[...(ms.categories||[]),{ id:Date.now(), name:'', icon:'🛍️', image:'', displayMode:'popup', products:[{ name:'', price:'', image:'', description:'' }] }])}
+                    <button onClick={() => updMulti('categories',[...(ms.categories||[]),{ id:Date.now(), name:'', icon:'🛍️', image:'', displayMode:'popup', displayShape: (ms.categories||[])[0]?.displayShape || 'banner', products:[{ name:'', price:'', image:'', description:'' }] }])}
                       className="text-xs font-bold px-3 py-1.5 rounded-xl text-white" style={{ background:'linear-gradient(135deg,#F4938C,#5BC4C8)' }}>+ קטגוריה</button>
+                  </div>
+                  {/* Global shape picker */}
+                  <div className="p-3 rounded-xl border border-gray-100 bg-gray-50">
+                    <p className="text-xs font-semibold text-gray-500 mb-2">צורת תצוגה לכל הקטגוריות</p>
+                    <div className="flex gap-2">
+                      {[
+                        { v:'banner', label:'באנר', icon:'🖼' },
+                        { v:'square', label:'כרטיס', icon:'▪️' },
+                        { v:'circle', label:'עיגול', icon:'⬤' },
+                      ].map(opt => (
+                        <button key={opt.v}
+                          onClick={() => updMulti('categories', (ms.categories||[]).map(c => ({ ...c, displayShape: opt.v })))}
+                          className="flex-1 py-2 px-2 rounded-xl border-2 text-xs font-bold transition-all text-center"
+                          style={((ms.categories||[])[0]?.displayShape||'banner')===opt.v
+                            ? { borderColor:ms.accentColor||'#F4938C', background:`${ms.accentColor||'#F4938C'}11`, color:ms.accentColor||'#F4938C' }
+                            : { borderColor:'#e5e7eb', color:'#9ca3af' }}>
+                          <div className="text-base">{opt.icon}</div>
+                          <div>{opt.label}</div>
+                        </button>
+                      ))}
+                    </div>
                   </div>
                   {(ms.categories||[]).map((cat, ci) => (
                     <div key={ci} className="border border-gray-100 rounded-2xl p-4 space-y-3 bg-gray-50">
