@@ -864,12 +864,12 @@ function MultiStorePage({ ms }) {
         {/* TAB: קטגוריות */}
         {activeTab === 'cats' && (
           <motion.div key="cats" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.18 }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 14 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 14 }}>
               {(ms.categories || []).map((cat, i) => (
                 <div key={i} onClick={() => handleCatClick(cat, i)}
-                  style={{ borderRadius: 18, overflow: 'hidden', background: 'white', cursor: 'pointer',
-                    boxShadow: activeCat === i ? `0 0 0 2px ${accent}, 0 8px 24px rgba(0,0,0,0.12)` : '0 2px 10px rgba(0,0,0,0.07)',
-                    transform: activeCat === i ? 'translateY(-2px)' : 'none', transition: 'all 0.2s' }}>
+                  style={{ borderRadius: 20, overflow: 'hidden', background: 'white', cursor: 'pointer',
+                    boxShadow: activeCat === i ? `0 0 0 2.5px ${accent}, 0 8px 28px rgba(0,0,0,0.14)` : '0 2px 12px rgba(0,0,0,0.08)',
+                    transform: activeCat === i ? 'translateY(-3px)' : 'none', transition: 'all 0.22s' }}>
                   <div style={{ height: 140, background: cat.image ? 'transparent' : `linear-gradient(135deg,${accent}55,${accent}22)`, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', position: 'relative' }}>
                     {cat.image
                       ? <img src={cat.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
