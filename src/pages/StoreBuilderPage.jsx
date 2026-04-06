@@ -284,14 +284,14 @@ function MultiStorePreview({ ms, cart, onAddToCart, onCartOpen }) {
 
       {/* Sticky top bar */}
       <div style={{ position: 'sticky', top: 0, zIndex: 10, background: 'rgba(255,255,255,0.96)', backdropFilter: 'blur(8px)', borderBottom: '1px solid rgba(0,0,0,0.06)', padding: '0 10px', height: 34, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
-        {ms.logoImage
-          ? <img src={ms.logoImage} alt="" style={{ height: 22, maxWidth: 80, objectFit: 'contain' }} />
-          : <p style={{ fontWeight: 900, fontSize: 10, color: '#111', margin: 0 }}>{ms.storeName || 'החנות שלי'}</p>
-        }
         <button onClick={onCartOpen} style={{ display: 'flex', alignItems: 'center', gap: 3, padding: '3px 8px', borderRadius: 12, background: cartCount > 0 ? accent : '#f3f4f6', color: cartCount > 0 ? 'white' : '#6b7280', fontWeight: 700, fontSize: 8, border: 'none', cursor: 'pointer' }}>
           <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
           {cartCount > 0 ? cartCount : 'סל'}
         </button>
+        {ms.logoImage
+          ? <img src={ms.logoImage} alt="" style={{ height: 22, maxWidth: 80, objectFit: 'contain' }} />
+          : <p style={{ fontWeight: 900, fontSize: 10, color: '#111', margin: 0 }}>{ms.storeName || 'החנות שלי'}</p>
+        }
       </div>
 
       {/* Hero */}
