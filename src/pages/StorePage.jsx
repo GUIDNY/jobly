@@ -793,19 +793,19 @@ function MultiStorePage({ ms }) {
     <div dir="rtl" style={{ fontFamily: "'Heebo','Segoe UI',sans-serif", background: '#f4f5f7', minHeight: '100vh', maxWidth: 640, margin: '0 auto', position: 'relative' }}>
 
       {/* ── Sticky top bar ── */}
-      <div style={{ position: 'sticky', top: 0, zIndex: 40, background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(0,0,0,0.06)', padding: '0 16px', height: 54, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div style={{ position: 'sticky', top: 0, zIndex: 40, background: 'rgba(255,255,255,0.94)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)', borderBottom: '1px solid rgba(0,0,0,0.07)', padding: '0 16px', height: 58, display: 'flex', alignItems: 'center', justifyContent: 'space-between', boxShadow: '0 1px 0 rgba(0,0,0,0.04)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           {ms.logoImage
-            ? <img src={ms.logoImage} alt="" style={{ width: 34, height: 34, borderRadius: 10, objectFit: 'cover', border: `2px solid ${accent}33` }} />
-            : <div style={{ width: 34, height: 34, borderRadius: 10, background: `linear-gradient(135deg,${accent},#5BC4C8)`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><span style={{ fontSize: 16 }}>🛍️</span></div>
+            ? <img src={ms.logoImage} alt="" style={{ width: 36, height: 36, borderRadius: 11, objectFit: 'cover', border: `2px solid ${accent}44`, boxShadow: `0 2px 8px ${accent}33` }} />
+            : <div style={{ width: 36, height: 36, borderRadius: 11, background: `linear-gradient(135deg,${accent},#5BC4C8)`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow: `0 2px 8px ${accent}44` }}><span style={{ fontSize: 18 }}>🛍️</span></div>
           }
           <div>
-            <p style={{ fontWeight: 900, fontSize: 14, color: '#111', margin: 0, lineHeight: 1.2 }}>{ms.storeName || 'החנות שלי'}</p>
+            <p style={{ fontWeight: 900, fontSize: 15, color: '#111', margin: 0, lineHeight: 1.2, letterSpacing: '-0.2px' }}>{ms.storeName || 'החנות שלי'}</p>
             {ms.tagline && <p style={{ fontSize: 10, color: '#9ca3af', margin: 0 }}>{ms.tagline}</p>}
           </div>
         </div>
         <button onClick={() => setShowCart(true)}
-          style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '7px 14px', borderRadius: 24, background: cartCount > 0 ? `linear-gradient(135deg,${accent},#5BC4C8)` : '#f3f4f6', color: cartCount > 0 ? 'white' : '#6b7280', fontWeight: 700, fontSize: 12, border: 'none', cursor: 'pointer', transition: 'all 0.2s', position: 'relative' }}>
+          style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 16px', borderRadius: 24, background: cartCount > 0 ? `linear-gradient(135deg,${accent},#5BC4C8)` : '#f3f4f6', color: cartCount > 0 ? 'white' : '#6b7280', fontWeight: 700, fontSize: 12, border: 'none', cursor: 'pointer', transition: 'all 0.2s', boxShadow: cartCount > 0 ? `0 3px 12px ${accent}44` : 'none' }}>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
           סל {cartCount > 0 ? `(${cartCount})` : ''}
         </button>
