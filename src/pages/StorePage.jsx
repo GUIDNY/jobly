@@ -838,16 +838,13 @@ function MultiStorePage({ ms }) {
       )}
 
       {/* ── Tab bar ── */}
-      <div style={{ background: 'white', borderBottom: '1px solid #f0f0f0', display: 'flex', position: 'sticky', top: 58, zIndex: 39, boxShadow: '0 2px 12px rgba(0,0,0,0.05)', padding: '6px 10px 0' }}>
+      <div style={{ background: 'white', borderBottom: '1px solid #e8e8e8', display: 'flex', position: 'sticky', top: 54, zIndex: 39 }}>
         {TABS.map(tab => (
           <button key={tab.id} onClick={() => { setActiveTab(tab.id); setActiveCat(null); }}
-            style={{ flex: 1, padding: '8px 4px 10px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, border: 'none', background: 'none', cursor: 'pointer', position: 'relative', color: activeTab === tab.id ? accent : '#adb5bd', transition: 'color 0.2s' }}>
-            <div style={{ padding: '5px 14px', borderRadius: 20, background: activeTab === tab.id ? `${accent}15` : 'transparent', transition: 'background 0.2s', display: 'flex', alignItems: 'center', gap: 5 }}>
-              {tab.icon}
-              <span style={{ fontSize: 11, fontWeight: activeTab === tab.id ? 800 : 600, letterSpacing: '-0.1px' }}>{tab.label}</span>
-            </div>
+            style={{ flex: 1, padding: '14px 4px 12px', border: 'none', background: 'none', cursor: 'pointer', position: 'relative', color: activeTab === tab.id ? '#111' : '#b0b0b0', fontSize: 12, fontWeight: activeTab === tab.id ? 800 : 500, transition: 'color 0.2s', letterSpacing: activeTab === tab.id ? '-0.1px' : '0' }}>
+            {tab.label}
             {activeTab === tab.id && (
-              <div style={{ position: 'absolute', bottom: 0, left: '15%', right: '15%', height: 3, borderRadius: '3px 3px 0 0', background: `linear-gradient(90deg,${accent},#5BC4C8)` }} />
+              <div style={{ position: 'absolute', bottom: 0, left: '10%', right: '10%', height: 2, background: '#111' }} />
             )}
           </button>
         ))}
