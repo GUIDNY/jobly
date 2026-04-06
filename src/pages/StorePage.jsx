@@ -391,6 +391,8 @@ function MultiStorePage({ ms }) {
   const [showAllCats, setShowAllCats] = useState(false);
   const [showTermsPopup, setShowTermsPopup] = useState(false);
   const isDesktop = useIsDesktop();
+  const dtFeaturedRef = useRef(null);
+  const mbFeaturedRef = useRef(null);
 
   const cartCount = cart.reduce((s, i) => s + (i.qty || 1), 0);
   const cartTotal = cart.reduce((s, i) => s + (Number(i.price) || 0) * i.qty, 0);
