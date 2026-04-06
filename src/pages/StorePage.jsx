@@ -274,94 +274,106 @@ function SingleStorePage({ d }) {
     );
   }
 
-  // Mobile layout (existing)
+  // Mobile layout — redesigned multi-store style
   return (
     <div dir="rtl" style={{ fontFamily: "'Heebo','Segoe UI',sans-serif", background: '#f8f9fa', minHeight: '100vh', maxWidth: 480, margin: '0 auto' }}>
-      {/* Hero */}
-      <div style={{ position: 'relative', width: '100%', height: d.image ? 300 : 200, background: d.image ? 'transparent' : `linear-gradient(135deg,${accent}33,${accent}11)`, overflow: 'hidden' }}>
+      {/* Hero / Cover */}
+      <div style={{ position: 'relative', width: '100%', height: 280, overflow: 'hidden' }}>
         {d.image
           ? <img src={d.image} alt={d.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-          : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+          : <div style={{ width: '100%', height: '100%', background: `linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{ textAlign: 'center' }}>
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.25)" strokeWidth="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: 11, margin: '8px 0 0' }}>העלה תמונת מוצר</p>
+              </div>
+            </div>
         }
-        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 80, background: 'linear-gradient(transparent,rgba(0,0,0,0.3))' }} />
-        {d.storeName && <div style={{ position: 'absolute', top: 12, right: 12, background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(8px)', borderRadius: 20, padding: '4px 12px' }}><span style={{ color: 'white', fontSize: 12, fontWeight: 700 }}>{d.storeName}</span></div>}
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.08) 0%, transparent 35%, rgba(0,0,0,0.62) 100%)' }} />
+        {/* Store name + tagline at bottom of hero */}
+        <div style={{ position: 'absolute', bottom: 20, right: 16, left: 16 }}>
+          {d.storeName && <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: 11, margin: '0 0 4px', fontWeight: 600, letterSpacing: '1px', textTransform: 'uppercase' }}>{d.storeName}</p>}
+          <h1 style={{ color: 'white', fontWeight: 900, fontSize: 22, margin: 0, lineHeight: 1.2, textShadow: '0 2px 12px rgba(0,0,0,0.5)' }}>{d.name || 'שם המוצר'}</h1>
+          {d.tagline && <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: 12, margin: '4px 0 0' }}>{d.tagline}</p>}
+        </div>
       </div>
 
-      <div style={{ background: 'white', borderRadius: '24px 24px 0 0', marginTop: -20, padding: '20px 16px 100px', position: 'relative' }}>
-        <h1 style={{ fontSize: 24, fontWeight: 900, color: '#111', margin: '0 0 4px' }}>{d.name || 'שם המוצר'}</h1>
-        {d.tagline && <p style={{ fontSize: 14, color: '#6b7280', margin: '0 0 12px' }}>{d.tagline}</p>}
-        {d.reviews?.length > 0 && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginBottom: 12 }}>
-            {[1,2,3,4,5].map(s => { const gold = s <= 4.5; return <svg key={s} width="14" height="14" viewBox="0 0 24 24" fill={gold ? '#F59E0B' : '#e5e7eb'}><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>; })}
-            <span style={{ fontSize: 12, color: '#6b7280' }}>({d.reviews.length} ביקורות)</span>
+      {/* White card sliding up */}
+      <div style={{ background: 'white', borderRadius: '24px 24px 0 0', marginTop: -20, position: 'relative', padding: '20px 16px 0' }}>
+
+        {/* Price + reviews row */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
+            <span style={{ fontSize: 28, fontWeight: 900, color: accent }}>₪{d.price || '0'}</span>
+            {d.originalPrice && <span style={{ fontSize: 14, color: '#9ca3af', textDecoration: 'line-through' }}>₪{d.originalPrice}</span>}
+            {d.originalPrice && d.price && <span style={{ fontSize: 10, fontWeight: 700, color: '#10B981', background: '#d1fae5', padding: '2px 7px', borderRadius: 20 }}>{Math.round((1 - Number(d.price) / Number(d.originalPrice)) * 100)}% הנחה</span>}
           </div>
-        )}
-        <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 18 }}>
-          <span style={{ fontSize: 32, fontWeight: 900, color: accent }}>₪{d.price || '0'}</span>
-          {d.originalPrice && <span style={{ fontSize: 16, color: '#9ca3af', textDecoration: 'line-through' }}>₪{d.originalPrice}</span>}
-          {d.originalPrice && d.price && <span style={{ fontSize: 12, fontWeight: 700, color: '#10B981', background: '#d1fae5', padding: '3px 8px', borderRadius: 20 }}>{Math.round((1 - Number(d.price) / Number(d.originalPrice)) * 100)}% הנחה</span>}
+          {d.reviews?.length > 0 && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: 3 }}>
+              {[1,2,3,4,5].map(s => <svg key={s} width="11" height="11" viewBox="0 0 24 24" fill={s <= 4.5 ? '#F59E0B' : '#e5e7eb'}><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>)}
+              <span style={{ fontSize: 10, color: '#9ca3af', marginRight: 2 }}>({d.reviews.length})</span>
+            </div>
+          )}
         </div>
 
         {/* WhatsApp CTA */}
         <button onClick={() => setShowCheckout(true)}
-          style={{ width: '100%', padding: '16px', borderRadius: 16, background: 'linear-gradient(135deg,#25D366,#128C7E)', color: 'white', fontWeight: 900, fontSize: 16, border: 'none', cursor: 'pointer', marginBottom: 12, boxShadow: '0 4px 20px rgba(37,211,102,0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2c-5.514 0-9.99 4.476-9.99 9.99 0 1.76.46 3.41 1.27 4.85L2 22l5.31-1.25A9.99 9.99 0 0012 22c5.514 0 9.99-4.476 9.99-9.99C21.99 6.486 17.514 2 11.99 2z"/></svg>
+          style={{ width: '100%', padding: '16px', borderRadius: 16, background: 'linear-gradient(135deg,#25D366,#128C7E)', color: 'white', fontWeight: 900, fontSize: 16, border: 'none', cursor: 'pointer', marginBottom: 10, boxShadow: '0 4px 20px rgba(37,211,102,0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2c-5.514 0-9.99 4.476-9.99 9.99 0 1.76.46 3.41 1.27 4.85L2 22l5.31-1.25A9.99 9.99 0 0012 22c5.514 0 9.99-4.476 9.99-9.99C21.99 6.486 17.514 2 11.99 2z"/></svg>
           {d.ctaText || 'הזמן עכשיו בוואטסאפ'}
         </button>
-
         {d.paymentMethods?.length > 0 && <div style={{ display: 'flex', justifyContent: 'center', gap: 8, marginBottom: 20, flexWrap: 'wrap' }}>{d.paymentMethods.map(id => <PaymentBadge key={id} id={id} />)}</div>}
-        <div style={{ height: 1, background: '#f3f4f6', margin: '16px 0' }} />
-        {d.bullets?.filter(b => b.trim()).length > 0 && (
-          <div style={{ marginBottom: 16 }}>
-            <p style={{ fontSize: 14, fontWeight: 800, color: '#374151', marginBottom: 10 }}>מה כלול?</p>
-            {d.bullets.filter(b => b.trim()).map((b, i) => (
-              <div key={i} style={{ display: 'flex', gap: 10, marginBottom: 8 }}>
-                <div style={{ width: 20, height: 20, borderRadius: '50%', background: `${accent}22`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="3"><polyline points="20 6 9 17 4 12"/></svg>
-                </div>
-                <span style={{ fontSize: 13, color: '#374151', lineHeight: 1.5 }}>{b}</span>
-              </div>
-            ))}
-          </div>
-        )}
-        {d.description && (
-          <div style={{ marginBottom: 16 }}>
-            <p style={{ fontSize: 14, fontWeight: 800, color: '#374151', marginBottom: 8 }}>אודות המוצר</p>
-            <p style={{ fontSize: 13, color: '#6b7280', lineHeight: 1.7, whiteSpace: 'pre-wrap' }}>{d.description}</p>
-          </div>
-        )}
-        {d.reviews?.filter(r => r.text).length > 0 && (
-          <div>
-            <p style={{ fontSize: 14, fontWeight: 800, color: '#374151', marginBottom: 12 }}>מה אומרים הלקוחות</p>
-            {d.reviews.filter(r => r.text).map((r, i) => (
-              <div key={i} style={{ background: '#f9fafb', borderRadius: 14, padding: '12px 14px', marginBottom: 10 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-                  <div style={{ width: 32, height: 32, borderRadius: '50%', background: `linear-gradient(135deg,${accent},#5BC4C8)`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <span style={{ color: 'white', fontSize: 13, fontWeight: 800 }}>{(r.name || 'א')[0]}</span>
+
+        {/* Product details section */}
+        <div style={{ borderTop: '1px solid #f0f0f0', paddingTop: 20, paddingBottom: 20 }}>
+          {d.bullets?.filter(b => b.trim()).length > 0 && (
+            <div style={{ marginBottom: 18 }}>
+              <p style={{ fontSize: 12, fontWeight: 800, color: '#374151', marginBottom: 10, letterSpacing: '0.3px' }}>מה כלול?</p>
+              {d.bullets.filter(b => b.trim()).map((b, i) => (
+                <div key={i} style={{ display: 'flex', gap: 10, marginBottom: 8 }}>
+                  <div style={{ width: 20, height: 20, borderRadius: '50%', background: `${accent}22`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 1 }}>
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="3"><polyline points="20 6 9 17 4 12"/></svg>
                   </div>
-                  <div>
-                    <p style={{ fontSize: 12, fontWeight: 700, color: '#111', margin: 0 }}>{r.name || 'לקוח מרוצה'}</p>
-                    <div style={{ display: 'flex', gap: 2 }}>
-                      {[1,2,3,4,5].map(s => <svg key={s} width="10" height="10" viewBox="0 0 24 24" fill={s <= (r.rating || 5) ? '#F59E0B' : '#e5e7eb'}><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>)}
+                  <span style={{ fontSize: 13, color: '#374151', lineHeight: 1.55 }}>{b}</span>
+                </div>
+              ))}
+            </div>
+          )}
+          {d.description && (
+            <div style={{ marginBottom: 18 }}>
+              <p style={{ fontSize: 12, fontWeight: 800, color: '#374151', marginBottom: 8, letterSpacing: '0.3px' }}>אודות המוצר</p>
+              <p style={{ fontSize: 13, color: '#6b7280', lineHeight: 1.75, whiteSpace: 'pre-wrap', margin: 0 }}>{d.description}</p>
+            </div>
+          )}
+          {d.reviews?.filter(r => r.text).length > 0 && (
+            <div>
+              <p style={{ fontSize: 12, fontWeight: 800, color: '#374151', marginBottom: 12, letterSpacing: '0.3px' }}>מה אומרים הלקוחות</p>
+              {d.reviews.filter(r => r.text).map((r, i) => (
+                <div key={i} style={{ background: '#f9fafb', borderRadius: 14, padding: '12px 14px', marginBottom: 10, border: '1px solid #f0f0f0' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+                    <div style={{ width: 32, height: 32, borderRadius: '50%', background: `linear-gradient(135deg,${accent},#5BC4C8)`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                      <span style={{ color: 'white', fontSize: 13, fontWeight: 800 }}>{(r.name || 'א')[0]}</span>
+                    </div>
+                    <div>
+                      <p style={{ fontSize: 12, fontWeight: 700, color: '#111', margin: 0 }}>{r.name || 'לקוח מרוצה'}</p>
+                      <div style={{ display: 'flex', gap: 2 }}>{[1,2,3,4,5].map(s => <svg key={s} width="10" height="10" viewBox="0 0 24 24" fill={s <= (r.rating || 5) ? '#F59E0B' : '#e5e7eb'}><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>)}</div>
                     </div>
                   </div>
+                  <p style={{ fontSize: 12, color: '#6b7280', lineHeight: 1.6, margin: 0 }}>"{r.text}"</p>
                 </div>
-                <p style={{ fontSize: 12, color: '#6b7280', lineHeight: 1.6, margin: 0 }}>"{r.text}"</p>
-              </div>
-            ))}
-          </div>
-        )}
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
-      {/* Sticky bar */}
-      <div style={{ position: 'fixed', bottom: 0, left: '50%', transform: 'translateX(-50%)', width: '100%', maxWidth: 480, background: 'white', borderTop: '1px solid #f3f4f6', padding: '12px 16px', display: 'flex', gap: 12, boxShadow: '0 -4px 20px rgba(0,0,0,0.08)', zIndex: 50 }}>
-        <div><p style={{ fontSize: 11, color: '#9ca3af', margin: 0 }}>מחיר</p><p style={{ fontSize: 18, fontWeight: 900, color: accent, margin: 0 }}>₪{d.price || '0'}</p></div>
-        <button onClick={() => setShowCheckout(true)}
-          style={{ flex: 1, padding: '13px', borderRadius: 14, background: 'linear-gradient(135deg,#25D366,#128C7E)', color: 'white', fontWeight: 900, fontSize: 14, border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2c-5.514 0-9.99 4.476-9.99 9.99 0 1.76.46 3.41 1.27 4.85L2 22l5.31-1.25A9.99 9.99 0 0012 22c5.514 0 9.99-4.476 9.99-9.99C21.99 6.486 17.514 2 11.99 2z"/></svg>
-          הזמן בוואטסאפ
-        </button>
-      </div>
+      {/* Footer */}
+      <footer style={{ background: '#0f0f0f', padding: '28px 20px 40px', textAlign: 'center' }}>
+        {d.storeName && <p style={{ fontWeight: 900, fontSize: 16, color: 'white', margin: '0 0 6px' }}>{d.storeName}</p>}
+        {d.tagline && <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.3)', margin: '0 0 20px', letterSpacing: '1px' }}>{d.tagline}</p>}
+        <div style={{ borderTop: `1px solid ${accent}33`, paddingTop: 14, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12 }}>
+          <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.25)', margin: 0 }}>© {d.storeName || 'החנות שלי'}</p>
+        </div>
+      </footer>
 
       <AnimatePresence>
         {showCheckout && (
