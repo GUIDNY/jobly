@@ -935,25 +935,6 @@ function MultiStorePage({ ms }) {
         </section>
       )}
 
-      {/* ── SECTION: מוצרים נבחרים ── */}
-      {(() => {
-        const featuredProducts = (ms.categories || []).flatMap(cat =>
-          (cat.products || []).filter(p => p.name && p.featured)
-        );
-        if (!featuredProducts.length) return null;
-        return (
-          <section style={{ borderBottom: '1px solid #ebebeb' }}>
-            <div style={{ padding: '24px 20px 14px', display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
-              <h2 style={{ fontSize: 18, fontWeight: 900, color: '#111', margin: 0, letterSpacing: '-0.3px' }}>מוצרים נבחרים</h2>
-              <span style={{ fontSize: 11, color: '#aaa' }}>⭐ {featuredProducts.length} מוצרים</span>
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1 }}>
-              {featuredProducts.map((p, i) => <ProductCard key={i} p={p} cols={2} />)}
-            </div>
-            <div style={{ height: 16 }} />
-          </section>
-        );
-      })()}
 
       {/* ── SECTION: קטגוריות מובילות ── */}
       {(ms.categories || []).length > 0 && (() => {
