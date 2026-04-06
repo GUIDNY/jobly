@@ -420,7 +420,7 @@ function SingleStorePage({ d }) {
       </div>
 
       {/* Footer */}
-      <footer style={{ background: '#0f0f0f', padding: '28px 20px 40px', textAlign: 'center' }}>
+      <footer style={{ background: `linear-gradient(160deg, ${accent}25 0%, #0f0f0f 35%)`, padding: '28px 20px 40px', textAlign: 'center' }}>
         {d.storeName && <p style={{ fontWeight: 900, fontSize: 16, color: 'white', margin: '0 0 6px' }}>{d.storeName}</p>}
         {d.tagline && <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.3)', margin: '0 0 20px', letterSpacing: '1px' }}>{d.tagline}</p>}
         <div style={{ borderTop: `1px solid ${accent}33`, paddingTop: 14, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12 }}>
