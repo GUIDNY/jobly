@@ -701,24 +701,56 @@ function MultiStorePage({ ms }) {
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '64px 48px 160px' }}>
 
           {/* SECTION: קטגוריות */}
+          {(() => {
+            const firstShape = (ms.categories || [])[0]?.displayShape || 'banner';
+            const isCircle = firstShape === 'circle';
+            const isSquare = firstShape === 'square';
+            const cols = isCircle ? 'repeat(6,1fr)' : 'repeat(4,1fr)';
+            return (
           <section style={{ marginBottom: 80 }}>
             <h2 style={{ fontSize: 22, fontWeight: 900, color: '#111', margin: '0 0 32px', textAlign: 'right' }}>קטגוריות</h2>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 16 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: cols, gap: isCircle ? 8 : 16 }}>
               {(ms.categories || []).map((cat, i) => {
-                const isWide = (cat.size === 'full');
+                const isWide = cat.size === 'full';
+                const prodCount = (cat.products||[]).filter(p=>p.name).length;
+                if (isCircle) {
+                  return (
+                    <div key={i} onClick={() => handleCatClick(cat, i)} style={{ display:'flex', flexDirection:'column', alignItems:'center', gap:10, cursor:'pointer', padding:'12px 8px', borderRadius:16, background: activeCat===i ? `${accent}08` : 'transparent', transition:'background 0.15s' }}>
+                      <div style={{ width:90, height:90, borderRadius:'50%', overflow:'hidden', border: activeCat===i ? `3px solid ${accent}` : '3px solid #ebebeb', background:cat.image?'transparent':'#f5f5f5', display:'flex', alignItems:'center', justifyContent:'center', transition:'border-color 0.15s' }}>
+                        {cat.image ? <img src={cat.image} alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }}/> : <span style={{ fontSize:40 }}>{cat.icon||'🛍️'}</span>}
+                      </div>
+                      <p style={{ fontSize:13, fontWeight:800, color:'#111', margin:0, textAlign:'center', lineHeight:1.3 }}>{cat.name||'קטגוריה'}</p>
+                      <p style={{ fontSize:11, color:'#aaa', margin:0 }}>{prodCount} פריטים</p>
+                    </div>
+                  );
+                }
+                if (isSquare) {
+                  return (
+                    <div key={i} onClick={() => handleCatClick(cat, i)}
+                      style={{ gridColumn:isWide?'span 2':'span 1', borderRadius:16, overflow:'hidden', cursor:'pointer', background:'white', border: activeCat===i ? `2px solid ${accent}` : '2px solid #ebebeb', transition:'border-color 0.15s, opacity 0.2s', opacity: activeCat!==null && activeCat!==i ? 0.7 : 1 }}>
+                      <div style={{ width:'100%', aspectRatio:'1', background:cat.image?'transparent':'#f5f5f5', overflow:'hidden', display:'flex', alignItems:'center', justifyContent:'center' }}>
+                        {cat.image ? <img src={cat.image} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', transition:'transform 0.35s', transform:activeCat===i?'scale(1.04)':'scale(1)' }}/> : <span style={{ fontSize:56 }}>{cat.icon||'🛍️'}</span>}
+                      </div>
+                      <div style={{ padding:'14px 16px' }}>
+                        <p style={{ fontSize:15, fontWeight:900, color:'#111', margin:'0 0 3px' }}>{cat.name||'קטגוריה'}</p>
+                        <p style={{ fontSize:12, color:'#aaa', margin:0 }}>{prodCount} פריטים</p>
+                      </div>
+                    </div>
+                  );
+                }
+                // Banner (default)
                 return (
                   <div key={i} onClick={() => handleCatClick(cat, i)}
-                    style={{ gridColumn: isWide ? 'span 2' : 'span 1', borderRadius: 0, overflow: 'hidden', cursor: 'pointer', transition: 'opacity 0.2s',
-                      opacity: activeCat !== null && activeCat !== i ? 0.7 : 1 }}>
-                    <div style={{ position: 'relative', height: isWide ? 280 : 220, background: cat.image ? 'transparent' : `linear-gradient(135deg,${accent}33,${accent}11)`, overflow: 'hidden' }}>
+                    style={{ gridColumn: isWide ? 'span 2' : 'span 1', overflow: 'hidden', cursor: 'pointer', transition: 'opacity 0.2s', opacity: activeCat !== null && activeCat !== i ? 0.7 : 1 }}>
+                    <div style={{ position: 'relative', height: isWide ? 280 : 220, background: cat.image ? 'transparent' : `${accent}18`, overflow: 'hidden' }}>
                       {cat.image
                         ? <img src={cat.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.4s', transform: activeCat === i ? 'scale(1.04)' : 'scale(1)' }} />
-                        : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: `${accent}18` }}><span style={{ fontSize: 64 }}>{cat.icon || '🛍️'}</span></div>
+                        : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><span style={{ fontSize: 64 }}>{cat.icon || '🛍️'}</span></div>
                       }
                       {cat.image && <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(transparent 35%, rgba(0,0,0,0.6))' }} />}
                       <div style={{ position: 'absolute', bottom: 0, right: 0, left: 0, padding: '16px 18px' }}>
                         <p style={{ color: cat.image ? 'white' : '#111', fontWeight: 900, fontSize: isWide ? 22 : 16, margin: 0, textShadow: cat.image ? '0 1px 8px rgba(0,0,0,0.5)' : 'none' }}>{cat.name || 'קטגוריה'}</p>
-                        {(cat.products||[]).filter(p=>p.name).length > 0 && <p style={{ color: cat.image ? 'rgba(255,255,255,0.75)' : '#9ca3af', fontSize: 12, margin: '3px 0 0', fontWeight: 500 }}>{(cat.products||[]).filter(p=>p.name).length} פריטים</p>}
+                        {prodCount > 0 && <p style={{ color: cat.image ? 'rgba(255,255,255,0.75)' : '#9ca3af', fontSize: 12, margin: '3px 0 0' }}>{prodCount} פריטים</p>}
                       </div>
                     </div>
                   </div>
