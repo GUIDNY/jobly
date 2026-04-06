@@ -315,6 +315,8 @@ function SingleStorePage({ d }) {
   }
 
   // Mobile layout — redesigned multi-store style
+  const mbIsYouTube = d.videoUrl && (d.videoUrl.includes('youtube.com') || d.videoUrl.includes('youtu.be'));
+  const mbYtId = mbIsYouTube ? (d.videoUrl.match(/(?:v=|youtu\.be\/)([^&?/]+)/)?.[1]) : null;
   return (
     <div dir="rtl" style={{ fontFamily: "'Heebo','Segoe UI',sans-serif", background: '#f8f9fa', minHeight: '100vh', maxWidth: 480, margin: '0 auto' }}>
       {/* Hero / Cover */}
