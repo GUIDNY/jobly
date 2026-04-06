@@ -414,7 +414,7 @@ function MultiStorePreview({ ms, cart, onAddToCart, onCartOpen }) {
       )}
 
       {/* Footer */}
-      <div style={{ background: '#0f0f0f', padding: '14px 14px 18px', marginTop: 8, flexShrink: 0 }}>
+      <div style={{ background: '#0f0f0f', padding: '14px 14px 18px', marginTop: 'auto', flexShrink: 0 }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 10 }}>
           {/* Brand */}
           <div>
