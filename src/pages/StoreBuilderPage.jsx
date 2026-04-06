@@ -903,24 +903,6 @@ export default function StoreBuilderPage() {
             ))}
           </div>
 
-          {/* Desktop multi steps bar */}
-          {storeType === 'multi' && (
-            <div className="hidden md:flex gap-2 bg-white rounded-2xl p-1.5 border border-gray-100" style={{ boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
-              {MULTI_STEPS.map((s, i) => {
-                const currentIdx = MULTI_STEPS.findIndex(x => x.id === multiStep);
-                return (
-                  <button key={s.id} onClick={() => setMultiStep(s.id)}
-                    className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-sm font-semibold transition-all"
-                    style={multiStep === s.id
-                      ? { background:'linear-gradient(135deg,#F4938C22,#5BC4C822)', color:'#F4938C', boxShadow:'0 1px 4px rgba(244,147,140,0.2)' }
-                      : i < currentIdx ? { color:'#10B981' } : { color:'#9ca3af' }}>
-                    <span style={{ fontSize:14 }}>{i < currentIdx ? '✓' : s.icon}</span>
-                    <span>{s.label}</span>
-                  </button>
-                );
-              })}
-            </div>
-          )}
 
           {/* ── Section: Product ── */}
           {storeType === 'single' && activeSection === 'product' && (
