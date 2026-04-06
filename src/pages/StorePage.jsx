@@ -793,22 +793,26 @@ function MultiStorePage({ ms }) {
     <div dir="rtl" style={{ fontFamily: "'Heebo','Segoe UI',sans-serif", background: 'white', minHeight: '100vh', maxWidth: 640, margin: '0 auto', position: 'relative' }}>
 
       {/* ── Sticky top bar ── */}
-      <div style={{ position: 'sticky', top: 0, zIndex: 40, background: 'rgba(255,255,255,0.94)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)', borderBottom: '1px solid rgba(0,0,0,0.07)', padding: '0 16px', height: 58, display: 'flex', alignItems: 'center', justifyContent: 'space-between', boxShadow: '0 1px 0 rgba(0,0,0,0.04)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          {ms.logoImage
-            ? <img src={ms.logoImage} alt="" style={{ width: 36, height: 36, borderRadius: 11, objectFit: 'cover', border: `2px solid ${accent}44`, boxShadow: `0 2px 8px ${accent}33` }} />
-            : <div style={{ width: 36, height: 36, borderRadius: 11, background: `linear-gradient(135deg,${accent},#5BC4C8)`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow: `0 2px 8px ${accent}44` }}><span style={{ fontSize: 18 }}>🛍️</span></div>
-          }
-          <div>
-            <p style={{ fontWeight: 900, fontSize: 15, color: '#111', margin: 0, lineHeight: 1.2, letterSpacing: '-0.2px' }}>{ms.storeName || 'החנות שלי'}</p>
-            {ms.tagline && <p style={{ fontSize: 10, color: '#9ca3af', margin: 0 }}>{ms.tagline}</p>}
-          </div>
-        </div>
-        <button onClick={() => setShowCart(true)}
-          style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 16px', borderRadius: 24, background: cartCount > 0 ? `linear-gradient(135deg,${accent},#5BC4C8)` : '#f3f4f6', color: cartCount > 0 ? 'white' : '#6b7280', fontWeight: 700, fontSize: 12, border: 'none', cursor: 'pointer', transition: 'all 0.2s', boxShadow: cartCount > 0 ? `0 3px 12px ${accent}44` : 'none' }}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
-          סל {cartCount > 0 ? `(${cartCount})` : ''}
+      <div style={{ position: 'sticky', top: 0, zIndex: 40, background: 'white', borderBottom: '1px solid #e8e8e8', padding: '0 16px', height: 54, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        {/* Cart icon with badge */}
+        <button onClick={() => setShowCart(true)} style={{ position: 'relative', width: 38, height: 38, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'none', border: 'none', cursor: 'pointer', flexShrink: 0 }}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#111" strokeWidth="1.7" strokeLinecap="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+          {cartCount > 0 && (
+            <div style={{ position: 'absolute', top: 5, right: 3, width: 17, height: 17, borderRadius: '50%', background: accent, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <span style={{ color: 'white', fontSize: 9, fontWeight: 900, lineHeight: 1 }}>{cartCount}</span>
+            </div>
+          )}
         </button>
+        {/* Centered logo / name */}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, position: 'absolute', left: '50%', transform: 'translateX(-50%)' }}>
+          {ms.logoImage
+            ? <img src={ms.logoImage} alt="" style={{ height: 34, maxWidth: 130, objectFit: 'contain' }} />
+            : <p style={{ fontWeight: 900, fontSize: 15, color: '#111', margin: 0, letterSpacing: '0.8px', whiteSpace: 'nowrap' }}>{ms.storeName || 'החנות שלי'}</p>
+          }
+          {ms.tagline && !ms.logoImage && <p style={{ fontSize: 9, color: '#9ca3af', margin: 0, letterSpacing: '1.5px', textTransform: 'uppercase' }}>{ms.tagline}</p>}
+        </div>
+        {/* Spacer */}
+        <div style={{ width: 38, flexShrink: 0 }} />
       </div>
 
       {/* ── Hero ── */}
