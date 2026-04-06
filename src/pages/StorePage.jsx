@@ -975,7 +975,7 @@ function MultiStorePage({ ms }) {
 
         {/* TAB: אז מה אנחנו */}
         {activeTab === 'about' && (
-          <motion.div key="about" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.18 }}>
+          <motion.div key="about" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.18 }} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             {(ms.aboutText || ms.aboutTitle) ? (
               <div style={{ background: 'white', borderRadius: 20, padding: '20px', boxShadow: '0 2px 12px rgba(0,0,0,0.06)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
@@ -989,6 +989,24 @@ function MultiStorePage({ ms }) {
                 <div style={{ width: 56, height: 56, borderRadius: 18, background: `linear-gradient(135deg,${accent},#5BC4C8)`, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 14px' }}><span style={{ fontSize: 26 }}>🏪</span></div>
                 <p style={{ fontSize: 16, fontWeight: 800, color: '#111', margin: '0 0 6px' }}>{ms.storeName || 'החנות שלי'}</p>
                 {ms.tagline && <p style={{ fontSize: 13, color: '#6b7280', margin: 0, lineHeight: 1.6 }}>{ms.tagline}</p>}
+              </div>
+            )}
+            {ms.terms && (
+              <div style={{ background: 'white', borderRadius: 20, padding: '16px 20px', boxShadow: '0 2px 12px rgba(0,0,0,0.06)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+                  <span style={{ fontSize: 16 }}>📋</span>
+                  <p style={{ fontSize: 13, fontWeight: 800, color: '#374151', margin: 0 }}>תקנון ותנאי שימוש</p>
+                </div>
+                <p style={{ fontSize: 11, color: '#9ca3af', lineHeight: 1.7, margin: 0, whiteSpace: 'pre-wrap' }}>{ms.terms}</p>
+              </div>
+            )}
+            {ms.cancelPolicy && (
+              <div style={{ background: 'white', borderRadius: 20, padding: '16px 20px', boxShadow: '0 2px 12px rgba(0,0,0,0.06)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+                  <span style={{ fontSize: 16 }}>↩️</span>
+                  <p style={{ fontSize: 13, fontWeight: 800, color: '#374151', margin: 0 }}>מדיניות ביטולים</p>
+                </div>
+                <p style={{ fontSize: 11, color: '#9ca3af', lineHeight: 1.7, margin: 0, whiteSpace: 'pre-wrap' }}>{ms.cancelPolicy}</p>
               </div>
             )}
           </motion.div>
