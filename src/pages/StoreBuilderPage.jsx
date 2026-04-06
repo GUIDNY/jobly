@@ -414,23 +414,31 @@ function MultiStorePreview({ ms, cart, onAddToCart, onCartOpen }) {
       )}
 
       {/* Footer */}
-      <div style={{ background: '#111', padding: '12px 12px 16px', marginTop: 'auto', textAlign: 'center' }}>
-        {ms.logoImage
-          ? <img src={ms.logoImage} alt="" style={{ height: 18, maxWidth: 60, objectFit: 'contain', borderRadius: 4, marginBottom: 6 }} />
-          : <p style={{ color: 'white', fontWeight: 900, fontSize: 9, margin: '0 0 5px' }}>{ms.storeName || 'החנות שלי'}</p>
-        }
-        {hasSocial && (
-          <div style={{ display: 'flex', justifyContent: 'center', gap: 5, marginBottom: 8 }}>
-            {ms.social?.whatsapp && <div style={{ width: 16, height: 16, borderRadius: '50%', background: '#25D366', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><svg width="8" height="8" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2c-5.514 0-9.99 4.476-9.99 9.99 0 1.76.46 3.41 1.27 4.85L2 22l5.31-1.25A9.99 9.99 0 0012 22c5.514 0 9.99-4.476 9.99-9.99C21.99 6.486 17.514 2 11.99 2z"/></svg></div>}
-            {ms.social?.instagram && <div style={{ width: 16, height: 16, borderRadius: '50%', background: 'linear-gradient(45deg,#f09433,#bc1888)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div>}
-            {ms.social?.facebook && <div style={{ width: 16, height: 16, borderRadius: '50%', background: '#1877F2', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><svg width="7" height="7" viewBox="0 0 24 24" fill="white"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></div>}
-            {ms.social?.tiktok && <div style={{ width: 16, height: 16, borderRadius: '50%', background: '#000', border: '1px solid rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><svg width="7" height="7" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.2 8.2 0 004.82 1.55V6.79a4.85 4.85 0 01-1.05-.1z"/></svg></div>}
+      <div style={{ background: '#0f0f0f', padding: '14px 14px 18px', marginTop: 8, flexShrink: 0 }}>
+        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 10 }}>
+          {/* Brand */}
+          <div>
+            {ms.logoImage
+              ? <img src={ms.logoImage} alt="" style={{ height: 20, maxWidth: 64, objectFit: 'contain', borderRadius: 4, marginBottom: 4 }} />
+              : <p style={{ color: 'white', fontWeight: 900, fontSize: 9, margin: '0 0 3px' }}>{ms.storeName || 'החנות שלי'}</p>
+            }
+            {ms.tagline && <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: 6.5, margin: 0 }}>{ms.tagline?.slice(0,30)}</p>}
           </div>
-        )}
-        <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
-          <p style={{ fontSize: 6.5, color: 'rgba(255,255,255,0.2)', margin: 0 }}>© {ms.storeName}</p>
+          {/* Social icons */}
+          {hasSocial && (
+            <div style={{ display: 'flex', gap: 4 }}>
+              {ms.social?.whatsapp && <div style={{ width: 14, height: 14, borderRadius: 4, background: '#25D366', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><svg width="7" height="7" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2c-5.514 0-9.99 4.476-9.99 9.99 0 1.76.46 3.41 1.27 4.85L2 22l5.31-1.25A9.99 9.99 0 0012 22c5.514 0 9.99-4.476 9.99-9.99C21.99 6.486 17.514 2 11.99 2z"/></svg></div>}
+              {ms.social?.instagram && <div style={{ width: 14, height: 14, borderRadius: 4, background: 'linear-gradient(45deg,#f09433,#bc1888)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div>}
+              {ms.social?.facebook && <div style={{ width: 14, height: 14, borderRadius: 4, background: '#1877F2', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><svg width="6" height="6" viewBox="0 0 24 24" fill="white"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></div>}
+              {ms.social?.tiktok && <div style={{ width: 14, height: 14, borderRadius: 4, background: '#000', border: '1px solid rgba(255,255,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><svg width="6" height="6" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.2 8.2 0 004.82 1.55V6.79a4.85 4.85 0 01-1.05-.1z"/></svg></div>}
+              {ms.social?.website && <div style={{ width: 14, height: 14, borderRadius: 4, background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><svg width="6" height="6" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div>}
+            </div>
+          )}
+        </div>
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: 8, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <p style={{ fontSize: 6, color: 'rgba(255,255,255,0.18)', margin: 0 }}>© {new Date().getFullYear()} {ms.storeName}</p>
           {(ms.terms || ms.cancelPolicy) && (
-            <p style={{ fontSize: 6.5, color: 'rgba(255,255,255,0.35)', margin: 0, padding: '2px 6px', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 8 }}>תקנון</p>
+            <p style={{ fontSize: 6, color: 'rgba(255,255,255,0.3)', margin: 0, padding: '2px 6px', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, cursor: 'pointer' }}>תקנון</p>
           )}
         </div>
       </div>
