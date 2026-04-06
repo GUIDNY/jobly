@@ -830,7 +830,7 @@ function MultiStorePage({ ms }) {
           })()}
 
           {/* FOOTER */}
-          <footer style={{ background: '#0f0f0f', borderRadius: 20, overflow: 'hidden', marginTop: 20 }}>
+          <footer style={{ background: `linear-gradient(160deg, ${accent}22 0%, #0f0f0f 35%)`, borderRadius: 20, overflow: 'hidden', marginTop: 20 }}>
             {/* Top band */}
             <div style={{ padding: '52px 56px 44px', display: 'grid', gridTemplateColumns: '1fr auto', gap: 60, alignItems: 'start' }}>
 
