@@ -1121,26 +1121,74 @@ function MultiStorePage({ ms }) {
         </section>
       )}
 
-      {/* ── SECTION: תקנון ── */}
-      {(ms.terms || ms.cancelPolicy) && (
-        <section style={{ padding: '28px 20px', borderTop: '1px solid #ebebeb', background: '#fafafa' }}>
-          {ms.terms && (
-            <div style={{ marginBottom: ms.cancelPolicy ? 20 : 0 }}>
-              <p style={{ fontSize: 11, fontWeight: 800, color: '#999', letterSpacing: '1.5px', textTransform: 'uppercase', margin: '0 0 10px' }}>תקנון ותנאי שימוש</p>
-              <p style={{ fontSize: 13, color: '#666', lineHeight: 1.8, margin: 0, whiteSpace: 'pre-wrap' }}>{ms.terms}</p>
-            </div>
-          )}
-          {ms.cancelPolicy && (
-            <div>
-              <p style={{ fontSize: 11, fontWeight: 800, color: '#999', letterSpacing: '1.5px', textTransform: 'uppercase', margin: '0 0 10px' }}>מדיניות ביטולים</p>
-              <p style={{ fontSize: 13, color: '#666', lineHeight: 1.8, margin: 0, whiteSpace: 'pre-wrap' }}>{ms.cancelPolicy}</p>
-            </div>
-          )}
-        </section>
-      )}
+      {/* ── Footer ── */}
+      <footer style={{ background: '#111', padding: '32px 20px 48px', textAlign: 'center', marginTop: 4 }}>
+        {ms.logoImage
+          ? <img src={ms.logoImage} alt="" style={{ height: 36, maxWidth: 120, objectFit: 'contain', marginBottom: 10, filter: 'brightness(0) invert(1)' }} />
+          : <p style={{ fontWeight: 900, fontSize: 16, color: 'white', margin: '0 0 6px' }}>{ms.storeName || 'החנות שלי'}</p>
+        }
+        {ms.tagline && <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.35)', margin: '0 0 20px', letterSpacing: '1px' }}>{ms.tagline}</p>}
 
-      {/* Footer spacer */}
-      <div style={{ height: 100 }} />
+        {/* Social circles */}
+        {hasSocial && (
+          <div style={{ display: 'flex', justifyContent: 'center', gap: 12, flexWrap: 'wrap', marginBottom: 24 }}>
+            {ms.social?.whatsapp && <a href={`https://wa.me/${ms.social.whatsapp.replace(/\D/g,'').replace(/^0/,'972')}`} target="_blank" rel="noopener noreferrer" style={{ width: 40, height: 40, borderRadius: '50%', background: '#25D366', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2c-5.514 0-9.99 4.476-9.99 9.99 0 1.76.46 3.41 1.27 4.85L2 22l5.31-1.25A9.99 9.99 0 0012 22c5.514 0 9.99-4.476 9.99-9.99C21.99 6.486 17.514 2 11.99 2z"/></svg></a>}
+            {ms.social?.instagram && <a href={`https://instagram.com/${ms.social.instagram.replace('@','')}`} target="_blank" rel="noopener noreferrer" style={{ width: 40, height: 40, borderRadius: '50%', background: 'linear-gradient(45deg,#f09433,#bc1888)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>}
+            {ms.social?.facebook && <a href={`https://facebook.com/${ms.social.facebook}`} target="_blank" rel="noopener noreferrer" style={{ width: 40, height: 40, borderRadius: '50%', background: '#1877F2', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>}
+            {ms.social?.tiktok && <a href={`https://tiktok.com/@${ms.social.tiktok.replace('@','')}`} target="_blank" rel="noopener noreferrer" style={{ width: 40, height: 40, borderRadius: '50%', background: '#000', border: '1px solid rgba(255,255,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.2 8.2 0 004.82 1.55V6.79a4.85 4.85 0 01-1.05-.1z"/></svg></a>}
+            {ms.social?.website && <a href={ms.social.website} target="_blank" rel="noopener noreferrer" style={{ width: 40, height: 40, borderRadius: '50%', background: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></a>}
+          </div>
+        )}
+
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 16, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16 }}>
+          <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.2)', margin: 0 }}>© {ms.storeName || 'החנות שלי'}</p>
+          {(ms.terms || ms.cancelPolicy) && (
+            <button onClick={() => setShowTermsPopup(true)}
+              style={{ background: 'none', border: '1px solid rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.45)', fontSize: 11, fontWeight: 600, padding: '6px 14px', borderRadius: 20, cursor: 'pointer' }}>
+              תקנון ומדיניות
+            </button>
+          )}
+        </div>
+      </footer>
+
+      {/* Terms bottom sheet (mobile) */}
+      <AnimatePresence>
+        {showTermsPopup && (
+          <motion.div style={{ position: 'fixed', inset: 0, zIndex: 90, background: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'flex-end' }}
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            onClick={e => { if (e.target === e.currentTarget) setShowTermsPopup(false); }}>
+            <motion.div dir="rtl"
+              initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
+              transition={{ type: 'spring', damping: 32, stiffness: 340 }}
+              onClick={e => e.stopPropagation()}
+              style={{ width: '100%', background: 'white', borderRadius: '20px 20px 0 0', maxHeight: '85vh', overflowY: 'auto' }}>
+              <div style={{ position: 'sticky', top: 0, background: 'white', padding: '12px 20px 8px', borderBottom: '1px solid #f0f0f0' }}>
+                <div style={{ width: 36, height: 4, background: '#e0e0e0', borderRadius: 2, margin: '0 auto 10px' }} />
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <h3 style={{ fontSize: 17, fontWeight: 900, color: '#111', margin: 0 }}>תקנון ומדיניות</h3>
+                  <button onClick={() => setShowTermsPopup(false)} style={{ width: 30, height: 30, borderRadius: '50%', background: '#f3f4f6', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                  </button>
+                </div>
+              </div>
+              <div style={{ padding: '20px 20px 48px' }}>
+                {ms.terms && (
+                  <div style={{ marginBottom: ms.cancelPolicy ? 24 : 0 }}>
+                    <p style={{ fontSize: 11, fontWeight: 800, color: '#aaa', letterSpacing: '2px', textTransform: 'uppercase', margin: '0 0 10px' }}>תקנון ותנאי שימוש</p>
+                    <p style={{ fontSize: 14, color: '#444', lineHeight: 1.85, margin: 0, whiteSpace: 'pre-wrap' }}>{ms.terms}</p>
+                  </div>
+                )}
+                {ms.cancelPolicy && (
+                  <div>
+                    <p style={{ fontSize: 11, fontWeight: 800, color: '#aaa', letterSpacing: '2px', textTransform: 'uppercase', margin: '0 0 10px' }}>מדיניות ביטולים</p>
+                    <p style={{ fontSize: 14, color: '#444', lineHeight: 1.85, margin: 0, whiteSpace: 'pre-wrap' }}>{ms.cancelPolicy}</p>
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* ── Sticky cart bar ── */}
       <AnimatePresence>
