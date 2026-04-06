@@ -403,6 +403,8 @@ function MultiStorePage({ ms }) {
     else setCart(prev => { const n = [...prev]; n[idx] = { ...n[idx], qty }; return n; });
   };
 
+  const [activeTab, setActiveTab] = useState('cats');
+
   const handleCatClick = (cat, i) => {
     if (cat.displayMode === 'popup') setPopupCat(i);
     else setActiveCat(activeCat === i ? null : i);
