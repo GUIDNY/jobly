@@ -389,6 +389,7 @@ function MultiStorePage({ ms }) {
   const [showCart, setShowCart] = useState(false);
   const [showCheckout, setShowCheckout] = useState(false);
   const [showAllCats, setShowAllCats] = useState(false);
+  const [showTermsPopup, setShowTermsPopup] = useState(false);
   const isDesktop = useIsDesktop();
 
   const cartCount = cart.reduce((s, i) => s + (i.qty || 1), 0);
