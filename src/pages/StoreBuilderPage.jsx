@@ -1360,6 +1360,24 @@ export default function StoreBuilderPage() {
                           ))}
                         </div>
                       </div>
+                      {/* Display shape */}
+                      <div>
+                        <p className="text-xs font-semibold text-gray-500 mb-1.5">צורת הצגת הקטגוריה</p>
+                        <div className="flex gap-2">
+                          {[
+                            { v:'banner', label:'באנר', icon:'🖼' },
+                            { v:'square', label:'כרטיס', icon:'▪️' },
+                            { v:'circle', label:'עיגול', icon:'⬤' },
+                          ].map(opt => (
+                            <button key={opt.v} onClick={() => updCategory(ci,{ displayShape:opt.v })}
+                              className="flex-1 py-2 px-2 rounded-xl border-2 text-xs font-bold transition-all text-center"
+                              style={(cat.displayShape||'banner')===opt.v ? { borderColor:ms.accentColor||'#F4938C', background:`${ms.accentColor||'#F4938C'}11`, color:ms.accentColor||'#F4938C' } : { borderColor:'#e5e7eb', color:'#9ca3af' }}>
+                              <div className="text-base">{opt.icon}</div>
+                              <div>{opt.label}</div>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
                       {/* Size */}
                       <div>
                         <p className="text-xs font-semibold text-gray-500 mb-1.5">גודל בגריד</p>
