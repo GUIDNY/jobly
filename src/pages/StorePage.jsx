@@ -683,20 +683,36 @@ function MultiStorePage({ ms }) {
               (cat.products || []).filter(p => p.name && p.featured)
             );
             if (!featured.length) return null;
+            const scrollRef = React.createRef();
+            const CARD_W = 216; // card + gap
+            const scroll = (dir) => {
+              if (scrollRef.current) scrollRef.current.scrollBy({ left: dir * CARD_W, behavior: 'smooth' });
+            };
+            const single = featured.length === 1;
             return (
               <section style={{ marginBottom: 80 }}>
-                <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 24 }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
                   <h2 style={{ fontSize: 22, fontWeight: 900, color: '#111', margin: 0 }}>מוצרים מובילים</h2>
-                  <span style={{ fontSize: 12, color: '#aaa' }}>{featured.length} מוצרים</span>
+                  {!single && (
+                    <div style={{ display: 'flex', gap: 8 }}>
+                      <button onClick={() => scroll(1)} style={{ width: 36, height: 36, borderRadius: '50%', border: '1.5px solid #e5e7eb', background: 'white', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#111" strokeWidth="2.5" strokeLinecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+                      </button>
+                      <button onClick={() => scroll(-1)} style={{ width: 36, height: 36, borderRadius: '50%', border: '1.5px solid #e5e7eb', background: 'white', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#111" strokeWidth="2.5" strokeLinecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+                      </button>
+                    </div>
+                  )}
                 </div>
-                <div style={{ display: 'flex', gap: 16, overflowX: 'auto', paddingBottom: 8, scrollSnapType: 'x mandatory' }}
+                <div ref={scrollRef}
+                  style={{ display: 'flex', gap: 16, overflowX: single ? 'visible' : 'auto', paddingBottom: 8, scrollSnapType: 'x mandatory', justifyContent: single ? 'center' : 'flex-start' }}
                   className="hide-scrollbar">
                   {featured.map((p, i) => (
                     <div key={i} onClick={() => setSelectedProduct(p)}
                       style={{ flexShrink: 0, width: 200, scrollSnapAlign: 'start', cursor: 'pointer' }}>
                       <div style={{ position: 'relative', width: 200, height: 200, borderRadius: 12, overflow: 'hidden', background: '#f5f5f5', marginBottom: 10 }}>
                         {p.image
-                          ? <img src={p.image} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.3s' }} />
+                          ? <img src={p.image} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                           : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><span style={{ fontSize: 56 }}>🛍️</span></div>
                         }
                         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 50%)' }} />
