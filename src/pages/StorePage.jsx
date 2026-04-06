@@ -705,7 +705,7 @@ function MultiStorePage({ ms }) {
                     </div>
                   )}
                 </div>
-                <div ref={scrollRef}
+                <div ref={dtFeaturedRef}
                   style={{ display: 'flex', gap: 16, overflowX: single ? 'visible' : 'auto', paddingBottom: 8, scrollSnapType: 'x mandatory', justifyContent: single ? 'center' : 'flex-start' }}
                   className="hide-scrollbar">
                   {featured.map((p, i) => (
