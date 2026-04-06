@@ -870,20 +870,20 @@ function MultiStorePage({ ms }) {
                   style={{ borderRadius: 18, overflow: 'hidden', background: 'white', cursor: 'pointer',
                     boxShadow: activeCat === i ? `0 0 0 2px ${accent}, 0 8px 24px rgba(0,0,0,0.12)` : '0 2px 10px rgba(0,0,0,0.07)',
                     transform: activeCat === i ? 'translateY(-2px)' : 'none', transition: 'all 0.2s' }}>
-                  <div style={{ height: 110, background: cat.image ? 'transparent' : `linear-gradient(135deg,${accent}44,${accent}11)`, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', position: 'relative' }}>
+                  <div style={{ height: 140, background: cat.image ? 'transparent' : `linear-gradient(135deg,${accent}55,${accent}22)`, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', position: 'relative' }}>
                     {cat.image
                       ? <img src={cat.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                      : <span style={{ fontSize: 36 }}>{cat.icon || '🛍️'}</span>
+                      : <span style={{ fontSize: 44 }}>{cat.icon || '🛍️'}</span>
                     }
-                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(transparent 50%, rgba(0,0,0,0.35))' }} />
-                    <div style={{ position: 'absolute', top: 8, left: 8, background: 'rgba(255,255,255,0.88)', backdropFilter: 'blur(4px)', borderRadius: 20, padding: '2px 8px' }}>
-                      <span style={{ fontSize: 9, fontWeight: 800, color: '#374151' }}>{(cat.products||[]).filter(p=>p.name).length} פריטים</span>
+                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(transparent 40%, rgba(0,0,0,0.45))' }} />
+                    <div style={{ position: 'absolute', top: 8, right: 8, background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(6px)', borderRadius: 20, padding: '3px 9px' }}>
+                      <span style={{ fontSize: 9, fontWeight: 800, color: 'white' }}>{(cat.products||[]).filter(p=>p.name).length} פריטים</span>
                     </div>
                   </div>
-                  <div style={{ padding: '8px 10px 10px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <p style={{ fontSize: 12, fontWeight: 800, color: '#111', margin: 0 }}>{cat.name || 'קטגוריה'}</p>
-                    <div style={{ width: 22, height: 22, borderRadius: '50%', background: `${accent}18`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="3" strokeLinecap="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                  <div style={{ padding: '9px 12px 11px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <p style={{ fontSize: 13, fontWeight: 800, color: '#111', margin: 0 }}>{cat.name || 'קטגוריה'}</p>
+                    <div style={{ width: 24, height: 24, borderRadius: '50%', background: `${accent}20`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
                     </div>
                   </div>
                 </div>
