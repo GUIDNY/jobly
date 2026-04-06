@@ -490,6 +490,66 @@ function MultiStorePage({ ms }) {
     </AnimatePresence>
   );
 
+  const ProductDetailModal = () => {
+    const p = selectedProduct;
+    if (!p) return null;
+    const isYouTube = p.videoUrl && (p.videoUrl.includes('youtube.com') || p.videoUrl.includes('youtu.be'));
+    const ytId = isYouTube ? (p.videoUrl.match(/(?:v=|youtu\.be\/)([^&?/]+)/)?.[1]) : null;
+    return (
+      <AnimatePresence>
+        <motion.div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.55)', zIndex: 80, display: 'flex', alignItems: isDesktop ? 'center' : 'flex-end', justifyContent: 'center' }}
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+          onClick={e => { if (e.target === e.currentTarget) setSelectedProduct(null); }}>
+          <motion.div dir="rtl" initial={isDesktop ? { scale: 0.92, opacity: 0 } : { y: '100%' }} animate={isDesktop ? { scale: 1, opacity: 1 } : { y: 0 }} exit={isDesktop ? { scale: 0.92, opacity: 0 } : { y: '100%' }}
+            transition={{ type: 'spring', damping: 30, stiffness: 340 }}
+            onClick={e => e.stopPropagation()}
+            style={{ background: 'white', borderRadius: isDesktop ? 24 : '24px 24px 0 0', width: isDesktop ? 480 : '100%', maxWidth: isDesktop ? 480 : 640, maxHeight: isDesktop ? '85vh' : '88vh', overflowY: 'auto', boxShadow: isDesktop ? '0 24px 80px rgba(0,0,0,0.2)' : undefined }}>
+            {!isDesktop && <div style={{ width: 40, height: 4, background: '#e5e7eb', borderRadius: 2, margin: '12px auto 0' }} />}
+            {/* Image */}
+            {p.image && (
+              <div style={{ width: '100%', height: 260, overflow: 'hidden', flexShrink: 0 }}>
+                <img src={p.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              </div>
+            )}
+            <div style={{ padding: '20px 20px 36px' }}>
+              {/* Header */}
+              <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 12 }}>
+                <div style={{ flex: 1, paddingLeft: 12 }}>
+                  <h2 style={{ fontSize: 20, fontWeight: 900, color: '#111', margin: '0 0 6px', lineHeight: 1.2 }}>{p.name}</h2>
+                  {p.price && <p style={{ fontSize: 24, fontWeight: 900, color: accent, margin: 0 }}>₪{p.price}</p>}
+                </div>
+                <button onClick={() => setSelectedProduct(null)} style={{ width: 32, height: 32, borderRadius: '50%', background: '#f3f4f6', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6b7280" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+              </div>
+              {/* Description */}
+              {p.description && (
+                <div style={{ background: '#f9fafb', borderRadius: 14, padding: '14px 16px', marginBottom: 16 }}>
+                  <p style={{ fontSize: 13, color: '#374151', lineHeight: 1.8, margin: 0, whiteSpace: 'pre-wrap' }}>{p.description}</p>
+                </div>
+              )}
+              {/* Video */}
+              {p.videoUrl && (
+                <div style={{ marginBottom: 16, borderRadius: 14, overflow: 'hidden' }}>
+                  {ytId ? (
+                    <iframe width="100%" height="220" src={`https://www.youtube.com/embed/${ytId}`} frameBorder="0" allowFullScreen style={{ display: 'block' }} />
+                  ) : (
+                    <video src={p.videoUrl} controls style={{ width: '100%', borderRadius: 14, maxHeight: 220 }} />
+                  )}
+                </div>
+              )}
+              {/* Add to cart */}
+              <button onClick={() => { addToCart(p); setSelectedProduct(null); }}
+                style={{ width: '100%', padding: '15px', borderRadius: 14, background: `linear-gradient(135deg,${accent},#5BC4C8)`, color: 'white', fontWeight: 900, fontSize: 16, border: 'none', cursor: 'pointer', boxShadow: `0 4px 20px ${accent}55` }}>
+                + הוסף לסל
+              </button>
+            </div>
+          </motion.div>
+        </motion.div>
+      </AnimatePresence>
+    );
+  };
+
   const CategoryPopup = () => (
     <AnimatePresence>
       {popupCat !== null && ms.categories?.[popupCat] && (
