@@ -1288,14 +1288,15 @@ export default function StoreBuilderPage() {
                       rows={5} className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 resize-none" />
                   </div>
                 </div>
-                <div className="flex gap-2">
+                <div className="md:hidden flex gap-2">
                   <button onClick={() => setMultiStep('info')} className="px-5 py-3 rounded-2xl text-sm font-bold text-gray-600 bg-white border border-gray-200">← חזור</button>
                   <button onClick={() => setMultiStep('cats')} className="flex-1 py-3 rounded-2xl text-sm font-bold text-white" style={{ background:'linear-gradient(135deg,#F4938C,#5BC4C8)' }}>הבא: קטגוריות →</button>
                 </div>
-              </>)}
+              </div>
 
               {/* STEP: cats */}
-              {multiStep === 'cats' && (<>
+              <div className={multiStep !== 'cats' ? 'hidden md:block' : ''}>
+                <p className="hidden md:block text-xs font-bold text-gray-400 uppercase tracking-widest px-1 mb-3">📂 קטגוריות ומוצרים</p>
                 {/* Mobile compact */}
                 <div className="md:hidden bg-white rounded-2xl p-3 border border-gray-100 space-y-2" style={{ boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
                   <button onClick={() => setEditingCatIdx(-1)} className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors">
