@@ -685,10 +685,9 @@ function MultiStorePage({ ms }) {
               (cat.products || []).filter(p => p.name && p.featured)
             );
             if (!featured.length) return null;
-            const scrollRef = React.createRef();
             const CARD_W = 216; // card + gap
             const scroll = (dir) => {
-              if (scrollRef.current) scrollRef.current.scrollBy({ left: dir * CARD_W, behavior: 'smooth' });
+              if (dtFeaturedRef.current) dtFeaturedRef.current.scrollBy({ left: dir * CARD_W, behavior: 'smooth' });
             };
             const single = featured.length === 1;
             return (
