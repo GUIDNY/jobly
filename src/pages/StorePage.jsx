@@ -888,126 +888,169 @@ function MultiStorePage({ ms }) {
       {ms.coverImage ? (
         <div style={{ position: 'relative', height: 260, overflow: 'hidden' }}>
           <img src={ms.coverImage} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, transparent 25%, rgba(0,0,0,0.6) 100%)' }} />
-          <div style={{ position: 'absolute', bottom: 20, right: 0, left: 0, textAlign: 'center' }}>
-            {ms.logoImage && <img src={ms.logoImage} alt="" style={{ width: 52, height: 52, borderRadius: 14, border: '2px solid rgba(255,255,255,0.85)', objectFit: 'cover', marginBottom: 8, boxShadow: '0 4px 16px rgba(0,0,0,0.3)' }} />}
-            <p style={{ color: 'white', fontWeight: 900, fontSize: 22, margin: 0, letterSpacing: '0.5px', textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}>{ms.storeName || 'החנות שלי'}</p>
-            {ms.tagline && <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: 12, margin: '4px 0 0', letterSpacing: '1px' }}>{ms.tagline}</p>}
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, transparent 30%, rgba(0,0,0,0.65) 100%)' }} />
+          {/* Logo + name pill at bottom */}
+          <div style={{ position: 'absolute', bottom: 18, right: 16, left: 16, display: 'flex', alignItems: 'center', gap: 12 }}>
+            {ms.logoImage && (
+              <div style={{ width: 52, height: 52, borderRadius: 14, overflow: 'hidden', border: '2px solid rgba(255,255,255,0.9)', flexShrink: 0, boxShadow: '0 4px 16px rgba(0,0,0,0.35)', background: 'white' }}>
+                <img src={ms.logoImage} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              </div>
+            )}
+            <div>
+              <p style={{ color: 'white', fontWeight: 900, fontSize: 20, margin: 0, lineHeight: 1.2, textShadow: '0 2px 12px rgba(0,0,0,0.6)' }}>{ms.storeName || 'החנות שלי'}</p>
+              {ms.tagline && <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: 12, margin: '3px 0 0', textShadow: '0 1px 6px rgba(0,0,0,0.5)' }}>{ms.tagline}</p>}
+            </div>
           </div>
         </div>
       ) : (
-        <div style={{ background: '#111', padding: '40px 20px 36px', textAlign: 'center' }}>
+        <div style={{ background: '#111', padding: '44px 20px 38px', textAlign: 'center' }}>
           {ms.logoImage
-            ? <img src={ms.logoImage} alt="" style={{ width: 72, height: 72, borderRadius: 18, objectFit: 'cover', border: '2px solid rgba(255,255,255,0.2)', marginBottom: 14 }} />
-            : <div style={{ width: 64, height: 64, borderRadius: 18, background: `${accent}33`, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 14px' }}><span style={{ fontSize: 32 }}>🛍️</span></div>
+            ? <img src={ms.logoImage} alt="" style={{ width: 80, height: 80, borderRadius: 20, objectFit: 'cover', border: '2px solid rgba(255,255,255,0.15)', marginBottom: 16, boxShadow: '0 8px 24px rgba(0,0,0,0.3)' }} />
+            : <div style={{ width: 68, height: 68, borderRadius: 20, background: `${accent}44`, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}><span style={{ fontSize: 34 }}>🛍️</span></div>
           }
-          <p style={{ color: 'white', fontWeight: 900, fontSize: 22, margin: '0 0 6px', letterSpacing: '0.3px' }}>{ms.storeName || 'החנות שלי'}</p>
-          {ms.tagline && <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 12, margin: 0, letterSpacing: '1.5px', textTransform: 'uppercase' }}>{ms.tagline}</p>}
+          <p style={{ color: 'white', fontWeight: 900, fontSize: 24, margin: '0 0 6px', letterSpacing: '-0.3px' }}>{ms.storeName || 'החנות שלי'}</p>
+          {ms.tagline && <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: 12, margin: 0, letterSpacing: '1.5px', textTransform: 'uppercase' }}>{ms.tagline}</p>}
         </div>
       )}
 
-      {/* ── SECTION: קטגוריות ── */}
-      {(ms.categories || []).length > 0 && (
-        <section style={{ paddingBottom: 8 }}>
-          <div style={{ padding: '24px 20px 14px', display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
-            <h2 style={{ fontSize: 18, fontWeight: 900, color: '#111', margin: 0, letterSpacing: '-0.3px' }}>קטגוריות</h2>
-            <span style={{ fontSize: 11, color: '#aaa' }}>{ms.categories.length} קטגוריות</span>
-          </div>
-
-          {/* Category banner grid */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2 }}>
-            {ms.categories.map((cat, i) => (
-              <div key={i} onClick={() => handleCatClick(cat, i)}
-                style={{ position: 'relative', height: 160, overflow: 'hidden', cursor: 'pointer',
-                  outline: activeCat === i ? `2.5px solid ${accent}` : 'none', transition: 'outline 0.15s' }}>
-                {cat.image
-                  ? <img src={cat.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.35s', transform: activeCat === i ? 'scale(1.05)' : 'scale(1)' }} />
-                  : <div style={{ width: '100%', height: '100%', background: '#1a1a1a', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><span style={{ fontSize: 44 }}>{cat.icon || '🛍️'}</span></div>
-                }
-                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 25%, rgba(0,0,0,0.72) 100%)' }} />
-                <div style={{ position: 'absolute', bottom: 0, right: 0, left: 0, padding: '8px 12px 13px' }}>
-                  <p style={{ color: 'white', fontWeight: 900, fontSize: 14, margin: '0 0 2px', lineHeight: 1.2 }}>{cat.name || 'קטגוריה'}</p>
-                  <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 10, margin: 0 }}>{(cat.products||[]).filter(p=>p.name).length} פריטים</p>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Inline products (page-mode expand) */}
-          <AnimatePresence>
-            {activeCat !== null && ms.categories[activeCat]?.displayMode !== 'popup' && (
-              <motion.div key={`inline-${activeCat}`} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
-                <div style={{ padding: '18px 16px 4px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid #ebebeb', marginTop: 2 }}>
-                  <h3 style={{ fontSize: 16, fontWeight: 900, color: '#111', margin: 0 }}>{ms.categories[activeCat].name}</h3>
-                  <button onClick={() => setActiveCat(null)} style={{ width: 28, height: 28, borderRadius: '50%', background: '#f3f4f6', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#666" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-                  </button>
-                </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1, padding: '10px 0 0' }}>
-                  {(ms.categories[activeCat].products || []).filter(p => p.name).map((p, pi) => (
-                    <ProductCard key={pi} p={p} cols={2} />
-                  ))}
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </section>
-      )}
-
       {/* ── SECTION: אז מה אנחנו ── */}
-      {(ms.aboutText || ms.aboutTitle || ms.storeName) && (
-        <section style={{ padding: '32px 20px', borderTop: '1px solid #ebebeb' }}>
-          <h2 style={{ fontSize: 18, fontWeight: 900, color: '#111', margin: '0 0 16px', letterSpacing: '-0.3px' }}>{ms.aboutTitle || 'אז מה אנחנו?'}</h2>
-          {ms.aboutText
-            ? <p style={{ fontSize: 15, color: '#444', lineHeight: 1.9, margin: 0, whiteSpace: 'pre-wrap' }}>{ms.aboutText}</p>
-            : ms.tagline && <p style={{ fontSize: 15, color: '#666', lineHeight: 1.8, margin: 0 }}>{ms.tagline}</p>
-          }
+      {(ms.aboutText || ms.aboutTitle) && (
+        <section style={{ padding: '30px 20px', borderBottom: '1px solid #ebebeb' }}>
+          <h2 style={{ fontSize: 18, fontWeight: 900, color: '#111', margin: '0 0 14px', letterSpacing: '-0.3px' }}>{ms.aboutTitle || 'אז מה אנחנו?'}</h2>
+          <p style={{ fontSize: 14, color: '#555', lineHeight: 1.85, margin: 0, whiteSpace: 'pre-wrap' }}>{ms.aboutText}</p>
         </section>
       )}
 
-      {/* ── SECTION: צרו קשר ── */}
+      {/* ── SECTION: קטגוריות מובילות ── */}
+      {(ms.categories || []).length > 0 && (() => {
+        const featuredCats = ms.categories.slice(0, 4);
+        const extraCats = ms.categories.slice(4);
+        const CatBanner = ({ cat, i }) => (
+          <div onClick={() => handleCatClick(cat, i)}
+            style={{ position: 'relative', height: 160, overflow: 'hidden', cursor: 'pointer',
+              outline: activeCat === i ? `2.5px solid ${accent}` : 'none', transition: 'outline 0.15s' }}>
+            {cat.image
+              ? <img src={cat.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.35s', transform: activeCat === i ? 'scale(1.05)' : 'scale(1)' }} />
+              : <div style={{ width: '100%', height: '100%', background: '#1a1a1a', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><span style={{ fontSize: 44 }}>{cat.icon || '🛍️'}</span></div>
+            }
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 25%, rgba(0,0,0,0.72) 100%)' }} />
+            <div style={{ position: 'absolute', bottom: 0, right: 0, left: 0, padding: '8px 12px 13px' }}>
+              <p style={{ color: 'white', fontWeight: 900, fontSize: 14, margin: '0 0 2px', lineHeight: 1.2 }}>{cat.name || 'קטגוריה'}</p>
+              <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 10, margin: 0 }}>{(cat.products||[]).filter(p=>p.name).length} פריטים</p>
+            </div>
+          </div>
+        );
+        return (
+          <section>
+            <div style={{ padding: '24px 20px 14px', display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
+              <h2 style={{ fontSize: 18, fontWeight: 900, color: '#111', margin: 0, letterSpacing: '-0.3px' }}>קטגוריות מובילות</h2>
+              <span style={{ fontSize: 11, color: '#aaa' }}>{ms.categories.length} קטגוריות</span>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2 }}>
+              {featuredCats.map((cat, i) => <CatBanner key={i} cat={cat} i={i} />)}
+            </div>
+
+            {/* Inline products (page-mode expand) */}
+            <AnimatePresence>
+              {activeCat !== null && activeCat < 4 && ms.categories[activeCat]?.displayMode !== 'popup' && (
+                <motion.div key={`inline-${activeCat}`} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
+                  <div style={{ padding: '16px 16px 4px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid #ebebeb', marginTop: 2 }}>
+                    <h3 style={{ fontSize: 16, fontWeight: 900, color: '#111', margin: 0 }}>{ms.categories[activeCat].name}</h3>
+                    <button onClick={() => setActiveCat(null)} style={{ width: 28, height: 28, borderRadius: '50%', background: '#f3f4f6', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#666" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    </button>
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1, padding: '10px 0 0' }}>
+                    {(ms.categories[activeCat].products || []).filter(p => p.name).map((p, pi) => <ProductCard key={pi} p={p} cols={2} />)}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Extra categories accordion */}
+            {extraCats.length > 0 && (
+              <div style={{ borderTop: '1px solid #ebebeb', marginTop: 8 }}>
+                <button onClick={() => setShowAllCats(v => !v)}
+                  style={{ width: '100%', padding: '16px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'none', border: 'none', cursor: 'pointer' }}>
+                  <span style={{ fontSize: 14, fontWeight: 700, color: '#111' }}>כל הקטגוריות</span>
+                  <span style={{ fontSize: 22, color: '#888', lineHeight: 1, fontWeight: 300 }}>{showAllCats ? '−' : '+'}</span>
+                </button>
+                <AnimatePresence>
+                  {showAllCats && (
+                    <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.22 }} style={{ overflow: 'hidden' }}>
+                      {extraCats.map((cat, idx) => {
+                        const realIdx = idx + 4;
+                        return (
+                          <div key={realIdx} onClick={() => handleCatClick(cat, realIdx)}
+                            style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '12px 20px', borderTop: '1px solid #f3f3f3', cursor: 'pointer', background: activeCat === realIdx ? '#fafafa' : 'white' }}>
+                            <div style={{ width: 48, height: 48, borderRadius: 10, overflow: 'hidden', flexShrink: 0, background: '#f0f0f0' }}>
+                              {cat.image ? <img src={cat.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><span style={{ fontSize: 22 }}>{cat.icon || '🛍️'}</span></div>}
+                            </div>
+                            <div style={{ flex: 1 }}>
+                              <p style={{ fontSize: 14, fontWeight: 700, color: '#111', margin: 0 }}>{cat.name}</p>
+                              <p style={{ fontSize: 11, color: '#aaa', margin: 0 }}>{(cat.products||[]).filter(p=>p.name).length} פריטים</p>
+                            </div>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#bbb" strokeWidth="2" strokeLinecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+                          </div>
+                        );
+                      })}
+                      {/* Inline products for extra cats */}
+                      <AnimatePresence>
+                        {activeCat !== null && activeCat >= 4 && ms.categories[activeCat]?.displayMode !== 'popup' && (
+                          <motion.div key={`inline-extra-${activeCat}`} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
+                            <div style={{ padding: '16px 16px 4px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '2px solid #111' }}>
+                              <h3 style={{ fontSize: 15, fontWeight: 900, color: '#111', margin: 0 }}>{ms.categories[activeCat].name}</h3>
+                              <button onClick={() => setActiveCat(null)} style={{ fontSize: 12, color: '#888', background: 'none', border: 'none', cursor: 'pointer' }}>סגור ✕</button>
+                            </div>
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1, padding: '10px 0 0' }}>
+                              {(ms.categories[activeCat].products || []).filter(p => p.name).map((p, pi) => <ProductCard key={pi} p={p} cols={2} />)}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            )}
+          </section>
+        );
+      })()}
+
+      {/* ── SECTION: צרו קשר (royalty style) ── */}
       {hasSocial && (
-        <section style={{ padding: '28px 20px', borderTop: '1px solid #ebebeb' }}>
-          <h2 style={{ fontSize: 18, fontWeight: 900, color: '#111', margin: '0 0 16px', letterSpacing: '-0.3px' }}>צרו קשר</h2>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+        <section style={{ padding: '36px 20px 32px', borderTop: '1px solid #ebebeb', textAlign: 'center' }}>
+          <p style={{ fontSize: 11, fontWeight: 800, color: '#888', letterSpacing: '2px', textTransform: 'uppercase', margin: '0 0 20px' }}>עקבו אחרינו</p>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: 16, flexWrap: 'wrap' }}>
             {ms.social?.whatsapp && (
-              <a href={`https://wa.me/${ms.social.whatsapp.replace(/\D/g,'').replace(/^0/,'972')}`} target="_blank" rel="noopener noreferrer"
-                style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 16px', background: '#f9fafb', textDecoration: 'none', border: '1px solid #e8e8e8' }}>
-                <div style={{ width: 38, height: 38, borderRadius: '50%', background: '#25D366', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2c-5.514 0-9.99 4.476-9.99 9.99 0 1.76.46 3.41 1.27 4.85L2 22l5.31-1.25A9.99 9.99 0 0012 22c5.514 0 9.99-4.476 9.99-9.99C21.99 6.486 17.514 2 11.99 2z"/></svg>
-                </div>
-                <div>
-                  <p style={{ fontSize: 14, fontWeight: 700, color: '#111', margin: 0 }}>WhatsApp</p>
-                  <p style={{ fontSize: 12, color: '#888', margin: 0 }}>{ms.social.whatsapp}</p>
-                </div>
+              <a href={`https://wa.me/${ms.social.whatsapp.replace(/\D/g,'').replace(/^0/,'972')}`} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, textDecoration: 'none' }}>
+                <div style={{ width: 52, height: 52, borderRadius: '50%', background: '#25D366', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 12px rgba(37,211,102,0.3)' }}><svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2c-5.514 0-9.99 4.476-9.99 9.99 0 1.76.46 3.41 1.27 4.85L2 22l5.31-1.25A9.99 9.99 0 0012 22c5.514 0 9.99-4.476 9.99-9.99C21.99 6.486 17.514 2 11.99 2z"/></svg></div>
+                <span style={{ fontSize: 10, color: '#888', fontWeight: 600 }}>WhatsApp</span>
               </a>
             )}
             {ms.social?.instagram && (
-              <a href={`https://instagram.com/${ms.social.instagram.replace('@','')}`} target="_blank" rel="noopener noreferrer"
-                style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 16px', background: '#f9fafb', textDecoration: 'none', border: '1px solid #e8e8e8' }}>
-                <div style={{ width: 38, height: 38, borderRadius: '50%', background: 'linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div>
-                <div><p style={{ fontSize: 14, fontWeight: 700, color: '#111', margin: 0 }}>Instagram</p><p style={{ fontSize: 12, color: '#888', margin: 0 }}>{ms.social.instagram}</p></div>
+              <a href={`https://instagram.com/${ms.social.instagram.replace('@','')}`} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, textDecoration: 'none' }}>
+                <div style={{ width: 52, height: 52, borderRadius: '50%', background: 'linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div>
+                <span style={{ fontSize: 10, color: '#888', fontWeight: 600 }}>Instagram</span>
               </a>
             )}
             {ms.social?.facebook && (
-              <a href={`https://facebook.com/${ms.social.facebook}`} target="_blank" rel="noopener noreferrer"
-                style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 16px', background: '#f9fafb', textDecoration: 'none', border: '1px solid #e8e8e8' }}>
-                <div style={{ width: 38, height: 38, borderRadius: '50%', background: '#1877F2', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></div>
-                <div><p style={{ fontSize: 14, fontWeight: 700, color: '#111', margin: 0 }}>Facebook</p><p style={{ fontSize: 12, color: '#888', margin: 0 }}>{ms.social.facebook}</p></div>
+              <a href={`https://facebook.com/${ms.social.facebook}`} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, textDecoration: 'none' }}>
+                <div style={{ width: 52, height: 52, borderRadius: '50%', background: '#1877F2', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></div>
+                <span style={{ fontSize: 10, color: '#888', fontWeight: 600 }}>Facebook</span>
               </a>
             )}
             {ms.social?.tiktok && (
-              <a href={`https://tiktok.com/@${ms.social.tiktok.replace('@','')}`} target="_blank" rel="noopener noreferrer"
-                style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 16px', background: '#f9fafb', textDecoration: 'none', border: '1px solid #e8e8e8' }}>
-                <div style={{ width: 38, height: 38, borderRadius: '50%', background: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.2 8.2 0 004.82 1.55V6.79a4.85 4.85 0 01-1.05-.1z"/></svg></div>
-                <div><p style={{ fontSize: 14, fontWeight: 700, color: '#111', margin: 0 }}>TikTok</p><p style={{ fontSize: 12, color: '#888', margin: 0 }}>{ms.social.tiktok}</p></div>
+              <a href={`https://tiktok.com/@${ms.social.tiktok.replace('@','')}`} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, textDecoration: 'none' }}>
+                <div style={{ width: 52, height: 52, borderRadius: '50%', background: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.2 8.2 0 004.82 1.55V6.79a4.85 4.85 0 01-1.05-.1z"/></svg></div>
+                <span style={{ fontSize: 10, color: '#888', fontWeight: 600 }}>TikTok</span>
               </a>
             )}
             {ms.social?.website && (
-              <a href={ms.social.website} target="_blank" rel="noopener noreferrer"
-                style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 16px', background: '#f9fafb', textDecoration: 'none', border: '1px solid #e8e8e8' }}>
-                <div style={{ width: 38, height: 38, borderRadius: '50%', background: '#111', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div>
-                <div><p style={{ fontSize: 14, fontWeight: 700, color: '#111', margin: 0 }}>אתר</p><p style={{ fontSize: 12, color: '#888', margin: 0, maxWidth: 200, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{ms.social.website}</p></div>
+              <a href={ms.social.website} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, textDecoration: 'none' }}>
+                <div style={{ width: 52, height: 52, borderRadius: '50%', background: '#111', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div>
+                <span style={{ fontSize: 10, color: '#888', fontWeight: 600 }}>אתר</span>
               </a>
             )}
           </div>
