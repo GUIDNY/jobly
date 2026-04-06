@@ -782,12 +782,89 @@ function MultiStorePage({ ms }) {
 
   const hasSocial = ms.social?.instagram || ms.social?.facebook || ms.social?.whatsapp || ms.social?.tiktok || ms.social?.website;
 
+  // ── Product detail bottom sheet (mobile, full redesign) ──────────────────────
+  const MobileProductSheet = () => {
+    const p = selectedProduct;
+    if (!p) return null;
+    const isYouTube = p.videoUrl && (p.videoUrl.includes('youtube.com') || p.videoUrl.includes('youtu.be'));
+    const ytId = isYouTube ? (p.videoUrl.match(/(?:v=|youtu\.be\/)([^&?/]+)/)?.[1]) : null;
+    return (
+      <AnimatePresence>
+        <motion.div style={{ position: 'fixed', inset: 0, zIndex: 90, background: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'flex-end' }}
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+          onClick={e => { if (e.target === e.currentTarget) setSelectedProduct(null); }}>
+          <motion.div dir="rtl"
+            initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
+            transition={{ type: 'spring', damping: 32, stiffness: 340 }}
+            onClick={e => e.stopPropagation()}
+            style={{ width: '100%', maxWidth: 640, background: 'white', borderRadius: '20px 20px 0 0', maxHeight: '92vh', overflowY: 'auto', position: 'relative' }}>
+
+            {/* Drag handle */}
+            <div style={{ position: 'sticky', top: 0, zIndex: 10, background: 'white', paddingTop: 12, paddingBottom: 4 }}>
+              <div style={{ width: 36, height: 4, background: '#e0e0e0', borderRadius: 2, margin: '0 auto 8px' }} />
+              <button onClick={() => setSelectedProduct(null)}
+                style={{ position: 'absolute', top: 10, left: 16, width: 32, height: 32, borderRadius: '50%', background: '#f3f4f6', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
+            </div>
+
+            {/* Product image - full width */}
+            {p.image && (
+              <div style={{ width: '100%', aspectRatio: '4/3', overflow: 'hidden', background: '#f5f5f5' }}>
+                <img src={p.image} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              </div>
+            )}
+
+            <div style={{ padding: '20px 20px 40px' }}>
+              {/* Name + price row */}
+              <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12, marginBottom: 16 }}>
+                <h2 style={{ fontSize: 22, fontWeight: 900, color: '#111', margin: 0, lineHeight: 1.25, flex: 1 }}>{p.name}</h2>
+                {p.price && (
+                  <div style={{ flexShrink: 0, textAlign: 'left' }}>
+                    <p style={{ fontSize: 24, fontWeight: 900, color: '#111', margin: 0 }}>₪{p.price}</p>
+                  </div>
+                )}
+              </div>
+
+              {/* Description */}
+              {p.description && (
+                <div style={{ marginBottom: 20 }}>
+                  <p style={{ fontSize: 11, fontWeight: 800, color: '#999', letterSpacing: '1.5px', textTransform: 'uppercase', margin: '0 0 8px' }}>אודות המוצר</p>
+                  <p style={{ fontSize: 15, color: '#444', lineHeight: 1.85, margin: 0, whiteSpace: 'pre-wrap' }}>{p.description}</p>
+                </div>
+              )}
+
+              {/* Video */}
+              {p.videoUrl && (
+                <div style={{ marginBottom: 20, borderRadius: 12, overflow: 'hidden', background: '#000' }}>
+                  {ytId
+                    ? <iframe width="100%" height="220" src={`https://www.youtube.com/embed/${ytId}`} frameBorder="0" allowFullScreen style={{ display: 'block' }} />
+                    : <video src={p.videoUrl} controls style={{ width: '100%', maxHeight: 220, display: 'block' }} />
+                  }
+                </div>
+              )}
+
+              {/* Divider */}
+              <div style={{ height: 1, background: '#ebebeb', margin: '20px 0' }} />
+
+              {/* Add to cart */}
+              <button onClick={() => { addToCart(p); setSelectedProduct(null); }}
+                style={{ width: '100%', padding: '16px', background: '#111', color: 'white', fontWeight: 900, fontSize: 15, border: 'none', cursor: 'pointer', letterSpacing: '0.3px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+                הוסף לסל{p.price ? ` — ₪${p.price}` : ''}
+              </button>
+            </div>
+          </motion.div>
+        </motion.div>
+      </AnimatePresence>
+    );
+  };
+
   return (
     <div dir="rtl" style={{ fontFamily: "'Heebo','Segoe UI',sans-serif", background: 'white', minHeight: '100vh', maxWidth: 640, margin: '0 auto', position: 'relative' }}>
 
       {/* ── Sticky top bar ── */}
       <div style={{ position: 'sticky', top: 0, zIndex: 40, background: 'white', borderBottom: '1px solid #e8e8e8', padding: '0 16px', height: 54, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        {/* Cart icon with badge */}
         <button onClick={() => setShowCart(true)} style={{ position: 'relative', width: 38, height: 38, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'none', border: 'none', cursor: 'pointer', flexShrink: 0 }}>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#111" strokeWidth="1.7" strokeLinecap="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
           {cartCount > 0 && (
@@ -796,7 +873,6 @@ function MultiStorePage({ ms }) {
             </div>
           )}
         </button>
-        {/* Centered logo / name */}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, position: 'absolute', left: '50%', transform: 'translateX(-50%)' }}>
           {ms.logoImage
             ? <img src={ms.logoImage} alt="" style={{ height: 34, maxWidth: 130, objectFit: 'contain' }} />
@@ -804,7 +880,6 @@ function MultiStorePage({ ms }) {
           }
           {ms.tagline && !ms.logoImage && <p style={{ fontSize: 9, color: '#9ca3af', margin: 0, letterSpacing: '1.5px', textTransform: 'uppercase' }}>{ms.tagline}</p>}
         </div>
-        {/* Spacer */}
         <div style={{ width: 38, flexShrink: 0 }} />
       </div>
 
@@ -830,161 +905,134 @@ function MultiStorePage({ ms }) {
         </div>
       )}
 
-      {/* ── Tab bar ── */}
-      <div style={{ background: 'white', borderBottom: '1px solid #e8e8e8', display: 'flex', position: 'sticky', top: 54, zIndex: 39 }}>
-        {TABS.map(tab => (
-          <button key={tab.id} onClick={() => { setActiveTab(tab.id); setActiveCat(null); }}
-            style={{ flex: 1, padding: '14px 4px 12px', border: 'none', background: 'none', cursor: 'pointer', position: 'relative', color: activeTab === tab.id ? '#111' : '#b0b0b0', fontSize: 12, fontWeight: activeTab === tab.id ? 800 : 500, transition: 'color 0.2s', letterSpacing: activeTab === tab.id ? '-0.1px' : '0' }}>
-            {tab.label}
-            {activeTab === tab.id && (
-              <div style={{ position: 'absolute', bottom: 0, left: '10%', right: '10%', height: 2, background: '#111' }} />
+      {/* ── SECTION: קטגוריות ── */}
+      {(ms.categories || []).length > 0 && (
+        <section style={{ paddingBottom: 8 }}>
+          <div style={{ padding: '24px 20px 14px', display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
+            <h2 style={{ fontSize: 18, fontWeight: 900, color: '#111', margin: 0, letterSpacing: '-0.3px' }}>קטגוריות</h2>
+            <span style={{ fontSize: 11, color: '#aaa' }}>{ms.categories.length} קטגוריות</span>
+          </div>
+
+          {/* Category banner grid */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2 }}>
+            {ms.categories.map((cat, i) => (
+              <div key={i} onClick={() => handleCatClick(cat, i)}
+                style={{ position: 'relative', height: 160, overflow: 'hidden', cursor: 'pointer',
+                  outline: activeCat === i ? `2.5px solid ${accent}` : 'none', transition: 'outline 0.15s' }}>
+                {cat.image
+                  ? <img src={cat.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.35s', transform: activeCat === i ? 'scale(1.05)' : 'scale(1)' }} />
+                  : <div style={{ width: '100%', height: '100%', background: '#1a1a1a', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><span style={{ fontSize: 44 }}>{cat.icon || '🛍️'}</span></div>
+                }
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 25%, rgba(0,0,0,0.72) 100%)' }} />
+                <div style={{ position: 'absolute', bottom: 0, right: 0, left: 0, padding: '8px 12px 13px' }}>
+                  <p style={{ color: 'white', fontWeight: 900, fontSize: 14, margin: '0 0 2px', lineHeight: 1.2 }}>{cat.name || 'קטגוריה'}</p>
+                  <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 10, margin: 0 }}>{(cat.products||[]).filter(p=>p.name).length} פריטים</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Inline products (page-mode expand) */}
+          <AnimatePresence>
+            {activeCat !== null && ms.categories[activeCat]?.displayMode !== 'popup' && (
+              <motion.div key={`inline-${activeCat}`} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
+                <div style={{ padding: '18px 16px 4px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid #ebebeb', marginTop: 2 }}>
+                  <h3 style={{ fontSize: 16, fontWeight: 900, color: '#111', margin: 0 }}>{ms.categories[activeCat].name}</h3>
+                  <button onClick={() => setActiveCat(null)} style={{ width: 28, height: 28, borderRadius: '50%', background: '#f3f4f6', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#666" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                  </button>
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1, padding: '10px 0 0' }}>
+                  {(ms.categories[activeCat].products || []).filter(p => p.name).map((p, pi) => (
+                    <ProductCard key={pi} p={p} cols={2} />
+                  ))}
+                </div>
+              </motion.div>
             )}
-          </button>
-        ))}
-      </div>
+          </AnimatePresence>
+        </section>
+      )}
 
-      {/* ── Tab content ── */}
-      <div style={{ padding: '0 0 120px' }}>
+      {/* ── SECTION: אז מה אנחנו ── */}
+      {(ms.aboutText || ms.aboutTitle || ms.storeName) && (
+        <section style={{ padding: '32px 20px', borderTop: '1px solid #ebebeb' }}>
+          <h2 style={{ fontSize: 18, fontWeight: 900, color: '#111', margin: '0 0 16px', letterSpacing: '-0.3px' }}>{ms.aboutTitle || 'אז מה אנחנו?'}</h2>
+          {ms.aboutText
+            ? <p style={{ fontSize: 15, color: '#444', lineHeight: 1.9, margin: 0, whiteSpace: 'pre-wrap' }}>{ms.aboutText}</p>
+            : ms.tagline && <p style={{ fontSize: 15, color: '#666', lineHeight: 1.8, margin: 0 }}>{ms.tagline}</p>
+          }
+        </section>
+      )}
 
-        {/* TAB: קטגוריות */}
-        {activeTab === 'cats' && (
-          <motion.div key="cats" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.2 }}>
-            {/* Category banners – editorial style */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2 }}>
-              {(ms.categories || []).map((cat, i) => (
-                <div key={i} onClick={() => handleCatClick(cat, i)}
-                  style={{ position: 'relative', height: 170, overflow: 'hidden', cursor: 'pointer',
-                    outline: activeCat === i ? `2px solid ${accent}` : 'none',
-                    transition: 'outline 0.15s' }}>
-                  {cat.image
-                    ? <img src={cat.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.3s', transform: activeCat === i ? 'scale(1.04)' : 'scale(1)' }} />
-                    : <div style={{ width: '100%', height: '100%', background: '#1a1a1a', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><span style={{ fontSize: 48 }}>{cat.icon || '🛍️'}</span></div>
-                  }
-                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.7) 100%)' }} />
-                  <div style={{ position: 'absolute', bottom: 0, right: 0, left: 0, padding: '10px 12px 12px' }}>
-                    <p style={{ color: 'white', fontWeight: 900, fontSize: 14, margin: '0 0 2px', lineHeight: 1.2 }}>{cat.name || 'קטגוריה'}</p>
-                    <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: 10, margin: 0, fontWeight: 500 }}>{(cat.products||[]).filter(p=>p.name).length} פריטים</p>
-                  </div>
+      {/* ── SECTION: צרו קשר ── */}
+      {hasSocial && (
+        <section style={{ padding: '28px 20px', borderTop: '1px solid #ebebeb' }}>
+          <h2 style={{ fontSize: 18, fontWeight: 900, color: '#111', margin: '0 0 16px', letterSpacing: '-0.3px' }}>צרו קשר</h2>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            {ms.social?.whatsapp && (
+              <a href={`https://wa.me/${ms.social.whatsapp.replace(/\D/g,'').replace(/^0/,'972')}`} target="_blank" rel="noopener noreferrer"
+                style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 16px', background: '#f9fafb', textDecoration: 'none', border: '1px solid #e8e8e8' }}>
+                <div style={{ width: 38, height: 38, borderRadius: '50%', background: '#25D366', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2c-5.514 0-9.99 4.476-9.99 9.99 0 1.76.46 3.41 1.27 4.85L2 22l5.31-1.25A9.99 9.99 0 0012 22c5.514 0 9.99-4.476 9.99-9.99C21.99 6.486 17.514 2 11.99 2z"/></svg>
                 </div>
-              ))}
-              {(ms.categories || []).length === 0 && (
-                <div style={{ gridColumn: 'span 2', height: 140, background: '#f5f5f5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <p style={{ fontSize: 13, color: '#aaa' }}>אין קטגוריות עדיין</p>
+                <div>
+                  <p style={{ fontSize: 14, fontWeight: 700, color: '#111', margin: 0 }}>WhatsApp</p>
+                  <p style={{ fontSize: 12, color: '#888', margin: 0 }}>{ms.social.whatsapp}</p>
                 </div>
-              )}
+              </a>
+            )}
+            {ms.social?.instagram && (
+              <a href={`https://instagram.com/${ms.social.instagram.replace('@','')}`} target="_blank" rel="noopener noreferrer"
+                style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 16px', background: '#f9fafb', textDecoration: 'none', border: '1px solid #e8e8e8' }}>
+                <div style={{ width: 38, height: 38, borderRadius: '50%', background: 'linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div>
+                <div><p style={{ fontSize: 14, fontWeight: 700, color: '#111', margin: 0 }}>Instagram</p><p style={{ fontSize: 12, color: '#888', margin: 0 }}>{ms.social.instagram}</p></div>
+              </a>
+            )}
+            {ms.social?.facebook && (
+              <a href={`https://facebook.com/${ms.social.facebook}`} target="_blank" rel="noopener noreferrer"
+                style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 16px', background: '#f9fafb', textDecoration: 'none', border: '1px solid #e8e8e8' }}>
+                <div style={{ width: 38, height: 38, borderRadius: '50%', background: '#1877F2', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></div>
+                <div><p style={{ fontSize: 14, fontWeight: 700, color: '#111', margin: 0 }}>Facebook</p><p style={{ fontSize: 12, color: '#888', margin: 0 }}>{ms.social.facebook}</p></div>
+              </a>
+            )}
+            {ms.social?.tiktok && (
+              <a href={`https://tiktok.com/@${ms.social.tiktok.replace('@','')}`} target="_blank" rel="noopener noreferrer"
+                style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 16px', background: '#f9fafb', textDecoration: 'none', border: '1px solid #e8e8e8' }}>
+                <div style={{ width: 38, height: 38, borderRadius: '50%', background: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.2 8.2 0 004.82 1.55V6.79a4.85 4.85 0 01-1.05-.1z"/></svg></div>
+                <div><p style={{ fontSize: 14, fontWeight: 700, color: '#111', margin: 0 }}>TikTok</p><p style={{ fontSize: 12, color: '#888', margin: 0 }}>{ms.social.tiktok}</p></div>
+              </a>
+            )}
+            {ms.social?.website && (
+              <a href={ms.social.website} target="_blank" rel="noopener noreferrer"
+                style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 16px', background: '#f9fafb', textDecoration: 'none', border: '1px solid #e8e8e8' }}>
+                <div style={{ width: 38, height: 38, borderRadius: '50%', background: '#111', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div>
+                <div><p style={{ fontSize: 14, fontWeight: 700, color: '#111', margin: 0 }}>אתר</p><p style={{ fontSize: 12, color: '#888', margin: 0, maxWidth: 200, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{ms.social.website}</p></div>
+              </a>
+            )}
+          </div>
+        </section>
+      )}
+
+      {/* ── SECTION: תקנון ── */}
+      {(ms.terms || ms.cancelPolicy) && (
+        <section style={{ padding: '28px 20px', borderTop: '1px solid #ebebeb', background: '#fafafa' }}>
+          {ms.terms && (
+            <div style={{ marginBottom: ms.cancelPolicy ? 20 : 0 }}>
+              <p style={{ fontSize: 11, fontWeight: 800, color: '#999', letterSpacing: '1.5px', textTransform: 'uppercase', margin: '0 0 10px' }}>תקנון ותנאי שימוש</p>
+              <p style={{ fontSize: 13, color: '#666', lineHeight: 1.8, margin: 0, whiteSpace: 'pre-wrap' }}>{ms.terms}</p>
             </div>
+          )}
+          {ms.cancelPolicy && (
+            <div>
+              <p style={{ fontSize: 11, fontWeight: 800, color: '#999', letterSpacing: '1.5px', textTransform: 'uppercase', margin: '0 0 10px' }}>מדיניות ביטולים</p>
+              <p style={{ fontSize: 13, color: '#666', lineHeight: 1.8, margin: 0, whiteSpace: 'pre-wrap' }}>{ms.cancelPolicy}</p>
+            </div>
+          )}
+        </section>
+      )}
 
-            {/* Inline products (page mode) */}
-            <AnimatePresence>
-              {activeCat !== null && ms.categories?.[activeCat]?.displayMode !== 'popup' && (
-                <motion.div key="inline" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}
-                  style={{ background: 'white', borderTop: '1px solid #e8e8e8', padding: '16px 12px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
-                    <p style={{ fontSize: 15, fontWeight: 900, color: '#111', margin: 0 }}>{ms.categories[activeCat].name}</p>
-                    <button onClick={() => setActiveCat(null)} style={{ width: 28, height: 28, borderRadius: '50%', background: '#f3f4f6', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#6b7280" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-                    </button>
-                  </div>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-                    {(ms.categories[activeCat].products || []).filter(p => p.name).map((p, pi) => <ProductCard key={pi} p={p} cols={2} />)}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </motion.div>
-        )}
-
-        {/* TAB: אז מה אנחנו */}
-        {activeTab === 'about' && (
-          <motion.div key="about" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.2 }} style={{ padding: '24px 20px', display: 'flex', flexDirection: 'column', gap: 1 }}>
-            {(ms.aboutText || ms.aboutTitle) ? (
-              <div>
-                <h2 style={{ fontSize: 22, fontWeight: 900, color: '#111', margin: '0 0 16px', lineHeight: 1.3 }}>{ms.aboutTitle || 'אז מה אנחנו?'}</h2>
-                <p style={{ fontSize: 15, color: '#444', lineHeight: 1.9, margin: 0, whiteSpace: 'pre-wrap' }}>{ms.aboutText}</p>
-              </div>
-            ) : (
-              <div style={{ textAlign: 'center', padding: '40px 0' }}>
-                <p style={{ fontSize: 40, margin: '0 0 16px' }}>🏪</p>
-                <p style={{ fontSize: 18, fontWeight: 900, color: '#111', margin: '0 0 8px' }}>{ms.storeName || 'החנות שלי'}</p>
-                {ms.tagline && <p style={{ fontSize: 14, color: '#888', margin: 0 }}>{ms.tagline}</p>}
-              </div>
-            )}
-            {ms.terms && (
-              <div style={{ marginTop: 28, paddingTop: 24, borderTop: '1px solid #e8e8e8' }}>
-                <p style={{ fontSize: 11, fontWeight: 800, color: '#888', margin: '0 0 10px', letterSpacing: '1.5px', textTransform: 'uppercase' }}>תקנון ותנאי שימוש</p>
-                <p style={{ fontSize: 13, color: '#666', lineHeight: 1.8, margin: 0, whiteSpace: 'pre-wrap' }}>{ms.terms}</p>
-              </div>
-            )}
-            {ms.cancelPolicy && (
-              <div style={{ marginTop: 20, paddingTop: 20, borderTop: '1px solid #e8e8e8' }}>
-                <p style={{ fontSize: 11, fontWeight: 800, color: '#888', margin: '0 0 10px', letterSpacing: '1.5px', textTransform: 'uppercase' }}>מדיניות ביטולים</p>
-                <p style={{ fontSize: 13, color: '#666', lineHeight: 1.8, margin: 0, whiteSpace: 'pre-wrap' }}>{ms.cancelPolicy}</p>
-              </div>
-            )}
-          </motion.div>
-        )}
-
-        {/* TAB: צרו קשר */}
-        {activeTab === 'contact' && (
-          <motion.div key="contact" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.2 }} style={{ display: 'flex', flexDirection: 'column' }}>
-            {hasSocial && (
-              <div style={{ padding: '20px 20px 0' }}>
-                <p style={{ fontSize: 11, fontWeight: 800, color: '#888', margin: '0 0 14px', letterSpacing: '1.5px', textTransform: 'uppercase' }}>עקבו אחרינו</p>
-                <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                  {ms.social?.whatsapp && (
-                    <a href={`https://wa.me/${ms.social.whatsapp.replace(/\D/g,'').replace(/^0/,'972')}`} target="_blank" rel="noopener noreferrer"
-                      style={{ display: 'flex', alignItems: 'center', gap: 10, flex: '1 1 calc(50% - 6px)', padding: '10px 14px', borderRadius: 14, background: '#f0fdf4', textDecoration: 'none', border: '1px solid #bbf7d0' }}>
-                      <div style={{ width: 34, height: 34, borderRadius: '50%', background: '#25D366', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2c-5.514 0-9.99 4.476-9.99 9.99 0 1.76.46 3.41 1.27 4.85L2 22l5.31-1.25A9.99 9.99 0 0012 22c5.514 0 9.99-4.476 9.99-9.99C21.99 6.486 17.514 2 11.99 2z"/></svg></div>
-                      <div><p style={{ fontSize: 12, fontWeight: 700, color: '#111', margin: 0 }}>WhatsApp</p><p style={{ fontSize: 10, color: '#6b7280', margin: 0 }}>{ms.social.whatsapp}</p></div>
-                    </a>
-                  )}
-                  {ms.social?.instagram && (
-                    <a href={`https://instagram.com/${ms.social.instagram.replace('@','')}`} target="_blank" rel="noopener noreferrer"
-                      style={{ display: 'flex', alignItems: 'center', gap: 10, flex: '1 1 calc(50% - 6px)', padding: '10px 14px', borderRadius: 14, background: '#fdf2f8', textDecoration: 'none', border: '1px solid #f9a8d4' }}>
-                      <div style={{ width: 34, height: 34, borderRadius: '50%', background: 'linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div>
-                      <div><p style={{ fontSize: 12, fontWeight: 700, color: '#111', margin: 0 }}>Instagram</p><p style={{ fontSize: 10, color: '#6b7280', margin: 0 }}>{ms.social.instagram}</p></div>
-                    </a>
-                  )}
-                  {ms.social?.facebook && (
-                    <a href={`https://facebook.com/${ms.social.facebook}`} target="_blank" rel="noopener noreferrer"
-                      style={{ display: 'flex', alignItems: 'center', gap: 10, flex: '1 1 calc(50% - 6px)', padding: '10px 14px', borderRadius: 14, background: '#eff6ff', textDecoration: 'none', border: '1px solid #bfdbfe' }}>
-                      <div style={{ width: 34, height: 34, borderRadius: '50%', background: '#1877F2', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></div>
-                      <div><p style={{ fontSize: 12, fontWeight: 700, color: '#111', margin: 0 }}>Facebook</p><p style={{ fontSize: 10, color: '#6b7280', margin: 0 }}>{ms.social.facebook}</p></div>
-                    </a>
-                  )}
-                  {ms.social?.tiktok && (
-                    <a href={`https://tiktok.com/@${ms.social.tiktok.replace('@','')}`} target="_blank" rel="noopener noreferrer"
-                      style={{ display: 'flex', alignItems: 'center', gap: 10, flex: '1 1 calc(50% - 6px)', padding: '10px 14px', borderRadius: 14, background: '#f9fafb', textDecoration: 'none', border: '1px solid #e5e7eb' }}>
-                      <div style={{ width: 34, height: 34, borderRadius: '50%', background: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><svg width="15" height="15" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.2 8.2 0 004.82 1.55V6.79a4.85 4.85 0 01-1.05-.1z"/></svg></div>
-                      <div><p style={{ fontSize: 12, fontWeight: 700, color: '#111', margin: 0 }}>TikTok</p><p style={{ fontSize: 10, color: '#6b7280', margin: 0 }}>{ms.social.tiktok}</p></div>
-                    </a>
-                  )}
-                  {ms.social?.website && (
-                    <a href={ms.social.website} target="_blank" rel="noopener noreferrer"
-                      style={{ display: 'flex', alignItems: 'center', gap: 10, flex: '1 1 calc(50% - 6px)', padding: '10px 14px', borderRadius: 14, background: '#f5f3ff', textDecoration: 'none', border: '1px solid #ddd6fe' }}>
-                      <div style={{ width: 34, height: 34, borderRadius: '50%', background: '#6366f1', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div>
-                      <div><p style={{ fontSize: 12, fontWeight: 700, color: '#111', margin: 0 }}>אתר</p><p style={{ fontSize: 10, color: '#6b7280', margin: 0, maxWidth: 80, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{ms.social.website}</p></div>
-                    </a>
-                  )}
-                </div>
-              </div>
-            )}
-            {ms.terms && (
-              <div style={{ padding: '20px 20px 0', borderTop: '1px solid #e8e8e8', marginTop: 20 }}>
-                <p style={{ fontSize: 11, fontWeight: 800, color: '#888', margin: '0 0 10px', letterSpacing: '1.5px', textTransform: 'uppercase' }}>תקנון ותנאי שימוש</p>
-                <p style={{ fontSize: 13, color: '#666', lineHeight: 1.8, margin: 0 }}>{ms.terms}</p>
-              </div>
-            )}
-            {!hasSocial && !ms.terms && (
-              <div style={{ padding: '60px 24px', textAlign: 'center' }}>
-                <p style={{ fontSize: 40, margin: '0 0 14px' }}>📱</p>
-                <p style={{ fontSize: 15, color: '#aaa' }}>אין פרטי קשר להצגה</p>
-              </div>
-            )}
-            <div style={{ height: 20 }} />
-          </motion.div>
-        )}
-      </div>
+      {/* Footer spacer */}
+      <div style={{ height: 100 }} />
 
       {/* ── Sticky cart bar ── */}
       <AnimatePresence>
@@ -993,13 +1041,13 @@ function MultiStorePage({ ms }) {
             style={{ position: 'fixed', bottom: 0, left: '50%', transform: 'translateX(-50%)', width: '100%', maxWidth: 640, background: 'white', borderTop: '1px solid #e0e0e0', padding: '10px 16px 20px', zIndex: 50, boxShadow: '0 -4px 24px rgba(0,0,0,0.08)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
               <button onClick={() => setShowCart(true)}
-                style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '12px 16px', background: '#f5f5f5', border: 'none', cursor: 'pointer', flexShrink: 0, borderRadius: 2 }}>
+                style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '12px 16px', background: '#f5f5f5', border: 'none', cursor: 'pointer', flexShrink: 0 }}>
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#111" strokeWidth="1.8" strokeLinecap="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
                 <span style={{ fontWeight: 800, fontSize: 13, color: '#111' }}>{cartCount} פריטים</span>
                 <span style={{ fontSize: 12, color: '#666' }}>· ₪{cartTotal.toFixed(0)}</span>
               </button>
               <button onClick={() => setShowCheckout(true)}
-                style={{ flex: 1, padding: '13px 16px', background: '#111', color: 'white', fontWeight: 800, fontSize: 14, border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, borderRadius: 2, letterSpacing: '0.3px' }}>
+                style={{ flex: 1, padding: '13px 16px', background: '#111', color: 'white', fontWeight: 800, fontSize: 14, border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, letterSpacing: '0.3px' }}>
                 <svg width="17" height="17" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2c-5.514 0-9.99 4.476-9.99 9.99 0 1.76.46 3.41 1.27 4.85L2 22l5.31-1.25A9.99 9.99 0 0012 22c5.514 0 9.99-4.476 9.99-9.99C21.99 6.486 17.514 2 11.99 2z"/></svg>
                 הזמן בוואטסאפ
               </button>
@@ -1010,7 +1058,7 @@ function MultiStorePage({ ms }) {
 
       <CartModal />
       <CategoryPopup />
-      {selectedProduct && <ProductDetailModal />}
+      {selectedProduct && <MobileProductSheet />}
 
       <AnimatePresence>
         {showCheckout && (
