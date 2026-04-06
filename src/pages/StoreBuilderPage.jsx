@@ -308,12 +308,16 @@ function MultiStorePreview({ ms, cart, onAddToCart, onCartOpen }) {
           </div>
         </div>
       ) : (
-        <div style={{ background: '#111', padding: '18px 12px 14px', textAlign: 'center', flexShrink: 0 }}>
-          {ms.logoImage
-            ? <img src={ms.logoImage} alt="" style={{ height: 28, maxWidth: 80, objectFit: 'contain', borderRadius: 6, marginBottom: 6 }} />
-            : <p style={{ color: 'white', fontWeight: 900, fontSize: 12, margin: '0 0 3px' }}>{ms.storeName || 'החנות שלי'}</p>
-          }
-          {ms.tagline && <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: 7, margin: 0, letterSpacing: '1px' }}>{ms.tagline}</p>}
+        <div style={{ position: 'relative', height: 100, background: `linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)`, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 6, flexShrink: 0, overflow: 'hidden' }}>
+          {/* Decorative circles */}
+          <div style={{ position: 'absolute', top: -20, right: -20, width: 80, height: 80, borderRadius: '50%', background: `${accent}18` }} />
+          <div style={{ position: 'absolute', bottom: -15, left: -15, width: 60, height: 60, borderRadius: '50%', background: 'rgba(91,196,200,0.12)' }} />
+          {/* Add cover hint */}
+          <div style={{ width: 32, height: 32, borderRadius: 10, background: 'rgba(255,255,255,0.08)', border: '1.5px dashed rgba(255,255,255,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          </div>
+          <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: 7, margin: 0, letterSpacing: '0.8px' }}>הוסף תמונת כריכה</p>
+          {ms.storeName && <p style={{ color: 'rgba(255,255,255,0.6)', fontWeight: 900, fontSize: 9, margin: 0 }}>{ms.storeName}</p>}
         </div>
       )}
 
