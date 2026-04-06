@@ -790,7 +790,7 @@ function MultiStorePage({ ms }) {
   const hasSocial = ms.social?.instagram || ms.social?.facebook || ms.social?.whatsapp || ms.social?.tiktok || ms.social?.website;
 
   return (
-    <div dir="rtl" style={{ fontFamily: "'Heebo','Segoe UI',sans-serif", background: '#f4f5f7', minHeight: '100vh', maxWidth: 640, margin: '0 auto', position: 'relative' }}>
+    <div dir="rtl" style={{ fontFamily: "'Heebo','Segoe UI',sans-serif", background: 'white', minHeight: '100vh', maxWidth: 640, margin: '0 auto', position: 'relative' }}>
 
       {/* ── Sticky top bar ── */}
       <div style={{ position: 'sticky', top: 0, zIndex: 40, background: 'rgba(255,255,255,0.94)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)', borderBottom: '1px solid rgba(0,0,0,0.07)', padding: '0 16px', height: 58, display: 'flex', alignItems: 'center', justifyContent: 'space-between', boxShadow: '0 1px 0 rgba(0,0,0,0.04)' }}>
