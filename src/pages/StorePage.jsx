@@ -413,25 +413,18 @@ function MultiStorePage({ ms }) {
 
   const ProductCard = ({ p, cols }) => (
     <div onClick={() => setSelectedProduct(p)}
-      style={{ borderRadius: 16, overflow: 'hidden', background: 'white', boxShadow: '0 2px 12px rgba(0,0,0,0.08)', display: 'flex', flexDirection: 'column', cursor: 'pointer', transition: 'transform 0.15s, box-shadow 0.15s' }}>
-      {/* Image with price badge */}
-      <div style={{ position: 'relative', width: '100%', height: cols === 3 ? 160 : 130, background: p.image ? 'transparent' : `${accent}22`, flexShrink: 0, overflow: 'hidden' }}>
-        {p.image ? <img src={p.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><span style={{ fontSize: 36 }}>📦</span></div>}
-        {/* Price badge */}
-        {p.price && (
-          <div style={{ position: 'absolute', top: 8, right: 8, background: 'rgba(0,0,0,0.72)', backdropFilter: 'blur(6px)', borderRadius: 20, padding: '4px 10px' }}>
-            <span style={{ color: 'white', fontWeight: 900, fontSize: 13 }}>₪{p.price}</span>
-          </div>
-        )}
-        {/* Info button */}
-        <div style={{ position: 'absolute', bottom: 8, left: 8, width: 26, height: 26, borderRadius: '50%', background: 'rgba(255,255,255,0.9)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#374151" strokeWidth="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-        </div>
+      style={{ overflow: 'hidden', background: 'white', display: 'flex', flexDirection: 'column', cursor: 'pointer', border: '1px solid #ebebeb' }}>
+      {/* Image */}
+      <div style={{ position: 'relative', width: '100%', height: cols === 3 ? 180 : 150, background: p.image ? 'transparent' : '#f5f5f5', flexShrink: 0, overflow: 'hidden' }}>
+        {p.image ? <img src={p.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><span style={{ fontSize: 36, opacity: 0.3 }}>📦</span></div>}
       </div>
-      <div style={{ padding: '10px 12px 12px', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 8 }}>
-        <p style={{ fontSize: cols === 3 ? 14 : 12, fontWeight: 700, color: '#111', margin: 0, lineHeight: 1.3 }}>{p.name}</p>
+      <div style={{ padding: '10px 10px 12px', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 8 }}>
+        <div>
+          <p style={{ fontSize: 12, fontWeight: 700, color: '#111', margin: '0 0 3px', lineHeight: 1.3 }}>{p.name}</p>
+          {p.price && <p style={{ fontSize: 13, fontWeight: 900, color: '#111', margin: 0 }}>₪{p.price}</p>}
+        </div>
         <button onClick={e => { e.stopPropagation(); addToCart(p); }}
-          style={{ padding: '8px', borderRadius: 10, background: `linear-gradient(135deg,${accent},#5BC4C8)`, color: 'white', fontSize: 12, fontWeight: 800, border: 'none', cursor: 'pointer', width: '100%' }}>
+          style={{ padding: '8px', background: '#111', color: 'white', fontSize: 11, fontWeight: 800, border: 'none', cursor: 'pointer', width: '100%', letterSpacing: '0.3px' }}>
           + הוסף לסל
         </button>
       </div>
