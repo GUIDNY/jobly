@@ -775,6 +775,8 @@ function MultiStorePage({ ms }) {
               )}
             </AnimatePresence>
           </section>
+          );
+          })()}
 
           {/* SECTION: מוצרים מובילים (carousel) */}
           {(() => {
