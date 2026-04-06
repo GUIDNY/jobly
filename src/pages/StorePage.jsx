@@ -903,38 +903,29 @@ function MultiStorePage({ ms }) {
 
         {/* TAB: אז מה אנחנו */}
         {activeTab === 'about' && (
-          <motion.div key="about" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.18 }} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          <motion.div key="about" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.2 }} style={{ padding: '24px 20px', display: 'flex', flexDirection: 'column', gap: 1 }}>
             {(ms.aboutText || ms.aboutTitle) ? (
-              <div style={{ background: 'white', borderRadius: 20, padding: '20px', boxShadow: '0 2px 12px rgba(0,0,0,0.06)' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
-                  <div style={{ width: 38, height: 38, borderRadius: 12, background: `linear-gradient(135deg,${accent},#5BC4C8)`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><span style={{ fontSize: 18 }}>📖</span></div>
-                  <p style={{ fontSize: 16, fontWeight: 900, color: '#111', margin: 0 }}>{ms.aboutTitle || 'אז מה אנחנו?'}</p>
-                </div>
-                <p style={{ fontSize: 14, color: '#374151', lineHeight: 1.8, margin: 0, whiteSpace: 'pre-wrap' }}>{ms.aboutText}</p>
+              <div>
+                <h2 style={{ fontSize: 22, fontWeight: 900, color: '#111', margin: '0 0 16px', lineHeight: 1.3 }}>{ms.aboutTitle || 'אז מה אנחנו?'}</h2>
+                <p style={{ fontSize: 15, color: '#444', lineHeight: 1.9, margin: 0, whiteSpace: 'pre-wrap' }}>{ms.aboutText}</p>
               </div>
             ) : (
-              <div style={{ background: 'white', borderRadius: 20, padding: '40px 24px', textAlign: 'center', boxShadow: '0 2px 12px rgba(0,0,0,0.06)' }}>
-                <div style={{ width: 56, height: 56, borderRadius: 18, background: `linear-gradient(135deg,${accent},#5BC4C8)`, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 14px' }}><span style={{ fontSize: 26 }}>🏪</span></div>
-                <p style={{ fontSize: 16, fontWeight: 800, color: '#111', margin: '0 0 6px' }}>{ms.storeName || 'החנות שלי'}</p>
-                {ms.tagline && <p style={{ fontSize: 13, color: '#6b7280', margin: 0, lineHeight: 1.6 }}>{ms.tagline}</p>}
+              <div style={{ textAlign: 'center', padding: '40px 0' }}>
+                <p style={{ fontSize: 40, margin: '0 0 16px' }}>🏪</p>
+                <p style={{ fontSize: 18, fontWeight: 900, color: '#111', margin: '0 0 8px' }}>{ms.storeName || 'החנות שלי'}</p>
+                {ms.tagline && <p style={{ fontSize: 14, color: '#888', margin: 0 }}>{ms.tagline}</p>}
               </div>
             )}
             {ms.terms && (
-              <div style={{ background: 'white', borderRadius: 20, padding: '16px 20px', boxShadow: '0 2px 12px rgba(0,0,0,0.06)' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
-                  <span style={{ fontSize: 16 }}>📋</span>
-                  <p style={{ fontSize: 13, fontWeight: 800, color: '#374151', margin: 0 }}>תקנון ותנאי שימוש</p>
-                </div>
-                <p style={{ fontSize: 11, color: '#9ca3af', lineHeight: 1.7, margin: 0, whiteSpace: 'pre-wrap' }}>{ms.terms}</p>
+              <div style={{ marginTop: 28, paddingTop: 24, borderTop: '1px solid #e8e8e8' }}>
+                <p style={{ fontSize: 11, fontWeight: 800, color: '#888', margin: '0 0 10px', letterSpacing: '1.5px', textTransform: 'uppercase' }}>תקנון ותנאי שימוש</p>
+                <p style={{ fontSize: 13, color: '#666', lineHeight: 1.8, margin: 0, whiteSpace: 'pre-wrap' }}>{ms.terms}</p>
               </div>
             )}
             {ms.cancelPolicy && (
-              <div style={{ background: 'white', borderRadius: 20, padding: '16px 20px', boxShadow: '0 2px 12px rgba(0,0,0,0.06)' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
-                  <span style={{ fontSize: 16 }}>↩️</span>
-                  <p style={{ fontSize: 13, fontWeight: 800, color: '#374151', margin: 0 }}>מדיניות ביטולים</p>
-                </div>
-                <p style={{ fontSize: 11, color: '#9ca3af', lineHeight: 1.7, margin: 0, whiteSpace: 'pre-wrap' }}>{ms.cancelPolicy}</p>
+              <div style={{ marginTop: 20, paddingTop: 20, borderTop: '1px solid #e8e8e8' }}>
+                <p style={{ fontSize: 11, fontWeight: 800, color: '#888', margin: '0 0 10px', letterSpacing: '1.5px', textTransform: 'uppercase' }}>מדיניות ביטולים</p>
+                <p style={{ fontSize: 13, color: '#666', lineHeight: 1.8, margin: 0, whiteSpace: 'pre-wrap' }}>{ms.cancelPolicy}</p>
               </div>
             )}
           </motion.div>
