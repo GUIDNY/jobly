@@ -1095,10 +1095,10 @@ function MultiStorePage({ ms }) {
       })()}
 
       {/* ── Footer ── */}
-      <footer style={{ background: '#111', padding: '32px 20px 48px', textAlign: 'center', marginTop: 4 }}>
+      <footer style={{ background: '#0f0f0f', padding: '32px 20px 48px', textAlign: 'center', marginTop: 4 }}>
         {ms.logoImage
-          ? <img src={ms.logoImage} alt="" style={{ height: 36, maxWidth: 120, objectFit: 'contain', marginBottom: 10, filter: 'brightness(0) invert(1)' }} />
-          : <p style={{ fontWeight: 900, fontSize: 16, color: 'white', margin: '0 0 6px' }}>{ms.storeName || 'החנות שלי'}</p>
+          ? <img src={ms.logoImage} alt="" style={{ height: 44, maxWidth: 130, objectFit: 'contain', marginBottom: 10, borderRadius: 8 }} />
+          : <p style={{ fontWeight: 900, fontSize: 18, color: 'white', margin: '0 0 6px' }}>{ms.storeName || 'החנות שלי'}</p>
         }
         {ms.tagline && <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.35)', margin: '0 0 20px', letterSpacing: '1px' }}>{ms.tagline}</p>}
 
