@@ -1248,7 +1248,7 @@ function MultiStorePage({ ms }) {
       <AnimatePresence>
         {cartCount > 0 && (
           <motion.div initial={{ y: 80 }} animate={{ y: 0 }} exit={{ y: 80 }}
-            style={{ position: 'fixed', bottom: 0, left: '50%', transform: 'translateX(-50%)', width: '100%', maxWidth: 640, background: 'white', borderTop: '1px solid #e0e0e0', padding: '10px 16px 20px', zIndex: 50, boxShadow: '0 -4px 24px rgba(0,0,0,0.08)' }}>
+            style={{ position: 'fixed', bottom: 0, left: 0, right: 0, background: 'white', borderTop: '1px solid #e0e0e0', padding: '10px 16px 20px', zIndex: 50, boxShadow: '0 -4px 24px rgba(0,0,0,0.08)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
               <button onClick={() => setShowCart(true)}
                 style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '12px 16px', background: '#f5f5f5', border: 'none', cursor: 'pointer', flexShrink: 0 }}>
