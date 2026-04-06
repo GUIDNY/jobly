@@ -677,70 +677,71 @@ function MultiStorePage({ ms }) {
             </AnimatePresence>
           </section>
 
-          {/* SECTION: צרו קשר */}
-          {dtHasSocial && (
-            <section style={{ marginBottom: 80 }}>
-              <h2 style={{ fontSize: 22, fontWeight: 900, color: '#111', margin: '0 0 32px', textAlign: 'right' }}>צרו קשר</h2>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 14 }}>
-                {ms.social?.whatsapp && (
-                  <a href={`https://wa.me/${ms.social.whatsapp.replace(/\D/g,'').replace(/^0/,'972')}`} target="_blank" rel="noopener noreferrer"
-                    style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '18px 22px', borderRadius: 4, background: '#f9fafb', textDecoration: 'none', border: '1px solid #e5e7eb', transition: 'border-color 0.2s' }}>
-                    <div style={{ width: 40, height: 40, borderRadius: '50%', background: '#25D366', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2c-5.514 0-9.99 4.476-9.99 9.99 0 1.76.46 3.41 1.27 4.85L2 22l5.31-1.25A9.99 9.99 0 0012 22c5.514 0 9.99-4.476 9.99-9.99C21.99 6.486 17.514 2 11.99 2z"/></svg></div>
-                    <div><p style={{ fontSize: 14, fontWeight: 700, color: '#111', margin: 0 }}>WhatsApp</p><p style={{ fontSize: 12, color: '#6b7280', margin: 0 }}>{ms.social.whatsapp}</p></div>
-                  </a>
-                )}
-                {ms.social?.instagram && (
-                  <a href={`https://instagram.com/${ms.social.instagram.replace('@','')}`} target="_blank" rel="noopener noreferrer"
-                    style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '18px 22px', borderRadius: 4, background: '#f9fafb', textDecoration: 'none', border: '1px solid #e5e7eb' }}>
-                    <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div>
-                    <div><p style={{ fontSize: 14, fontWeight: 700, color: '#111', margin: 0 }}>Instagram</p><p style={{ fontSize: 12, color: '#6b7280', margin: 0 }}>{ms.social.instagram}</p></div>
-                  </a>
-                )}
-                {ms.social?.facebook && (
-                  <a href={`https://facebook.com/${ms.social.facebook}`} target="_blank" rel="noopener noreferrer"
-                    style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '18px 22px', borderRadius: 4, background: '#f9fafb', textDecoration: 'none', border: '1px solid #e5e7eb' }}>
-                    <div style={{ width: 40, height: 40, borderRadius: '50%', background: '#1877F2', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></div>
-                    <div><p style={{ fontSize: 14, fontWeight: 700, color: '#111', margin: 0 }}>Facebook</p><p style={{ fontSize: 12, color: '#6b7280', margin: 0 }}>{ms.social.facebook}</p></div>
-                  </a>
-                )}
-                {ms.social?.tiktok && (
-                  <a href={`https://tiktok.com/@${ms.social.tiktok.replace('@','')}`} target="_blank" rel="noopener noreferrer"
-                    style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '18px 22px', borderRadius: 4, background: '#f9fafb', textDecoration: 'none', border: '1px solid #e5e7eb' }}>
-                    <div style={{ width: 40, height: 40, borderRadius: '50%', background: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.2 8.2 0 004.82 1.55V6.79a4.85 4.85 0 01-1.05-.1z"/></svg></div>
-                    <div><p style={{ fontSize: 14, fontWeight: 700, color: '#111', margin: 0 }}>TikTok</p><p style={{ fontSize: 12, color: '#6b7280', margin: 0 }}>{ms.social.tiktok}</p></div>
-                  </a>
-                )}
-                {ms.social?.website && (
-                  <a href={ms.social.website} target="_blank" rel="noopener noreferrer"
-                    style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '18px 22px', borderRadius: 4, background: '#f9fafb', textDecoration: 'none', border: '1px solid #e5e7eb' }}>
-                    <div style={{ width: 40, height: 40, borderRadius: '50%', background: '#6366f1', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div>
-                    <div><p style={{ fontSize: 14, fontWeight: 700, color: '#111', margin: 0 }}>אתר</p><p style={{ fontSize: 12, color: '#6b7280', margin: 0, maxWidth: 140, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{ms.social.website}</p></div>
-                  </a>
-                )}
+          {/* FOOTER */}
+          <footer style={{ background: '#111', borderRadius: 16, padding: '44px 48px', marginTop: 20 }}>
+            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 32 }}>
+              {/* Brand */}
+              <div style={{ flex: '0 0 auto' }}>
+                {ms.logoImage
+                  ? <img src={ms.logoImage} alt="" style={{ height: 44, maxWidth: 160, objectFit: 'contain', marginBottom: 12, filter: 'brightness(0) invert(1)' }} />
+                  : <p style={{ fontWeight: 900, fontSize: 20, color: 'white', margin: '0 0 8px', letterSpacing: '-0.3px' }}>{ms.storeName || 'החנות שלי'}</p>
+                }
+                {ms.tagline && <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', margin: 0, letterSpacing: '1px' }}>{ms.tagline}</p>}
               </div>
-            </section>
-          )}
 
-          {/* SECTION: תקנון */}
-          {(ms.terms || ms.cancelPolicy) && (
-            <section>
-              <h2 style={{ fontSize: 22, fontWeight: 900, color: '#111', margin: '0 0 32px', textAlign: 'right' }}>תקנון ומדיניות</h2>
-              <div style={{ display: 'grid', gridTemplateColumns: ms.terms && ms.cancelPolicy ? '1fr 1fr' : '1fr', gap: 20 }}>
-                {ms.terms && (
-                  <div style={{ padding: '28px', background: '#fafafa', border: '1px solid #f0f0f0' }}>
-                    <p style={{ fontSize: 13, fontWeight: 800, color: '#374151', margin: '0 0 14px', textTransform: 'uppercase', letterSpacing: '1px' }}>תקנון ותנאי שימוש</p>
-                    <p style={{ fontSize: 13, color: '#6b7280', lineHeight: 1.85, margin: 0, whiteSpace: 'pre-wrap' }}>{ms.terms}</p>
-                  </div>
-                )}
-                {ms.cancelPolicy && (
-                  <div style={{ padding: '28px', background: '#fafafa', border: '1px solid #f0f0f0' }}>
-                    <p style={{ fontSize: 13, fontWeight: 800, color: '#374151', margin: '0 0 14px', textTransform: 'uppercase', letterSpacing: '1px' }}>מדיניות ביטולים</p>
-                    <p style={{ fontSize: 13, color: '#6b7280', lineHeight: 1.85, margin: 0, whiteSpace: 'pre-wrap' }}>{ms.cancelPolicy}</p>
-                  </div>
-                )}
-              </div>
-            </section>
-          )}
+              {/* Social links */}
+              {dtHasSocial && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 6, flex: '0 0 auto' }}>
+                  <p style={{ fontSize: 10, fontWeight: 800, color: 'rgba(255,255,255,0.3)', letterSpacing: '2px', textTransform: 'uppercase', margin: '0 0 6px' }}>עקבו אחרינו</p>
+                  {ms.social?.whatsapp && <a href={`https://wa.me/${ms.social.whatsapp.replace(/\D/g,'').replace(/^0/,'972')}`} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none', color: 'rgba(255,255,255,0.65)', fontSize: 13, fontWeight: 600 }}><svg width="14" height="14" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2c-5.514 0-9.99 4.476-9.99 9.99 0 1.76.46 3.41 1.27 4.85L2 22l5.31-1.25A9.99 9.99 0 0012 22c5.514 0 9.99-4.476 9.99-9.99C21.99 6.486 17.514 2 11.99 2z"/></svg>WhatsApp</a>}
+                  {ms.social?.instagram && <a href={`https://instagram.com/${ms.social.instagram.replace('@','')}`} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none', color: 'rgba(255,255,255,0.65)', fontSize: 13, fontWeight: 600 }}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="url(#ig)" strokeWidth="2"><defs><linearGradient id="ig" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#f09433"/><stop offset="100%" stopColor="#bc1888"/></linearGradient></defs><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>Instagram</a>}
+                  {ms.social?.facebook && <a href={`https://facebook.com/${ms.social.facebook}`} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none', color: 'rgba(255,255,255,0.65)', fontSize: 13, fontWeight: 600 }}><svg width="14" height="14" viewBox="0 0 24 24" fill="#1877F2"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>Facebook</a>}
+                  {ms.social?.tiktok && <a href={`https://tiktok.com/@${ms.social.tiktok.replace('@','')}`} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none', color: 'rgba(255,255,255,0.65)', fontSize: 13, fontWeight: 600 }}><svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.2 8.2 0 004.82 1.55V6.79a4.85 4.85 0 01-1.05-.1z"/></svg>TikTok</a>}
+                  {ms.social?.website && <a href={ms.social.website} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none', color: 'rgba(255,255,255,0.65)', fontSize: 13, fontWeight: 600 }}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>אתר</a>}
+                </div>
+              )}
+            </div>
+
+            {/* Bottom row */}
+            <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', marginTop: 32, paddingTop: 20, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.25)', margin: 0 }}>© {ms.storeName || 'החנות שלי'}</p>
+              {(ms.terms || ms.cancelPolicy) && (
+                <button onClick={() => setShowTermsPopup(true)}
+                  style={{ background: 'none', border: '1px solid rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.5)', fontSize: 12, fontWeight: 600, padding: '7px 16px', borderRadius: 20, cursor: 'pointer', letterSpacing: '0.3px' }}>
+                  תקנון ומדיניות
+                </button>
+              )}
+            </div>
+          </footer>
+
+          {/* Terms popup (desktop) */}
+          <AnimatePresence>
+            {showTermsPopup && (
+              <motion.div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                onClick={e => { if (e.target === e.currentTarget) setShowTermsPopup(false); }}>
+                <motion.div dir="rtl" initial={{ scale: 0.94, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.94, opacity: 0 }} transition={{ duration: 0.18 }}
+                  style={{ background: 'white', borderRadius: 16, width: '100%', maxWidth: 600, maxHeight: '80vh', overflowY: 'auto', padding: '40px 44px', position: 'relative' }}>
+                  <button onClick={() => setShowTermsPopup(false)} style={{ position: 'absolute', top: 20, left: 20, width: 32, height: 32, borderRadius: '50%', background: '#f3f4f6', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                  </button>
+                  <h2 style={{ fontSize: 22, fontWeight: 900, color: '#111', margin: '0 0 28px' }}>תקנון ומדיניות</h2>
+                  {ms.terms && (
+                    <div style={{ marginBottom: ms.cancelPolicy ? 28 : 0 }}>
+                      <p style={{ fontSize: 11, fontWeight: 800, color: '#aaa', letterSpacing: '2px', textTransform: 'uppercase', margin: '0 0 12px' }}>תקנון ותנאי שימוש</p>
+                      <p style={{ fontSize: 14, color: '#444', lineHeight: 1.85, margin: 0, whiteSpace: 'pre-wrap' }}>{ms.terms}</p>
+                    </div>
+                  )}
+                  {ms.cancelPolicy && (
+                    <div>
+                      <p style={{ fontSize: 11, fontWeight: 800, color: '#aaa', letterSpacing: '2px', textTransform: 'uppercase', margin: '0 0 12px' }}>מדיניות ביטולים</p>
+                      <p style={{ fontSize: 14, color: '#444', lineHeight: 1.85, margin: 0, whiteSpace: 'pre-wrap' }}>{ms.cancelPolicy}</p>
+                    </div>
+                  )}
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
         </div>
 
