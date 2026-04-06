@@ -404,6 +404,7 @@ function MultiStorePage({ ms }) {
   };
 
   const [activeTab, setActiveTab] = useState('cats');
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   const handleCatClick = (cat, i) => {
     if (cat.displayMode === 'popup') setPopupCat(i);
@@ -411,16 +412,28 @@ function MultiStorePage({ ms }) {
   };
 
   const ProductCard = ({ p, cols }) => (
-    <div style={{ borderRadius: 16, overflow: 'hidden', background: 'white', boxShadow: '0 2px 12px rgba(0,0,0,0.08)', display: 'flex', flexDirection: 'column' }}>
-      <div style={{ width: '100%', height: cols === 3 ? 160 : 140, background: p.image ? 'transparent' : `${accent}22`, flexShrink: 0, overflow: 'hidden' }}>
+    <div onClick={() => setSelectedProduct(p)}
+      style={{ borderRadius: 16, overflow: 'hidden', background: 'white', boxShadow: '0 2px 12px rgba(0,0,0,0.08)', display: 'flex', flexDirection: 'column', cursor: 'pointer', transition: 'transform 0.15s, box-shadow 0.15s' }}>
+      {/* Image with price badge */}
+      <div style={{ position: 'relative', width: '100%', height: cols === 3 ? 160 : 130, background: p.image ? 'transparent' : `${accent}22`, flexShrink: 0, overflow: 'hidden' }}>
         {p.image ? <img src={p.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><span style={{ fontSize: 36 }}>📦</span></div>}
-      </div>
-      <div style={{ padding: '12px 14px', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-        <div><p style={{ fontSize: cols === 3 ? 14 : 13, fontWeight: 700, color: '#111', margin: '0 0 3px' }}>{p.name}</p>{p.description && <p style={{ fontSize: 11, color: '#6b7280', margin: '0 0 6px', lineHeight: 1.4 }}>{p.description}</p>}</div>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 8 }}>
-          {p.price && <p style={{ fontSize: cols === 3 ? 17 : 15, color: accent, fontWeight: 900, margin: 0 }}>₪{p.price}</p>}
-          <button onClick={() => addToCart(p)} style={{ padding: '7px 16px', borderRadius: 10, background: `linear-gradient(135deg,${accent},#5BC4C8)`, color: 'white', fontSize: 12, fontWeight: 800, border: 'none', cursor: 'pointer' }}>+ הוסף</button>
+        {/* Price badge */}
+        {p.price && (
+          <div style={{ position: 'absolute', top: 8, right: 8, background: 'rgba(0,0,0,0.72)', backdropFilter: 'blur(6px)', borderRadius: 20, padding: '4px 10px' }}>
+            <span style={{ color: 'white', fontWeight: 900, fontSize: 13 }}>₪{p.price}</span>
+          </div>
+        )}
+        {/* Info button */}
+        <div style={{ position: 'absolute', bottom: 8, left: 8, width: 26, height: 26, borderRadius: '50%', background: 'rgba(255,255,255,0.9)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#374151" strokeWidth="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
         </div>
+      </div>
+      <div style={{ padding: '10px 12px 12px', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 8 }}>
+        <p style={{ fontSize: cols === 3 ? 14 : 12, fontWeight: 700, color: '#111', margin: 0, lineHeight: 1.3 }}>{p.name}</p>
+        <button onClick={e => { e.stopPropagation(); addToCart(p); }}
+          style={{ padding: '8px', borderRadius: 10, background: `linear-gradient(135deg,${accent},#5BC4C8)`, color: 'white', fontSize: 12, fontWeight: 800, border: 'none', cursor: 'pointer', width: '100%' }}>
+          + הוסף לסל
+        </button>
       </div>
     </div>
   );
