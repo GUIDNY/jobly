@@ -1075,6 +1075,45 @@ function MultiStorePage({ ms }) {
         );
       })()}
 
+      {/* ── SECTION: מוצרים מובילים (carousel) ── */}
+      {(() => {
+        const featured = (ms.categories || []).flatMap(cat =>
+          (cat.products || []).filter(p => p.name && p.featured)
+        );
+        if (!featured.length) return null;
+        return (
+          <section style={{ borderTop: '1px solid #ebebeb', paddingTop: 24, paddingBottom: 8 }}>
+            <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', padding: '0 20px 14px' }}>
+              <h2 style={{ fontSize: 18, fontWeight: 900, color: '#111', margin: 0, letterSpacing: '-0.3px' }}>מוצרים מובילים</h2>
+              <span style={{ fontSize: 11, color: '#aaa' }}>{featured.length} מוצרים</span>
+            </div>
+            <div style={{ display: 'flex', gap: 10, overflowX: 'auto', padding: '0 20px 20px', scrollSnapType: 'x mandatory', WebkitOverflowScrolling: 'touch' }}
+              className="hide-scrollbar">
+              {featured.map((p, i) => (
+                <div key={i} onClick={() => setSelectedProduct(p)}
+                  style={{ flexShrink: 0, width: 148, scrollSnapAlign: 'start', cursor: 'pointer' }}>
+                  {/* Image + arrow overlay */}
+                  <div style={{ position: 'relative', width: 148, height: 148, borderRadius: 14, overflow: 'hidden', background: '#f5f5f5' }}>
+                    {p.image
+                      ? <img src={p.image} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><span style={{ fontSize: 44 }}>🛍️</span></div>
+                    }
+                    {/* Gradient + arrow button */}
+                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 55%)' }} />
+                    <div style={{ position: 'absolute', bottom: 10, left: 10, width: 30, height: 30, borderRadius: '50%', background: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 8px rgba(0,0,0,0.2)' }}>
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#111" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                    </div>
+                  </div>
+                  {/* Name + price */}
+                  <p style={{ fontSize: 12, fontWeight: 700, color: '#111', margin: '8px 0 2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.name}</p>
+                  {p.price && <p style={{ fontSize: 14, fontWeight: 900, color: accent, margin: 0 }}>₪{p.price}</p>}
+                </div>
+              ))}
+            </div>
+          </section>
+        );
+      })()}
+
       {/* ── Footer ── */}
       <footer style={{ background: '#0f0f0f', padding: '32px 20px 48px', textAlign: 'center', marginTop: 4 }}>
         {ms.logoImage
