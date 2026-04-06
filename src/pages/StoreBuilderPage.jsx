@@ -596,6 +596,7 @@ const DEFAULT_DATA = {
   ctaText: 'קנה עכשיו',
   description: '',
   bullets: ['', '', ''],
+  videoUrl: '',
   whatsapp: '',
   paymentMethods: ['visa', 'mastercard', 'bit'],
   reviews: [
