@@ -843,7 +843,7 @@ function MultiStorePage({ ms }) {
       </div>
 
       {/* ── Tab bar ── */}
-      <div style={{ background: 'white', borderBottom: '1px solid #f0f0f0', display: 'flex', position: 'sticky', top: 54, zIndex: 39, boxShadow: '0 2px 12px rgba(0,0,0,0.05)', padding: '6px 10px 0' }}>
+      <div style={{ background: 'white', borderBottom: '1px solid #f0f0f0', display: 'flex', position: 'sticky', top: 58, zIndex: 39, boxShadow: '0 2px 12px rgba(0,0,0,0.05)', padding: '6px 10px 0' }}>
         {TABS.map(tab => (
           <button key={tab.id} onClick={() => { setActiveTab(tab.id); setActiveCat(null); }}
             style={{ flex: 1, padding: '8px 4px 10px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, border: 'none', background: 'none', cursor: 'pointer', position: 'relative', color: activeTab === tab.id ? accent : '#adb5bd', transition: 'color 0.2s' }}>
