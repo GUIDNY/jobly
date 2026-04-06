@@ -401,9 +401,6 @@ function MultiStorePreview({ ms, cart, onAddToCart, onCartOpen }) {
                 <div style={{ width: 72, height: 72, borderRadius: 8, overflow: 'hidden', background: '#f5f5f5', position: 'relative', marginBottom: 3 }}>
                   {p.image ? <img src={p.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><span style={{ fontSize: 22 }}>🛍️</span></div>}
                   <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(transparent 45%, rgba(0,0,0,0.45))' }} />
-                  <div style={{ position: 'absolute', bottom: 4, left: 4, width: 14, height: 14, borderRadius: '50%', background: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <svg width="6" height="6" viewBox="0 0 24 24" fill="none" stroke="#111" strokeWidth="3" strokeLinecap="round"><polyline points="9 18 15 12 9 6"/></svg>
-                  </div>
                 </div>
                 <p style={{ fontSize: 7, fontWeight: 700, color: '#111', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p.name}</p>
                 {p.price && <p style={{ fontSize: 7.5, fontWeight: 900, color: accent, margin: 0 }}>₪{p.price}</p>}
