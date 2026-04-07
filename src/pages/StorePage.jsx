@@ -242,6 +242,31 @@ function SingleStorePage({ d }) {
   return (
     <div dir="rtl" style={{ fontFamily:"'Heebo','Segoe UI',sans-serif", background:'#fff', minHeight:'100vh' }}>
 
+      {/* ── 0. Ticker strip ── */}
+      {d.ticker && (
+        <div style={{ background: accent, overflow: 'hidden', height: 36, display: 'flex', alignItems: 'center', position: 'relative', zIndex: 50 }}>
+          <style>{`
+            @keyframes ticker-rtl {
+              0% { transform: translateX(-100%); }
+              100% { transform: translateX(100%); }
+            }
+            .ticker-track {
+              display: flex;
+              white-space: nowrap;
+              animation: ticker-rtl 22s linear infinite;
+              will-change: transform;
+            }
+          `}</style>
+          <div className="ticker-track">
+            {[...Array(6)].map((_, i) => (
+              <span key={i} style={{ fontSize: 12, fontWeight: 800, color: 'white', letterSpacing: '0.5px', paddingLeft: 48, paddingRight: 48, opacity: 0.95 }}>
+                {d.ticker}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* ── 1. Sticky Nav ── */}
       <div style={{ position:'sticky', top:0, zIndex:40, background:'rgba(255,255,255,0.96)', backdropFilter:'blur(12px)', borderBottom:'1px solid #f0f0f0', padding:`0 ${px}px`, height:64, display:'flex', alignItems:'center', justifyContent:'space-between', maxWidth:'100%' }}>
         <div style={{ display:'flex', alignItems:'center', gap:10 }}>
