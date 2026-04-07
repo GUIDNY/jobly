@@ -36,6 +36,11 @@ const DEFAULT_CARD = {
   reviews_enabled: false,
   reviews_public: false,
   manual_reviews: [],
+  about_enabled: false,
+  about_layout: 'text',
+  about_title: '',
+  about_text: '',
+  about_image_url: '',
 };
 
 export default function BuilderPage() {
