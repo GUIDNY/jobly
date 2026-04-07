@@ -858,6 +858,131 @@ function Step2({ form, update, userId, dbCardId, onUploadingChange }) {
 
   return (
     <div className="bg-white rounded-2xl md:rounded-3xl p-3 md:p-6 card-shadow space-y-3 md:space-y-4">
+
+      {/* ── About Section ── */}
+      <div className="rounded-2xl border border-gray-100 overflow-hidden" style={{ background: '#fafafa' }}>
+        {/* Header row */}
+        <div className="flex items-center justify-between px-4 py-3">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
+              style={{ background: 'linear-gradient(135deg, #F4938C22, #5BC4C822)' }}>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#5BC4C8" strokeWidth="2" strokeLinecap="round">
+                <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+              </svg>
+            </div>
+            <div>
+              <p className="text-xs font-bold text-gray-800">סעיף אודות</p>
+              <p className="text-[10px] text-gray-400">מי אתם? הכירו את הלקוחות שלכם</p>
+            </div>
+          </div>
+          {/* Toggle */}
+          <button
+            onClick={() => update('about_enabled', !form.about_enabled)}
+            className="relative flex-shrink-0 w-10 h-5.5 rounded-full transition-colors duration-200"
+            style={{ background: form.about_enabled ? 'linear-gradient(135deg, #F4938C, #5BC4C8)' : '#e5e7eb', height: 22, width: 40 }}
+          >
+            <span className="absolute top-0.5 rounded-full bg-white shadow transition-all duration-200"
+              style={{ width: 18, height: 18, left: form.about_enabled ? 20 : 2 }} />
+          </button>
+        </div>
+
+        {/* Expandable content */}
+        <AnimatePresence>
+          {form.about_enabled && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.22 }}
+              style={{ overflow: 'hidden' }}
+            >
+              <div className="px-4 pb-4 space-y-3 border-t border-gray-100 pt-3">
+                {/* Layout picker */}
+                <div>
+                  <p className="text-[10px] font-semibold text-gray-500 mb-1.5">סוג תצוגה</p>
+                  <div className="grid grid-cols-2 gap-2">
+                    {[
+                      { v: 'text', label: 'מילים בלבד', icon: (
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="15" y2="18"/></svg>
+                      )},
+                      { v: 'text-image', label: 'מילים + תמונה', icon: (
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="3" width="9" height="18" rx="1"/><rect x="13" y="3" width="9" height="18" rx="1"/></svg>
+                      )},
+                    ].map(opt => (
+                      <button key={opt.v}
+                        onClick={() => update('about_layout', opt.v)}
+                        className="flex items-center justify-center gap-1.5 px-2 py-2 rounded-xl border-2 text-xs font-medium transition-all"
+                        style={form.about_layout === opt.v
+                          ? { borderColor: '#5BC4C8', background: '#f0fafa', color: '#2a9aa0' }
+                          : { borderColor: '#e5e7eb', color: '#6b7280', background: 'white' }}>
+                        {opt.icon}{opt.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Title */}
+                <div>
+                  <label className="block text-[10px] font-semibold text-gray-500 mb-1">כותרת</label>
+                  <input type="text" value={form.about_title || ''} onChange={e => update('about_title', e.target.value)}
+                    placeholder="קצת עלינו"
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-teal-400 bg-white transition-all"
+                    maxLength={60} />
+                </div>
+
+                {/* Text */}
+                <div>
+                  <label className="block text-[10px] font-semibold text-gray-500 mb-1">טקסט</label>
+                  <textarea value={form.about_text || ''} onChange={e => update('about_text', e.target.value)}
+                    placeholder="ספרו ללקוחות שלכם מי אתם, מה מיוחד בכם ולמה כדאי לפנות אליכם..."
+                    rows={3}
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-teal-400 bg-white transition-all resize-none"
+                    maxLength={400} />
+                  <p className="text-[10px] text-gray-400 mt-0.5 text-left">{(form.about_text || '').length}/400</p>
+                </div>
+
+                {/* Image upload — only for text-image layout */}
+                {form.about_layout === 'text-image' && (
+                  <div>
+                    <label className="block text-[10px] font-semibold text-gray-500 mb-1.5">תמונה</label>
+                    <div className="flex items-center gap-3">
+                      <button
+                        onClick={() => aboutImgRef.current?.click()}
+                        className="relative w-16 h-16 rounded-2xl border-2 border-dashed border-gray-200 overflow-hidden hover:border-teal-400 hover:bg-teal-50 transition-colors flex-shrink-0"
+                      >
+                        {form.about_image_url ? (
+                          <>
+                            <img src={form.about_image_url} alt="" className="w-full h-full object-cover" />
+                            {uploadingAboutImg && (
+                              <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+                                <svg className="animate-spin w-4 h-4 text-white" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+                              </div>
+                            )}
+                          </>
+                        ) : (
+                          <div className="flex flex-col items-center justify-center h-full gap-1">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                            <span className="text-[9px] text-gray-400">העלה</span>
+                          </div>
+                        )}
+                      </button>
+                      <input ref={aboutImgRef} type="file" accept="image/*" className="hidden" onChange={handleAboutImage} />
+                      <div className="text-xs text-gray-400 leading-relaxed">
+                        <p>תמונה שתוצג לצד הטקסט</p>
+                        <p className="text-[10px] mt-0.5">JPG, PNG · 5MB</p>
+                        {form.about_image_url && (
+                          <button onClick={() => update('about_image_url', '')} className="text-[10px] text-red-400 mt-1 hover:text-red-500">הסר תמונה</button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+
       <div className="flex items-center justify-between">
         <h2 className="text-sm md:text-lg font-bold text-gray-900">השירותים שלך</h2>
         <span className="text-xs text-gray-400">{form.services.length}/5</span>
