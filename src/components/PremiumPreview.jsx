@@ -78,6 +78,42 @@ export default function PremiumPreview({ data }) {
 
       {contactPos === 'above' && contactGridEl}
 
+      {/* About */}
+      {data.about_enabled && (data.about_title || data.about_text) && (
+        <div style={{ margin: '0 14px 10px', borderRadius: 10, overflow: 'hidden', background: '#0d0f1a', border: `1px solid ${accent}22` }}>
+          {data.about_layout === 'text-image' && data.about_image_url ? (
+            <div style={{ display: 'flex', alignItems: 'stretch' }}>
+              <div style={{ flex: 1, padding: '10px 8px 10px 10px' }}>
+                {data.about_title && (
+                  <div style={{ fontSize: 9, fontWeight: 900, fontStyle: 'italic', color: 'white', marginBottom: 3, lineHeight: 1.3 }}>{data.about_title}</div>
+                )}
+                {data.about_text && (
+                  <div style={{ fontSize: 7, color: 'rgba(255,255,255,0.45)', lineHeight: 1.6,
+                    display: '-webkit-box', WebkitLineClamp: 5, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                    {data.about_text}
+                  </div>
+                )}
+              </div>
+              <div style={{ width: 52, flexShrink: 0, overflow: 'hidden' }}>
+                <img src={data.about_image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+              </div>
+            </div>
+          ) : (
+            <div style={{ padding: '10px 12px' }}>
+              {data.about_title && (
+                <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 4 }}>
+                  <div style={{ width: 2.5, height: 12, borderRadius: 2, background: `linear-gradient(135deg, ${accent}, #5BC4C8)`, flexShrink: 0 }} />
+                  <div style={{ fontSize: 9, fontWeight: 900, fontStyle: 'italic', color: 'white', lineHeight: 1.3 }}>{data.about_title}</div>
+                </div>
+              )}
+              {data.about_text && (
+                <div style={{ fontSize: 7, color: 'rgba(255,255,255,0.45)', lineHeight: 1.6 }}>{data.about_text.slice(0, 120)}{data.about_text.length > 120 ? '...' : ''}</div>
+              )}
+            </div>
+          )}
+        </div>
+      )}
+
       {/* Services */}
       {services.length > 0 && (
         <div style={{ padding: '0 14px 14px' }}>
