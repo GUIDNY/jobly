@@ -373,8 +373,38 @@ function SingleStorePage({ d }) {
             </div>
           </div>
         ) : (
-          /* Mobile: single column */
+          /* Mobile: single column — bullets + description first, then price/CTA */
           <>
+            {/* Benefit cards — mobile: above CTA */}
+            {bullets.length > 0 && (
+              <div style={{ marginBottom: 20 }}>
+                <p style={{ fontSize:11, fontWeight:800, color:accent, letterSpacing:'1.5px', textTransform:'uppercase', margin:'0 0 12px' }}>מה תקבל</p>
+                <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
+                  {bullets.map((b,i) => (
+                    <div key={i} style={{ display:'flex', alignItems:'flex-start', gap:12, padding:'12px 14px', borderRadius:14, background:'#f9fafb', border:'1px solid #f0f0f0' }}>
+                      <div style={{ width:24, height:24, borderRadius:'50%', background:`${accent}18`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, marginTop:1 }}>
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="3"><polyline points="20 6 9 17 4 12"/></svg>
+                      </div>
+                      <span style={{ fontSize:14, color:'#374151', lineHeight:1.55 }}>{b}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Description — mobile: above CTA */}
+            {d.description && (
+              <div style={{ marginBottom: 24 }}>
+                <p style={{ fontSize:11, fontWeight:800, color:accent, letterSpacing:'1.5px', textTransform:'uppercase', margin:'0 0 10px' }}>אודות המוצר</p>
+                <p style={{ fontSize:14, color:'#4b5563', lineHeight:1.8, margin:0, whiteSpace:'pre-wrap' }}>{d.description}</p>
+              </div>
+            )}
+
+            {/* Divider */}
+            {(bullets.length > 0 || d.description) && (
+              <div style={{ height:1, background:'#f0f0f0', margin:'0 0 22px' }} />
+            )}
+
             {/* Price block */}
             <div style={{ marginBottom:18 }}>
               <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:6 }}>
@@ -395,31 +425,6 @@ function SingleStorePage({ d }) {
           </>
         )}
       </div>
-
-      {/* ── 7. Benefit cards (mobile only — desktop shows them inline above) ── */}
-      {!isDesktop && bullets.length > 0 && (
-        <div style={{ padding:'40px 20px 0', background:'white' }}>
-          <p style={{ fontSize:11, fontWeight:800, color:accent, letterSpacing:'1.5px', textTransform:'uppercase', margin:'0 0 14px' }}>מה תקבל</p>
-          <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
-            {bullets.map((b,i) => (
-              <div key={i} style={{ display:'flex', alignItems:'flex-start', gap:12, padding:'14px 16px', borderRadius:14, background:'#f9fafb', border:'1px solid #f0f0f0' }}>
-                <div style={{ width:26, height:26, borderRadius:'50%', background:`${accent}18`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, marginTop:1 }}>
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="3"><polyline points="20 6 9 17 4 12"/></svg>
-                </div>
-                <span style={{ fontSize:14, color:'#374151', lineHeight:1.55 }}>{b}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* ── 8. Description (mobile only) ── */}
-      {!isDesktop && d.description && (
-        <div style={{ padding:'40px 20px 0', background:'white' }}>
-          <p style={{ fontSize:11, fontWeight:800, color:accent, letterSpacing:'1.5px', textTransform:'uppercase', margin:'0 0 12px' }}>אודות המוצר</p>
-          <p style={{ fontSize:14, color:'#4b5563', lineHeight:1.8, margin:0, whiteSpace:'pre-wrap' }}>{d.description}</p>
-        </div>
-      )}
 
       {/* ── Video ── */}
       {d.videoUrl && (
