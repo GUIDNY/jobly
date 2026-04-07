@@ -1400,6 +1400,39 @@ export default function StoreBuilderPage() {
             </motion.div>
           )}
 
+          {/* ── Single product step nav buttons ── */}
+          {storeType === 'single' && (() => {
+            const ids = SECTIONS.map(s => s.id);
+            const idx = ids.indexOf(activeSection);
+            const prevId = ids[idx - 1] || null;
+            const nextId = ids[idx + 1] || null;
+            const nextLabels = {
+              details: 'המשיכו לפרטי המוצר →',
+              payment: 'הגדירו את אמצעי התשלום →',
+              reviews: 'הוסיפו ביקורות →',
+              publish: 'מוכנים לפרסם! →',
+            };
+            if (!prevId && !nextId) return null;
+            return (
+              <div className="flex gap-2 mt-2">
+                {prevId && (
+                  <button onClick={() => setActiveSection(prevId)}
+                    className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-medium border border-gray-200 text-gray-600 hover:bg-gray-50 transition-colors">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+                    חזרה
+                  </button>
+                )}
+                {nextId && (
+                  <button onClick={() => setActiveSection(nextId)}
+                    className="flex-1 py-2.5 rounded-xl text-sm font-bold text-white transition-all"
+                    style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)', boxShadow: '0 4px 12px rgba(244,147,140,0.3)' }}>
+                    {nextLabels[nextId] || 'המשך →'}
+                  </button>
+                )}
+              </div>
+            );
+          })()}
+
           {/* ══ MULTI-STORE STEPS ══ */}
           {storeType === 'multi' && (
             <motion.div key={`multi-${multiStep}`} initial={{ opacity:0, x:16 }} animate={{ opacity:1, x:0 }} className="space-y-3">
