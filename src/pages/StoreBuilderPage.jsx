@@ -1326,41 +1326,75 @@ export default function StoreBuilderPage() {
           {/* ── Section: Publish (single product) ── */}
           {storeType === 'single' && activeSection === 'publish' && (
             <motion.div key="publish" initial={{ opacity:0, y:12 }} animate={{ opacity:1, y:0 }} className="space-y-3">
-              <div className="bg-white rounded-2xl p-4 md:p-5 border border-gray-100 space-y-4" style={{ boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
-                <div>
-                  <p className="text-sm font-bold text-gray-800">פרסם את החנות שלך</p>
-                  <p className="text-xs text-gray-400 mt-0.5">בחר כתובת URL קצרה — לקוחות יגיעו דרכה לחנות</p>
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold text-gray-500 mb-1.5">כתובת החנות</label>
-                  <div className="flex items-center gap-2 bg-gray-50 rounded-xl px-3 py-2 border border-gray-200">
-                    <span className="text-xs text-gray-400 flex-shrink-0">vizzit.online/store/</span>
-                    <input value={slugInput} onChange={e => checkSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g,''))}
-                      placeholder="my-store" dir="ltr"
-                      className="flex-1 bg-transparent text-sm font-bold text-gray-800 outline-none" />
-                    {slugChecking && <svg className="animate-spin w-4 h-4 text-gray-400 flex-shrink-0" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>}
-                    {!slugChecking && slugAvailable === true && <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>}
-                    {!slugChecking && slugAvailable === false && <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#EF4444" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>}
-                  </div>
-                  {slugInput.length < 2 && <button onClick={() => { const s = toSlug(data.storeName || data.name || 'my-store'); checkSlug(s); }} className="text-xs text-indigo-500 font-medium mt-1">⚡ הצע כתובת אוטומטית</button>}
-                  {slugAvailable === false && <p className="text-xs text-red-500 mt-1">הכתובת תפוסה, נסה אחרת</p>}
-                  {published && <p className="text-xs text-green-600 font-bold mt-1">✓ החנות פורסמה בהצלחה!</p>}
-                </div>
-                {published && publishedSlug && (
-                  <div className="bg-green-50 rounded-xl p-3 border border-green-200">
-                    <p className="text-xs font-bold text-green-700 mb-1">החנות חיה! 🎉</p>
-                    <a href={`/store/${publishedSlug}`} target="_blank" rel="noopener noreferrer" className="text-xs text-green-600 underline break-all">vizzit.online/store/{publishedSlug}</a>
+
+              {/* Hero publish card */}
+              <div className="bg-white rounded-2xl p-4 md:p-6 border border-gray-100" style={{ boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
+                {!published ? (
+                  <>
+                    <div className="text-center mb-5">
+                      <div className="w-14 h-14 rounded-2xl mx-auto mb-3 flex items-center justify-center text-2xl" style={{ background: 'linear-gradient(135deg, #F4938C22, #5BC4C822)' }}>🚀</div>
+                      <p className="text-base font-black text-gray-900">מוכנים להשיק?</p>
+                      <p className="text-xs text-gray-400 mt-1">בחרו כתובת קצרה ושלחו ללקוחות — זה כל מה שנשאר</p>
+                    </div>
+                    <div className="space-y-3">
+                      <div>
+                        <label className="block text-xs font-bold text-gray-700 mb-1.5">כתובת החנות שלך</label>
+                        <div className="flex items-center gap-2 bg-gray-50 rounded-xl px-3 py-2.5 border-2 transition-colors"
+                          style={{ borderColor: slugAvailable === true ? '#10B981' : slugAvailable === false ? '#EF4444' : '#e5e7eb' }}>
+                          <span className="text-xs text-gray-400 flex-shrink-0 font-medium">vizzit.online/store/</span>
+                          <input value={slugInput} onChange={e => checkSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g,''))}
+                            placeholder="my-store" dir="ltr"
+                            className="flex-1 bg-transparent text-sm font-bold text-gray-900 outline-none" />
+                          {slugChecking && <svg className="animate-spin w-4 h-4 text-gray-400 flex-shrink-0" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>}
+                          {!slugChecking && slugAvailable === true && <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>}
+                          {!slugChecking && slugAvailable === false && <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#EF4444" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>}
+                        </div>
+                        {slugInput.length < 2 && (
+                          <button onClick={() => { const s = toSlug(data.storeName || data.name || 'my-store'); checkSlug(s); }}
+                            className="text-xs font-bold mt-1.5 flex items-center gap-1" style={{ color: data.accentColor }}>
+                            ⚡ הצע כתובת אוטומטית
+                          </button>
+                        )}
+                        {slugAvailable === false && <p className="text-xs text-red-500 mt-1 font-medium">הכתובת תפוסה — נסו שם אחר</p>}
+                        {slugAvailable === true && <p className="text-xs text-green-600 mt-1 font-medium">✓ הכתובת פנויה ומוכנה!</p>}
+                        {slugAvailable === true && <p className="text-[10px] text-gray-400 mt-0.5">vizzit.online/store/{slugInput}</p>}
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <div className="text-center">
+                    <div className="w-16 h-16 rounded-2xl mx-auto mb-3 flex items-center justify-center text-3xl" style={{ background: 'linear-gradient(135deg,#10B98122,#10B98111)' }}>🎉</div>
+                    <p className="text-base font-black text-gray-900">החנות שלך חיה!</p>
+                    <p className="text-xs text-gray-400 mt-1 mb-4">שתפו את הקישור עם לקוחות — כבר עכשיו</p>
+                    <div className="bg-green-50 rounded-xl p-3 border border-green-200 mb-3">
+                      <a href={`/store/${publishedSlug}`} target="_blank" rel="noopener noreferrer"
+                        className="text-sm font-bold text-green-700 break-all hover:underline">
+                        vizzit.online/store/{publishedSlug} ↗
+                      </a>
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold text-gray-700 mb-1.5 text-right">עדכון כתובת</label>
+                      <div className="flex items-center gap-2 bg-gray-50 rounded-xl px-3 py-2 border border-gray-200">
+                        <span className="text-xs text-gray-400 flex-shrink-0">vizzit.online/store/</span>
+                        <input value={slugInput} onChange={e => checkSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g,''))}
+                          placeholder="my-store" dir="ltr" className="flex-1 bg-transparent text-sm font-bold text-gray-800 outline-none" />
+                        {slugAvailable === true && <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>}
+                        {slugAvailable === false && <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#EF4444" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>}
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>
+
               <div className="flex gap-2">
-                <button onClick={handleSave} disabled={saving} className="px-5 py-3 rounded-2xl text-sm font-bold text-gray-600 bg-white border border-gray-200 disabled:opacity-60">
+                <button onClick={handleSave} disabled={saving}
+                  className="px-5 py-3 rounded-2xl text-sm font-bold text-gray-600 bg-white border border-gray-200 disabled:opacity-60 hover:bg-gray-50 transition-colors">
                   {saving ? 'שומר...' : 'שמור טיוטה'}
                 </button>
                 <button onClick={handlePublish} disabled={publishing || !slugInput || slugAvailable === false}
-                  className="flex-1 py-3 rounded-2xl text-sm font-bold text-white disabled:opacity-50"
-                  style={{ background:'linear-gradient(135deg,#F4938C,#5BC4C8)', boxShadow:'0 4px 16px rgba(244,147,140,0.35)' }}>
-                  {publishing ? 'מפרסם...' : published ? 'עדכן ופרסם מחדש 🚀' : 'פרסם חנות 🚀'}
+                  className="flex-1 py-3 rounded-2xl text-sm font-black text-white disabled:opacity-50 transition-all"
+                  style={{ background: published ? '#10B981' : 'linear-gradient(135deg,#F4938C,#5BC4C8)', boxShadow: published ? '0 4px 16px rgba(16,185,129,0.35)' : '0 4px 16px rgba(244,147,140,0.35)' }}>
+                  {publishing ? 'מפרסם...' : published ? '✓ עדכן ופרסם מחדש' : '🚀 פרסמו את החנות שלכם'}
                 </button>
               </div>
             </motion.div>
