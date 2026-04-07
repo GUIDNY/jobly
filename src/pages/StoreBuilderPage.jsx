@@ -601,6 +601,7 @@ const DEFAULT_DATA = {
     { name: 'שירה לוי', rating: 5, text: 'שירות מהיר ואיכות גבוהה' },
   ],
   accentColor: '#F4938C',
+  ticker: '',
   multi: DEFAULT_MULTI,
 };
 
