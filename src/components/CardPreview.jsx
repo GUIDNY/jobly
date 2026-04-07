@@ -34,6 +34,11 @@ export default function CardPreview({ data = {}, compact = false, showActions = 
     contact_position = 'above',
     title_align = 'center',
     name_size = 'md',
+    about_enabled = false,
+    about_layout = 'text',
+    about_title = '',
+    about_text = '',
+    about_image_url = '',
   } = data;
 
   const waLink = phone
