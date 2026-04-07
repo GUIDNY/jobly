@@ -145,6 +145,81 @@ export default function CardPreview({ data = {}, compact = false, showActions = 
       {/* Contact buttons — above services */}
       {contact_position !== 'below' && actionButtons}
 
+      {/* ── About Section ── */}
+      {about_enabled && (about_text || about_title) && (
+        <div style={{
+          margin: compact ? '12px 14px 0' : '16px 16px 0',
+          borderRadius: 16,
+          overflow: 'hidden',
+          background: background_style === 'dark' ? '#13132a' : `${primary_color}09`,
+          border: background_style === 'dark' ? `1px solid ${primary_color}22` : `1px solid ${primary_color}18`,
+        }}>
+          {about_layout === 'text-image' && about_image_url ? (
+            /* Text + Image layout */
+            <div style={{ display: 'flex', alignItems: 'stretch' }}>
+              <div style={{ flex: 1, padding: compact ? '12px 10px 12px 12px' : '16px 12px 16px 16px' }}>
+                {about_title && (
+                  <p style={{
+                    fontWeight: 800,
+                    fontSize: compact ? 11 : 13,
+                    color: background_style === 'dark' ? '#e2e8f0' : '#1f2937',
+                    marginBottom: compact ? 4 : 6,
+                    lineHeight: 1.3,
+                  }}>{about_title}</p>
+                )}
+                {about_text && (
+                  <p style={{
+                    fontSize: compact ? 9.5 : 11.5,
+                    color: background_style === 'dark' ? 'rgba(255,255,255,0.62)' : '#6b7280',
+                    lineHeight: 1.6,
+                    display: '-webkit-box',
+                    WebkitLineClamp: compact ? 5 : 7,
+                    WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden',
+                  }}>{about_text}</p>
+                )}
+              </div>
+              <div style={{
+                width: compact ? 72 : 90,
+                flexShrink: 0,
+                overflow: 'hidden',
+              }}>
+                <img src={about_image_url} alt=""
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+              </div>
+            </div>
+          ) : (
+            /* Text only layout */
+            <div style={{ padding: compact ? '14px 12px' : '18px 16px' }}>
+              {about_title && (
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: compact ? 6 : 8 }}>
+                  <div style={{
+                    width: compact ? 3 : 3.5,
+                    height: compact ? 14 : 18,
+                    borderRadius: 3,
+                    background: `linear-gradient(135deg, ${primary_color}, #5BC4C8)`,
+                    flexShrink: 0,
+                  }} />
+                  <p style={{
+                    fontWeight: 800,
+                    fontSize: compact ? 11 : 13,
+                    color: background_style === 'dark' ? '#e2e8f0' : '#1f2937',
+                    lineHeight: 1.3,
+                  }}>{about_title}</p>
+                </div>
+              )}
+              {about_text && (
+                <p style={{
+                  fontSize: compact ? 9.5 : 11.5,
+                  color: background_style === 'dark' ? 'rgba(255,255,255,0.62)' : '#6b7280',
+                  lineHeight: 1.65,
+                }}>{about_text}</p>
+              )}
+            </div>
+          )}
+        </div>
+      )}
+
       {/* ── Services ── */}
       {displayServices.length > 0 && (
         <div style={{ padding: compact ? '14px 14px 0' : '18px 16px 0', background: background_style === 'dark' ? '#0a0a12' : '#fff' }}>
