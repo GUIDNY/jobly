@@ -936,100 +936,160 @@ export default function StoreBuilderPage() {
           {storeType === 'single' && activeSection === 'product' && (
             <motion.div key="product" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="space-y-3">
 
-              {/* Image upload — shown always, compact on mobile */}
-              <div className="bg-white rounded-2xl p-3 md:p-5 border border-gray-100" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+              {/* ── Hero image upload — BIG, cinematic ── */}
+              <div className="bg-white rounded-2xl overflow-hidden border border-gray-100" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
                 <div
                   onClick={() => fileRef.current?.click()}
-                  className="relative cursor-pointer rounded-2xl overflow-hidden transition-all hover:opacity-90"
-                  style={{ height: data.image ? 120 : 90, background: data.image ? 'transparent' : 'linear-gradient(135deg, #f9fafb, #f3f4f6)', border: data.image ? 'none' : '2px dashed #e5e7eb', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                  className="relative cursor-pointer overflow-hidden transition-all group"
+                  style={{ height: data.image ? 200 : 160, background: data.image ? 'transparent' : `linear-gradient(135deg, ${data.accentColor}18 0%, ${data.accentColor}08 100%)` }}
                 >
                   {data.image ? (
-                    <img src={data.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                    <>
+                      <img src={data.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all flex items-center justify-center">
+                        <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-white/90 backdrop-blur rounded-2xl px-4 py-2.5 flex items-center gap-2">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#374151" strokeWidth="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                          <span className="text-xs font-bold text-gray-700">החלף תמונה</span>
+                        </div>
+                      </div>
+                    </>
                   ) : uploading ? (
-                    <div className="flex items-center gap-2">
-                      <svg className="animate-spin w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
-                      <p className="text-xs text-gray-500">מעלה...</p>
+                    <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+                      <svg className="animate-spin w-8 h-8" viewBox="0 0 24 24" fill="none" style={{ color: data.accentColor }}><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+                      <p className="text-sm font-medium text-gray-500">מעלה תמונה...</p>
                     </div>
                   ) : (
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, #F4938C22, #5BC4C822)' }}>
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F4938C" strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 p-6">
+                      <div className="w-16 h-16 rounded-2xl flex items-center justify-center" style={{ background: `${data.accentColor}22`, border: `2px dashed ${data.accentColor}55` }}>
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke={data.accentColor} strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
                       </div>
-                      <div>
-                        <p className="text-xs font-semibold text-gray-700">העלה תמונת מוצר</p>
-                        <p className="text-[10px] text-gray-400 mt-0.5">JPG, PNG · עד 10MB</p>
+                      <div className="text-center">
+                        <p className="text-sm font-bold text-gray-800">הוסיפו תמונה שתמכור אתכם</p>
+                        <p className="text-xs text-gray-400 mt-1">תמונה אחת טובה שווה אלף מילים — JPG, PNG עד 10MB</p>
+                      </div>
+                      <div className="px-5 py-2.5 rounded-2xl text-sm font-bold text-white" style={{ background: `linear-gradient(135deg, ${data.accentColor}, #5BC4C8)` }}>
+                        בחר תמונה
                       </div>
                     </div>
                   )}
                 </div>
                 <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={e => handleImageUpload(e.target.files?.[0])} />
-                {data.image && <button onClick={() => upd('image', '')} className="text-[10px] text-red-400 mt-1.5 block">הסר תמונה</button>}
+                {data.image && (
+                  <div className="flex items-center justify-between px-4 py-2 border-t border-gray-50">
+                    <p className="text-[10px] text-gray-400">התמונה מוצגת בדף המוצר שלך</p>
+                    <button onClick={() => upd('image', '')} className="text-[10px] text-red-400 font-medium hover:text-red-500">הסר</button>
+                  </div>
+                )}
               </div>
 
               {/* ── Mobile compact buttons ── */}
               <div className="md:hidden bg-white rounded-2xl p-3 border border-gray-100 space-y-2" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
-                {/* Name + tagline */}
-                <button onClick={() => setShowProductSheet(true)} className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors">
-                  <span className="text-base">🏷️</span>
-                  <span className="text-xs font-medium text-gray-700 flex-1 text-right">{data.name || 'שם המוצר'}</span>
+                <div className="px-1 pb-1">
+                  <p className="text-xs font-bold text-gray-800">עוד רגע — מלאו את הפרטים</p>
+                  <p className="text-[10px] text-gray-400 mt-0.5">3 שדות ותהיה מוכן להשיק</p>
+                </div>
+                <button onClick={() => setShowProductSheet(true)} className="flex items-center gap-2.5 w-full px-3 py-3 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors">
+                  <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: data.name ? '#d1fae5' : '#f9fafb' }}>
+                    <span className="text-sm">{data.name ? '✓' : '🏷️'}</span>
+                  </div>
+                  <div className="flex-1 text-right">
+                    <p className="text-xs font-semibold text-gray-800">{data.name || 'שם המוצר'}</p>
+                    <p className="text-[10px] text-gray-400">{data.name ? (data.tagline || 'הוסיפו תגית') : 'על מה אתם מוכרים?'}</p>
+                  </div>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
                 </button>
-                {/* Price */}
-                <button onClick={() => setShowPriceSheet(true)} className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors">
-                  <span className="text-base">💰</span>
-                  <span className="text-xs font-medium text-gray-700 flex-1 text-right">{data.price ? `₪${data.price}${data.originalPrice ? ` (היה ₪${data.originalPrice})` : ''}` : 'הגדר מחיר'}</span>
+                <button onClick={() => setShowPriceSheet(true)} className="flex items-center gap-2.5 w-full px-3 py-3 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors">
+                  <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: data.price ? '#d1fae5' : '#f9fafb' }}>
+                    <span className="text-sm">{data.price ? '✓' : '💰'}</span>
+                  </div>
+                  <div className="flex-1 text-right">
+                    <p className="text-xs font-semibold text-gray-800">{data.price ? `₪${data.price}` : 'מחיר'}</p>
+                    <p className="text-[10px] text-gray-400">{data.originalPrice ? `היה ₪${data.originalPrice} — ${Math.round((1-data.price/data.originalPrice)*100)}% הנחה` : 'כמה עולה המוצר?'}</p>
+                  </div>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
                 </button>
-                {/* Color */}
-                <button onClick={() => setShowColorSheet(true)} className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors">
-                  <div className="w-5 h-5 rounded-full flex-shrink-0" style={{ background: data.accentColor }} />
-                  <span className="text-xs font-medium text-gray-700 flex-1 text-right">צבע + שם חנות</span>
+                <button onClick={() => setShowColorSheet(true)} className="flex items-center gap-2.5 w-full px-3 py-3 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors">
+                  <div className="w-8 h-8 rounded-full flex-shrink-0 border-2 border-white shadow" style={{ background: data.accentColor }} />
+                  <div className="flex-1 text-right">
+                    <p className="text-xs font-semibold text-gray-800">{data.storeName || 'שם החנות'}</p>
+                    <p className="text-[10px] text-gray-400">צבע מותג + שם העסק</p>
+                  </div>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
                 </button>
               </div>
 
               {/* ── Desktop full form ── */}
-              <div className="hidden md:block bg-white rounded-2xl p-5 border border-gray-100 space-y-4" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
-                <p className="text-sm font-bold text-gray-800">פרטי המוצר</p>
+              <div className="hidden md:block bg-white rounded-2xl p-5 border border-gray-100 space-y-5" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+                <div>
+                  <p className="text-sm font-bold text-gray-900">המוצר שלך</p>
+                  <p className="text-xs text-gray-400 mt-0.5">כמה שניות מפרידות בינך לבין דף מכירה מקצועי</p>
+                </div>
+
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-semibold text-gray-500 mb-1.5">שם העסק / חנות</label>
-                    <input value={data.storeName} onChange={e => upd('storeName', e.target.value)} placeholder="הממתקים של תמי" className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400" />
+                    <label className="block text-xs font-bold text-gray-700 mb-1">שם החנות / העסק</label>
+                    <input value={data.storeName} onChange={e => upd('storeName', e.target.value)} placeholder="הממתקים של תמי" className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 transition-colors" />
+                    <p className="text-[10px] text-gray-400 mt-1">מופיע בפינה העליונה של הדף</p>
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-gray-500 mb-1.5">צבע ראשי</label>
-                    <div className="flex items-center gap-2">
-                      <input type="color" value={data.accentColor} onChange={e => upd('accentColor', e.target.value)} className="w-10 h-10 rounded-lg border border-gray-200 cursor-pointer p-0.5" />
-                      <span className="text-xs text-gray-500">{data.accentColor}</span>
+                    <label className="block text-xs font-bold text-gray-700 mb-1">צבע מותג</label>
+                    <div className="flex items-center gap-2.5">
+                      <input type="color" value={data.accentColor} onChange={e => upd('accentColor', e.target.value)} className="w-10 h-10 rounded-xl border border-gray-200 cursor-pointer p-0.5 flex-shrink-0" />
+                      <div className="flex gap-1.5 flex-wrap">
+                        {['#F4938C','#5BC4C8','#6366f1','#10B981','#F59E0B','#8B5CF6','#EC4899','#EF4444'].map(c => (
+                          <button key={c} onClick={() => upd('accentColor', c)} className="w-6 h-6 rounded-full border-2 transition-all flex-shrink-0"
+                            style={{ background:c, borderColor: data.accentColor===c ? '#111' : 'transparent', transform: data.accentColor===c ? 'scale(1.2)' : 'scale(1)' }} />
+                        ))}
+                      </div>
                     </div>
+                    <p className="text-[10px] text-gray-400 mt-1">צבע הכפתורים והפרטים בדף</p>
                   </div>
                 </div>
+
                 <div>
-                  <label className="block text-xs font-semibold text-gray-500 mb-1.5">שם המוצר *</label>
-                  <input value={data.name} onChange={e => upd('name', e.target.value)} placeholder="למשל: קורס צילום מקצועי" className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400" />
+                  <label className="block text-xs font-bold text-gray-700 mb-1">שם המוצר *</label>
+                  <input value={data.name} onChange={e => upd('name', e.target.value)} placeholder="קורס צילום מקצועי · שמלת כלה · עיסוי שוודי" className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 transition-colors" />
+                  <p className="text-[10px] text-gray-400 mt-1">הכותרת הראשית — תהיה ברורה וממוקדת</p>
                 </div>
+
                 <div>
-                  <label className="block text-xs font-semibold text-gray-500 mb-1.5">תגית / טקסט משנה</label>
-                  <input value={data.tagline} onChange={e => upd('tagline', e.target.value)} placeholder="תיאור קצר שמופיע מתחת לשם" className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400" />
+                  <label className="block text-xs font-bold text-gray-700 mb-1">משפט שיווקי</label>
+                  <input value={data.tagline} onChange={e => upd('tagline', e.target.value)} placeholder="למשל: &quot;הקורס שישנה את הדרך שאתה רואה את העולם&quot;" className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 transition-colors" />
+                  <p className="text-[10px] text-gray-400 mt-1">שורה קצרה מתחת לכותרת — מה הופך את המוצר שלך לייחודי?</p>
                 </div>
+
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-semibold text-gray-500 mb-1.5">מחיר (₪) *</label>
-                    <input type="number" value={data.price} onChange={e => upd('price', e.target.value)} placeholder="199" className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400" dir="ltr" />
+                    <label className="block text-xs font-bold text-gray-700 mb-1">מחיר מכירה ₪ *</label>
+                    <input type="number" value={data.price} onChange={e => upd('price', e.target.value)} placeholder="199" className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 transition-colors font-bold" dir="ltr" />
+                    <p className="text-[10px] text-gray-400 mt-1">המחיר שהלקוח משלם היום</p>
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-gray-500 mb-1.5">מחיר מקורי</label>
-                    <input type="number" value={data.originalPrice} onChange={e => upd('originalPrice', e.target.value)} placeholder="299" className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400" dir="ltr" />
+                    <label className="block text-xs font-bold text-gray-700 mb-1">מחיר מקורי ₪ <span className="font-normal text-gray-400">(אופציונלי)</span></label>
+                    <input type="number" value={data.originalPrice} onChange={e => upd('originalPrice', e.target.value)} placeholder="299" className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 transition-colors" dir="ltr" />
+                    <p className="text-[10px] text-gray-400 mt-1">יוצג עם קו ממחיקה — מדגיש את ההנחה</p>
                   </div>
                 </div>
+
                 <div>
-                  <label className="block text-xs font-semibold text-gray-500 mb-1.5">טקסט כפתור</label>
+                  <label className="block text-xs font-bold text-gray-700 mb-2">טקסט כפתור הקנייה</label>
                   <div className="flex gap-2 flex-wrap">
-                    {['קנה עכשיו','הזמן עכשיו','לרכישה','שלם ורכוש'].map(opt => (
-                      <button key={opt} onClick={() => upd('ctaText', opt)} className="px-3 py-1.5 rounded-xl text-xs font-semibold border-2 transition-all"
-                        style={data.ctaText === opt ? { borderColor: '#F4938C', background: '#fff5f4', color: '#F4938C' } : { borderColor: '#e5e7eb', color: '#6b7280' }}>{opt}</button>
+                    {[
+                      { text: 'קנה עכשיו', emoji: '🛒' },
+                      { text: 'הזמן עכשיו', emoji: '📲' },
+                      { text: 'לרכישה', emoji: '✨' },
+                      { text: 'שלם ורכוש', emoji: '💳' },
+                    ].map(opt => (
+                      <button key={opt.text} onClick={() => upd('ctaText', opt.text)}
+                        className="px-3 py-2 rounded-xl text-xs font-bold border-2 transition-all flex items-center gap-1.5"
+                        style={data.ctaText === opt.text
+                          ? { borderColor: data.accentColor, background: data.accentColor + '12', color: data.accentColor }
+                          : { borderColor: '#e5e7eb', color: '#6b7280', background: 'white' }}>
+                        <span>{opt.emoji}</span>{opt.text}
+                      </button>
                     ))}
                   </div>
+                  <p className="text-[10px] text-gray-400 mt-1.5">הטקסט שיופיע על כפתור הרכישה הירוק</p>
                 </div>
               </div>
             </motion.div>
