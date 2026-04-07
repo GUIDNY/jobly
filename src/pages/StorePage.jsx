@@ -236,8 +236,6 @@ function SingleStorePage({ d }) {
   );
 
   if (isDesktop) {
-    const isYouTube = d.videoUrl && (d.videoUrl.includes('youtube.com') || d.videoUrl.includes('youtu.be'));
-    const ytId = isYouTube ? (d.videoUrl.match(/(?:v=|youtu\.be\/)([^&?/]+)/)?.[1]) : null;
     return (
       <div dir="rtl" style={{ fontFamily:"'Heebo','Segoe UI',sans-serif", background:'white', minHeight:'100vh' }}>
         {/* Sticky nav */}
