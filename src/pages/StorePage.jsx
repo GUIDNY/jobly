@@ -175,9 +175,65 @@ function SingleStorePage({ d }) {
   const accent = d.accentColor || '#F4938C';
   const whatsappNumber = d.whatsapp || d.multi?.social?.whatsapp || '';
   const [showCheckout, setShowCheckout] = useState(false);
+  const [openFaq, setOpenFaq] = useState(null);
   const isDesktop = useIsDesktop();
 
   const item = { name: d.name || 'מוצר', image: d.image, price: d.price || '0', qty: 1 };
+
+  const discount = d.originalPrice && d.price
+    ? Math.round((1 - Number(d.price) / Number(d.originalPrice)) * 100)
+    : null;
+
+  const isYouTube = d.videoUrl && (d.videoUrl.includes('youtube.com') || d.videoUrl.includes('youtu.be'));
+  const ytId = isYouTube ? (d.videoUrl.match(/(?:v=|youtu\.be\/)([^&?/]+)/)?.[1]) : null;
+
+  const bullets = (d.bullets || []).filter(b => b?.trim());
+  const reviews = (d.reviews || []).filter(r => r.text);
+  const avgRating = reviews.length
+    ? Math.round(reviews.reduce((s, r) => s + (r.rating || 5), 0) / reviews.length * 10) / 10
+    : null;
+
+  const WaIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2c-5.514 0-9.99 4.476-9.99 9.99 0 1.76.46 3.41 1.27 4.85L2 22l5.31-1.25A9.99 9.99 0 0012 22c5.514 0 9.99-4.476 9.99-9.99C21.99 6.486 17.514 2 11.99 2z"/></svg>;
+
+  const CtaButton = ({ large = false, label }) => (
+    <button onClick={() => setShowCheckout(true)} style={{
+      width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
+      padding: large ? '18px 24px' : '15px 20px',
+      borderRadius: 16, border: 'none', cursor: 'pointer',
+      background: 'linear-gradient(135deg,#25D366,#128C7E)',
+      color: 'white', fontWeight: 900,
+      fontSize: large ? 17 : 15,
+      boxShadow: '0 6px 28px rgba(37,211,102,0.38)',
+      letterSpacing: '-0.2px',
+    }}>
+      <WaIcon />{label || d.ctaText || 'הזמן עכשיו בוואטסאפ'}
+    </button>
+  );
+
+  const TrustRow = () => (
+    <div style={{ display: 'flex', gap: 8, marginTop: 14 }}>
+      {[
+        { icon: '🔒', text: 'תשלום מאובטח' },
+        { icon: '⚡', text: 'מענה מהיר' },
+        { icon: '✅', text: 'ערבות שביעות רצון' },
+      ].map(t => (
+        <div key={t.text} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, padding: '10px 6px', borderRadius: 12, background: '#f9fafb', border: '1px solid #f0f0f0' }}>
+          <span style={{ fontSize: 16 }}>{t.icon}</span>
+          <span style={{ fontSize: 9.5, fontWeight: 700, color: '#6b7280', textAlign: 'center', lineHeight: 1.3 }}>{t.text}</span>
+        </div>
+      ))}
+    </div>
+  );
+
+  const StarRow = ({ rating = 5, size = 13 }) => (
+    <div style={{ display: 'flex', gap: 2 }}>
+      {[1,2,3,4,5].map(s => (
+        <svg key={s} width={size} height={size} viewBox="0 0 24 24" fill={s <= rating ? '#F59E0B' : '#e5e7eb'}>
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14 2 9.27l6.91-1.01L12 2z"/>
+        </svg>
+      ))}
+    </div>
+  );
 
   if (isDesktop) {
     const isYouTube = d.videoUrl && (d.videoUrl.includes('youtube.com') || d.videoUrl.includes('youtu.be'));
