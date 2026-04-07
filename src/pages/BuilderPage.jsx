@@ -750,9 +750,31 @@ function Step1({ form, update, slugStatus, slugSuggestions, dbCardId, onUploadin
 function Step2({ form, update, userId, dbCardId, onUploadingChange }) {
   const fileRefs = useRef({});
   const popupFileRefs = useRef({});
+  const aboutImgRef = useRef(null);
   const [uploadingSet, setUploadingSet] = useState(new Set());
   const [uploadError, setUploadError] = useState('');
+  const [uploadingAboutImg, setUploadingAboutImg] = useState(false);
   const isPremium = form.card_style === 'premium';
+
+  const handleAboutImage = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    update('about_image_url', URL.createObjectURL(file));
+    if (userId) {
+      setUploadingAboutImg(true);
+      onUploadingChange?.(true);
+      try {
+        const url = await uploadCardImage(userId, file);
+        update('about_image_url', url);
+        if (dbCardId) await updateCard(dbCardId, { about_image_url: url });
+      } catch {
+        update('about_image_url', '');
+      } finally {
+        setUploadingAboutImg(false);
+        onUploadingChange?.(false);
+      }
+    }
+  };
 
   const setUploading = (i, val) => {
     setUploadingSet(prev => {
