@@ -86,6 +86,11 @@ export default function BuilderPage() {
             contact_position: rest.contact_position || 'above',
             faq: rest.faq || [],
             background_video_url: rest.background_video_url || '',
+            about_enabled: rest.about_enabled || false,
+            about_layout: rest.about_layout || 'text',
+            about_title: rest.about_title || '',
+            about_text: rest.about_text || '',
+            about_image_url: rest.about_image_url || '',
           });
           setDbCardId(card.id);
           setIsLive(!!card.is_published);
