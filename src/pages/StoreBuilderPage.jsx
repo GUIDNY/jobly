@@ -1092,6 +1092,14 @@ export default function StoreBuilderPage() {
                   </div>
                   <p className="text-[10px] text-gray-400 mt-1.5">הטקסט שיופיע על כפתור הרכישה הירוק</p>
                 </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-gray-700 mb-1">סרט כותרת נע <span className="font-normal text-gray-400">(אופציונלי)</span></label>
+                  <input value={data.ticker||''} onChange={e => upd('ticker', e.target.value)}
+                    placeholder="למשל: 🔥 הנחה של 50% — סוף שבוע בלבד · ⭐ מוצר מספר 1 · ✈️ משלוח חינם"
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 transition-colors" />
+                  <p className="text-[10px] text-gray-400 mt-1">כותרת נעה שתגלול בראש הדף — מושכת תשומת לב ומגבירה דחיפות</p>
+                </div>
               </div>
             </motion.div>
           )}
