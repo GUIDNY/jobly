@@ -601,6 +601,41 @@ export default function CardPage() {
           return (card.contact_position || 'above') === 'above' ? contactGrid : null;
         })()}
 
+        {/* ── ABOUT ── */}
+        {card.about_enabled && (card.about_title || card.about_text) && (
+          <section className="px-5 pb-6">
+            <div className="rounded-2xl overflow-hidden" style={{ background: CARD_BG, border: `1px solid ${BORDER}` }}>
+              {card.about_layout === 'text-image' && card.about_image_url ? (
+                <div style={{ display: 'flex', alignItems: 'stretch' }}>
+                  <div style={{ flex: 1, padding: '20px 18px 20px 20px' }}>
+                    {card.about_title && (
+                      <p className="text-white font-black mb-2" style={{ fontSize: 15, lineHeight: 1.3, fontStyle: 'italic' }}>{card.about_title}</p>
+                    )}
+                    {card.about_text && (
+                      <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', lineHeight: 1.65 }}>{card.about_text}</p>
+                    )}
+                  </div>
+                  <div style={{ width: 110, flexShrink: 0, overflow: 'hidden' }}>
+                    <img src={card.about_image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                  </div>
+                </div>
+              ) : (
+                <div style={{ padding: '20px 20px' }}>
+                  {card.about_title && (
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
+                      <div style={{ width: 3, height: 20, borderRadius: 3, background: `linear-gradient(135deg, ${accent}, #5BC4C8)`, flexShrink: 0 }} />
+                      <p className="text-white font-black" style={{ fontSize: 15, lineHeight: 1.3, fontStyle: 'italic' }}>{card.about_title}</p>
+                    </div>
+                  )}
+                  {card.about_text && (
+                    <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', lineHeight: 1.7 }}>{card.about_text}</p>
+                  )}
+                </div>
+              )}
+            </div>
+          </section>
+        )}
+
         {/* ── SERVICES ── */}
         {services.length > 0 && (
           <section className="px-5 pb-10">
