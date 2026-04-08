@@ -1109,6 +1109,17 @@ function MultiStorePage({ ms }) {
   return (
     <div dir="rtl" style={{ fontFamily: "'Heebo','Segoe UI',sans-serif", background: 'white', minHeight: '100vh', maxWidth: 640, margin: '0 auto', position: 'relative' }}>
 
+      {/* ── Ticker ── */}
+      {ms.ticker && (
+        <div dir="ltr" style={{ background: accent, overflow: 'hidden', height: 36, display: 'flex', alignItems: 'center', position: 'relative', zIndex: 50 }}>
+          <div className="ticker-track">
+            {[...Array(12)].map((_, i) => (
+              <span key={i} style={{ fontSize: 12, fontWeight: 800, color: 'white', letterSpacing: '0.5px', paddingLeft: 40, paddingRight: 40, opacity: 0.95 }}>{ms.ticker}</span>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* ── Sticky top bar ── */}
       <div style={{ position: 'sticky', top: 0, zIndex: 40, background: 'white', borderBottom: '1px solid #e8e8e8', padding: '0 16px', height: 54, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <button onClick={() => setShowCart(true)} style={{ position: 'relative', width: 38, height: 38, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'none', border: 'none', cursor: 'pointer', flexShrink: 0 }}>
