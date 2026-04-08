@@ -728,6 +728,28 @@ export default function StoreBuilderPage() {
   // Upload states
   const [uploadingCover, setUploadingCover] = useState(false);
   const [uploadingLogo, setUploadingLogo] = useState(false);
+  const [uploadingVideo, setUploadingVideo] = useState(false);
+  const [uploadingProductVideo, setUploadingProductVideo] = useState({});
+  const [videoDragOver, setVideoDragOver] = useState(false);
+  const [productVideoDragOver, setProductVideoDragOver] = useState({});
+  const videoRef = React.useRef(null);
+
+  const handleVideoUpload = async (file) => {
+    if (!file || !user) return;
+    if (!file.type.startsWith('video/')) return;
+    setUploadingVideo(true);
+    try { const url = await uploadCardVideo(user.id, file); upd('videoUrl', url); }
+    catch(e) { console.error(e); } finally { setUploadingVideo(false); }
+  };
+
+  const handleProductVideoUpload = async (catIdx, prodIdx, file) => {
+    if (!file || !user) return;
+    if (!file.type.startsWith('video/')) return;
+    const key = `${catIdx}-${prodIdx}`;
+    setUploadingProductVideo(prev => ({ ...prev, [key]: true }));
+    try { const url = await uploadCardVideo(user.id, file); updProduct(catIdx, prodIdx, { videoUrl: url }); }
+    catch(e) { console.error(e); } finally { setUploadingProductVideo(prev => ({ ...prev, [key]: false })); }
+  };
 
   const handleCoverUpload = async (file) => {
     if (!file || !user) return;
