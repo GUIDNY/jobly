@@ -31,6 +31,8 @@ const DEFAULT_CARD = {
   title_align: 'center', name_size: 'md',
   slug: '', card_style: 'classic', services_section_title: '', contact_position: 'above',
   faq: [],
+  custom_links: [],
+  random_link: { enabled: false, label: 'הפתעה!', icon: '🎲', urls: [] },
   background_video_url: '',
   background_video_position: '50% 30% cover',
   reviews_enabled: false,
@@ -85,6 +87,8 @@ export default function BuilderPage() {
             services_layout: rest.services_layout || 'list',
             contact_position: rest.contact_position || 'above',
             faq: rest.faq || [],
+            custom_links: rest.custom_links || [],
+            random_link: rest.random_link || { enabled: false, label: 'הפתעה!', icon: '🎲', urls: [] },
             background_video_url: rest.background_video_url || '',
             about_enabled: rest.about_enabled || false,
             about_layout: rest.about_layout || 'text',
@@ -1212,11 +1216,94 @@ function Step2({ form, update, userId, dbCardId, onUploadingChange }) {
   );
 }
 
+// ─── PRESET EMOJIS for icon picker ───────────────────────────────────────────
+const PRESET_ICONS = ['🔗','🌐','📱','📲','💼','🛍️','📺','🎬','🎵','🎯','📸','💡','🏠','🚀','⭐','💎','🎁','📋','📞','💬','✉️','🗓️','💳','🤝','👋','🔥','⚡','🌟','💰','🏆'];
+
+function CustomLinkEditor({ link, onChange, onDelete }) {
+  const [showIcons, setShowIcons] = useState(false);
+  return (
+    <div className="bg-gray-50 rounded-xl p-3 space-y-2 relative">
+      {/* Icon + Label row */}
+      <div className="flex items-center gap-2">
+        <button
+          type="button"
+          onClick={() => setShowIcons(v => !v)}
+          className="w-9 h-9 rounded-lg border border-gray-200 flex items-center justify-center text-lg bg-white flex-shrink-0 hover:border-gray-300 transition-colors"
+          title="בחר אייקון"
+        >
+          {link.icon || '🔗'}
+        </button>
+        <input
+          type="text"
+          value={link.label}
+          onChange={e => onChange({ ...link, label: e.target.value })}
+          placeholder="שם הקישור (למשל: האתר שלי)"
+          className="flex-1 border border-gray-200 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:border-indigo-400"
+        />
+        <button type="button" onClick={onDelete} className="w-7 h-7 rounded-lg flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors flex-shrink-0">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      {/* Emoji picker */}
+      {showIcons && (
+        <div className="bg-white rounded-xl border border-gray-200 p-2 flex flex-wrap gap-1">
+          {PRESET_ICONS.map(em => (
+            <button key={em} type="button"
+              onClick={() => { onChange({ ...link, icon: em }); setShowIcons(false); }}
+              className={`w-8 h-8 rounded-lg text-base flex items-center justify-center hover:bg-gray-100 transition-colors ${link.icon === em ? 'bg-indigo-50 ring-1 ring-indigo-300' : ''}`}>
+              {em}
+            </button>
+          ))}
+        </div>
+      )}
+      {/* URL */}
+      <input
+        type="url"
+        value={link.url}
+        onChange={e => onChange({ ...link, url: e.target.value })}
+        placeholder="https://..."
+        className="w-full border border-gray-200 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:border-indigo-400"
+        dir="ltr"
+      />
+    </div>
+  );
+}
+
 // ─── Step 3: Contact & Links ──────────────────────────────────────────────────
 function Step3({ form, update }) {
   const [showLinksSheet, setShowLinksSheet] = useState(false);
+  const [showRandomIconPicker, setShowRandomIconPicker] = useState(false);
 
   const filledLinksCount = [form.instagram, form.facebook, form.tiktok, form.location_url].filter(Boolean).length;
+
+  const customLinks = form.custom_links || [];
+  const randomLink = form.random_link || { enabled: false, label: 'הפתעה!', icon: '🎲', urls: [] };
+
+  function addCustomLink() {
+    update('custom_links', [...customLinks, { id: Date.now().toString(), label: '', url: '', icon: '🔗' }]);
+  }
+
+  function updateCustomLink(idx, val) {
+    const next = customLinks.map((l, i) => i === idx ? val : l);
+    update('custom_links', next);
+  }
+
+  function removeCustomLink(idx) {
+    update('custom_links', customLinks.filter((_, i) => i !== idx));
+  }
+
+  function addRandomUrl() {
+    update('random_link', { ...randomLink, urls: [...(randomLink.urls || []), ''] });
+  }
+
+  function updateRandomUrl(idx, val) {
+    const next = (randomLink.urls || []).map((u, i) => i === idx ? val : u);
+    update('random_link', { ...randomLink, urls: next });
+  }
+
+  function removeRandomUrl(idx) {
+    update('random_link', { ...randomLink, urls: (randomLink.urls || []).filter((_, i) => i !== idx) });
+  }
 
   return (
     <div className="bg-white rounded-2xl md:rounded-3xl p-3 md:p-6 card-shadow space-y-3 md:space-y-5">
@@ -1347,6 +1434,113 @@ function Step3({ form, update }) {
             />
           </div>
         </div>
+      </div>
+
+      {/* ── Custom Links Section ── */}
+      <div>
+        <hr className="border-gray-100 mb-3 md:mb-4" />
+        <div className="flex items-center justify-between mb-3">
+          <div>
+            <p className="text-xs md:text-sm font-bold text-gray-900">קישורים מותאמים</p>
+            <p className="text-[10px] md:text-xs text-gray-400 mt-0.5">הוסף קישורים לכל אתר עם אייקון משלך</p>
+          </div>
+          <button
+            type="button"
+            onClick={addCustomLink}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold text-white transition-opacity hover:opacity-90"
+            style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}
+          >
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            הוסף
+          </button>
+        </div>
+        <div className="space-y-2">
+          {customLinks.map((link, idx) => (
+            <CustomLinkEditor
+              key={link.id || idx}
+              link={link}
+              onChange={val => updateCustomLink(idx, val)}
+              onDelete={() => removeCustomLink(idx)}
+            />
+          ))}
+          {customLinks.length === 0 && (
+            <p className="text-center text-xs text-gray-400 py-3">לא נוספו קישורים עדיין</p>
+          )}
+        </div>
+      </div>
+
+      {/* ── Random Link Section ── */}
+      <div>
+        <hr className="border-gray-100 mb-3 md:mb-4" />
+        <div className="flex items-center justify-between mb-3">
+          <div>
+            <p className="text-xs md:text-sm font-bold text-gray-900">קישור הפתעה 🎲</p>
+            <p className="text-[10px] md:text-xs text-gray-400 mt-0.5">לחיצה תפנה אקראית לאחד מהקישורים ברשימה</p>
+          </div>
+          <label className="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" className="sr-only peer"
+              checked={randomLink.enabled}
+              onChange={e => update('random_link', { ...randomLink, enabled: e.target.checked })} />
+            <div style={{ height: 22, width: 40, position: 'relative', background: randomLink.enabled ? '#6366f1' : '#e5e7eb', borderRadius: 11, transition: 'background .2s' }}>
+              <div style={{ position: 'absolute', top: 3, width: 16, height: 16, borderRadius: 8, background: 'white', transition: 'right .2s', right: randomLink.enabled ? 3 : 'calc(100% - 19px)' }} />
+            </div>
+          </label>
+        </div>
+
+        {randomLink.enabled && (
+          <div className="bg-gray-50 rounded-xl p-3 space-y-3">
+            {/* Label + Icon */}
+            <div className="flex items-center gap-2">
+              <button type="button" onClick={() => setShowRandomIconPicker(v => !v)}
+                className="w-9 h-9 rounded-lg border border-gray-200 flex items-center justify-center text-lg bg-white flex-shrink-0 hover:border-gray-300 transition-colors">
+                {randomLink.icon || '🎲'}
+              </button>
+              <input
+                type="text"
+                value={randomLink.label}
+                onChange={e => update('random_link', { ...randomLink, label: e.target.value })}
+                placeholder="טקסט הכפתור (למשל: הפתעה!)"
+                className="flex-1 border border-gray-200 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:border-indigo-400 bg-white"
+              />
+            </div>
+            {showRandomIconPicker && (
+              <div className="bg-white rounded-xl border border-gray-200 p-2 flex flex-wrap gap-1">
+                {PRESET_ICONS.map(em => (
+                  <button key={em} type="button"
+                    onClick={() => { update('random_link', { ...randomLink, icon: em }); setShowRandomIconPicker(false); }}
+                    className={`w-8 h-8 rounded-lg text-base flex items-center justify-center hover:bg-gray-100 transition-colors ${randomLink.icon === em ? 'bg-indigo-50 ring-1 ring-indigo-300' : ''}`}>
+                    {em}
+                  </button>
+                ))}
+              </div>
+            )}
+            {/* URL list */}
+            <div className="space-y-2">
+              <p className="text-xs font-medium text-gray-600">רשימת קישורים (יבחר אחד באקראי):</p>
+              {(randomLink.urls || []).map((url, idx) => (
+                <div key={idx} className="flex items-center gap-2">
+                  <input
+                    type="url"
+                    value={url}
+                    onChange={e => updateRandomUrl(idx, e.target.value)}
+                    placeholder={`https://... (קישור ${idx + 1})`}
+                    className="flex-1 border border-gray-200 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:border-indigo-400 bg-white"
+                    dir="ltr"
+                  />
+                  <button type="button" onClick={() => removeRandomUrl(idx)}
+                    className="w-7 h-7 rounded-lg flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors flex-shrink-0">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                  </button>
+                </div>
+              ))}
+              <button type="button" onClick={addRandomUrl}
+                className="flex items-center gap-1.5 text-xs font-medium text-indigo-500 hover:text-indigo-700 transition-colors px-1">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                הוסף קישור לרשימה
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Social links bottom sheet (mobile only) */}

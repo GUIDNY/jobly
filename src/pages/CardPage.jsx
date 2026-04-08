@@ -833,6 +833,41 @@ export default function CardPage() {
           <FaqSection faq={card.faq} accent={accent} />
         )}
 
+        {/* ── CUSTOM LINKS ── */}
+        {card.custom_links && card.custom_links.filter(l => l.url && l.label).length > 0 && (
+          <section className="px-5 pb-6">
+            <div className="space-y-2.5">
+              {card.custom_links.filter(l => l.url && l.label).map((link, i) => (
+                <a key={i} href={link.url} target="_blank" rel="noopener noreferrer"
+                  className="flex items-center gap-3 w-full rounded-2xl font-semibold transition-all hover:scale-[1.01] active:scale-[0.99]"
+                  style={{ background: CARD_BG, border: `1px solid ${BORDER}`, padding: '14px 18px', color: 'rgba(255,255,255,0.85)', fontSize: 14 }}>
+                  <span style={{ fontSize: 20 }}>{link.icon || '🔗'}</span>
+                  <span>{link.label}</span>
+                </a>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* ── RANDOM LINK ── */}
+        {card.random_link && card.random_link.enabled && (card.random_link.urls || []).filter(Boolean).length > 0 && (
+          <section className="px-5 pb-6">
+            <button
+              onClick={() => {
+                const urls = (card.random_link.urls || []).filter(Boolean);
+                if (urls.length > 0) {
+                  const picked = urls[Math.floor(Math.random() * urls.length)];
+                  window.open(picked, '_blank', 'noopener,noreferrer');
+                }
+              }}
+              className="flex items-center gap-3 w-full rounded-2xl font-semibold transition-all hover:scale-[1.01] active:scale-[0.99]"
+              style={{ background: `linear-gradient(135deg, ${accent}22, ${accent}11)`, border: `1px solid ${accent}44`, padding: '14px 18px', color: accent, fontSize: 14 }}>
+              <span style={{ fontSize: 20 }}>{card.random_link.icon || '🎲'}</span>
+              <span>{card.random_link.label || 'הפתעה!'}</span>
+            </button>
+          </section>
+        )}
+
         {/* ── SOCIAL ── */}
         {hasSocial && (
           <section className="px-5 pb-10">

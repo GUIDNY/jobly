@@ -39,6 +39,8 @@ export default function CardPreview({ data = {}, compact = false, showActions = 
     about_title = '',
     about_text = '',
     about_image_url = '',
+    custom_links = [],
+    random_link = { enabled: false, label: 'הפתעה!', icon: '🎲', urls: [] },
   } = data;
 
   const waLink = phone
@@ -49,8 +51,8 @@ export default function CardPreview({ data = {}, compact = false, showActions = 
   const placeholderName = business_name || 'שם העסק';
   const placeholderDesc = description || 'תיאור קצר על העסק שלך';
 
-  if (template === 2) return <Template2 {...{ placeholderName, placeholderDesc, avatar_url, phone, waLink, callLink, primary_color, instagram, facebook, tiktok, location_url, booking_url, card_services, compact, showActions, services_layout, contact_position, title_align, name_size }} />;
-  if (template === 3) return <Template3 {...{ placeholderName, placeholderDesc, avatar_url, phone, waLink, callLink, primary_color, instagram, facebook, tiktok, location_url, booking_url, card_services, compact, showActions, services_layout, contact_position, title_align, name_size }} />;
+  if (template === 2) return <Template2 {...{ placeholderName, placeholderDesc, avatar_url, phone, waLink, callLink, primary_color, instagram, facebook, tiktok, location_url, booking_url, card_services, compact, showActions, services_layout, contact_position, title_align, name_size, custom_links, random_link }} />;
+  if (template === 3) return <Template3 {...{ placeholderName, placeholderDesc, avatar_url, phone, waLink, callLink, primary_color, instagram, facebook, tiktok, location_url, booking_url, card_services, compact, showActions, services_layout, contact_position, title_align, name_size, custom_links, random_link }} />;
 
   const hasPhone = !!phone;
   const hasServices = card_services && card_services.length > 0;
@@ -344,6 +346,31 @@ export default function CardPreview({ data = {}, compact = false, showActions = 
         </div>
       )}
 
+      {/* ── Custom Links ── */}
+      {(custom_links && custom_links.length > 0) && (
+        <div className="space-y-2" style={{ padding: compact ? '10px 14px 0' : '14px 16px 0', background: background_style === 'dark' ? '#0a0a12' : '#fff' }}>
+          {custom_links.filter(l => l.url && l.label).map((link, i) => (
+            <a key={i} href={link.url} target="_blank" rel="noopener noreferrer"
+              className="flex items-center gap-2.5 w-full rounded-2xl font-semibold border border-gray-100 transition-opacity hover:opacity-80"
+              style={{ padding: compact ? '8px 12px' : '11px 14px', fontSize: compact ? 12 : 14, color: '#374151', background: background_style === 'dark' ? '#1a1a2e' : '#f9fafb', borderColor: background_style === 'dark' ? 'rgba(255,255,255,0.08)' : '#f3f4f6' }}>
+              <span style={{ fontSize: compact ? 14 : 18 }}>{link.icon || '🔗'}</span>
+              <span style={{ color: background_style === 'dark' ? 'rgba(255,255,255,0.8)' : '#374151' }}>{link.label}</span>
+            </a>
+          ))}
+        </div>
+      )}
+      {/* ── Random Link ── */}
+      {random_link && random_link.enabled && (random_link.urls || []).filter(Boolean).length > 0 && (
+        <div style={{ padding: compact ? '8px 14px 0' : '10px 16px 0', background: background_style === 'dark' ? '#0a0a12' : '#fff' }}>
+          <div
+            className="flex items-center gap-2.5 w-full rounded-2xl font-semibold justify-center cursor-pointer transition-opacity hover:opacity-80"
+            style={{ padding: compact ? '8px 12px' : '11px 14px', fontSize: compact ? 12 : 14, background: `linear-gradient(135deg, ${primary_color}22, ${primary_color}11)`, border: `1px solid ${primary_color}33`, color: primary_color }}>
+            <span style={{ fontSize: compact ? 14 : 18 }}>{random_link.icon || '🎲'}</span>
+            <span>{random_link.label || 'הפתעה!'}</span>
+          </div>
+        </div>
+      )}
+
       <div style={{ paddingBottom: compact ? 8 : 16, background: background_style === 'dark' ? '#0a0a12' : '#fff' }} />
     </div>
   );
@@ -515,7 +542,7 @@ function Orb({ top, bottom, left, right, size }) {
 }
 
 // Template 2: Photo Hero (full bleed image)
-function Template2({ placeholderName, placeholderDesc, avatar_url, phone, waLink, callLink, primary_color, instagram, facebook, tiktok, location_url, booking_url, card_services, compact, showActions = true, contact_position = 'above', title_align = 'center', name_size = 'md' }) {
+function Template2({ placeholderName, placeholderDesc, avatar_url, phone, waLink, callLink, primary_color, instagram, facebook, tiktok, location_url, booking_url, card_services, compact, showActions = true, contact_position = 'above', title_align = 'center', name_size = 'md', custom_links = [], random_link = { enabled: false, urls: [] } }) {
   const actionBar = showActions && phone && (
     <div className={`px-4 space-y-2.5 ${compact ? 'mt-3' : 'mt-4'}`}>
       <a href={waLink} target="_blank" rel="noopener noreferrer"
@@ -560,13 +587,14 @@ function Template2({ placeholderName, placeholderDesc, avatar_url, phone, waLink
       <ServicesList services={card_services} compact={compact} phone={phone} />
       {contact_position === 'below' && actionBar}
       <SocialRow {...{ instagram, facebook, tiktok, location_url, compact }} />
+      <CustomLinksBlock custom_links={custom_links} random_link={random_link} primary_color={primary_color} compact={compact} />
       <div className="pb-4" />
     </div>
   );
 }
 
 // Template 3: Minimal / Linktree style
-function Template3({ placeholderName, placeholderDesc, avatar_url, phone, waLink, callLink, primary_color, instagram, facebook, tiktok, location_url, booking_url, card_services, compact, showActions = true, contact_position = 'above', title_align = 'center', name_size = 'md' }) {
+function Template3({ placeholderName, placeholderDesc, avatar_url, phone, waLink, callLink, primary_color, instagram, facebook, tiktok, location_url, booking_url, card_services, compact, showActions = true, contact_position = 'above', title_align = 'center', name_size = 'md', custom_links = [], random_link = { enabled: false, urls: [] } }) {
   const [compactSize, fullSize] = NAME_SIZES[name_size] || NAME_SIZES.md;
   const actionBar = showActions && phone && (
     <div className="w-full space-y-2.5">
@@ -617,6 +645,7 @@ function Template3({ placeholderName, placeholderDesc, avatar_url, phone, waLink
       )}
       <ServicesList services={card_services} compact={compact} fullWidth phone={phone} />
       {contact_position === 'below' && <div className="w-full mt-4">{actionBar}</div>}
+      <CustomLinksBlock custom_links={custom_links} random_link={random_link} primary_color={primary_color} compact={compact} fullWidth />
       <div className="text-center text-gray-300 text-xs mt-4 pb-2">נוצר עם Vizzit</div>
     </div>
   );
@@ -674,6 +703,31 @@ function SocialBtn({ href, color, children }) {
       style={{ background: color }}>
       {children}
     </a>
+  );
+}
+
+function CustomLinksBlock({ custom_links = [], random_link = { enabled: false, urls: [] }, primary_color, compact, fullWidth = false }) {
+  const hasCustom = custom_links && custom_links.filter(l => l.url && l.label).length > 0;
+  const hasRandom = random_link && random_link.enabled && (random_link.urls || []).filter(Boolean).length > 0;
+  if (!hasCustom && !hasRandom) return null;
+  return (
+    <div className={`space-y-2 ${compact ? 'mt-3 mb-3' : 'mt-4 mb-4'} ${fullWidth ? 'w-full' : 'px-3'}`}>
+      {custom_links.filter(l => l.url && l.label).map((link, i) => (
+        <a key={i} href={link.url} target="_blank" rel="noopener noreferrer"
+          className="flex items-center gap-2.5 w-full rounded-2xl font-semibold border border-gray-100 transition-opacity hover:opacity-80"
+          style={{ padding: compact ? '8px 12px' : '11px 14px', fontSize: compact ? 12 : 14, color: '#374151', background: '#f9fafb' }}>
+          <span style={{ fontSize: compact ? 14 : 18 }}>{link.icon || '🔗'}</span>
+          <span>{link.label}</span>
+        </a>
+      ))}
+      {hasRandom && (
+        <div className="flex items-center gap-2.5 w-full rounded-2xl font-semibold justify-center cursor-pointer transition-opacity hover:opacity-80"
+          style={{ padding: compact ? '8px 12px' : '11px 14px', fontSize: compact ? 12 : 14, background: `linear-gradient(135deg, ${primary_color}22, ${primary_color}11)`, border: `1px solid ${primary_color}33`, color: primary_color }}>
+          <span style={{ fontSize: compact ? 14 : 18 }}>{random_link.icon || '🎲'}</span>
+          <span>{random_link.label || 'הפתעה!'}</span>
+        </div>
+      )}
+    </div>
   );
 }
 

@@ -101,10 +101,10 @@ export async function getCardById(id) {
 }
 
 export async function createCard(userId, cardData) {
-  const { services, card_services, whatsapp_position, title_align, name_size, faq, ...rest } = cardData;
+  const { services, card_services, whatsapp_position, title_align, name_size, faq, custom_links, random_link, ...rest } = cardData;
   const { data, error } = await supabase
     .from('cards')
-    .insert({ ...rest, user_id: userId, faq: faq || [] })
+    .insert({ ...rest, user_id: userId, faq: faq || [], custom_links: custom_links || [], random_link: random_link || { enabled: false, label: 'הפתעה!', icon: '🎲', urls: [] } })
     .select()
     .single();
   if (error) throw error;
