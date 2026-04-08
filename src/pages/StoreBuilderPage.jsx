@@ -1180,10 +1180,35 @@ export default function StoreBuilderPage() {
                 </div>
                 <div>
                   <label className="block text-xs font-bold text-gray-700 mb-1.5">סרטון מוצר <span className="font-normal text-gray-400">(אופציונלי)</span></label>
-                  <input value={data.videoUrl||''} onChange={e => upd('videoUrl', e.target.value)}
-                    placeholder="https://youtube.com/watch?v=... או קישור ישיר לוידאו"
-                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 transition-colors" dir="ltr" />
-                  <p className="text-[10px] text-gray-400 mt-1">סרטון מגביר אמון — YouTube, Vimeo או קישור ישיר mp4</p>
+                  {data.videoUrl ? (
+                    <div className="rounded-xl overflow-hidden border border-gray-200 bg-black relative" style={{ height: 160 }}>
+                      <video src={data.videoUrl} controls className="w-full h-full object-contain" />
+                      <button onClick={() => upd('videoUrl', '')} className="absolute top-2 left-2 bg-black bg-opacity-60 text-white text-[10px] px-2 py-1 rounded-lg hover:bg-opacity-80 transition-all">הסר</button>
+                    </div>
+                  ) : (
+                    <div
+                      onDragOver={e => { e.preventDefault(); setVideoDragOver(true); }}
+                      onDragLeave={() => setVideoDragOver(false)}
+                      onDrop={e => { e.preventDefault(); setVideoDragOver(false); const f = e.dataTransfer.files?.[0]; if (f) handleVideoUpload(f); }}
+                      onClick={() => videoRef.current?.click()}
+                      className="cursor-pointer rounded-xl border-2 border-dashed flex flex-col items-center justify-center gap-2 py-6 transition-colors"
+                      style={{ borderColor: videoDragOver ? '#5BC4C8' : '#d1d5db', background: videoDragOver ? '#f0fdfd' : '#f9fafb' }}>
+                      {uploadingVideo ? (
+                        <div className="flex items-center gap-2 text-sm text-gray-500">
+                          <div className="w-4 h-4 border-2 border-teal-400 border-t-transparent rounded-full animate-spin" />
+                          מעלה סרטון...
+                        </div>
+                      ) : (
+                        <>
+                          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="1.5"><rect x="2" y="7" width="15" height="10" rx="2"/><polyline points="17 9 22 6 22 18 17 15"/></svg>
+                          <p className="text-sm font-semibold text-gray-600">גרור סרטון לכאן</p>
+                          <p className="text-[11px] text-gray-400">או לחץ לבחירת קובץ — MP4, MOV, WebM</p>
+                        </>
+                      )}
+                    </div>
+                  )}
+                  <input ref={videoRef} type="file" accept="video/*" className="hidden" onChange={e => handleVideoUpload(e.target.files?.[0])} />
+                  <p className="text-[10px] text-gray-400 mt-1">סרטון מגביר אמון ב-40% — הוסף הדגמה קצרה של המוצר</p>
                 </div>
               </div>
 
