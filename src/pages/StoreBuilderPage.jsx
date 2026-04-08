@@ -1211,6 +1211,15 @@ export default function StoreBuilderPage() {
                   <input ref={videoRef} type="file" accept="video/*" className="hidden" onChange={e => handleVideoUpload(e.target.files?.[0])} />
                   <p className="text-[10px] text-gray-400 mt-1">סרטון מגביר אמון ב-40% — הוסף הדגמה קצרה של המוצר</p>
                 </div>
+                {data.videoUrl && (
+                  <div>
+                    <label className="block text-xs font-bold text-gray-700 mb-1.5">כותרת הסרטון <span className="font-normal text-gray-400">(ריק = ללא כותרת)</span></label>
+                    <input value={data.videoTitle ?? 'סרטון המוצר'} onChange={e => upd('videoTitle', e.target.value)}
+                      placeholder="למשל: סרטון המוצר, הדגמה חיה, צפה בפעולה..."
+                      className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 transition-colors" />
+                    <p className="text-[10px] text-gray-400 mt-1">השאר ריק כדי להסתיר את הכותרת מעל הסרטון</p>
+                  </div>
+                )}
               </div>
 
               <div className="hidden md:block bg-white rounded-2xl p-5 border border-gray-100 space-y-3" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
