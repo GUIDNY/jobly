@@ -321,6 +321,19 @@ function MultiStorePreview({ ms, cart, onAddToCart, onCartOpen }) {
   return (
     <div dir="rtl" style={{ fontFamily: "'Heebo','Segoe UI',sans-serif", background: 'white', height: '100%', display: 'flex', flexDirection: 'column', position: 'relative', overflowY: 'auto', overflowX: 'hidden' }}>
 
+      {/* Ticker */}
+      {ms.ticker && (
+        <div dir="ltr" style={{ background: accent, overflow: 'hidden', height: 28, display: 'flex', alignItems: 'center', flexShrink: 0 }}>
+          <div className="ticker-track">
+            {[...Array(12)].map((_, i) => (
+              <span key={i} style={{ fontSize: 9, fontWeight: 800, color: 'white', letterSpacing: '0.4px', paddingLeft: 28, paddingRight: 28, opacity: 0.95, whiteSpace: 'nowrap' }}>
+                {ms.ticker}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Sticky top bar */}
       <div style={{ position: 'sticky', top: 0, zIndex: 10, background: 'rgba(255,255,255,0.96)', backdropFilter: 'blur(8px)', borderBottom: '1px solid rgba(0,0,0,0.06)', padding: '0 10px', height: 34, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
         <button onClick={onCartOpen} style={{ display: 'flex', alignItems: 'center', gap: 3, padding: '3px 8px', borderRadius: 12, background: cartCount > 0 ? accent : '#f3f4f6', color: cartCount > 0 ? 'white' : '#6b7280', fontWeight: 700, fontSize: 8, border: 'none', cursor: 'pointer' }}>
