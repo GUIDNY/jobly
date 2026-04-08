@@ -2604,7 +2604,21 @@ export default function StoreBuilderPage() {
                 </div>
                 <div>
                   <label className="block text-[10px] font-semibold text-gray-500 mb-1">שם העסק / חנות</label>
-                  <input value={data.storeName} onChange={e => upd('storeName', e.target.value)} placeholder="הממתקים של תמי" className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400" />
+                  <div className="flex items-center gap-2">
+                    <div onClick={() => storeLogoRef.current?.click()} className="cursor-pointer flex-shrink-0 rounded-xl overflow-hidden border-2 border-dashed border-gray-200 flex items-center justify-center hover:opacity-80 transition-opacity" style={{ width:44, height:44, background: data.storeLogo ? 'transparent' : '#f9fafb' }}>
+                      {data.storeLogo
+                        ? <img src={data.storeLogo} alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} />
+                        : uploadingStoreLogo
+                          ? <svg className="animate-spin w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+                          : <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                      }
+                    </div>
+                    <input value={data.storeName} onChange={e => upd('storeName', e.target.value)} placeholder="הממתקים של תמי" className="flex-1 border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400" />
+                  </div>
+                  <div className="flex items-center justify-between mt-1">
+                    <p className="text-[10px] text-gray-400">לחץ על הריבוע להעלאת לוגו</p>
+                    {data.storeLogo && <button onClick={() => upd('storeLogo','')} className="text-[10px] text-red-400">הסר לוגו</button>}
+                  </div>
                 </div>
                 <button onClick={() => setShowColorSheet(false)} className="w-full py-3 rounded-xl text-sm font-bold text-white" style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>שמור ✓</button>
               </div>
