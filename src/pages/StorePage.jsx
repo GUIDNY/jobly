@@ -302,8 +302,19 @@ function SingleStorePage({ d }) {
         </div>
       </div>
 
+      {/* ── Video BEFORE (mobile only — inserted between hero and white card) ── */}
+      {d.videoUrl && (d.videoPosition || 'after') === 'before' && !isDesktop && (
+        <div style={{ padding:'28px 20px 0', background:'white' }}>
+          {d.videoTitle !== '' && <p style={{ fontSize:11, fontWeight:800, color:accent, letterSpacing:'1.5px', textTransform:'uppercase', margin:'0 0 12px' }}>{d.videoTitle || 'סרטון המוצר'}</p>}
+          <div style={{ borderRadius:16, overflow:'hidden', background:'#000', aspectRatio:'16/9' }}>
+            {ytId ? <iframe width="100%" height="100%" src={`https://www.youtube.com/embed/${ytId}`} frameBorder="0" allowFullScreen style={{ display:'block', aspectRatio:'16/9' }} />
+                  : <video src={d.videoUrl} controls style={{ width:'100%', aspectRatio:'16/9', display:'block' }} />}
+          </div>
+        </div>
+      )}
+
       {/* ── 3–5. Price + CTA (white card) ── */}
-      <div style={{ background:'white', borderRadius: isDesktop ? 0 : '24px 24px 0 0', marginTop: isDesktop ? 0 : -18, position:'relative', padding:`${isDesktop?'48px':'28px'} ${px}px ${isDesktop?'0':'0'}`, maxWidth:isDesktop?960:'100%', margin:isDesktop?'0 auto':'0', ...(isDesktop ? {} : { borderRadius:'24px 24px 0 0', marginTop:-18 }) }}>
+      <div style={{ background:'white', position:'relative', padding:`${isDesktop?'48px':'28px'} ${px}px ${isDesktop?'0':'0'}`, maxWidth:isDesktop?960:'100%', margin:isDesktop?'0 auto':'0', ...(!isDesktop && (d.videoPosition||'after')==='before' ? {} : !isDesktop ? { borderRadius:'24px 24px 0 0', marginTop:-18 } : {}) }}>
 
         {isDesktop ? (
           /* Desktop: 2-col — price+CTA left, description right */
@@ -336,6 +347,16 @@ function SingleStorePage({ d }) {
             </div>
             {/* Right: content */}
             <div style={{ paddingTop:8 }}>
+              {/* Video before (desktop — top of right col) */}
+              {d.videoUrl && (d.videoPosition||'after')==='before' && (
+                <div style={{ marginBottom:40 }}>
+                  {d.videoTitle !== '' && <p style={{ fontSize:13, fontWeight:800, color:accent, letterSpacing:'1.5px', textTransform:'uppercase', margin:'0 0 16px' }}>{d.videoTitle||'סרטון המוצר'}</p>}
+                  <div style={{ borderRadius:20, overflow:'hidden', background:'#000', aspectRatio:'16/9' }}>
+                    {ytId ? <iframe width="100%" height="100%" src={`https://www.youtube.com/embed/${ytId}`} frameBorder="0" allowFullScreen style={{ display:'block', aspectRatio:'16/9' }} />
+                          : <video src={d.videoUrl} controls style={{ width:'100%', aspectRatio:'16/9', display:'block' }} />}
+                  </div>
+                </div>
+              )}
               {/* Bullets as benefit cards */}
               {bullets.length > 0 && (
                 <div style={{ marginBottom:40 }}>
@@ -358,12 +379,34 @@ function SingleStorePage({ d }) {
                   <p style={{ fontSize:17, color:'#374151', lineHeight:1.85, margin:0, whiteSpace:'pre-wrap' }}>{d.description}</p>
                 </div>
               )}
+              {/* ctaTwice — second CTA at bottom of right col (desktop) */}
+              {d.ctaTwice && (
+                <div style={{ paddingTop: 8 }}>
+                  <div style={{ height:1, background:'#f0f0f0', marginBottom:32 }} />
+                  <CtaButton large label={d.ctaText||'הזמן עכשיו בוואטסאפ'} />
+                </div>
+              )}
             </div>
           </div>
         ) : (
-          /* Mobile: single column — bullets + description first, then price/CTA */
+          /* Mobile: single column */
           <>
-            {/* Benefit cards — mobile: above CTA */}
+            {/* ctaTwice — top CTA block (mobile) */}
+            {d.ctaTwice && (
+              <>
+                <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:14 }}>
+                  <div style={{ display:'flex', alignItems:'baseline', gap:8 }}>
+                    <span style={{ fontSize:34, fontWeight:900, color:accent, letterSpacing:'-0.5px' }}>₪{d.price||'0'}</span>
+                    {d.originalPrice && <span style={{ fontSize:16, color:'#c4c4c4', textDecoration:'line-through' }}>₪{d.originalPrice}</span>}
+                  </div>
+                  {discount && <span style={{ fontSize:11, fontWeight:800, color:'#10B981', background:'#d1fae5', padding:'3px 9px', borderRadius:20 }}>חסכו {discount}%</span>}
+                </div>
+                <CtaButton large />
+                <div style={{ height:1, background:'#f0f0f0', margin:'20px 0' }} />
+              </>
+            )}
+
+            {/* Bullets */}
             {bullets.length > 0 && (
               <div style={{ marginBottom: 20 }}>
                 <p style={{ fontSize:11, fontWeight:800, color:accent, letterSpacing:'1.5px', textTransform:'uppercase', margin:'0 0 12px' }}>מה תקבל</p>
@@ -380,7 +423,7 @@ function SingleStorePage({ d }) {
               </div>
             )}
 
-            {/* Description — mobile: above CTA */}
+            {/* Description */}
             {d.description && (
               <div style={{ marginBottom: 24 }}>
                 <p style={{ fontSize:11, fontWeight:800, color:accent, letterSpacing:'1.5px', textTransform:'uppercase', margin:'0 0 10px' }}>אודות המוצר</p>
@@ -388,12 +431,11 @@ function SingleStorePage({ d }) {
               </div>
             )}
 
-            {/* Divider */}
             {(bullets.length > 0 || d.description) && (
               <div style={{ height:1, background:'#f0f0f0', margin:'0 0 22px' }} />
             )}
 
-            {/* Price block */}
+            {/* Main price + CTA */}
             <div style={{ marginBottom:18 }}>
               <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:6 }}>
                 <div style={{ display:'flex', alignItems:'baseline', gap:8 }}>
@@ -414,8 +456,8 @@ function SingleStorePage({ d }) {
         )}
       </div>
 
-      {/* ── Video ── */}
-      {d.videoUrl && (
+      {/* ── Video AFTER (default) ── */}
+      {d.videoUrl && (d.videoPosition||'after')==='after' && (
         <div style={{ padding:sectionPad, background:'white', ...(isDesktop?{maxWidth:960,margin:'0 auto'}:{}) }}>
           {d.videoTitle !== '' && (
             <p style={{ fontSize:11, fontWeight:800, color:accent, letterSpacing:'1.5px', textTransform:'uppercase', margin:'0 0 16px' }}>{d.videoTitle || 'סרטון המוצר'}</p>
