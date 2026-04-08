@@ -5,6 +5,47 @@ import { useAuth } from '../lib/AuthContext';
 import LogoMark from '../components/LogoMark';
 import { uploadCardImage, uploadCardVideo, createStore, updateStore, publishStore, getStoreById, checkStoreSlugAvailable, toSlug } from '../lib/cardsApi';
 
+// ─── Filename → product suggestion ─────────────────────────────────────────────
+const HE_MAP = {
+  dress:'שמלה', shirt:'חולצה', pants:'מכנסיים', shoes:'נעליים', bag:'תיק', hat:'כובע',
+  jacket:'ג׳קט', coat:'מעיל', skirt:'חצאית', top:'טופ', jeans:'ג׳ינס', sneakers:'סניקרס',
+  boots:'מגפיים', sandals:'סנדלים', watch:'שעון', ring:'טבעת', necklace:'שרשרת',
+  bracelet:'צמיד', earrings:'עגילים', sunglasses:'משקפי שמש', glasses:'משקפיים',
+  phone:'טלפון', laptop:'לפטופ', tablet:'טאבלט', camera:'מצלמה', headphones:'אוזניות',
+  chair:'כיסא', table:'שולחן', lamp:'מנורה', pillow:'כרית', blanket:'שמיכה',
+  cup:'כוס', mug:'ספל', bottle:'בקבוק', candle:'נר', plant:'צמח',
+  cake:'עוגה', cookie:'עוגייה', coffee:'קפה', tea:'תה', chocolate:'שוקולד',
+  perfume:'בושם', cream:'קרם', soap:'סבון', shampoo:', שמפו',
+  toy:'צעצוע', book:'ספר', game:'משחק', art:'יצירה', print:'הדפס',
+  photo:'תמונה', poster:'פוסטר', painting:'ציור',
+};
+const DESC_TEMPLATES = [
+  n => `${n} — מוצר איכותי שתוכנן עם תשומת לב לכל פרט`,
+  n => `${n} מושלם — בחירה מנצחת שתתאים לכל סגנון`,
+  n => `${n} | עיצוב ייחודי, איכות שאפשר לסמוך עליה`,
+];
+function suggestFromFilename(filename) {
+  if (!filename) return null;
+  let raw = filename.replace(/\.[^/.]+$/, ''); // remove extension
+  raw = raw.replace(/[_\-\.]+/g, ' ').trim();  // clean separators
+  // remove generic prefixes: IMG, DSC, photo, image + trailing numbers
+  raw = raw.replace(/\b(IMG|DSC|DSCN|photo|image|img|pic|picture|screenshot|file)\b/gi, '').trim();
+  raw = raw.replace(/^\d[\d\s_-]*$/, '').trim(); // pure numbers → skip
+  raw = raw.replace(/\s+\d{3,}\s*$/, '').trim(); // trailing long number
+  raw = raw.replace(/\s+/g, ' ').trim();
+  if (!raw || raw.length < 2) return null;
+  // try to translate known English words to Hebrew
+  const words = raw.toLowerCase().split(' ');
+  const translated = words.map(w => HE_MAP[w] || w);
+  const heWord = translated.find(w => HE_MAP[words[translated.indexOf(w)]]);
+  const displayName = heWord
+    ? (heWord + (translated.filter(w => w !== heWord).join(' ') ? ' ' + translated.filter(w => w !== heWord).join(' ') : ''))
+    : (raw.charAt(0).toUpperCase() + raw.slice(1));
+  const name = displayName.trim();
+  const desc = DESC_TEMPLATES[Math.floor(Math.random() * DESC_TEMPLATES.length)](name);
+  return { name, description: desc };
+}
+
 // ─── Trust badge SVGs ──────────────────────────────────────────────────────────
 const PAYMENT_METHODS = [
   { id: 'visa', label: 'Visa' },
@@ -776,6 +817,8 @@ export default function StoreBuilderPage() {
   const [uploading, setUploading] = useState(false);
   const [uploadingHeroImages, setUploadingHeroImages] = useState(false);
   const [uploadingHeroVideo, setUploadingHeroVideo] = useState(false);
+  const [singleSuggestion, setSingleSuggestion] = useState(null); // {name, description}
+  const [productSuggestion, setProductSuggestion] = useState(null); // {catIdx, prodIdx, name, description}
   const [showPhonePreview, setShowPhonePreview] = useState(true);
   const [dbStoreId, setDbStoreId] = useState(null);
   const [saving, setSaving] = useState(false);
@@ -955,7 +998,12 @@ export default function StoreBuilderPage() {
   };
   const handleProductImageUpload = async (catIdx, prodIdx, file) => {
     if (!file || !user) return;
-    try { const url = await uploadCardImage(user.id, file); updProduct(catIdx, prodIdx, { image: url }); }
+    try {
+      const url = await uploadCardImage(user.id, file);
+      updProduct(catIdx, prodIdx, { image: url });
+      const s = suggestFromFilename(file.name);
+      if (s) setProductSuggestion({ catIdx, prodIdx, ...s });
+    }
     catch(e) { console.error(e); }
   };
   const handleCategoryImageUpload = async (catIdx, file) => {
@@ -988,6 +1036,8 @@ export default function StoreBuilderPage() {
     try {
       const url = await uploadCardImage(user.id, file);
       upd('image', url);
+      const s = suggestFromFilename(file.name);
+      if (s) setSingleSuggestion(s);
     } catch (e) {
       console.error(e);
     } finally {
@@ -1360,13 +1410,27 @@ export default function StoreBuilderPage() {
 
                 <div>
                   <label className="block text-xs font-bold text-gray-700 mb-1">שם המוצר *</label>
-                  <input value={data.name} onChange={e => upd('name', e.target.value)} placeholder="קורס צילום מקצועי · שמלת כלה · עיסוי שוודי" className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 transition-colors" />
+                  <input value={data.name} onChange={e => { upd('name', e.target.value); setSingleSuggestion(null); }} placeholder="קורס צילום מקצועי · שמלת כלה · עיסוי שוודי" className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 transition-colors" />
+                  {singleSuggestion && !data.name && (
+                    <div className="mt-1.5 flex items-center gap-2 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2">
+                      <span className="text-sm">✨</span>
+                      <p className="text-xs text-amber-800 flex-1 font-medium">{singleSuggestion.name}</p>
+                      <button onClick={() => { upd('name', singleSuggestion.name); setSingleSuggestion(null); }} className="text-[11px] font-bold text-white px-2 py-1 rounded-lg" style={{ background: '#F4938C' }}>השתמש</button>
+                    </div>
+                  )}
                   <p className="text-[10px] text-gray-400 mt-1">הכותרת הראשית — תהיה ברורה וממוקדת</p>
                 </div>
 
                 <div>
                   <label className="block text-xs font-bold text-gray-700 mb-1">משפט שיווקי</label>
                   <input value={data.tagline} onChange={e => upd('tagline', e.target.value)} placeholder="למשל: &quot;הקורס שישנה את הדרך שאתה רואה את העולם&quot;" className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 transition-colors" />
+                  {singleSuggestion && !data.tagline && (
+                    <div className="mt-1.5 flex items-center gap-2 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2">
+                      <span className="text-sm">✨</span>
+                      <p className="text-xs text-amber-800 flex-1">{singleSuggestion.description}</p>
+                      <button onClick={() => { upd('tagline', singleSuggestion.description); setSingleSuggestion(null); }} className="text-[11px] font-bold text-white px-2 py-1 rounded-lg flex-shrink-0" style={{ background: '#F4938C' }}>השתמש</button>
+                    </div>
+                  )}
                   <p className="text-[10px] text-gray-400 mt-1">שורה קצרה מתחת לכותרת — מה הופך את המוצר שלך לייחודי?</p>
                 </div>
 
@@ -2141,10 +2205,17 @@ export default function StoreBuilderPage() {
                                 {p.image ? <img src={p.image} alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} /> : <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>}
                               </div>
                               <input id={`prod-img-${ci}-${pi}`} type="file" accept="image/*" className="hidden" onChange={e => handleProductImageUpload(ci, pi, e.target.files?.[0])} />
-                              <input value={p.name} onChange={e => updProduct(ci,pi,{ name:e.target.value })} placeholder="שם המוצר" className="flex-1 border border-gray-200 rounded-xl px-2 py-1.5 text-xs focus:outline-none" />
+                              <input value={p.name} onChange={e => { updProduct(ci,pi,{ name:e.target.value }); if(productSuggestion?.catIdx===ci&&productSuggestion?.prodIdx===pi) setProductSuggestion(null); }} placeholder="שם המוצר" className="flex-1 border border-gray-200 rounded-xl px-2 py-1.5 text-xs focus:outline-none" />
                               <input value={p.price} onChange={e => updProduct(ci,pi,{ price:e.target.value })} placeholder="₪מחיר" className="w-16 border border-gray-200 rounded-xl px-2 py-1.5 text-xs focus:outline-none" dir="ltr" />
                               <button onClick={() => updCategory(ci,{ products:(cat.products||[]).filter((_,i)=>i!==pi) })} className="text-xs text-red-400 px-1">✕</button>
                             </div>
+                            {productSuggestion?.catIdx===ci && productSuggestion?.prodIdx===pi && !p.name && (
+                              <div className="flex items-center gap-2 bg-amber-50 border border-amber-200 rounded-xl px-2.5 py-1.5">
+                                <span className="text-xs">✨</span>
+                                <p className="text-[11px] text-amber-800 flex-1 font-medium">{productSuggestion.name}</p>
+                                <button onClick={() => { updProduct(ci,pi,{ name: productSuggestion.name, description: productSuggestion.description }); setProductSuggestion(null); }} className="text-[10px] font-bold text-white px-2 py-0.5 rounded-lg flex-shrink-0" style={{ background:'#F4938C' }}>השתמש</button>
+                              </div>
+                            )}
                             <input value={p.description||''} onChange={e => updProduct(ci,pi,{ description:e.target.value })} placeholder="תיאור קצר (אופציונלי)" className="w-full border border-gray-200 rounded-xl px-2 py-1.5 text-xs focus:outline-none" />
                             {p.videoUrl ? (
                               <div className="flex items-center gap-2 bg-gray-50 rounded-xl px-2 py-1.5 border border-gray-100">
@@ -3119,10 +3190,17 @@ export default function StoreBuilderPage() {
                               {p.image ? <img src={p.image} alt="" style={{ width:'100%',height:'100%',objectFit:'cover' }} /> : <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>}
                             </div>
                             <input id={`prod-img-m-${ci}-${pi}`} type="file" accept="image/*" className="hidden" onChange={e => handleProductImageUpload(ci,pi,e.target.files?.[0])} />
-                            <input value={p.name} onChange={e => updProduct(ci, pi, { name: e.target.value })} placeholder="שם מוצר" className="flex-1 border border-gray-200 rounded-xl px-2 py-1.5 text-xs focus:outline-none" />
+                            <input value={p.name} onChange={e => { updProduct(ci, pi, { name: e.target.value }); if(productSuggestion?.catIdx===ci&&productSuggestion?.prodIdx===pi) setProductSuggestion(null); }} placeholder="שם מוצר" className="flex-1 border border-gray-200 rounded-xl px-2 py-1.5 text-xs focus:outline-none" />
                             <input value={p.price} onChange={e => updProduct(ci, pi, { price: e.target.value })} placeholder="₪" className="w-14 border border-gray-200 rounded-xl px-2 py-1.5 text-xs focus:outline-none" dir="ltr" />
                             <button onClick={() => updCategory(ci, { products: (cat.products || []).filter((_, i) => i !== pi) })} className="text-xs text-red-400">✕</button>
                           </div>
+                          {productSuggestion?.catIdx===ci && productSuggestion?.prodIdx===pi && !p.name && (
+                            <div className="flex items-center gap-2 bg-amber-50 border border-amber-200 rounded-xl px-2.5 py-1.5">
+                              <span className="text-xs">✨</span>
+                              <p className="text-[11px] text-amber-800 flex-1 font-medium">{productSuggestion.name}</p>
+                              <button onClick={() => { updProduct(ci,pi,{ name: productSuggestion.name, description: productSuggestion.description }); setProductSuggestion(null); }} className="text-[10px] font-bold text-white px-2 py-0.5 rounded-lg flex-shrink-0" style={{ background:'#F4938C' }}>השתמש</button>
+                            </div>
+                          )}
                           <input value={p.description||''} onChange={e => updProduct(ci,pi,{description:e.target.value})} placeholder="תיאור קצר (אופציונלי)" className="w-full border border-gray-200 rounded-xl px-2 py-1.5 text-xs focus:outline-none" />
                           <div className="flex gap-1.5">
                             <button onClick={() => updProduct(ci,pi,{ inStock: !(p.inStock ?? true) })}
