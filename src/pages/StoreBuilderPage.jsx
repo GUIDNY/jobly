@@ -47,9 +47,16 @@ function PaymentBadge({ id }) {
 
 // ─── Store Preview (phone) ─────────────────────────────────────────────────────
 function StorePreview({ data, onBuy }) {
-  const { image, name, tagline, price, originalPrice, ctaText, description, bullets, paymentMethods, reviews, accentColor, storeName, videoUrl, videoTitle, ticker, videoPosition, ctaPosition, ctaTwice } = data;
+  const { image, name, tagline, price, originalPrice, ctaText, description, bullets, paymentMethods, reviews, accentColor, storeName, videoUrl, videoTitle, ticker, videoPosition, ctaPosition, ctaTwice, heroType, heroImages, heroVideo } = data;
   const accent = accentColor || '#F4938C';
   const videoBefore = videoUrl && (videoPosition || 'after') === 'before';
+  const [heroIdx, setHeroIdx] = useState(0);
+  const heroImagesArr = heroImages || [];
+  useEffect(() => {
+    if ((heroType || 'image') !== 'gallery' || heroImagesArr.length < 2) return;
+    const t = setInterval(() => setHeroIdx(i => (i + 1) % heroImagesArr.length), 3000);
+    return () => clearInterval(t);
+  }, [heroType, heroImagesArr.length]);
   const ctaPos = ctaPosition || 'above-video';
   const filteredBullets = (bullets || []).filter(b => b?.trim());
   const filteredReviews = (reviews || []).filter(r => r.text);
@@ -90,15 +97,31 @@ function StorePreview({ data, onBuy }) {
         </button>
       </div>
 
-      {/* 2. Hero image with overlay */}
+      {/* 2. Hero image/gallery/video with overlay */}
       <div style={{ position: 'relative', width: '100%', height: 220, overflow: 'hidden', background: '#111' }}>
-        {image
-          ? <img src={image} alt={name} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-          : <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 8, background: `linear-gradient(135deg,${accent}22,${accent}08)` }}>
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke={`${accent}88`} strokeWidth="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-              <span style={{ fontSize: 11, color: `${accent}88`, fontWeight: 600 }}>תמונת המוצר תופיע כאן</span>
-            </div>
-        }
+        {(heroType || 'image') === 'video' && heroVideo ? (
+          <video src={heroVideo} autoPlay loop muted playsInline style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+        ) : (heroType || 'image') === 'gallery' && heroImagesArr.length > 0 ? (
+          <>
+            {heroImagesArr.map((src, i) => (
+              <img key={i} src={src} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: i === heroIdx ? 1 : 0, transition: 'opacity 0.8s ease-in-out' }} />
+            ))}
+            {heroImagesArr.length > 1 && (
+              <div style={{ position: 'absolute', bottom: 54, left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: 4, zIndex: 2 }}>
+                {heroImagesArr.map((_, i) => (
+                  <div key={i} style={{ width: i === heroIdx ? 14 : 6, height: 6, borderRadius: 3, background: i === heroIdx ? 'white' : 'rgba(255,255,255,0.5)', transition: 'all 0.3s' }} />
+                ))}
+              </div>
+            )}
+          </>
+        ) : image ? (
+          <img src={image} alt={name} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+        ) : (
+          <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 8, background: `linear-gradient(135deg,${accent}22,${accent}08)` }}>
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke={`${accent}88`} strokeWidth="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <span style={{ fontSize: 11, color: `${accent}88`, fontWeight: 600 }}>תמונת המוצר תופיע כאן</span>
+          </div>
+        )}
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.02) 0%, transparent 35%, rgba(0,0,0,0.72) 100%)' }} />
         {storeName && (
           <div style={{ position: 'absolute', top: 10, right: 10, background: 'rgba(0,0,0,0.45)', backdropFilter: 'blur(8px)', borderRadius: 20, padding: '3px 10px' }}>
@@ -414,10 +437,12 @@ function MultiStorePreview({ ms, cart, onAddToCart, onCartOpen }) {
 
         if (coverType === 'carousel' && carouselImages.length > 0) return (
           <div style={{ position: 'relative', height: 120, overflow: 'hidden', flexShrink: 0 }}>
-            <img src={carouselImages[carouselIdx]} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'opacity 0.5s' }} />
+            {carouselImages.map((src, i) => (
+              <img key={i} src={src} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: i === carouselIdx ? 1 : 0, transition: 'opacity 0.8s ease-in-out' }} />
+            ))}
             {overlayInfo}
             {carouselImages.length > 1 && (
-              <div style={{ position: 'absolute', bottom: 5, left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: 3 }}>
+              <div style={{ position: 'absolute', bottom: 5, left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: 3, zIndex: 2 }}>
                 {carouselImages.map((_, i) => (
                   <div key={i} style={{ width: i === carouselIdx ? 12 : 5, height: 5, borderRadius: 3, background: i === carouselIdx ? 'white' : 'rgba(255,255,255,0.5)', transition: 'all 0.3s' }} />
                 ))}
@@ -714,7 +739,10 @@ const DEFAULT_MULTI = {
 const DEFAULT_DATA = {
   storeType: 'multi',
   storeName: '',
+  heroType: 'image',
   image: '',
+  heroImages: [],
+  heroVideo: '',
   name: '',
   tagline: '',
   price: '',
@@ -746,6 +774,8 @@ export default function StoreBuilderPage() {
   const [activeSection, setActiveSection] = useState('product');
   const [showCheckout, setShowCheckout] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [uploadingHeroImages, setUploadingHeroImages] = useState(false);
+  const [uploadingHeroVideo, setUploadingHeroVideo] = useState(false);
   const [showPhonePreview, setShowPhonePreview] = useState(true);
   const [dbStoreId, setDbStoreId] = useState(null);
   const [saving, setSaving] = useState(false);
@@ -756,6 +786,8 @@ export default function StoreBuilderPage() {
   const [slugAvailable, setSlugAvailable] = useState(null);
   const [slugChecking, setSlugChecking] = useState(false);
   const fileRef = useRef(null);
+  const heroImagesRef = useRef(null);
+  const heroVideoRef = useRef(null);
   const coverRef = useRef(null);
   const logoRef = useRef(null);
 
@@ -962,6 +994,28 @@ export default function StoreBuilderPage() {
       setUploading(false);
     }
   };
+  const handleHeroImagesUpload = async (files) => {
+    if (!files?.length || !user) return;
+    setUploadingHeroImages(true);
+    try {
+      const existing = data.heroImages || [];
+      const slots = 5 - existing.length;
+      if (slots <= 0) return;
+      const urls = [];
+      for (const file of Array.from(files).slice(0, slots)) {
+        const url = await uploadCardImage(user.id, file);
+        urls.push(url);
+      }
+      upd('heroImages', [...existing, ...urls]);
+    } catch(e) { console.error(e); } finally { setUploadingHeroImages(false); }
+  };
+  const handleHeroVideoUpload = async (file) => {
+    if (!file || !user) return;
+    if (!file.type.startsWith('video/')) return;
+    setUploadingHeroVideo(true);
+    try { const url = await uploadCardVideo(user.id, file); upd('heroVideo', url); }
+    catch(e) { console.error(e); } finally { setUploadingHeroVideo(false); }
+  };
 
   const SECTIONS = [
     { id: 'product', label: 'מוצר', icon: '📸' },
@@ -1117,49 +1171,126 @@ export default function StoreBuilderPage() {
           {storeType === 'single' && activeSection === 'product' && (
             <motion.div key="product" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="space-y-3">
 
-              {/* ── Hero image upload — BIG, cinematic ── */}
+              {/* ── Hero media upload ── */}
               <div className="bg-white rounded-2xl overflow-hidden border border-gray-100" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
-                <div
-                  onClick={() => fileRef.current?.click()}
-                  className="relative cursor-pointer overflow-hidden transition-all group"
-                  style={{ height: data.image ? 200 : 160, background: data.image ? 'transparent' : `linear-gradient(135deg, ${data.accentColor}18 0%, ${data.accentColor}08 100%)` }}
-                >
-                  {data.image ? (
-                    <>
-                      <img src={data.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all flex items-center justify-center">
-                        <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-white/90 backdrop-blur rounded-2xl px-4 py-2.5 flex items-center gap-2">
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#374151" strokeWidth="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                          <span className="text-xs font-bold text-gray-700">החלף תמונה</span>
-                        </div>
-                      </div>
-                    </>
-                  ) : uploading ? (
-                    <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
-                      <svg className="animate-spin w-8 h-8" viewBox="0 0 24 24" fill="none" style={{ color: data.accentColor }}><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
-                      <p className="text-sm font-medium text-gray-500">מעלה תמונה...</p>
-                    </div>
-                  ) : (
-                    <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 p-6">
-                      <div className="w-16 h-16 rounded-2xl flex items-center justify-center" style={{ background: `${data.accentColor}22`, border: `2px dashed ${data.accentColor}55` }}>
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke={data.accentColor} strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                      </div>
-                      <div className="text-center">
-                        <p className="text-sm font-bold text-gray-800">הוסיפו תמונה שתמכור אתכם</p>
-                        <p className="text-xs text-gray-400 mt-1">תמונה אחת טובה שווה אלף מילים — JPG, PNG עד 10MB</p>
-                      </div>
-                      <div className="px-5 py-2.5 rounded-2xl text-sm font-bold text-white" style={{ background: `linear-gradient(135deg, ${data.accentColor}, #5BC4C8)` }}>
-                        בחר תמונה
-                      </div>
-                    </div>
-                  )}
+                {/* Type tabs */}
+                <div className="flex gap-2 p-3 border-b border-gray-50">
+                  {[{val:'image',label:'🖼️ תמונה'},{val:'gallery',label:'🎠 גלריה'},{val:'video',label:'🎬 וידאו'}].map(t => (
+                    <button key={t.val} onClick={() => upd('heroType', t.val)}
+                      className="flex-1 py-2 rounded-xl text-xs font-bold border transition-all"
+                      style={{ background: (data.heroType||'image')===t.val ? '#111' : '#f9fafb', color: (data.heroType||'image')===t.val ? 'white' : '#6b7280', borderColor: (data.heroType||'image')===t.val ? '#111' : '#e5e7eb' }}>
+                      {t.label}
+                    </button>
+                  ))}
                 </div>
-                <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={e => handleImageUpload(e.target.files?.[0])} />
-                {data.image && (
-                  <div className="flex items-center justify-between px-4 py-2 border-t border-gray-50">
-                    <p className="text-[10px] text-gray-400">התמונה מוצגת בדף המוצר שלך</p>
-                    <button onClick={() => upd('image', '')} className="text-[10px] text-red-400 font-medium hover:text-red-500">הסר</button>
+
+                {/* Single image */}
+                {(data.heroType||'image') === 'image' && (
+                  <>
+                    <div onClick={() => fileRef.current?.click()} className="relative cursor-pointer overflow-hidden transition-all group"
+                      style={{ height: data.image ? 200 : 160, background: data.image ? 'transparent' : `linear-gradient(135deg, ${data.accentColor}18 0%, ${data.accentColor}08 100%)` }}>
+                      {data.image ? (
+                        <>
+                          <img src={data.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all flex items-center justify-center">
+                            <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-white/90 backdrop-blur rounded-2xl px-4 py-2.5 flex items-center gap-2">
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#374151" strokeWidth="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                              <span className="text-xs font-bold text-gray-700">החלף תמונה</span>
+                            </div>
+                          </div>
+                        </>
+                      ) : uploading ? (
+                        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+                          <svg className="animate-spin w-8 h-8" viewBox="0 0 24 24" fill="none" style={{ color: data.accentColor }}><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+                          <p className="text-sm font-medium text-gray-500">מעלה...</p>
+                        </div>
+                      ) : (
+                        <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 p-6">
+                          <div className="w-16 h-16 rounded-2xl flex items-center justify-center" style={{ background: `${data.accentColor}22`, border: `2px dashed ${data.accentColor}55` }}>
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke={data.accentColor} strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                          </div>
+                          <div className="text-center">
+                            <p className="text-sm font-bold text-gray-800">הוסיפו תמונה שתמכור אתכם</p>
+                            <p className="text-xs text-gray-400 mt-1">JPG, PNG עד 10MB</p>
+                          </div>
+                          <div className="px-5 py-2.5 rounded-2xl text-sm font-bold text-white" style={{ background: `linear-gradient(135deg, ${data.accentColor}, #5BC4C8)` }}>בחר תמונה</div>
+                        </div>
+                      )}
+                    </div>
+                    <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={e => handleImageUpload(e.target.files?.[0])} />
+                    {data.image && (
+                      <div className="flex items-center justify-between px-4 py-2 border-t border-gray-50">
+                        <p className="text-[10px] text-gray-400">התמונה מוצגת בדף המוצר</p>
+                        <button onClick={() => upd('image', '')} className="text-[10px] text-red-400 font-medium">הסר</button>
+                      </div>
+                    )}
+                  </>
+                )}
+
+                {/* Gallery */}
+                {(data.heroType||'image') === 'gallery' && (
+                  <div className="p-4">
+                    <div className="flex gap-2 flex-wrap mb-2">
+                      {(data.heroImages||[]).map((src,i) => (
+                        <div key={i} className="relative" style={{ width:72, height:72 }}>
+                          <img src={src} alt="" className="w-full h-full rounded-xl object-cover border border-gray-200" />
+                          <button onClick={() => upd('heroImages',(data.heroImages||[]).filter((_,j)=>j!==i))} className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-red-400 text-white flex items-center justify-center font-bold" style={{ fontSize:10 }}>✕</button>
+                        </div>
+                      ))}
+                      {(data.heroImages||[]).length < 5 && (
+                        <div onClick={() => heroImagesRef.current?.click()} className="cursor-pointer border-2 border-dashed border-gray-200 rounded-xl flex flex-col items-center justify-center gap-1 hover:opacity-80 transition-opacity" style={{ width:72, height:72, background: `${data.accentColor}08` }}>
+                          {uploadingHeroImages ? <svg className="animate-spin w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg> : <>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={data.accentColor} strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                            <p className="text-[10px] text-gray-500">הוסף</p>
+                          </>}
+                        </div>
+                      )}
+                    </div>
+                    <p className="text-xs text-gray-400">עד 5 תמונות · מתחלפות עם פייד כל 3 שניות</p>
+                    <input ref={heroImagesRef} type="file" accept="image/*" multiple className="hidden" onChange={e => handleHeroImagesUpload(e.target.files)} />
                   </div>
+                )}
+
+                {/* Video */}
+                {(data.heroType||'image') === 'video' && (
+                  <>
+                    <div onClick={() => heroVideoRef.current?.click()} className="relative cursor-pointer overflow-hidden transition-all group"
+                      style={{ height: data.heroVideo ? 200 : 160, background: data.heroVideo ? '#000' : `linear-gradient(135deg, ${data.accentColor}18 0%, ${data.accentColor}08 100%)` }}>
+                      {data.heroVideo ? (
+                        <>
+                          <video src={data.heroVideo} muted loop playsInline autoPlay style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all flex items-center justify-center">
+                            <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-white/90 backdrop-blur rounded-2xl px-4 py-2.5 flex items-center gap-2">
+                              <span className="text-xs font-bold text-gray-700">החלף וידאו</span>
+                            </div>
+                          </div>
+                        </>
+                      ) : uploadingHeroVideo ? (
+                        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+                          <svg className="animate-spin w-8 h-8" viewBox="0 0 24 24" fill="none" style={{ color: data.accentColor }}><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+                          <p className="text-sm font-medium text-gray-500">מעלה וידאו...</p>
+                        </div>
+                      ) : (
+                        <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 p-6">
+                          <div className="w-16 h-16 rounded-2xl flex items-center justify-center" style={{ background: `${data.accentColor}22`, border: `2px dashed ${data.accentColor}55` }}>
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke={data.accentColor} strokeWidth="1.5"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+                          </div>
+                          <div className="text-center">
+                            <p className="text-sm font-bold text-gray-800">הוסיפו וידאו לגיבור</p>
+                            <p className="text-xs text-gray-400 mt-1">ירוץ בלופ בראש הדף · MP4 מומלץ</p>
+                          </div>
+                          <div className="px-5 py-2.5 rounded-2xl text-sm font-bold text-white" style={{ background: `linear-gradient(135deg, ${data.accentColor}, #5BC4C8)` }}>בחר וידאו</div>
+                        </div>
+                      )}
+                    </div>
+                    <input ref={heroVideoRef} type="file" accept="video/*" className="hidden" onChange={e => handleHeroVideoUpload(e.target.files?.[0])} />
+                    {data.heroVideo && (
+                      <div className="flex items-center justify-between px-4 py-2 border-t border-gray-50">
+                        <p className="text-[10px] text-gray-400">הוידאו ירוץ בלופ בראש הדף</p>
+                        <button onClick={() => upd('heroVideo', '')} className="text-[10px] text-red-400 font-medium">הסר</button>
+                      </div>
+                    )}
+                  </>
                 )}
               </div>
 
