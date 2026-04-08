@@ -2248,25 +2248,34 @@ export default function StoreBuilderPage() {
           <>
             <motion.div className="fixed inset-0 bg-black/40 z-50 md:hidden" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowProductSheet(false)} />
             <motion.div className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl z-50 md:hidden" initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }} transition={{ type: 'spring', damping: 28, stiffness: 320 }}>
-              <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mt-3 mb-4" />
-              <div className="px-5 pb-8 space-y-4">
+              <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mt-3 mb-1" />
+              <div className="px-5 pb-8 space-y-4 overflow-y-auto" style={{ maxHeight: 'calc(85vh - 40px)' }}>
                 <h3 className="text-sm font-bold text-gray-900">פרטי המוצר</h3>
                 <div>
                   <label className="block text-[10px] font-semibold text-gray-500 mb-1">שם המוצר *</label>
                   <input value={data.name} onChange={e => upd('name', e.target.value)} placeholder="למשל: קורס צילום מקצועי" className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400" autoFocus />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-semibold text-gray-500 mb-1">תגית / טקסט משנה</label>
+                  <label className="block text-[10px] font-semibold text-gray-500 mb-1">משפט שיווקי</label>
                   <input value={data.tagline} onChange={e => upd('tagline', e.target.value)} placeholder="תיאור קצר שמופיע מתחת לשם" className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400" />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-semibold text-gray-500 mb-1">טקסט כפתור</label>
+                  <label className="block text-[10px] font-semibold text-gray-500 mb-1">טקסט כפתור רכישה</label>
                   <div className="flex gap-2 flex-wrap">
-                    {['קנה עכשיו','הזמן עכשיו','לרכישה','שלם ורכוש'].map(opt => (
-                      <button key={opt} onClick={() => upd('ctaText', opt)} className="px-3 py-1.5 rounded-xl text-xs font-semibold border-2 transition-all"
-                        style={data.ctaText === opt ? { borderColor: '#F4938C', background: '#fff5f4', color: '#F4938C' } : { borderColor: '#e5e7eb', color: '#6b7280' }}>{opt}</button>
+                    {[{ text:'קנה עכשיו',emoji:'🛒'},{text:'הזמן עכשיו',emoji:'📲'},{text:'לרכישה',emoji:'✨'},{text:'שלם ורכוש',emoji:'💳'}].map(opt => (
+                      <button key={opt.text} onClick={() => upd('ctaText', opt.text)} className="px-3 py-1.5 rounded-xl text-xs font-semibold border-2 transition-all flex items-center gap-1"
+                        style={data.ctaText === opt.text ? { borderColor: data.accentColor||'#F4938C', background: (data.accentColor||'#F4938C')+'18', color: data.accentColor||'#F4938C' } : { borderColor: '#e5e7eb', color: '#6b7280' }}>
+                        <span>{opt.emoji}</span>{opt.text}
+                      </button>
                     ))}
                   </div>
+                </div>
+                <div>
+                  <label className="block text-[10px] font-semibold text-gray-500 mb-1">סרט כותרת נע <span className="font-normal text-gray-400">(אופציונלי)</span></label>
+                  <input value={data.ticker||''} onChange={e => upd('ticker', e.target.value)}
+                    placeholder="🔥 הנחה של 50% · ⭐ מוצר מספר 1 · ✈️ משלוח חינם"
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400" />
+                  <p className="text-[10px] text-gray-400 mt-1">כותרת גוללת בראש הדף — מגבירה דחיפות</p>
                 </div>
                 <button onClick={() => setShowProductSheet(false)} className="w-full py-3 rounded-xl text-sm font-bold text-white" style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>שמור ✓</button>
               </div>
