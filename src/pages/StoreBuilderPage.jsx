@@ -1351,8 +1351,26 @@ export default function StoreBuilderPage() {
           {storeType === 'single' && activeSection === 'payment' && (
             <motion.div key="payment" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="space-y-3">
 
+              {/* Mobile compact */}
+              <div className="md:hidden bg-white rounded-2xl p-3 border border-gray-100 space-y-2" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+                <div className="px-1 pb-1">
+                  <p className="text-xs font-bold text-gray-800">הגדרות תשלום ו-CTA</p>
+                  <p className="text-[10px] text-gray-400 mt-0.5">מיקום כפתור, ערוץ תשלום ועוד</p>
+                </div>
+                <button onClick={() => setShowPaymentSheet(true)} className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors">
+                  <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: '#d1fae5' }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="2.5"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                  </div>
+                  <div className="flex-1 text-right">
+                    <p className="text-xs font-semibold text-gray-800">הגדרות תשלום</p>
+                    <p className="text-[10px] text-gray-400">מיקום כפתור · וואטסאפ · הגדרות CTA</p>
+                  </div>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+              </div>
+
               {/* CTA position picker */}
-              <div className="bg-white rounded-2xl p-5 border border-gray-100 space-y-3" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+              <div className="hidden md:block bg-white rounded-2xl p-5 border border-gray-100 space-y-3" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
                 <div>
                   <p className="text-sm font-bold text-gray-800">מיקום כפתור הרכישה</p>
                   <p className="text-xs text-gray-400 mt-0.5">איפה יופיע כפתור ה-CTA בדף המוצר</p>
