@@ -732,7 +732,7 @@ export default function StoreBuilderPage() {
   const [uploadingProductVideo, setUploadingProductVideo] = useState({});
   const [videoDragOver, setVideoDragOver] = useState(false);
   const [productVideoDragOver, setProductVideoDragOver] = useState({});
-  const videoRef = React.useRef(null);
+  const videoRef = useRef(null);
 
   const handleVideoUpload = async (file) => {
     if (!file || !user) return;
