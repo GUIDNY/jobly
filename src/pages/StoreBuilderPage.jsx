@@ -673,6 +673,7 @@ const DEFAULT_DATA = {
   videoUrl: '',
   videoTitle: 'סרטון המוצר',
   videoPosition: 'after',
+  ctaPosition: 'above-video',
   ctaTwice: false,
   whatsapp: '',
   paymentMethods: ['visa', 'mastercard', 'bit'],
