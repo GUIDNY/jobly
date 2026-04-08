@@ -452,27 +452,12 @@ function SingleStorePage({ d }) {
               </div>
             )}
 
-            {(bullets.length > 0 || d.description) && (
+            {(bullets.length > 0 || d.description) && (d.ctaPosition || 'above-video') === 'above-video' && (
               <div style={{ height:1, background:'#f0f0f0', margin:'0 0 22px' }} />
             )}
 
-            {/* Main price + CTA */}
-            <div style={{ marginBottom:18 }}>
-              <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:6 }}>
-                <div style={{ display:'flex', alignItems:'baseline', gap:8 }}>
-                  <span style={{ fontSize:34, fontWeight:900, color:accent, letterSpacing:'-0.5px' }}>₪{d.price||'0'}</span>
-                  {d.originalPrice && <span style={{ fontSize:16, color:'#c4c4c4', textDecoration:'line-through' }}>₪{d.originalPrice}</span>}
-                </div>
-                {discount && <span style={{ fontSize:11, fontWeight:800, color:'#10B981', background:'#d1fae5', padding:'3px 9px', borderRadius:20 }}>חסכו {discount}%</span>}
-              </div>
-            </div>
-            <CtaButton large />
-            <TrustRow />
-            {d.paymentMethods?.length > 0 && (
-              <div style={{ display:'flex', justifyContent:'center', gap:6, marginTop:12, flexWrap:'wrap' }}>
-                {d.paymentMethods.map(id => <PaymentBadge key={id} id={id}/>)}
-              </div>
-            )}
+            {/* Main price + CTA — above-video slot (default) */}
+            {(d.ctaPosition || 'above-video') === 'above-video' && <PriceCtaBlock />}
           </>
         )}
       </div>
