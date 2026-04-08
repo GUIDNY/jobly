@@ -1305,29 +1305,13 @@ export default function StoreBuilderPage() {
                   <p className="text-[10px] text-gray-400 mt-1">סרטון מגביר אמון ב-40% — הוסף הדגמה קצרה של המוצר</p>
                 </div>
                 {data.videoUrl && (
-                  <>
-                    <div>
-                      <label className="block text-xs font-bold text-gray-700 mb-1.5">כותרת הסרטון <span className="font-normal text-gray-400">(ריק = ללא כותרת)</span></label>
-                      <input value={data.videoTitle ?? 'סרטון המוצר'} onChange={e => upd('videoTitle', e.target.value)}
-                        placeholder="למשל: סרטון המוצר, הדגמה חיה, צפה בפעולה..."
-                        className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 transition-colors" />
-                      <p className="text-[10px] text-gray-400 mt-1">השאר ריק כדי להסתיר את הכותרת מעל הסרטון</p>
-                    </div>
-                    <div>
-                      <label className="block text-xs font-bold text-gray-700 mb-1.5">מיקום הסרטון בדף</label>
-                      <div className="flex gap-2">
-                        {[{ v: 'before', label: 'לפני כפתור הרכישה', icon: '⬆️' }, { v: 'after', label: 'אחרי כפתור הרכישה', icon: '⬇️' }].map(opt => (
-                          <button key={opt.v} onClick={() => upd('videoPosition', opt.v)}
-                            className="flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl border-2 text-xs font-bold transition-all"
-                            style={(data.videoPosition || 'after') === opt.v
-                              ? { borderColor: data.accentColor || '#F4938C', background: `${data.accentColor || '#F4938C'}11`, color: data.accentColor || '#F4938C' }
-                              : { borderColor: '#e5e7eb', color: '#9ca3af' }}>
-                            <span>{opt.icon}</span>{opt.label}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  </>
+                  <div>
+                    <label className="block text-xs font-bold text-gray-700 mb-1.5">כותרת הסרטון <span className="font-normal text-gray-400">(ריק = ללא כותרת)</span></label>
+                    <input value={data.videoTitle ?? 'סרטון המוצר'} onChange={e => upd('videoTitle', e.target.value)}
+                      placeholder="למשל: סרטון המוצר, הדגמה חיה, צפה בפעולה..."
+                      className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 transition-colors" />
+                    <p className="text-[10px] text-gray-400 mt-1">השאר ריק כדי להסתיר את הכותרת מעל הסרטון</p>
+                  </div>
                 )}
               </div>
 
