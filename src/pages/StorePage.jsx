@@ -244,7 +244,7 @@ function SingleStorePage({ d }) {
 
       {/* ── 0. Ticker strip ── */}
       {d.ticker && (
-        <div style={{ background: accent, overflow: 'hidden', height: 36, display: 'flex', alignItems: 'center', position: 'relative', zIndex: 50 }}>
+        <div style={{ background: accent, overflow: 'hidden', height: 36, display: 'flex', alignItems: 'center', position: 'relative', zIndex: 50 }} dir="ltr">
           <div className="ticker-track">
             {[...Array(12)].map((_, i) => (
               <span key={i} style={{ fontSize: 12, fontWeight: 800, color: 'white', letterSpacing: '0.5px', paddingLeft: 40, paddingRight: 40, opacity: 0.95 }}>
