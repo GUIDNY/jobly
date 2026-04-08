@@ -351,6 +351,13 @@ function CheckoutModal({ data, onClose }) {
 function MultiStorePreview({ ms, cart, onAddToCart, onCartOpen }) {
   const accent = ms.accentColor || '#F4938C';
   const [popupCat, setPopupCat] = useState(null);
+  const [carouselIdx, setCarouselIdx] = useState(0);
+  const carouselImages = ms.coverImages || [];
+  useEffect(() => {
+    if ((ms.coverType || 'image') !== 'carousel' || carouselImages.length < 2) return;
+    const t = setInterval(() => setCarouselIdx(i => (i + 1) % carouselImages.length), 3000);
+    return () => clearInterval(t);
+  }, [ms.coverType, carouselImages.length]);
   const cartCount = (cart || []).reduce((s, i) => s + (i.qty || 1), 0);
   const hasSocial = ms.social?.whatsapp || ms.social?.instagram || ms.social?.facebook || ms.social?.tiktok || ms.social?.website;
   const featuredProducts = (ms.categories || []).flatMap(cat => (cat.products || []).filter(p => p.name && p.featured));
@@ -384,31 +391,60 @@ function MultiStorePreview({ ms, cart, onAddToCart, onCartOpen }) {
       </div>
 
       {/* Hero */}
-      {ms.coverImage ? (
-        <div style={{ position: 'relative', height: 120, overflow: 'hidden', flexShrink: 0 }}>
-          <img src={ms.coverImage} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(transparent 30%, rgba(0,0,0,0.6))' }} />
-          <div style={{ position: 'absolute', bottom: 8, right: 10, left: 10, display: 'flex', alignItems: 'center', gap: 6 }}>
-            {ms.logoImage && <img src={ms.logoImage} alt="" style={{ width: 22, height: 22, borderRadius: 6, border: '1.5px solid rgba(255,255,255,0.7)', objectFit: 'cover', flexShrink: 0 }} />}
-            <div>
-              <p style={{ color: 'white', fontWeight: 900, fontSize: 10, margin: 0, textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}>{ms.storeName || 'החנות שלי'}</p>
-              {ms.tagline && <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: 7, margin: 0 }}>{ms.tagline}</p>}
+      {(() => {
+        const coverType = ms.coverType || 'image';
+        const overlayInfo = (
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(transparent 30%, rgba(0,0,0,0.6))' }}>
+            <div style={{ position: 'absolute', bottom: 8, right: 10, left: 10, display: 'flex', alignItems: 'center', gap: 6 }}>
+              {ms.logoImage && <img src={ms.logoImage} alt="" style={{ width: 22, height: 22, borderRadius: 6, border: '1.5px solid rgba(255,255,255,0.7)', objectFit: 'cover', flexShrink: 0 }} />}
+              <div>
+                <p style={{ color: 'white', fontWeight: 900, fontSize: 10, margin: 0, textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}>{ms.storeName || 'החנות שלי'}</p>
+                {ms.tagline && <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: 7, margin: 0 }}>{ms.tagline}</p>}
+              </div>
             </div>
           </div>
-        </div>
-      ) : (
-        <div style={{ position: 'relative', height: 100, background: `linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)`, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 6, flexShrink: 0, overflow: 'hidden' }}>
-          {/* Decorative circles */}
-          <div style={{ position: 'absolute', top: -20, right: -20, width: 80, height: 80, borderRadius: '50%', background: `${accent}18` }} />
-          <div style={{ position: 'absolute', bottom: -15, left: -15, width: 60, height: 60, borderRadius: '50%', background: 'rgba(91,196,200,0.12)' }} />
-          {/* Add cover hint */}
-          <div style={{ width: 32, height: 32, borderRadius: 10, background: 'rgba(255,255,255,0.08)', border: '1.5px dashed rgba(255,255,255,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        );
+
+        if (coverType === 'video' && ms.coverVideo) return (
+          <div style={{ position: 'relative', height: 120, overflow: 'hidden', flexShrink: 0 }}>
+            <video src={ms.coverVideo} autoPlay loop muted playsInline style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+            {overlayInfo}
           </div>
-          <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: 7, margin: 0, letterSpacing: '0.8px' }}>הוסף תמונת כריכה</p>
-          {ms.storeName && <p style={{ color: 'rgba(255,255,255,0.6)', fontWeight: 900, fontSize: 9, margin: 0 }}>{ms.storeName}</p>}
-        </div>
-      )}
+        );
+
+        if (coverType === 'carousel' && carouselImages.length > 0) return (
+          <div style={{ position: 'relative', height: 120, overflow: 'hidden', flexShrink: 0 }}>
+            <img src={carouselImages[carouselIdx]} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'opacity 0.5s' }} />
+            {overlayInfo}
+            {carouselImages.length > 1 && (
+              <div style={{ position: 'absolute', bottom: 5, left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: 3 }}>
+                {carouselImages.map((_, i) => (
+                  <div key={i} style={{ width: i === carouselIdx ? 12 : 5, height: 5, borderRadius: 3, background: i === carouselIdx ? 'white' : 'rgba(255,255,255,0.5)', transition: 'all 0.3s' }} />
+                ))}
+              </div>
+            )}
+          </div>
+        );
+
+        if (ms.coverImage) return (
+          <div style={{ position: 'relative', height: 120, overflow: 'hidden', flexShrink: 0 }}>
+            <img src={ms.coverImage} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            {overlayInfo}
+          </div>
+        );
+
+        return (
+          <div style={{ position: 'relative', height: 100, background: `linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)`, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 6, flexShrink: 0, overflow: 'hidden' }}>
+            <div style={{ position: 'absolute', top: -20, right: -20, width: 80, height: 80, borderRadius: '50%', background: `${accent}18` }} />
+            <div style={{ position: 'absolute', bottom: -15, left: -15, width: 60, height: 60, borderRadius: '50%', background: 'rgba(91,196,200,0.12)' }} />
+            <div style={{ width: 32, height: 32, borderRadius: 10, background: 'rgba(255,255,255,0.08)', border: '1.5px dashed rgba(255,255,255,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            </div>
+            <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: 7, margin: 0, letterSpacing: '0.8px' }}>הוסף כריכה</p>
+            {ms.storeName && <p style={{ color: 'rgba(255,255,255,0.6)', fontWeight: 900, fontSize: 9, margin: 0 }}>{ms.storeName}</p>}
+          </div>
+        );
+      })()}
 
       {/* About */}
       {(ms.aboutText || ms.aboutTitle) && (
@@ -656,7 +692,10 @@ function StoreTypePicker({ value, onChange, accent }) {
 
 // ─── Main Builder ──────────────────────────────────────────────────────────────
 const DEFAULT_MULTI = {
+  coverType: 'image',
   coverImage: '',
+  coverImages: [],
+  coverVideo: '',
   logoImage: '',
   storeName: '',
   tagline: '',
@@ -821,12 +860,15 @@ export default function StoreBuilderPage() {
 
   // Upload states
   const [uploadingCover, setUploadingCover] = useState(false);
+  const [uploadingCoverVideo, setUploadingCoverVideo] = useState(false);
   const [uploadingLogo, setUploadingLogo] = useState(false);
   const [uploadingVideo, setUploadingVideo] = useState(false);
   const [uploadingProductVideo, setUploadingProductVideo] = useState({});
   const [videoDragOver, setVideoDragOver] = useState(false);
   const [productVideoDragOver, setProductVideoDragOver] = useState({});
   const videoRef = useRef(null);
+  const coverVideoRef = useRef(null);
+  const coverImagesRef = useRef(null);
 
   const handleVideoUpload = async (file) => {
     if (!file || !user) return;
@@ -850,6 +892,28 @@ export default function StoreBuilderPage() {
     setUploadingCover(true);
     try { const url = await uploadCardImage(user.id, file); updMulti('coverImage', url); }
     catch(e) { console.error(e); } finally { setUploadingCover(false); }
+  };
+  const handleCoverVideoUpload = async (file) => {
+    if (!file || !user) return;
+    if (!file.type.startsWith('video/')) return;
+    setUploadingCoverVideo(true);
+    try { const url = await uploadCardVideo(user.id, file); updMulti('coverVideo', url); }
+    catch(e) { console.error(e); } finally { setUploadingCoverVideo(false); }
+  };
+  const handleCoverImagesUpload = async (files) => {
+    if (!files?.length || !user) return;
+    setUploadingCover(true);
+    try {
+      const existing = ms.coverImages || [];
+      const slots = 5 - existing.length;
+      if (slots <= 0) return;
+      const urls = [];
+      for (const file of Array.from(files).slice(0, slots)) {
+        const url = await uploadCardImage(user.id, file);
+        urls.push(url);
+      }
+      updMulti('coverImages', [...existing, ...urls]);
+    } catch(e) { console.error(e); } finally { setUploadingCover(false); }
   };
   const handleLogoUpload = async (file) => {
     if (!file || !user) return;
@@ -1705,21 +1769,66 @@ export default function StoreBuilderPage() {
                       </div>
                     </div>
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    {/* Cover */}
-                    <div>
-                      <label className="block text-xs font-semibold text-gray-500 mb-1.5">תמונת כריכה</label>
-                      <div onClick={() => coverRef.current?.click()} className="cursor-pointer hover:opacity-90 transition-opacity rounded-xl overflow-hidden border-2 border-dashed border-gray-200 flex items-center justify-center" style={{ height:100, background: ms.coverImage ? 'transparent' : '#f9fafb' }}>
-                        {ms.coverImage ? <img src={ms.coverImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }}/> : uploadingCover ? <svg className="animate-spin w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg> : <div className="text-center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="1.5" className="mx-auto mb-1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><p className="text-[10px] text-gray-400">העלה כריכה</p></div>}
-                      </div>
-                      <input ref={coverRef} type="file" accept="image/*" className="hidden" onChange={e => handleCoverUpload(e.target.files?.[0])} />
-                      {ms.coverImage && <button onClick={() => updMulti('coverImage','')} className="text-[10px] text-red-400 mt-1">הסר</button>}
+                  {/* Cover */}
+                  <div>
+                    <label className="block text-xs font-semibold text-gray-500 mb-1.5">כריכה</label>
+                    {/* Type tabs */}
+                    <div className="flex gap-1.5 mb-2">
+                      {[{val:'image',label:'תמונה'},{val:'carousel',label:'גלריה'},{val:'video',label:'וידאו'}].map(t => (
+                        <button key={t.val} onClick={() => updMulti('coverType', t.val)}
+                          className="flex-1 py-1.5 rounded-lg text-[10px] font-bold border transition-all"
+                          style={{ background: (ms.coverType||'image')===t.val ? '#111' : '#f9fafb', color: (ms.coverType||'image')===t.val ? 'white' : '#6b7280', borderColor: (ms.coverType||'image')===t.val ? '#111' : '#e5e7eb' }}>
+                          {t.label}
+                        </button>
+                      ))}
                     </div>
-                    {/* Logo */}
+                    {/* Image upload */}
+                    {(ms.coverType||'image') === 'image' && (
+                      <>
+                        <div onClick={() => coverRef.current?.click()} className="cursor-pointer hover:opacity-90 transition-opacity rounded-xl overflow-hidden border-2 border-dashed border-gray-200 flex items-center justify-center" style={{ height:90, background: ms.coverImage ? 'transparent' : '#f9fafb' }}>
+                          {ms.coverImage ? <img src={ms.coverImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }}/> : uploadingCover ? <svg className="animate-spin w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg> : <div className="text-center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="1.5" className="mx-auto mb-1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><p className="text-[10px] text-gray-400">העלה תמונה</p></div>}
+                        </div>
+                        <input ref={coverRef} type="file" accept="image/*" className="hidden" onChange={e => handleCoverUpload(e.target.files?.[0])} />
+                        {ms.coverImage && <button onClick={() => updMulti('coverImage','')} className="text-[10px] text-red-400 mt-1">הסר</button>}
+                      </>
+                    )}
+                    {/* Carousel upload */}
+                    {(ms.coverType||'image') === 'carousel' && (
+                      <>
+                        <div className="flex gap-1.5 flex-wrap mb-1.5">
+                          {(ms.coverImages||[]).map((src,i) => (
+                            <div key={i} className="relative" style={{ width:56, height:56 }}>
+                              <img src={src} alt="" className="w-full h-full rounded-lg object-cover border border-gray-200" />
+                              <button onClick={() => updMulti('coverImages',(ms.coverImages||[]).filter((_,j)=>j!==i))} className="absolute -top-1.5 -left-1.5 w-4 h-4 rounded-full bg-red-400 text-white flex items-center justify-center" style={{ fontSize:9 }}>✕</button>
+                            </div>
+                          ))}
+                          {(ms.coverImages||[]).length < 5 && (
+                            <div onClick={() => coverImagesRef.current?.click()} className="cursor-pointer border-2 border-dashed border-gray-200 rounded-lg flex items-center justify-center bg-gray-50 hover:opacity-80 transition-opacity" style={{ width:56, height:56 }}>
+                              {uploadingCover ? <svg className="animate-spin w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg> : <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>}
+                            </div>
+                          )}
+                        </div>
+                        <p className="text-[10px] text-gray-400">עד 5 תמונות · מתחלפות אוטומטית</p>
+                        <input ref={coverImagesRef} type="file" accept="image/*" multiple className="hidden" onChange={e => handleCoverImagesUpload(e.target.files)} />
+                      </>
+                    )}
+                    {/* Video upload */}
+                    {(ms.coverType||'image') === 'video' && (
+                      <>
+                        <div onClick={() => coverVideoRef.current?.click()} className="cursor-pointer hover:opacity-90 transition-opacity rounded-xl overflow-hidden border-2 border-dashed border-gray-200 flex items-center justify-center" style={{ height:90, background: ms.coverVideo ? '#000' : '#f9fafb' }}>
+                          {ms.coverVideo ? <video src={ms.coverVideo} muted loop playsInline style={{ width:'100%', height:'100%', objectFit:'cover' }} /> : uploadingCoverVideo ? <svg className="animate-spin w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg> : <div className="text-center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="1.5" className="mx-auto mb-1"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg><p className="text-[10px] text-gray-400">העלה וידאו</p></div>}
+                        </div>
+                        <input ref={coverVideoRef} type="file" accept="video/*" className="hidden" onChange={e => handleCoverVideoUpload(e.target.files?.[0])} />
+                        {ms.coverVideo && <button onClick={() => updMulti('coverVideo','')} className="text-[10px] text-red-400 mt-1">הסר</button>}
+                      </>
+                    )}
+                  </div>
+                  {/* Logo */}
+                  <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="block text-xs font-semibold text-gray-500 mb-1.5">לוגו</label>
-                      <div onClick={() => logoRef.current?.click()} className="cursor-pointer hover:opacity-90 transition-opacity rounded-xl overflow-hidden border-2 border-dashed border-gray-200 flex items-center justify-center" style={{ height:100, background: ms.logoImage ? 'transparent' : '#f9fafb' }}>
-                        {ms.logoImage ? <img src={ms.logoImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }}/> : uploadingLogo ? <svg className="animate-spin w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg> : <div className="text-center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="1.5" className="mx-auto mb-1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><p className="text-[10px] text-gray-400">העלה לוגו</p></div>}
+                      <div onClick={() => logoRef.current?.click()} className="cursor-pointer hover:opacity-90 transition-opacity rounded-xl overflow-hidden border-2 border-dashed border-gray-200 flex items-center justify-center" style={{ height:80, background: ms.logoImage ? 'transparent' : '#f9fafb' }}>
+                        {ms.logoImage ? <img src={ms.logoImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }}/> : uploadingLogo ? <svg className="animate-spin w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg> : <div className="text-center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="1.5" className="mx-auto mb-1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><p className="text-[10px] text-gray-400">העלה לוגו</p></div>}
                       </div>
                       <input ref={logoRef} type="file" accept="image/*" className="hidden" onChange={e => handleLogoUpload(e.target.files?.[0])} />
                       {ms.logoImage && <button onClick={() => updMulti('logoImage','')} className="text-[10px] text-red-400 mt-1">הסר</button>}
@@ -2614,25 +2723,85 @@ export default function StoreBuilderPage() {
               <div className="flex-1 overflow-y-auto px-4 py-4 space-y-5">
                 {/* Cover */}
                 <div>
-                  <p className="text-sm font-bold text-gray-800 mb-1">תמונת כריכה</p>
-                  <p className="text-xs text-gray-400 mb-2">רקע ראש החנות · JPG, PNG · מומלץ 1200×400</p>
-                  <div onClick={() => coverRef.current?.click()} className="relative cursor-pointer rounded-2xl overflow-hidden transition-all hover:opacity-90"
-                    style={{ height: ms.coverImage ? 160 : 120, background: ms.coverImage ? 'transparent' : 'linear-gradient(135deg,#f9fafb,#f3f4f6)', border: ms.coverImage ? 'none' : '2px dashed #e5e7eb', display:'flex', alignItems:'center', justifyContent:'center' }}>
-                    {ms.coverImage ? (
-                      <img src={ms.coverImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', display:'block' }} />
-                    ) : uploadingCover ? (
-                      <div className="flex items-center gap-2"><svg className="animate-spin w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg><p className="text-xs text-gray-500">מעלה...</p></div>
-                    ) : (
-                      <div className="flex flex-col items-center gap-3">
-                        <div className="w-12 h-12 rounded-2xl flex items-center justify-center" style={{ background:'linear-gradient(135deg,#F4938C22,#5BC4C822)' }}>
-                          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F4938C" strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                        </div>
-                        <p className="text-sm font-semibold text-gray-700">לחץ להעלאת כריכה</p>
-                      </div>
-                    )}
+                  <p className="text-sm font-bold text-gray-800 mb-1">כריכה</p>
+                  <p className="text-xs text-gray-400 mb-3">רקע ראש החנות</p>
+                  {/* Cover type tabs */}
+                  <div className="flex gap-2 mb-3">
+                    {[{val:'image',label:'🖼️ תמונה'},{val:'carousel',label:'🎠 גלריה'},{val:'video',label:'🎬 וידאו'}].map(t => (
+                      <button key={t.val} onClick={() => updMulti('coverType', t.val)}
+                        className="flex-1 py-2 rounded-xl text-xs font-bold border transition-all"
+                        style={{ background: (ms.coverType||'image')===t.val ? '#111' : '#f9fafb', color: (ms.coverType||'image')===t.val ? 'white' : '#6b7280', borderColor: (ms.coverType||'image')===t.val ? '#111' : '#e5e7eb' }}>
+                        {t.label}
+                      </button>
+                    ))}
                   </div>
-                  <input ref={coverRef} type="file" accept="image/*" className="hidden" onChange={e => handleCoverUpload(e.target.files?.[0])} />
-                  {ms.coverImage && <button onClick={() => updMulti('coverImage','')} className="text-xs text-red-400 mt-1 block">הסר</button>}
+                  {/* Image */}
+                  {(ms.coverType||'image') === 'image' && (
+                    <>
+                      <div onClick={() => coverRef.current?.click()} className="relative cursor-pointer rounded-2xl overflow-hidden transition-all hover:opacity-90"
+                        style={{ height: ms.coverImage ? 160 : 120, background: ms.coverImage ? 'transparent' : 'linear-gradient(135deg,#f9fafb,#f3f4f6)', border: ms.coverImage ? 'none' : '2px dashed #e5e7eb', display:'flex', alignItems:'center', justifyContent:'center' }}>
+                        {ms.coverImage ? (
+                          <img src={ms.coverImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', display:'block' }} />
+                        ) : uploadingCover ? (
+                          <div className="flex items-center gap-2"><svg className="animate-spin w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg><p className="text-xs text-gray-500">מעלה...</p></div>
+                        ) : (
+                          <div className="flex flex-col items-center gap-3">
+                            <div className="w-12 h-12 rounded-2xl flex items-center justify-center" style={{ background:'linear-gradient(135deg,#F4938C22,#5BC4C822)' }}>
+                              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F4938C" strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                            </div>
+                            <p className="text-sm font-semibold text-gray-700">לחץ להעלאת תמונה</p>
+                          </div>
+                        )}
+                      </div>
+                      <input ref={coverRef} type="file" accept="image/*" className="hidden" onChange={e => handleCoverUpload(e.target.files?.[0])} />
+                      {ms.coverImage && <button onClick={() => updMulti('coverImage','')} className="text-xs text-red-400 mt-1 block">הסר</button>}
+                    </>
+                  )}
+                  {/* Carousel */}
+                  {(ms.coverType||'image') === 'carousel' && (
+                    <>
+                      <div className="flex gap-2 flex-wrap mb-2">
+                        {(ms.coverImages||[]).map((src,i) => (
+                          <div key={i} className="relative" style={{ width:72, height:72 }}>
+                            <img src={src} alt="" className="w-full h-full rounded-xl object-cover border border-gray-200" />
+                            <button onClick={() => updMulti('coverImages',(ms.coverImages||[]).filter((_,j)=>j!==i))} className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-red-400 text-white flex items-center justify-center font-bold" style={{ fontSize:10 }}>✕</button>
+                          </div>
+                        ))}
+                        {(ms.coverImages||[]).length < 5 && (
+                          <div onClick={() => coverImagesRef.current?.click()} className="cursor-pointer border-2 border-dashed border-gray-200 rounded-xl flex flex-col items-center justify-center gap-1 bg-gray-50 hover:opacity-80 transition-opacity" style={{ width:72, height:72 }}>
+                            {uploadingCover ? <svg className="animate-spin w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg> : <>
+                              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                              <p className="text-[10px] text-gray-400">הוסף</p>
+                            </>}
+                          </div>
+                        )}
+                      </div>
+                      <p className="text-xs text-gray-400">עד 5 תמונות · מתחלפות אוטומטית כל 3 שניות</p>
+                      <input ref={coverImagesRef} type="file" accept="image/*" multiple className="hidden" onChange={e => handleCoverImagesUpload(e.target.files)} />
+                    </>
+                  )}
+                  {/* Video */}
+                  {(ms.coverType||'image') === 'video' && (
+                    <>
+                      <div onClick={() => coverVideoRef.current?.click()} className="relative cursor-pointer rounded-2xl overflow-hidden transition-all hover:opacity-90"
+                        style={{ height: ms.coverVideo ? 160 : 120, background: ms.coverVideo ? '#000' : 'linear-gradient(135deg,#f9fafb,#f3f4f6)', border: ms.coverVideo ? 'none' : '2px dashed #e5e7eb', display:'flex', alignItems:'center', justifyContent:'center' }}>
+                        {ms.coverVideo ? (
+                          <video src={ms.coverVideo} muted loop playsInline autoPlay style={{ width:'100%', height:'100%', objectFit:'cover', display:'block' }} />
+                        ) : uploadingCoverVideo ? (
+                          <div className="flex items-center gap-2"><svg className="animate-spin w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg><p className="text-xs text-gray-500">מעלה...</p></div>
+                        ) : (
+                          <div className="flex flex-col items-center gap-3">
+                            <div className="w-12 h-12 rounded-2xl flex items-center justify-center" style={{ background:'linear-gradient(135deg,#F4938C22,#5BC4C822)' }}>
+                              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F4938C" strokeWidth="1.5"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+                            </div>
+                            <p className="text-sm font-semibold text-gray-700">לחץ להעלאת וידאו</p>
+                          </div>
+                        )}
+                      </div>
+                      <input ref={coverVideoRef} type="file" accept="video/*" className="hidden" onChange={e => handleCoverVideoUpload(e.target.files?.[0])} />
+                      {ms.coverVideo && <button onClick={() => updMulti('coverVideo','')} className="text-xs text-red-400 mt-1 block">הסר</button>}
+                    </>
+                  )}
                 </div>
                 <div className="h-px bg-gray-100" />
                 {/* Logo */}
