@@ -1187,43 +1187,7 @@ export default function StoreBuilderPage() {
           {storeType === 'single' && activeSection === 'details' && (
             <motion.div key="details" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="space-y-3">
 
-              {/* Mobile compact */}
-              <div className="md:hidden bg-white rounded-2xl p-3 border border-gray-100 space-y-2" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
-                <div className="px-1 pb-1">
-                  <p className="text-xs font-bold text-gray-800">ספרו את הסיפור של המוצר</p>
-                  <p className="text-[10px] text-gray-400 mt-0.5">תיאור טוב מכפיל את הסיכוי לרכישה</p>
-                </div>
-                <button onClick={() => setShowDescSheet(true)} className="flex items-center gap-2.5 w-full px-3 py-3 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors">
-                  <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: data.description ? '#d1fae5' : '#f9fafb' }}>
-                    <span className="text-sm">{data.description ? '✓' : '✍️'}</span>
-                  </div>
-                  <div className="flex-1 text-right">
-                    <p className="text-xs font-semibold text-gray-800">{data.description ? 'תיאור נוסף ✓' : 'תיאור המוצר'}</p>
-                    <p className="text-[10px] text-gray-400">למה הלקוח חייב את זה?</p>
-                  </div>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
-                </button>
-                <button onClick={() => setShowBulletsSheet(true)} className="flex items-center gap-2.5 w-full px-3 py-3 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors">
-                  <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: data.bullets.filter(b=>b.trim()).length > 0 ? '#d1fae5' : '#f9fafb' }}>
-                    <span className="text-sm">{data.bullets.filter(b=>b.trim()).length > 0 ? '✓' : '✅'}</span>
-                  </div>
-                  <div className="flex-1 text-right">
-                    <p className="text-xs font-semibold text-gray-800">מה כלול?</p>
-                    <p className="text-[10px] text-gray-400">
-                      {data.bullets.filter(b=>b.trim()).length > 0
-                        ? `${data.bullets.filter(b=>b.trim()).length} יתרונות מוגדרים`
-                        : 'פרטו מה הלקוח מקבל'}
-                    </p>
-                  </div>
-                  {data.bullets.filter(b => b.trim()).length > 0 && (
-                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full text-white" style={{ background: '#10B981' }}>{data.bullets.filter(b => b.trim()).length}</span>
-                  )}
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
-                </button>
-              </div>
-
-              {/* Desktop full */}
-              <div className="hidden md:block bg-white rounded-2xl p-5 border border-gray-100 space-y-5" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+              <div className="bg-white rounded-2xl p-5 border border-gray-100 space-y-5" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
                 <div>
                   <p className="text-sm font-bold text-gray-900">ספרו את הסיפור של המוצר</p>
                   <p className="text-xs text-gray-400 mt-0.5">לקוחות שקוראים תיאור מפורט — קונים פי 3 יותר</p>
