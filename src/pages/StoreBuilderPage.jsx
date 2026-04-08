@@ -635,6 +635,8 @@ const DEFAULT_DATA = {
   bullets: ['', '', ''],
   videoUrl: '',
   videoTitle: 'סרטון המוצר',
+  videoPosition: 'after',
+  ctaTwice: false,
   whatsapp: '',
   paymentMethods: ['visa', 'mastercard', 'bit'],
   reviews: [
