@@ -417,7 +417,9 @@ function SingleStorePage({ d }) {
       {/* ── Video ── */}
       {d.videoUrl && (
         <div style={{ padding:sectionPad, background:'white', ...(isDesktop?{maxWidth:960,margin:'0 auto'}:{}) }}>
-          <p style={{ fontSize:11, fontWeight:800, color:accent, letterSpacing:'1.5px', textTransform:'uppercase', margin:'0 0 16px' }}>סרטון המוצר</p>
+          {(d.videoTitle !== '' && (d.videoTitle || 'סרטון המוצר')) && (
+            <p style={{ fontSize:11, fontWeight:800, color:accent, letterSpacing:'1.5px', textTransform:'uppercase', margin:'0 0 16px' }}>{d.videoTitle || 'סרטון המוצר'}</p>
+          )}
           <div style={{ borderRadius:isDesktop?20:16, overflow:'hidden', background:'#000', boxShadow:'0 8px 40px rgba(0,0,0,0.15)', aspectRatio:'16/9' }}>
             {ytId
               ? <iframe width="100%" height="100%" src={`https://www.youtube.com/embed/${ytId}`} frameBorder="0" allowFullScreen style={{ display:'block', aspectRatio:'16/9' }} />
