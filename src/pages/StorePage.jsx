@@ -245,18 +245,6 @@ function SingleStorePage({ d }) {
       {/* ── 0. Ticker strip ── */}
       {d.ticker && (
         <div style={{ background: accent, overflow: 'hidden', height: 36, display: 'flex', alignItems: 'center', position: 'relative', zIndex: 50 }}>
-          <style>{`
-            @keyframes ticker-scroll {
-              0% { transform: translateX(0); }
-              100% { transform: translateX(-50%); }
-            }
-            .ticker-track {
-              display: flex;
-              white-space: nowrap;
-              animation: ticker-scroll 18s linear infinite;
-              will-change: transform;
-            }
-          `}</style>
           <div className="ticker-track">
             {[...Array(12)].map((_, i) => (
               <span key={i} style={{ fontSize: 12, fontWeight: 800, color: 'white', letterSpacing: '0.5px', paddingLeft: 40, paddingRight: 40, opacity: 0.95 }}>
