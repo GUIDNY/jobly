@@ -1463,33 +1463,7 @@ export default function StoreBuilderPage() {
           {storeType === 'single' && activeSection === 'reviews' && (
             <motion.div key="reviews" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="space-y-3">
 
-              {/* Mobile compact */}
-              <div className="md:hidden bg-white rounded-2xl p-3 border border-gray-100 space-y-2" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
-                <div className="px-1 pb-1">
-                  <p className="text-xs font-bold text-gray-800">הוכחה חברתית = מכירות</p>
-                  <p className="text-[10px] text-gray-400 mt-0.5">92% מהלקוחות קוראים ביקורות לפני קנייה</p>
-                </div>
-                <button onClick={() => setShowReviewsSheet(true)} className="flex items-center gap-2.5 w-full px-3 py-3 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors">
-                  <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: data.reviews.filter(r=>r.text).length ? '#fef3c7' : '#f9fafb' }}>
-                    <span className="text-sm">⭐</span>
-                  </div>
-                  <div className="flex-1 text-right">
-                    <p className="text-xs font-semibold text-gray-800">ביקורות לקוחות</p>
-                    <p className="text-[10px] text-gray-400">
-                      {data.reviews.filter(r=>r.text).length > 0
-                        ? `${data.reviews.filter(r=>r.text).length} ביקורות מוכנות`
-                        : 'הוסיפו עדויות מלקוחות מרוצים'}
-                    </p>
-                  </div>
-                  {data.reviews.filter(r => r.text).length > 0 && (
-                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full text-white" style={{ background: '#F59E0B' }}>{data.reviews.filter(r => r.text).length}</span>
-                  )}
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
-                </button>
-              </div>
-
-              {/* Desktop full */}
-              <div className="hidden md:block bg-white rounded-2xl p-5 border border-gray-100 space-y-4" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+              <div className="bg-white rounded-2xl p-5 border border-gray-100 space-y-4" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
                 <div className="flex items-start justify-between">
                   <div>
                     <p className="text-sm font-bold text-gray-900">מה אומרים הלקוחות שלכם?</p>
