@@ -1730,7 +1730,28 @@ export default function StoreBuilderPage() {
                               <button onClick={() => updCategory(ci,{ products:(cat.products||[]).filter((_,i)=>i!==pi) })} className="text-xs text-red-400 px-1">✕</button>
                             </div>
                             <input value={p.description||''} onChange={e => updProduct(ci,pi,{ description:e.target.value })} placeholder="תיאור קצר (אופציונלי)" className="w-full border border-gray-200 rounded-xl px-2 py-1.5 text-xs focus:outline-none" />
-                            <input value={p.videoUrl||''} onChange={e => updProduct(ci,pi,{ videoUrl:e.target.value })} placeholder="🎬 קישור לסרטון (YouTube / ישיר)" className="w-full border border-gray-200 rounded-xl px-2 py-1.5 text-xs focus:outline-none" dir="ltr" />
+                            {p.videoUrl ? (
+                              <div className="flex items-center gap-2 bg-gray-50 rounded-xl px-2 py-1.5 border border-gray-100">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#5BC4C8" strokeWidth="2"><rect x="2" y="7" width="15" height="10" rx="2"/><polyline points="17 9 22 6 22 18 17 15"/></svg>
+                                <span className="text-[10px] text-gray-500 flex-1 truncate">סרטון הועלה</span>
+                                <button onClick={() => updProduct(ci,pi,{ videoUrl:'' })} className="text-[10px] text-red-400 hover:text-red-600">הסר</button>
+                              </div>
+                            ) : (
+                              <div
+                                onDragOver={e => { e.preventDefault(); setProductVideoDragOver(prev => ({ ...prev, [`${ci}-${pi}`]: true })); }}
+                                onDragLeave={() => setProductVideoDragOver(prev => ({ ...prev, [`${ci}-${pi}`]: false }))}
+                                onDrop={e => { e.preventDefault(); setProductVideoDragOver(prev => ({ ...prev, [`${ci}-${pi}`]: false })); const f = e.dataTransfer.files?.[0]; if (f) handleProductVideoUpload(ci, pi, f); }}
+                                onClick={() => document.getElementById(`prod-vid-${ci}-${pi}`)?.click()}
+                                className="w-full flex items-center justify-center gap-1.5 py-1.5 rounded-xl border border-dashed cursor-pointer transition-colors text-[10px] font-semibold"
+                                style={{ borderColor: productVideoDragOver[`${ci}-${pi}`] ? '#5BC4C8' : '#d1d5db', color: '#9ca3af', background: productVideoDragOver[`${ci}-${pi}`] ? '#f0fdfd' : '#f9fafb' }}>
+                                {uploadingProductVideo[`${ci}-${pi}`] ? (
+                                  <><div className="w-3 h-3 border border-teal-400 border-t-transparent rounded-full animate-spin" /><span>מעלה...</span></>
+                                ) : (
+                                  <><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="7" width="15" height="10" rx="2"/><polyline points="17 9 22 6 22 18 17 15"/></svg><span>העלה סרטון לסרטון מוצר</span></>
+                                )}
+                              </div>
+                            )}
+                            <input id={`prod-vid-${ci}-${pi}`} type="file" accept="video/*" className="hidden" onChange={e => handleProductVideoUpload(ci, pi, e.target.files?.[0])} />
                             {/* Inventory */}
                             <div className="flex items-center gap-2">
                               <button onClick={() => updProduct(ci,pi,{ inStock: !(p.inStock ?? true) })}
