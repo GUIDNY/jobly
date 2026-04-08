@@ -516,6 +516,13 @@ function SingleStorePage({ d }) {
         </div>
       )}
 
+      {/* ── CTA — below-reviews slot (mobile only) ── */}
+      {!isDesktop && (d.ctaPosition || 'above-video') === 'below-reviews' && (
+        <div style={{ padding:'28px 20px', background:'white', borderTop:'1px solid #f0f0f0' }}>
+          <PriceCtaBlock />
+        </div>
+      )}
+
       {/* ── 11. Final CTA ── */}
       <div style={{ padding:sectionPad, background:`linear-gradient(135deg, ${accent}14 0%, white 100%)`, textAlign:'center' }}>
         <div style={{ maxWidth:isDesktop?560:'100%', margin:'0 auto' }}>
