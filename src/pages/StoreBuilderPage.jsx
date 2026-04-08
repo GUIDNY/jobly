@@ -2416,34 +2416,101 @@ export default function StoreBuilderPage() {
         {showPaymentSheet && (
           <>
             <motion.div className="fixed inset-0 bg-black/40 z-50 md:hidden" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowPaymentSheet(false)} />
-            <motion.div className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl z-50 md:hidden" initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }} transition={{ type: 'spring', damping: 28, stiffness: 320 }}>
-              <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mt-3 mb-4" />
-              <div className="px-5 pb-8 space-y-4">
-                {/* WhatsApp — active */}
+            <motion.div className="fixed inset-x-0 bottom-0 bg-white rounded-t-2xl z-50 md:hidden flex flex-col" style={{ maxHeight: '90vh' }} initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }} transition={{ type: 'spring', damping: 28, stiffness: 320 }}>
+              <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mt-3 mb-1 flex-shrink-0" />
+              <div className="flex items-center justify-between px-5 py-2 flex-shrink-0">
+                <h3 className="text-sm font-bold text-gray-900">הגדרות תשלום ו-CTA</h3>
+                <button onClick={() => setShowPaymentSheet(false)} className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+              </div>
+              <div className="flex-1 overflow-y-auto px-5 pb-8 space-y-5">
+
+                {/* WhatsApp */}
                 <div>
                   <div className="flex items-center gap-2 mb-2">
-                    <h3 className="text-sm font-bold text-gray-900">וואטסאפ להזמנות</h3>
+                    <p className="text-xs font-bold text-gray-800">וואטסאפ להזמנות</p>
                     <span className="text-[10px] font-black px-2 py-0.5 rounded-full text-white" style={{ background: '#25D366' }}>פעיל</span>
                   </div>
                   <input value={data.whatsapp || ''} onChange={e => upd('whatsapp', e.target.value)}
                     placeholder="050-0000000" dir="ltr"
-                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-[#25D366] transition-colors" />
-                  <p className="text-xs text-gray-400 mt-1.5">הלקוח ילחץ על הכפתור ויפתח שיחת וואטסאפ</p>
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-[#25D366]" />
                 </div>
 
-                {/* Credit card — coming soon */}
-                <div className="p-4 rounded-2xl border border-dashed border-gray-200 bg-gray-50">
-                  <div className="flex items-center justify-between mb-3">
+                <div style={{ height: 1, background: '#f0f0f0' }} />
+
+                {/* CTA position */}
+                <div>
+                  <p className="text-xs font-bold text-gray-800 mb-2">מיקום כפתור הרכישה בדף</p>
+                  <div className="space-y-2">
+                    {[
+                      { v: 'above-video',   icon: '📹', label: 'מעל הסרטון', sub: 'אחרי התיאור, לפני הסרטון' },
+                      { v: 'above-reviews', icon: '⭐', label: 'מעל הביקורות', sub: 'אחרי הסרטון, לפני הביקורות' },
+                      { v: 'below-reviews', icon: '⬇️', label: 'מתחת לביקורות', sub: 'הכי למטה בדף' },
+                    ].map(opt => {
+                      const sel = (data.ctaPosition || 'above-video') === opt.v;
+                      return (
+                        <button key={opt.v} onClick={() => upd('ctaPosition', opt.v)}
+                          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl border-2 text-right transition-all"
+                          style={sel ? { borderColor: data.accentColor || '#F4938C', background: `${data.accentColor || '#F4938C'}0d` } : { borderColor: '#e5e7eb' }}>
+                          <span className="text-base flex-shrink-0">{opt.icon}</span>
+                          <div className="flex-1">
+                            <p className="text-xs font-bold" style={{ color: sel ? (data.accentColor || '#F4938C') : '#374151' }}>{opt.label}</p>
+                            <p className="text-[10px] text-gray-400">{opt.sub}</p>
+                          </div>
+                          {sel && <div className="w-4 h-4 rounded-full flex-shrink-0 flex items-center justify-center" style={{ background: data.accentColor || '#F4938C' }}>
+                            <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3"><polyline points="20 6 9 17 4 12"/></svg>
+                          </div>}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Video position — only when video uploaded */}
+                {data.videoUrl && (
+                  <div>
+                    <p className="text-xs font-bold text-gray-800 mb-2">מיקום הסרטון בדף</p>
+                    <div className="flex gap-2">
+                      {[{ v: 'before', label: 'לפני כפתור הרכישה', icon: '⬆️' }, { v: 'after', label: 'אחרי כפתור הרכישה', icon: '⬇️' }].map(opt => (
+                        <button key={opt.v} onClick={() => upd('videoPosition', opt.v)}
+                          className="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl border-2 text-xs font-bold transition-all"
+                          style={(data.videoPosition || 'after') === opt.v
+                            ? { borderColor: data.accentColor || '#F4938C', background: `${data.accentColor || '#F4938C'}11`, color: data.accentColor || '#F4938C' }
+                            : { borderColor: '#e5e7eb', color: '#9ca3af' }}>
+                          <span>{opt.icon}</span>{opt.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* CTA twice */}
+                <div className="flex items-center justify-between p-3 rounded-xl border border-gray-100 bg-gray-50">
+                  <div>
+                    <p className="text-xs font-bold text-gray-800">כפתור רכישה כפול</p>
+                    <p className="text-[10px] text-gray-400 mt-0.5">הוסף כפתור נוסף בתחילת הדף</p>
+                  </div>
+                  <button onClick={() => upd('ctaTwice', !data.ctaTwice)}
+                    className="w-11 h-6 rounded-full transition-all flex-shrink-0 mr-3"
+                    style={{ background: data.ctaTwice ? (data.accentColor || '#F4938C') : '#e5e7eb', position: 'relative' }}>
+                    <div className="absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-all"
+                      style={{ right: data.ctaTwice ? '2px' : 'auto', left: data.ctaTwice ? 'auto' : '2px' }} />
+                  </button>
+                </div>
+
+                {/* Credit card coming soon */}
+                <div className="p-4 rounded-2xl border border-dashed border-gray-200 bg-gray-50 opacity-70">
+                  <div className="flex items-center justify-between mb-2">
                     <p className="text-sm font-bold text-gray-500">סליקת אשראי ישירה</p>
                     <span className="text-[10px] font-black px-2 py-0.5 rounded-full text-white" style={{ background: 'linear-gradient(135deg,#F4938C,#5BC4C8)' }}>בקרוב</span>
                   </div>
-                  <div className="flex gap-2 opacity-50">
+                  <div className="flex gap-2">
                     {PAYMENT_METHODS.map(pm => <PaymentBadge key={pm.id} id={pm.id} />)}
                   </div>
-                  <p className="text-xs text-gray-400 mt-2">Visa · Mastercard · Bit · Apple Pay · PayPal</p>
                 </div>
 
-                <button onClick={() => setShowPaymentSheet(false)} className="w-full py-3 rounded-xl text-sm font-bold text-white" style={{ background: 'linear-gradient(135deg, #25D366, #128C7E)' }}>שמור ✓</button>
+                <button onClick={() => setShowPaymentSheet(false)} className="w-full py-3 rounded-xl text-sm font-bold text-white" style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>שמור ✓</button>
               </div>
             </motion.div>
           </>
