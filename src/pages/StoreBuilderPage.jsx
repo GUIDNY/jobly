@@ -611,6 +611,7 @@ const DEFAULT_MULTI = {
   storeName: '',
   tagline: '',
   accentColor: '#F4938C',
+  ticker: '',
   aboutTitle: '',
   aboutText: '',
   social: { instagram: '', facebook: '', tiktok: '', whatsapp: '', website: '' },
