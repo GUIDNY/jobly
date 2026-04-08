@@ -1422,7 +1422,7 @@ export default function StoreBuilderPage() {
               )}
 
               {/* CTA twice toggle */}
-              <div className="bg-white rounded-2xl p-5 border border-gray-100" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+              <div className="hidden md:block bg-white rounded-2xl p-5 border border-gray-100" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm font-bold text-gray-800">כפתור רכישה כפול</p>
