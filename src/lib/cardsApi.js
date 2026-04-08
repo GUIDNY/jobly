@@ -222,6 +222,19 @@ export async function uploadCardImage(userId, file) {
   return publicUrl;
 }
 
+export async function uploadCardVideo(userId, file) {
+  const ext = file.name.split('.').pop() || 'mp4';
+  const path = `${userId}/video_${Date.now()}.${ext}`;
+  const { data, error } = await supabase.storage
+    .from('card-images')
+    .upload(path, file, { upsert: true, contentType: file.type });
+  if (error) throw error;
+  const { data: { publicUrl } } = supabase.storage
+    .from('card-images')
+    .getPublicUrl(data.path);
+  return publicUrl;
+}
+
 // ─── Stores ────────────────────────────────────────────────────────────────────
 
 export async function getMyStores(userId) {
