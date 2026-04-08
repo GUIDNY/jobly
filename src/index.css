@@ -60,6 +60,18 @@ body {
   }
 }
 
+/* Ticker marquee animation */
+@keyframes ticker-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.ticker-track {
+  display: flex;
+  white-space: nowrap;
+  animation: ticker-scroll 18s linear infinite;
+  will-change: transform;
+}
+
 /* Smooth transition for all inputs */
 input, textarea, select {
   transition: border-color 0.15s, box-shadow 0.15s;
