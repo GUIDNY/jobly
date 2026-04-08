@@ -1099,7 +1099,44 @@ export default function StoreBuilderPage() {
                 )}
               </div>
 
-              <div className="bg-white rounded-2xl p-5 border border-gray-100 space-y-5" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+              {/* Mobile compact */}
+              <div className="md:hidden bg-white rounded-2xl p-3 border border-gray-100 space-y-2" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+                <div className="px-1 pb-1">
+                  <p className="text-xs font-bold text-gray-800">פרטי המוצר</p>
+                  <p className="text-[10px] text-gray-400 mt-0.5">לחצו על כל כרטיס לעריכה</p>
+                </div>
+                <button onClick={() => setShowColorSheet(true)} className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors">
+                  <div className="w-8 h-8 rounded-full flex-shrink-0 border-2 border-white shadow" style={{ background: data.accentColor }} />
+                  <div className="flex-1 text-right">
+                    <p className="text-xs font-semibold text-gray-800">{data.storeName || 'שם החנות'}</p>
+                    <p className="text-[10px] text-gray-400">מיתוג — שם + צבע</p>
+                  </div>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <button onClick={() => setShowProductSheet(true)} className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors">
+                  <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: data.name ? '#d1fae5' : '#f9fafb' }}>
+                    <span className="text-sm">{data.name ? '✓' : '🏷️'}</span>
+                  </div>
+                  <div className="flex-1 text-right">
+                    <p className="text-xs font-semibold text-gray-800">{data.name || 'שם המוצר'}</p>
+                    <p className="text-[10px] text-gray-400">{data.tagline || 'שם · תגית · טקסט כפתור · סרט נע'}</p>
+                  </div>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <button onClick={() => setShowPriceSheet(true)} className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors">
+                  <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: data.price ? '#d1fae5' : '#f9fafb' }}>
+                    <span className="text-sm">{data.price ? '✓' : '💰'}</span>
+                  </div>
+                  <div className="flex-1 text-right">
+                    <p className="text-xs font-semibold text-gray-800">{data.price ? `₪${data.price}` : 'מחיר'}</p>
+                    <p className="text-[10px] text-gray-400">{data.originalPrice ? `היה ₪${data.originalPrice} — ${Math.round((1-data.price/data.originalPrice)*100)}% הנחה` : 'מחיר מכירה + מחיר מקורי'}</p>
+                  </div>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+              </div>
+
+              {/* Desktop full form */}
+              <div className="hidden md:block bg-white rounded-2xl p-5 border border-gray-100 space-y-5" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
                 <div>
                   <p className="text-sm font-bold text-gray-900">המוצר שלך</p>
                   <p className="text-xs text-gray-400 mt-0.5">כמה שניות מפרידות בינך לבין דף מכירה מקצועי</p>
