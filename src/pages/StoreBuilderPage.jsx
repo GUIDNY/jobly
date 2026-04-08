@@ -143,6 +143,18 @@ function StorePreview({ data, onBuy }) {
           </div>
         )}
 
+        {/* Video */}
+        {videoUrl && (
+          <div style={{ marginBottom: 14 }}>
+            {videoTitle !== '' && (
+              <p style={{ fontSize: 11, fontWeight: 800, color: accent, letterSpacing: '1px', textTransform: 'uppercase', marginBottom: 8 }}>{videoTitle || 'סרטון המוצר'}</p>
+            )}
+            <div style={{ borderRadius: 12, overflow: 'hidden', background: '#000', aspectRatio: '16/9' }}>
+              <video src={videoUrl} controls style={{ width: '100%', aspectRatio: '16/9', display: 'block' }} />
+            </div>
+          </div>
+        )}
+
         {/* Reviews */}
         {reviews && reviews.filter(r => r.text).length > 0 && (
           <div>
