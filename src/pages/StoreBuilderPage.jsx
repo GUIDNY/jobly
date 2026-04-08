@@ -119,8 +119,35 @@ function StorePreview({ data, onBuy }) {
         </div>
       </div>
 
-      {/* 3. White card: bullets → description → price → CTA → trust → payment */}
-      <div style={{ background: 'white', borderRadius: '20px 20px 0 0', marginTop: -14, position: 'relative', padding: '20px 14px 0' }}>
+      {/* 3. Video (if position = before) */}
+      {videoBefore && (
+        <div style={{ padding: '20px 14px 0', background: 'white' }}>
+          {videoTitle !== '' && <p style={{ fontSize: 9, fontWeight: 800, color: accent, letterSpacing: '1.2px', textTransform: 'uppercase', margin: '0 0 10px' }}>{videoTitle || 'סרטון המוצר'}</p>}
+          <div style={{ borderRadius: 14, overflow: 'hidden', background: '#000', aspectRatio: '16/9', marginBottom: 0 }}>
+            <video src={videoUrl} controls style={{ width: '100%', aspectRatio: '16/9', display: 'block' }} />
+          </div>
+        </div>
+      )}
+
+      {/* 4. White card */}
+      <div style={{ background: 'white', borderRadius: videoBefore ? 0 : '20px 20px 0 0', marginTop: videoBefore ? 0 : -14, position: 'relative', padding: '20px 14px 0' }}>
+
+        {/* ctaTwice — top CTA block */}
+        {ctaTwice && (
+          <>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
+                <span style={{ fontSize: 28, fontWeight: 900, color: accent, letterSpacing: '-0.5px' }}>₪{price || '0'}</span>
+                {originalPrice && <span style={{ fontSize: 13, color: '#c4c4c4', textDecoration: 'line-through' }}>₪{originalPrice}</span>}
+              </div>
+              {discount && <span style={{ fontSize: 10, fontWeight: 800, color: '#10B981', background: '#d1fae5', padding: '2px 8px', borderRadius: 20 }}>חסכו {discount}%</span>}
+            </div>
+            <button onClick={onBuy} style={{ width: '100%', padding: '13px 0', borderRadius: 14, background: 'linear-gradient(135deg,#25D366,#128C7E)', color: 'white', fontWeight: 900, fontSize: 13, border: 'none', cursor: 'pointer', marginBottom: 16, boxShadow: '0 4px 16px rgba(37,211,102,0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7 }}>
+              <WaIconSm />{ctaText || 'הזמן עכשיו בוואטסאפ'}
+            </button>
+            <div style={{ height: 1, background: '#f0f0f0', margin: '0 0 16px' }} />
+          </>
+        )}
 
         {/* Bullets */}
         {filteredBullets.length > 0 && (
@@ -151,7 +178,7 @@ function StorePreview({ data, onBuy }) {
           <div style={{ height: 1, background: '#f0f0f0', margin: '0 0 16px' }} />
         )}
 
-        {/* Price */}
+        {/* Price + CTA (main / bottom) */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
             <span style={{ fontSize: 28, fontWeight: 900, color: accent, letterSpacing: '-0.5px' }}>₪{price || '0'}</span>
@@ -159,8 +186,6 @@ function StorePreview({ data, onBuy }) {
           </div>
           {discount && <span style={{ fontSize: 10, fontWeight: 800, color: '#10B981', background: '#d1fae5', padding: '2px 8px', borderRadius: 20 }}>חסכו {discount}%</span>}
         </div>
-
-        {/* CTA */}
         <button onClick={onBuy} style={{ width: '100%', padding: '13px 0', borderRadius: 14, background: 'linear-gradient(135deg,#25D366,#128C7E)', color: 'white', fontWeight: 900, fontSize: 13, border: 'none', cursor: 'pointer', marginBottom: 10, boxShadow: '0 4px 16px rgba(37,211,102,0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7 }}>
           <WaIconSm />{ctaText || 'הזמן עכשיו בוואטסאפ'}
         </button>
@@ -183,12 +208,10 @@ function StorePreview({ data, onBuy }) {
         )}
       </div>
 
-      {/* 4. Video */}
-      {videoUrl && (
+      {/* 5. Video (if position = after, default) */}
+      {!videoBefore && videoUrl && (
         <div style={{ padding: '20px 14px', background: 'white' }}>
-          {videoTitle !== '' && (
-            <p style={{ fontSize: 9, fontWeight: 800, color: accent, letterSpacing: '1.2px', textTransform: 'uppercase', margin: '0 0 10px' }}>{videoTitle || 'סרטון המוצר'}</p>
-          )}
+          {videoTitle !== '' && <p style={{ fontSize: 9, fontWeight: 800, color: accent, letterSpacing: '1.2px', textTransform: 'uppercase', margin: '0 0 10px' }}>{videoTitle || 'סרטון המוצר'}</p>}
           <div style={{ borderRadius: 14, overflow: 'hidden', background: '#000', aspectRatio: '16/9' }}>
             <video src={videoUrl} controls style={{ width: '100%', aspectRatio: '16/9', display: 'block' }} />
           </div>
