@@ -417,7 +417,7 @@ function SingleStorePage({ d }) {
       {/* ── Video ── */}
       {d.videoUrl && (
         <div style={{ padding:sectionPad, background:'white', ...(isDesktop?{maxWidth:960,margin:'0 auto'}:{}) }}>
-          {(d.videoTitle !== '' && (d.videoTitle || 'סרטון המוצר')) && (
+          {d.videoTitle !== '' && (
             <p style={{ fontSize:11, fontWeight:800, color:accent, letterSpacing:'1.5px', textTransform:'uppercase', margin:'0 0 16px' }}>{d.videoTitle || 'סרטון המוצר'}</p>
           )}
           <div style={{ borderRadius:isDesktop?20:16, overflow:'hidden', background:'#000', boxShadow:'0 8px 40px rgba(0,0,0,0.15)', aspectRatio:'16/9' }}>
