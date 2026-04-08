@@ -1373,15 +1373,46 @@ export default function StoreBuilderPage() {
                 </div>
               </div>
 
+              {/* Desktop full — CTA position picker */}
+              <div className="hidden md:block bg-white rounded-2xl p-5 border border-gray-100 space-y-3" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+                <div>
+                  <p className="text-sm font-bold text-gray-800">מיקום כפתור הרכישה</p>
+                  <p className="text-xs text-gray-400 mt-0.5">איפה יופיע כפתור ה-CTA בדף המוצר</p>
+                </div>
+                <div className="space-y-2">
+                  {[
+                    { v: 'above-video',   icon: '📹', label: 'מעל הסרטון', sub: 'אחרי התיאור, לפני הסרטון' },
+                    { v: 'above-reviews', icon: '⭐', label: 'מעל הביקורות', sub: 'אחרי הסרטון, לפני הביקורות' },
+                    { v: 'below-reviews', icon: '⬇️', label: 'מתחת לביקורות', sub: 'הכי למטה בדף — בסיס' },
+                  ].map(opt => {
+                    const sel = (data.ctaPosition || 'above-video') === opt.v;
+                    return (
+                      <button key={opt.v} onClick={() => upd('ctaPosition', opt.v)}
+                        className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl border-2 text-right transition-all"
+                        style={sel ? { borderColor: data.accentColor || '#F4938C', background: `${data.accentColor || '#F4938C'}0d` } : { borderColor: '#e5e7eb' }}>
+                        <span className="text-base flex-shrink-0">{opt.icon}</span>
+                        <div className="flex-1">
+                          <p className="text-xs font-bold" style={{ color: sel ? (data.accentColor || '#F4938C') : '#374151' }}>{opt.label}</p>
+                          <p className="text-[10px] text-gray-400">{opt.sub}</p>
+                        </div>
+                        {sel && <div className="w-4 h-4 rounded-full flex-shrink-0 flex items-center justify-center" style={{ background: data.accentColor || '#F4938C' }}>
+                          <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3"><polyline points="20 6 9 17 4 12"/></svg>
+                        </div>}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
               {/* Desktop full — CTA twice toggle */}
               <div className="hidden md:block bg-white rounded-2xl p-5 border border-gray-100" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm font-bold text-gray-800">כפתור רכישה כפול</p>
-                    <p className="text-xs text-gray-400 mt-0.5">הצג את כפתור ה-CTA גם בתחילת הדף וגם בסופו</p>
+                    <p className="text-xs text-gray-400 mt-0.5">הוסף כפתור נוסף גם בתחילת הדף (מעל התוכן) — הכפתור שבחרת למעלה יהיה השני</p>
                   </div>
                   <button onClick={() => upd('ctaTwice', !data.ctaTwice)}
-                    className="w-11 h-6 rounded-full transition-all flex-shrink-0"
+                    className="w-11 h-6 rounded-full transition-all flex-shrink-0 mr-4"
                     style={{ background: data.ctaTwice ? (data.accentColor || '#F4938C') : '#e5e7eb', position: 'relative' }}>
                     <div className="absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-all"
                       style={{ right: data.ctaTwice ? '2px' : 'auto', left: data.ctaTwice ? 'auto' : '2px' }} />
