@@ -120,22 +120,10 @@ function StorePreview({ data, onBuy }) {
         </div>
       </div>
 
-      {/* 3. Video (if position = before) */}
-      {videoBefore && (
-        <div style={{ padding: '20px 14px 0', background: 'white' }}>
-          {videoTitle !== '' && <p style={{ fontSize: 9, fontWeight: 800, color: accent, letterSpacing: '1.2px', textTransform: 'uppercase', margin: '0 0 10px' }}>{videoTitle || 'סרטון המוצר'}</p>}
-          <div style={{ borderRadius: 14, overflow: 'hidden', background: '#000', aspectRatio: '16/9', marginBottom: 0 }}>
-            <video src={videoUrl} controls style={{ width: '100%', aspectRatio: '16/9', display: 'block' }} />
-          </div>
-        </div>
-      )}
-
-      {/* 4. White card */}
-      <div style={{ background: 'white', borderRadius: videoBefore ? 0 : '20px 20px 0 0', marginTop: videoBefore ? 0 : -14, position: 'relative', padding: '20px 14px 0' }}>
-
-        {/* ctaTwice — top CTA block */}
-        {ctaTwice && (
-          <>
+      {/* helpers */}
+      {(() => {
+        const CtaBlock = ({ topSlot }) => (
+          <div style={{ paddingBottom: topSlot ? 0 : 4 }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
                 <span style={{ fontSize: 28, fontWeight: 900, color: accent, letterSpacing: '-0.5px' }}>₪{price || '0'}</span>
@@ -143,107 +131,131 @@ function StorePreview({ data, onBuy }) {
               </div>
               {discount && <span style={{ fontSize: 10, fontWeight: 800, color: '#10B981', background: '#d1fae5', padding: '2px 8px', borderRadius: 20 }}>חסכו {discount}%</span>}
             </div>
-            <button onClick={onBuy} style={{ width: '100%', padding: '13px 0', borderRadius: 14, background: 'linear-gradient(135deg,#25D366,#128C7E)', color: 'white', fontWeight: 900, fontSize: 13, border: 'none', cursor: 'pointer', marginBottom: 16, boxShadow: '0 4px 16px rgba(37,211,102,0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7 }}>
+            <button onClick={onBuy} style={{ width: '100%', padding: '13px 0', borderRadius: 14, background: 'linear-gradient(135deg,#25D366,#128C7E)', color: 'white', fontWeight: 900, fontSize: 13, border: 'none', cursor: 'pointer', marginBottom: 10, boxShadow: '0 4px 16px rgba(37,211,102,0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7 }}>
               <WaIconSm />{ctaText || 'הזמן עכשיו בוואטסאפ'}
             </button>
-            <div style={{ height: 1, background: '#f0f0f0', margin: '0 0 16px' }} />
-          </>
-        )}
+            <div style={{ display: 'flex', gap: 6, marginBottom: 10 }}>
+              {[{ icon: '🔒', text: 'תשלום מאובטח' }, { icon: '⚡', text: 'מענה מהיר' }, { icon: '✅', text: 'ערבות שביעות' }].map(t => (
+                <div key={t.text} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3, padding: '8px 4px', borderRadius: 10, background: '#f9fafb', border: '1px solid #f0f0f0' }}>
+                  <span style={{ fontSize: 13 }}>{t.icon}</span>
+                  <span style={{ fontSize: 8, fontWeight: 700, color: '#6b7280', textAlign: 'center', lineHeight: 1.3 }}>{t.text}</span>
+                </div>
+              ))}
+            </div>
+            {paymentMethods && paymentMethods.length > 0 && (
+              <div style={{ display: 'flex', justifyContent: 'center', gap: 5, flexWrap: 'wrap' }}>
+                {paymentMethods.map(id => <PaymentBadge key={id} id={id} />)}
+              </div>
+            )}
+          </div>
+        );
 
-        {/* Bullets */}
-        {filteredBullets.length > 0 && (
-          <div style={{ marginBottom: 16 }}>
-            <p style={{ fontSize: 9, fontWeight: 800, color: accent, letterSpacing: '1.2px', textTransform: 'uppercase', margin: '0 0 10px' }}>מה תקבל</p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
-              {filteredBullets.map((b, i) => (
-                <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, padding: '10px 12px', borderRadius: 12, background: '#f9fafb', border: '1px solid #f0f0f0' }}>
-                  <div style={{ width: 20, height: 20, borderRadius: '50%', background: `${accent}18`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 1 }}>
-                    <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="3"><polyline points="20 6 9 17 4 12"/></svg>
+        const VideoBlock = () => videoUrl ? (
+          <div style={{ padding: '20px 14px', background: 'white' }}>
+            {videoTitle !== '' && <p style={{ fontSize: 9, fontWeight: 800, color: accent, letterSpacing: '1.2px', textTransform: 'uppercase', margin: '0 0 10px' }}>{videoTitle || 'סרטון המוצר'}</p>}
+            <div style={{ borderRadius: 14, overflow: 'hidden', background: '#000', aspectRatio: '16/9' }}>
+              <video src={videoUrl} controls style={{ width: '100%', aspectRatio: '16/9', display: 'block' }} />
+            </div>
+          </div>
+        ) : null;
+
+        const ReviewsBlock = () => filteredReviews.length > 0 ? (
+          <div style={{ padding: '20px 14px 28px', background: '#fafafa', borderTop: '1px solid #f0f0f0' }}>
+            <p style={{ fontSize: 9, fontWeight: 800, color: accent, letterSpacing: '1.2px', textTransform: 'uppercase', margin: '0 0 4px' }}>מה אומרים הלקוחות</p>
+            <p style={{ fontSize: 15, fontWeight: 900, color: '#111', margin: '0 0 14px' }}>{avgRating} ★ מתוך {filteredReviews.length} ביקורות</p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {filteredReviews.map((r, i) => (
+                <div key={i} style={{ background: 'white', borderRadius: 14, padding: '12px 14px', border: '1px solid #ebebeb', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 9, marginBottom: 8 }}>
+                    <div style={{ width: 32, height: 32, borderRadius: '50%', background: `linear-gradient(135deg,${accent},#5BC4C8)`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                      <span style={{ color: 'white', fontSize: 12, fontWeight: 900 }}>{(r.name || 'א')[0]}</span>
+                    </div>
+                    <div>
+                      <p style={{ fontSize: 11, fontWeight: 700, color: '#111', margin: '0 0 2px' }}>{r.name || 'לקוח מרוצה'}</p>
+                      <div style={{ display: 'flex', gap: 2 }}>
+                        {[1,2,3,4,5].map(s => <svg key={s} width="9" height="9" viewBox="0 0 24 24" fill={s <= (r.rating || 5) ? '#F59E0B' : '#e5e7eb'}><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>)}
+                      </div>
+                    </div>
                   </div>
-                  <span style={{ fontSize: 11, color: '#374151', lineHeight: 1.5 }}>{b}</span>
+                  <p style={{ fontSize: 11, color: '#4b5563', lineHeight: 1.6, margin: 0 }}>"{r.text}"</p>
                 </div>
               ))}
             </div>
           </div>
-        )}
+        ) : null;
 
-        {/* Description */}
-        {description && (
-          <div style={{ marginBottom: 16 }}>
-            <p style={{ fontSize: 9, fontWeight: 800, color: accent, letterSpacing: '1.2px', textTransform: 'uppercase', margin: '0 0 8px' }}>אודות המוצר</p>
-            <p style={{ fontSize: 11, color: '#4b5563', lineHeight: 1.75, margin: 0, whiteSpace: 'pre-wrap' }}>{description}</p>
-          </div>
-        )}
+        return (
+          <>
+            {/* Video before (outside white card) */}
+            {videoBefore && <VideoBlock />}
 
-        {(filteredBullets.length > 0 || description) && (
-          <div style={{ height: 1, background: '#f0f0f0', margin: '0 0 16px' }} />
-        )}
+            {/* White card */}
+            <div style={{ background: 'white', borderRadius: videoBefore ? 0 : '20px 20px 0 0', marginTop: videoBefore ? 0 : -14, position: 'relative', padding: '20px 14px 16px' }}>
 
-        {/* Price + CTA (main / bottom) */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
-          <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
-            <span style={{ fontSize: 28, fontWeight: 900, color: accent, letterSpacing: '-0.5px' }}>₪{price || '0'}</span>
-            {originalPrice && <span style={{ fontSize: 13, color: '#c4c4c4', textDecoration: 'line-through' }}>₪{originalPrice}</span>}
-          </div>
-          {discount && <span style={{ fontSize: 10, fontWeight: 800, color: '#10B981', background: '#d1fae5', padding: '2px 8px', borderRadius: 20 }}>חסכו {discount}%</span>}
-        </div>
-        <button onClick={onBuy} style={{ width: '100%', padding: '13px 0', borderRadius: 14, background: 'linear-gradient(135deg,#25D366,#128C7E)', color: 'white', fontWeight: 900, fontSize: 13, border: 'none', cursor: 'pointer', marginBottom: 10, boxShadow: '0 4px 16px rgba(37,211,102,0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7 }}>
-          <WaIconSm />{ctaText || 'הזמן עכשיו בוואטסאפ'}
-        </button>
+              {/* ctaTwice — first CTA always at top */}
+              {ctaTwice && (
+                <>
+                  <CtaBlock topSlot />
+                  <div style={{ height: 1, background: '#f0f0f0', margin: '16px 0' }} />
+                </>
+              )}
 
-        {/* Trust badges */}
-        <div style={{ display: 'flex', gap: 6, marginBottom: 12 }}>
-          {[{ icon: '🔒', text: 'תשלום מאובטח' }, { icon: '⚡', text: 'מענה מהיר' }, { icon: '✅', text: 'ערבות שביעות' }].map(t => (
-            <div key={t.text} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3, padding: '8px 4px', borderRadius: 10, background: '#f9fafb', border: '1px solid #f0f0f0' }}>
-              <span style={{ fontSize: 13 }}>{t.icon}</span>
-              <span style={{ fontSize: 8, fontWeight: 700, color: '#6b7280', textAlign: 'center', lineHeight: 1.3 }}>{t.text}</span>
-            </div>
-          ))}
-        </div>
-
-        {/* Payment */}
-        {paymentMethods && paymentMethods.length > 0 && (
-          <div style={{ display: 'flex', justifyContent: 'center', gap: 5, marginBottom: 16, flexWrap: 'wrap' }}>
-            {paymentMethods.map(id => <PaymentBadge key={id} id={id} />)}
-          </div>
-        )}
-      </div>
-
-      {/* 5. Video (if position = after, default) */}
-      {!videoBefore && videoUrl && (
-        <div style={{ padding: '20px 14px', background: 'white' }}>
-          {videoTitle !== '' && <p style={{ fontSize: 9, fontWeight: 800, color: accent, letterSpacing: '1.2px', textTransform: 'uppercase', margin: '0 0 10px' }}>{videoTitle || 'סרטון המוצר'}</p>}
-          <div style={{ borderRadius: 14, overflow: 'hidden', background: '#000', aspectRatio: '16/9' }}>
-            <video src={videoUrl} controls style={{ width: '100%', aspectRatio: '16/9', display: 'block' }} />
-          </div>
-        </div>
-      )}
-
-      {/* 5. Reviews */}
-      {filteredReviews.length > 0 && (
-        <div style={{ padding: '20px 14px 28px', background: '#fafafa', borderTop: '1px solid #f0f0f0' }}>
-          <p style={{ fontSize: 9, fontWeight: 800, color: accent, letterSpacing: '1.2px', textTransform: 'uppercase', margin: '0 0 4px' }}>מה אומרים הלקוחות</p>
-          <p style={{ fontSize: 15, fontWeight: 900, color: '#111', margin: '0 0 14px' }}>{avgRating} ★ מתוך {filteredReviews.length} ביקורות</p>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-            {filteredReviews.map((r, i) => (
-              <div key={i} style={{ background: 'white', borderRadius: 14, padding: '12px 14px', border: '1px solid #ebebeb', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 9, marginBottom: 8 }}>
-                  <div style={{ width: 32, height: 32, borderRadius: '50%', background: `linear-gradient(135deg,${accent},#5BC4C8)`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                    <span style={{ color: 'white', fontSize: 12, fontWeight: 900 }}>{(r.name || 'א')[0]}</span>
-                  </div>
-                  <div>
-                    <p style={{ fontSize: 11, fontWeight: 700, color: '#111', margin: '0 0 2px' }}>{r.name || 'לקוח מרוצה'}</p>
-                    <div style={{ display: 'flex', gap: 2 }}>
-                      {[1,2,3,4,5].map(s => <svg key={s} width="9" height="9" viewBox="0 0 24 24" fill={s <= (r.rating || 5) ? '#F59E0B' : '#e5e7eb'}><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>)}
-                    </div>
+              {/* Bullets */}
+              {filteredBullets.length > 0 && (
+                <div style={{ marginBottom: 16 }}>
+                  <p style={{ fontSize: 9, fontWeight: 800, color: accent, letterSpacing: '1.2px', textTransform: 'uppercase', margin: '0 0 10px' }}>מה תקבל</p>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
+                    {filteredBullets.map((b, i) => (
+                      <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, padding: '10px 12px', borderRadius: 12, background: '#f9fafb', border: '1px solid #f0f0f0' }}>
+                        <div style={{ width: 20, height: 20, borderRadius: '50%', background: `${accent}18`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 1 }}>
+                          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="3"><polyline points="20 6 9 17 4 12"/></svg>
+                        </div>
+                        <span style={{ fontSize: 11, color: '#374151', lineHeight: 1.5 }}>{b}</span>
+                      </div>
+                    ))}
                   </div>
                 </div>
-                <p style={{ fontSize: 11, color: '#4b5563', lineHeight: 1.6, margin: 0 }}>"{r.text}"</p>
+              )}
+
+              {/* Description */}
+              {description && (
+                <div style={{ marginBottom: 16 }}>
+                  <p style={{ fontSize: 9, fontWeight: 800, color: accent, letterSpacing: '1.2px', textTransform: 'uppercase', margin: '0 0 8px' }}>אודות המוצר</p>
+                  <p style={{ fontSize: 11, color: '#4b5563', lineHeight: 1.75, margin: 0, whiteSpace: 'pre-wrap' }}>{description}</p>
+                </div>
+              )}
+
+              {/* CTA slot: above-video (default) */}
+              {ctaPos === 'above-video' && (
+                <>
+                  {(filteredBullets.length > 0 || description) && <div style={{ height: 1, background: '#f0f0f0', margin: '0 0 16px' }} />}
+                  <CtaBlock />
+                </>
+              )}
+            </div>
+
+            {/* Video after white card (default) */}
+            {!videoBefore && <VideoBlock />}
+
+            {/* CTA slot: above-reviews */}
+            {ctaPos === 'above-reviews' && (
+              <div style={{ padding: '20px 14px', background: 'white', borderTop: '1px solid #f0f0f0' }}>
+                <CtaBlock />
               </div>
-            ))}
-          </div>
-        </div>
-      )}
+            )}
+
+            {/* Reviews */}
+            <ReviewsBlock />
+
+            {/* CTA slot: below-reviews */}
+            {ctaPos === 'below-reviews' && (
+              <div style={{ padding: '20px 14px 28px', background: 'white', borderTop: '1px solid #f0f0f0' }}>
+                <CtaBlock />
+              </div>
+            )}
+          </>
+        );
+      })()}
     </div>
   );
 }
