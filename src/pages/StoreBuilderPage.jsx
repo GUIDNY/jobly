@@ -1335,6 +1335,22 @@ export default function StoreBuilderPage() {
                 </div>
               </div>
 
+              {/* Desktop full — CTA twice toggle */}
+              <div className="hidden md:block bg-white rounded-2xl p-5 border border-gray-100" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-bold text-gray-800">כפתור רכישה כפול</p>
+                    <p className="text-xs text-gray-400 mt-0.5">הצג את כפתור ה-CTA גם בתחילת הדף וגם בסופו</p>
+                  </div>
+                  <button onClick={() => upd('ctaTwice', !data.ctaTwice)}
+                    className="w-11 h-6 rounded-full transition-all flex-shrink-0"
+                    style={{ background: data.ctaTwice ? (data.accentColor || '#F4938C') : '#e5e7eb', position: 'relative' }}>
+                    <div className="absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-all"
+                      style={{ right: data.ctaTwice ? '2px' : 'auto', left: data.ctaTwice ? 'auto' : '2px' }} />
+                  </button>
+                </div>
+              </div>
+
               {/* Desktop full — WhatsApp */}
               <div className="hidden md:block bg-white rounded-2xl p-5 border border-gray-100 space-y-3" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
                 <div className="flex items-center gap-2">
