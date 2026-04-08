@@ -477,6 +477,13 @@ function SingleStorePage({ d }) {
         </div>
       )}
 
+      {/* ── CTA — above-reviews slot (mobile only) ── */}
+      {!isDesktop && (d.ctaPosition || 'above-video') === 'above-reviews' && (
+        <div style={{ padding:'28px 20px', background:'white', borderTop:'1px solid #f0f0f0' }}>
+          <PriceCtaBlock />
+        </div>
+      )}
+
       {/* ── 9. Reviews ── */}
       {reviews.length > 0 && (
         <div style={{ padding:sectionPad, background:'#fafafa', borderTop:'1px solid #f0f0f0', borderBottom:'1px solid #f0f0f0' }}>
