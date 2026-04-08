@@ -47,7 +47,7 @@ function PaymentBadge({ id }) {
 
 // ─── Store Preview (phone) ─────────────────────────────────────────────────────
 function StorePreview({ data, onBuy }) {
-  const { image, name, tagline, price, originalPrice, ctaText, description, bullets, paymentMethods, reviews, accentColor, storeName, videoUrl, videoTitle, ticker, videoPosition, ctaPosition, ctaTwice, heroType, heroImages, heroVideo } = data;
+  const { image, name, tagline, price, originalPrice, ctaText, description, bullets, paymentMethods, reviews, accentColor, storeName, storeLogo, videoUrl, videoTitle, ticker, videoPosition, ctaPosition, ctaTwice, heroType, heroImages, heroVideo } = data;
   const accent = accentColor || '#F4938C';
   const videoBefore = videoUrl && (videoPosition || 'after') === 'before';
   const [heroIdx, setHeroIdx] = useState(0);
@@ -87,9 +87,12 @@ function StorePreview({ data, onBuy }) {
       {/* 1. Nav */}
       <div style={{ background: 'rgba(255,255,255,0.96)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #f0f0f0', padding: '0 14px', height: 48, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-          <div style={{ width: 26, height: 26, borderRadius: 8, background: `linear-gradient(135deg,${accent},${accent}bb)`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-            <span style={{ fontSize: 12 }}>🛍️</span>
-          </div>
+          {storeLogo
+            ? <img src={storeLogo} alt="" style={{ width: 26, height: 26, borderRadius: 8, objectFit: 'cover', flexShrink: 0 }} />
+            : <div style={{ width: 26, height: 26, borderRadius: 8, background: `linear-gradient(135deg,${accent},${accent}bb)`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <span style={{ fontSize: 12 }}>🛍️</span>
+              </div>
+          }
           <span style={{ fontWeight: 900, fontSize: 12, color: '#111', letterSpacing: '-0.3px' }}>{storeName || 'החנות שלי'}</span>
         </div>
         <button onClick={onBuy} style={{ padding: '6px 12px', borderRadius: 10, background: 'linear-gradient(135deg,#25D366,#128C7E)', color: 'white', fontWeight: 800, fontSize: 10, border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5, boxShadow: '0 2px 8px rgba(37,211,102,0.3)' }}>
@@ -739,6 +742,7 @@ const DEFAULT_MULTI = {
 const DEFAULT_DATA = {
   storeType: 'multi',
   storeName: '',
+  storeLogo: '',
   heroType: 'image',
   image: '',
   heroImages: [],
@@ -774,6 +778,7 @@ export default function StoreBuilderPage() {
   const [activeSection, setActiveSection] = useState('product');
   const [showCheckout, setShowCheckout] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [uploadingStoreLogo, setUploadingStoreLogo] = useState(false);
   const [uploadingHeroImages, setUploadingHeroImages] = useState(false);
   const [uploadingHeroVideo, setUploadingHeroVideo] = useState(false);
   const [showPhonePreview, setShowPhonePreview] = useState(true);
@@ -786,6 +791,7 @@ export default function StoreBuilderPage() {
   const [slugAvailable, setSlugAvailable] = useState(null);
   const [slugChecking, setSlugChecking] = useState(false);
   const fileRef = useRef(null);
+  const storeLogoRef = useRef(null);
   const heroImagesRef = useRef(null);
   const heroVideoRef = useRef(null);
   const coverRef = useRef(null);
@@ -1011,6 +1017,12 @@ export default function StoreBuilderPage() {
       }
       upd('heroImages', [...existing, ...urls]);
     } catch(e) { console.error(e); } finally { setUploadingHeroImages(false); }
+  };
+  const handleStoreLogoUpload = async (file) => {
+    if (!file || !user) return;
+    setUploadingStoreLogo(true);
+    try { const url = await uploadCardImage(user.id, file); upd('storeLogo', url); }
+    catch(e) { console.error(e); } finally { setUploadingStoreLogo(false); }
   };
   const handleHeroVideoUpload = async (file) => {
     if (!file || !user) return;
@@ -1343,8 +1355,22 @@ export default function StoreBuilderPage() {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-bold text-gray-700 mb-1">שם החנות / העסק</label>
-                    <input value={data.storeName} onChange={e => upd('storeName', e.target.value)} placeholder="הממתקים של תמי" className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 transition-colors" />
-                    <p className="text-[10px] text-gray-400 mt-1">מופיע בפינה העליונה של הדף</p>
+                    <div className="flex items-center gap-2">
+                      <div onClick={() => storeLogoRef.current?.click()} className="cursor-pointer flex-shrink-0 rounded-xl overflow-hidden border-2 border-dashed border-gray-200 flex items-center justify-center hover:opacity-80 transition-opacity" style={{ width:40, height:40, background: data.storeLogo ? 'transparent' : '#f9fafb' }}>
+                        {data.storeLogo
+                          ? <img src={data.storeLogo} alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} />
+                          : uploadingStoreLogo
+                            ? <svg className="animate-spin w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+                            : <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                        }
+                      </div>
+                      <input value={data.storeName} onChange={e => upd('storeName', e.target.value)} placeholder="הממתקים של תמי" className="flex-1 border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 transition-colors" />
+                    </div>
+                    <input ref={storeLogoRef} type="file" accept="image/*" className="hidden" onChange={e => handleStoreLogoUpload(e.target.files?.[0])} />
+                    <div className="flex items-center justify-between mt-1">
+                      <p className="text-[10px] text-gray-400">לחץ על הריבוע להעלאת לוגו</p>
+                      {data.storeLogo && <button onClick={() => upd('storeLogo','')} className="text-[10px] text-red-400">הסר לוגו</button>}
+                    </div>
                   </div>
                   <div>
                     <label className="block text-xs font-bold text-gray-700 mb-1">צבע מותג</label>
