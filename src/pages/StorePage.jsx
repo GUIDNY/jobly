@@ -720,6 +720,16 @@ function MultiStorePage({ ms }) {
   if (isDesktop) {
     return (
       <div dir="rtl" style={{ fontFamily: "'Heebo','Segoe UI',sans-serif", background: '#ffffff', minHeight: '100vh' }}>
+        {/* Ticker */}
+        {ms.ticker && (
+          <div dir="ltr" style={{ background: accent, overflow: 'hidden', height: 36, display: 'flex', alignItems: 'center', position: 'relative', zIndex: 50 }}>
+            <div className="ticker-track">
+              {[...Array(12)].map((_, i) => (
+                <span key={i} style={{ fontSize: 12, fontWeight: 800, color: 'white', letterSpacing: '0.5px', paddingLeft: 40, paddingRight: 40, opacity: 0.95 }}>{ms.ticker}</span>
+              ))}
+            </div>
+          </div>
+        )}
         {/* Sticky nav */}
         <div style={{ background: 'white', borderBottom: '1px solid #f0f0f0', padding: '0 48px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 68, position: 'sticky', top: 0, zIndex: 40, boxShadow: '0 1px 0 #f0f0f0' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
