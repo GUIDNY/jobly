@@ -1664,8 +1664,18 @@ export default function StoreBuilderPage() {
                     <label className="block text-xs font-semibold text-gray-500 mb-1.5">הסיפור / אודות</label>
                     <textarea value={ms.aboutText||''} onChange={e => updMulti('aboutText', e.target.value)}
                       placeholder="ספרו על העסק שלכם — מתי הוקם, מה הערכים שלכם, מה מייחד אתכם מאחרים..."
-                      rows={5} className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 resize-none" />
+                      rows={4} className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 resize-none" />
                   </div>
+                </div>
+                <div className="bg-white rounded-2xl p-4 md:p-5 border border-gray-100 space-y-3" style={{ boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
+                  <div>
+                    <p className="text-sm font-bold text-gray-800 mb-0.5">סרט נע <span className="font-normal text-gray-400 text-xs">(אופציונלי)</span></p>
+                    <p className="text-xs text-gray-400">כותרת גוללת בראש הדף — מושכת תשומת לב</p>
+                  </div>
+                  <input value={ms.ticker||''} onChange={e => updMulti('ticker', e.target.value)}
+                    placeholder="🔥 הנחה של 20% השבוע בלבד · ⭐ משלוח חינם מעל ₪200 · ✨ מוצרים חדשים הגיעו"
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 transition-colors" />
+                  <p className="text-[10px] text-gray-400">השאר ריק כדי לא להציג סרט נע</p>
                 </div>
                 <div className="flex gap-2">
                   <button onClick={() => setMultiStep('info')} className="px-5 py-3 rounded-2xl text-sm font-bold text-gray-600 bg-white border border-gray-200">← חזור</button>
