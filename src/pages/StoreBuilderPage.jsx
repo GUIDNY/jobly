@@ -47,9 +47,10 @@ function PaymentBadge({ id }) {
 
 // ─── Store Preview (phone) ─────────────────────────────────────────────────────
 function StorePreview({ data, onBuy }) {
-  const { image, name, tagline, price, originalPrice, ctaText, description, bullets, paymentMethods, reviews, accentColor, storeName, videoUrl, videoTitle, ticker, videoPosition, ctaTwice } = data;
+  const { image, name, tagline, price, originalPrice, ctaText, description, bullets, paymentMethods, reviews, accentColor, storeName, videoUrl, videoTitle, ticker, videoPosition, ctaPosition, ctaTwice } = data;
   const accent = accentColor || '#F4938C';
   const videoBefore = videoUrl && (videoPosition || 'after') === 'before';
+  const ctaPos = ctaPosition || 'above-video';
   const filteredBullets = (bullets || []).filter(b => b?.trim());
   const filteredReviews = (reviews || []).filter(r => r.text);
   const avgRating = filteredReviews.length
