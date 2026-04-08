@@ -1402,7 +1402,7 @@ export default function StoreBuilderPage() {
 
               {/* Video position (shown only when video uploaded) */}
               {data.videoUrl && (
-                <div className="bg-white rounded-2xl p-5 border border-gray-100 space-y-3" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+                <div className="hidden md:block bg-white rounded-2xl p-5 border border-gray-100 space-y-3" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
                   <div>
                     <p className="text-sm font-bold text-gray-800">מיקום הסרטון בדף</p>
                     <p className="text-xs text-gray-400 mt-0.5">לפני או אחרי כפתור הרכישה</p>
