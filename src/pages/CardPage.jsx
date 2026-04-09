@@ -11,6 +11,33 @@ const BG = '#070910';
 const CARD_BG = '#0d0f1a';
 const BORDER = 'rgba(255,255,255,0.07)';
 
+const TRANSLATIONS = {
+  he: {
+    call: 'התקשר', whatsapp: 'וואטסאפ', location: 'מיקום', booking: 'קביעת תור',
+    ourServices: 'השירותים שלנו', reviews: 'המלצות', faq: 'שאלות נפוצות',
+    followUs: 'עקבו אחרינו', leaveReview: '+ השאר תגובה', thankYou: 'תודה! ✓',
+    send: 'שלח תגובה', cancel: 'ביטול', beFirst: 'היה הראשון להשאיר תגובה!',
+    bookInfo: 'קבע תור / מידע נוסף →', messageService: 'שלחו הודעה על שירות זה',
+    close: 'סגור', madeWith: 'נוצר עם', viewingYourPage: 'אתה צופה בדף שלך',
+    editPage: 'ערוך דף', editing: 'עריכה פעילה', saving: 'שומר...',
+    doneEditing: 'סיום עריכה', demoMode: 'מצב דמו ✦ גלוי רק לך',
+    upgradeText: 'שדרג ל-Pro כדי לשתף את העמוד — ₪39/חודש', upgrade: 'שדרג',
+    yourName: 'השם שלך', writeReview: 'כתוב את התגובה שלך...', interestedIn: 'היי, אני מעוניין/ת בשירות:',
+  },
+  en: {
+    call: 'Call', whatsapp: 'WhatsApp', location: 'Location', booking: 'Booking',
+    ourServices: 'Our Services', reviews: 'Reviews', faq: 'FAQ',
+    followUs: 'Follow Us', leaveReview: '+ Leave a Review', thankYou: 'Thank you! ✓',
+    send: 'Send', cancel: 'Cancel', beFirst: 'Be the first to leave a review!',
+    bookInfo: 'Book / More Info →', messageService: 'Message about this service',
+    close: 'Close', madeWith: 'Made with', viewingYourPage: "You're viewing your page",
+    editPage: 'Edit Page', editing: 'Editing', saving: 'Saving...',
+    doneEditing: 'Done', demoMode: 'Demo Mode ✦ Visible to you only',
+    upgradeText: 'Upgrade to Pro to share your page — ₪39/mo', upgrade: 'Upgrade',
+    yourName: 'Your name', writeReview: 'Write your review...', interestedIn: "Hi, I'm interested in:",
+  },
+};
+
 function StarDisplay({ rating, size = 16 }) {
   return (
     <div className="flex gap-0.5">
@@ -21,7 +48,7 @@ function StarDisplay({ rating, size = 16 }) {
   );
 }
 
-function ReviewsSection({ card, accent }) {
+function ReviewsSection({ card, accent, t }) {
   const [publicReviews, setPublicReviews] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [name, setName] = useState('');
@@ -58,15 +85,15 @@ function ReviewsSection({ card, accent }) {
   return (
     <section className="px-5 pb-6">
       <div className="flex items-center justify-between mb-4">
-        <p className="text-xs font-bold tracking-[0.2em] uppercase" style={{ color: accent }}>המלצות</p>
+        <p className="text-xs font-bold tracking-[0.2em] uppercase" style={{ color: accent }}>{t('reviews')}</p>
         {card.reviews_public && !showForm && !submitted && (
           <button onClick={() => setShowForm(true)}
             className="text-xs font-bold px-3 py-1.5 rounded-xl"
             style={{ background: `${accent}22`, color: accent, border: `1px solid ${accent}44` }}>
-            + השאר תגובה
+            {t('leaveReview')}
           </button>
         )}
-        {submitted && <span className="text-xs font-bold" style={{ color: '#10B981' }}>תודה! ✓</span>}
+        {submitted && <span className="text-xs font-bold" style={{ color: '#10B981' }}>{t('thankYou')}</span>}
       </div>
 
       {/* Submit form */}
@@ -79,21 +106,21 @@ function ReviewsSection({ card, accent }) {
               </button>
             ))}
           </div>
-          <input value={name} onChange={e => setName(e.target.value)} placeholder="השם שלך"
+          <input value={name} onChange={e => setName(e.target.value)} placeholder={t('yourName')}
             className="w-full rounded-xl px-3 py-2.5 text-sm text-white placeholder-white/30 outline-none"
             style={{ background: 'rgba(255,255,255,0.07)', border: `1px solid ${BORDER}` }} />
-          <textarea value={text} onChange={e => setText(e.target.value)} placeholder="כתוב את התגובה שלך..." rows={3}
+          <textarea value={text} onChange={e => setText(e.target.value)} placeholder={t('writeReview')} rows={3}
             className="w-full rounded-xl px-3 py-2.5 text-sm text-white placeholder-white/30 outline-none resize-none"
             style={{ background: 'rgba(255,255,255,0.07)', border: `1px solid ${BORDER}` }} />
           <div className="flex gap-2">
             <button onClick={handleSubmit} disabled={submitting || !name.trim() || !text.trim()}
               className="flex-1 py-2.5 rounded-xl text-sm font-bold text-white disabled:opacity-50"
               style={{ background: `linear-gradient(135deg, #F4938C, #5BC4C8)` }}>
-              {submitting ? '...' : 'שלח תגובה'}
+              {submitting ? '...' : t('send')}
             </button>
             <button onClick={() => setShowForm(false)}
               className="px-4 py-2.5 rounded-xl text-sm text-white/40">
-              ביטול
+              {t('cancel')}
             </button>
           </div>
         </div>
@@ -112,7 +139,7 @@ function ReviewsSection({ card, accent }) {
         ))}
         {allReviews.length === 0 && card.reviews_public && (
           <p className="text-sm text-center py-4" style={{ color: 'rgba(255,255,255,0.3)' }}>
-            היה הראשון להשאיר תגובה!
+            {t('beFirst')}
           </p>
         )}
       </div>
@@ -120,12 +147,12 @@ function ReviewsSection({ card, accent }) {
   );
 }
 
-function FaqSection({ faq, accent }) {
+function FaqSection({ faq, accent, t }) {
   const [open, setOpen] = useState(null);
   return (
     <section className="px-5 pb-6">
       <p className="text-xs font-bold tracking-[0.2em] uppercase mb-4" style={{ color: accent }}>
-        שאלות נפוצות
+        {t('faq')}
       </p>
       <div className="space-y-2">
         {faq.map((item, i) => (
@@ -159,6 +186,8 @@ export default function CardPage() {
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
   const [ownerIsPro, setOwnerIsPro] = useState(null);
+  const [lang, setLang] = useState('he');
+  const t = (key) => TRANSLATIONS[lang][key] || TRANSLATIONS.he[key];
 
   // Edit mode
   const [isEditMode, setIsEditMode] = useState(false);
@@ -409,7 +438,7 @@ export default function CardPage() {
 
   // ── Premium (dark) style ───────────────────────────────────────────────────
   return (
-    <div dir="rtl" style={{ background: BG, minHeight: '100vh', color: 'white' }}>
+    <div dir={lang === 'en' ? 'ltr' : 'rtl'} style={{ background: BG, minHeight: '100vh', color: 'white' }}>
       <style>{`
         @keyframes pulse-accent { 0%,100%{box-shadow:0 0 0 0 ${accent}55} 50%{box-shadow:0 0 0 10px ${accent}00} }
         .accent-pulse { animation: pulse-accent 2.5s infinite; }
@@ -421,17 +450,17 @@ export default function CardPage() {
       {isOwner && (
         <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 h-11"
           style={{ background: 'rgba(7,9,16,0.95)', borderBottom: `1px solid ${BORDER}`, backdropFilter: 'blur(12px)' }}>
-          <span className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.4)' }}>אתה צופה בדף שלך</span>
+          <span className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.4)' }}>{t('viewingYourPage')}</span>
           <div className="flex items-center gap-2">
             {isEditMode ? (
               <>
                 <span className="text-[11px] font-medium" style={{ color: saving ? '#f4938c' : '#5bc4c8' }}>
-                  {saving ? 'שומר...' : 'עריכה פעילה'}
+                  {saving ? t('saving') : t('editing')}
                 </span>
                 <button onClick={handleFinishEdit} disabled={saving}
                   className="px-3 py-1 rounded-lg text-xs font-bold transition-colors disabled:opacity-60"
                   style={{ background: accent, color: 'white' }}>
-                  {saving ? 'שומר...' : 'סיום עריכה'}
+                  {saving ? t('saving') : t('doneEditing')}
                 </button>
               </>
             ) : (
@@ -448,7 +477,7 @@ export default function CardPage() {
                     <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
                     <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
                   </svg>
-                  ערוך דף
+                  {t('editPage')}
                 </button>
               </>
             )}
@@ -465,13 +494,13 @@ export default function CardPage() {
             <LogoMark size={16} color="white" />
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-bold text-white leading-tight">מצב דמו ✦ גלוי רק לך</p>
-            <p className="text-xs mt-0.5 truncate" style={{ color: 'rgba(255,255,255,0.45)' }}>שדרג ל-Pro כדי לשתף את העמוד — ₪39/חודש</p>
+            <p className="text-sm font-bold text-white leading-tight">{t('demoMode')}</p>
+            <p className="text-xs mt-0.5 truncate" style={{ color: 'rgba(255,255,255,0.45)' }}>{t('upgradeText')}</p>
           </div>
           <button onClick={() => navigate('/pro')}
             className="px-3 py-1.5 rounded-xl text-xs font-bold text-white flex-shrink-0"
             style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
-            שדרג
+            {t('upgrade')}
           </button>
         </div>
       )}
@@ -492,11 +521,12 @@ export default function CardPage() {
               {card.business_name}
             </span>
           </div>
-          <div className="w-8 h-8 flex flex-col items-center justify-center gap-1.5 opacity-60">
-            <span className="block w-5 h-px bg-white rounded" />
-            <span className="block w-3 h-px bg-white rounded" />
-            <span className="block w-4 h-px bg-white rounded" />
-          </div>
+          <button
+            onClick={() => setLang(l => l === 'he' ? 'en' : 'he')}
+            className="text-[11px] font-bold px-2.5 py-1 rounded-lg transition-all"
+            style={{ background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.7)', border: '1px solid rgba(255,255,255,0.12)', letterSpacing: '0.05em' }}>
+            {lang === 'he' ? 'EN' : 'HE'}
+          </button>
         </nav>
 
         {/* ── HERO ── */}
@@ -570,7 +600,7 @@ export default function CardPage() {
                     <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: accent + '18' }}>
                       <PhoneIcon color={accent} />
                     </div>
-                    <span className="text-[11px] font-bold" style={{ color: 'rgba(255,255,255,0.45)' }}>התקשר</span>
+                    <span className="text-[11px] font-bold" style={{ color: 'rgba(255,255,255,0.45)' }}>{t('call')}</span>
                   </a>
                 )}
                 {waLink && (
@@ -580,7 +610,7 @@ export default function CardPage() {
                     <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: '#22c55e18' }}>
                       <WAIcon color="#22c55e" />
                     </div>
-                    <span className="text-[11px] font-bold" style={{ color: 'rgba(255,255,255,0.45)' }}>וואטסאפ</span>
+                    <span className="text-[11px] font-bold" style={{ color: 'rgba(255,255,255,0.45)' }}>{t('whatsapp')}</span>
                   </a>
                 )}
                 {card.location_url && (
@@ -590,7 +620,7 @@ export default function CardPage() {
                     <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: '#4285F418' }}>
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4285F4" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
                     </div>
-                    <span className="text-[11px] font-bold" style={{ color: 'rgba(255,255,255,0.45)' }}>מיקום</span>
+                    <span className="text-[11px] font-bold" style={{ color: 'rgba(255,255,255,0.45)' }}>{t('location')}</span>
                   </a>
                 )}
                 {card.booking_url && (
@@ -600,7 +630,7 @@ export default function CardPage() {
                     <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: accent + '18' }}>
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                     </div>
-                    <span className="text-[11px] font-bold" style={{ color: 'rgba(255,255,255,0.45)' }}>קביעת תור</span>
+                    <span className="text-[11px] font-bold" style={{ color: 'rgba(255,255,255,0.45)' }}>{t('booking')}</span>
                   </a>
                 )}
               </div>
@@ -649,7 +679,7 @@ export default function CardPage() {
           <section className="px-5 pb-10">
             {/* Section label */}
             <div className="flex items-center gap-3 mb-4">
-              <span className="text-[10px] font-bold tracking-[0.2em] uppercase" style={{ color: accent }}>השירותים שלנו</span>
+              <span className="text-[10px] font-bold tracking-[0.2em] uppercase" style={{ color: accent }}>{t('ourServices')}</span>
               <div className="flex-1 h-px" style={{ background: BORDER }} />
             </div>
 
@@ -712,7 +742,7 @@ export default function CardPage() {
               <div className="grid grid-cols-2 gap-2.5">
                 {services.map((svc, i) => {
                   const svcWaLink = waLink
-                    ? `https://wa.me/972${card.phone.replace(/^0/, '')}?text=${encodeURIComponent(`היי, אני מעוניין/ת בשירות: ${svc.title}`)}`
+                    ? `https://wa.me/972${card.phone.replace(/^0/, '')}?text=${encodeURIComponent(`${t('interestedIn')} ${svc.title}`)}`
                     : null;
                   const isHalf = (svc.size || 'full') === 'half';
                   return (
@@ -753,7 +783,7 @@ export default function CardPage() {
               <div className="space-y-3">
                 {services.map((svc, i) => {
                   const svcWaLink = waLink
-                    ? `https://wa.me/972${card.phone.replace(/^0/, '')}?text=${encodeURIComponent(`היי, אני מעוניין/ת בשירות: ${svc.title}`)}`
+                    ? `https://wa.me/972${card.phone.replace(/^0/, '')}?text=${encodeURIComponent(`${t('interestedIn')} ${svc.title}`)}`
                     : null;
                   return (
                     <motion.div key={i}
@@ -833,12 +863,12 @@ export default function CardPage() {
 
         {/* ── REVIEWS ── */}
         {card.reviews_enabled && (
-          <ReviewsSection card={card} accent={accent} />
+          <ReviewsSection card={card} accent={accent} t={t} />
         )}
 
         {/* ── FAQ ── */}
         {card.faq && card.faq.length > 0 && (
-          <FaqSection faq={card.faq} accent={accent} />
+          <FaqSection faq={card.faq} accent={accent} t={t} />
         )}
 
         {/* ── CUSTOM LINKS ── */}
@@ -862,7 +892,7 @@ export default function CardPage() {
           <section className="px-5 pb-10">
             <div className="rounded-2xl p-6 text-center" style={{ background: CARD_BG, border: `1px solid ${BORDER}` }}>
               <p className="text-xs font-bold tracking-[0.2em] uppercase mb-4" style={{ color: 'rgba(255,255,255,0.35)' }}>
-                עקבו אחרינו
+                {t('followUs')}
               </p>
               <div className="flex justify-center gap-3">
                 {card.instagram && (
@@ -902,7 +932,7 @@ export default function CardPage() {
                 <div className="w-3.5 h-3.5 rounded flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
                   <LogoMark size={8} color="white" />
                 </div>
-                <span className="text-[10px] text-white font-medium">נוצר עם <strong>Vizzit</strong></span>
+                <span className="text-[10px] text-white font-medium">{t('madeWith')} <strong>Vizzit</strong></span>
               </a>
             </div>
           </div>
@@ -978,14 +1008,14 @@ export default function CardPage() {
                   <a href={selectedService.service_url} target="_blank" rel="noopener noreferrer"
                     className="flex items-center justify-center gap-2 w-full py-4 rounded-2xl text-white font-bold text-sm mb-2"
                     style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)', boxShadow: '0 6px 24px rgba(244,147,140,0.35)' }}>
-                    קבע תור / מידע נוסף →
+                    {t('bookInfo')}
                   </a>
                 )}
                 {selectedService.svcWaLink && (
                   <a href={selectedService.svcWaLink} target="_blank" rel="noopener noreferrer"
                     className="flex items-center justify-center gap-2 w-full py-4 rounded-2xl text-white font-bold text-sm"
                     style={{ background: accent, boxShadow: `0 6px 24px ${accent}50` }}>
-                    <WAIcon /> שלחו הודעה על שירות זה
+                    <WAIcon /> {t('messageService')}
                   </a>
                 )}
 
@@ -993,7 +1023,7 @@ export default function CardPage() {
                 <button onClick={() => setSelectedService(null)}
                   className="w-full mt-3 py-3 rounded-2xl text-sm font-medium"
                   style={{ color: 'rgba(255,255,255,0.35)', background: 'rgba(255,255,255,0.04)' }}>
-                  סגור
+                  {t('close')}
                 </button>
               </div>
             </motion.div>
