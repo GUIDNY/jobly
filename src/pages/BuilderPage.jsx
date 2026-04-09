@@ -1270,6 +1270,7 @@ function CustomLinkEditor({ link, onChange, onDelete }) {
 // ─── Step 3: Contact & Links ──────────────────────────────────────────────────
 function Step3({ form, update }) {
   const [showLinksSheet, setShowLinksSheet] = useState(false);
+  const [showCustomLinksSheet, setShowCustomLinksSheet] = useState(false);
 
   const filledLinksCount = [form.instagram, form.facebook, form.tiktok, form.location_url].filter(Boolean).length;
 
@@ -1422,33 +1423,52 @@ function Step3({ form, update }) {
       {/* ── Custom Links Section ── */}
       <div>
         <hr className="border-gray-100 mb-3 md:mb-4" />
-        <div className="flex items-center justify-between mb-3">
-          <div>
-            <p className="text-xs md:text-sm font-bold text-gray-900">קישורים מותאמים</p>
-            <p className="text-[10px] md:text-xs text-gray-400 mt-0.5">הוסף קישורים לכל אתר עם אייקון משלך</p>
-          </div>
-          <button
-            type="button"
-            onClick={addCustomLink}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold text-white transition-opacity hover:opacity-90"
-            style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}
-          >
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            הוסף
-          </button>
-        </div>
-        <div className="space-y-2">
-          {customLinks.map((link, idx) => (
-            <CustomLinkEditor
-              key={link.id || idx}
-              link={link}
-              onChange={val => updateCustomLink(idx, val)}
-              onDelete={() => removeCustomLink(idx)}
-            />
-          ))}
-          {customLinks.length === 0 && (
-            <p className="text-center text-xs text-gray-400 py-3">לא נוספו קישורים עדיין</p>
+
+        {/* Mobile: compact button → bottom sheet */}
+        <button
+          onClick={() => setShowCustomLinksSheet(true)}
+          className="md:hidden flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors"
+        >
+          <span className="text-base">✨</span>
+          <span className="text-xs font-medium text-gray-700 flex-1 text-right">קישורים מותאמים</span>
+          {customLinks.filter(l => l.url && l.label).length > 0 && (
+            <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full text-white" style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
+              {customLinks.filter(l => l.url && l.label).length}
+            </span>
           )}
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+
+        {/* Desktop: inline editor */}
+        <div className="hidden md:block">
+          <div className="flex items-center justify-between mb-3">
+            <div>
+              <p className="text-sm font-bold text-gray-900">קישורים מותאמים</p>
+              <p className="text-xs text-gray-400 mt-0.5">הוסף קישורים לכל אתר עם אייקון משלך</p>
+            </div>
+            <button
+              type="button"
+              onClick={addCustomLink}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold text-white transition-opacity hover:opacity-90"
+              style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}
+            >
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              הוסף
+            </button>
+          </div>
+          <div className="space-y-2">
+            {customLinks.map((link, idx) => (
+              <CustomLinkEditor
+                key={link.id || idx}
+                link={link}
+                onChange={val => updateCustomLink(idx, val)}
+                onDelete={() => removeCustomLink(idx)}
+              />
+            ))}
+            {customLinks.length === 0 && (
+              <p className="text-center text-xs text-gray-400 py-3">לא נוספו קישורים עדיין</p>
+            )}
+          </div>
         </div>
       </div>
 
@@ -1529,6 +1549,49 @@ function Step3({ form, update }) {
 
               <button onClick={() => setShowLinksSheet(false)}
                 className="w-full mt-5 py-3 rounded-xl text-sm font-bold text-white"
+                style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
+                סגור ✓
+              </button>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Custom links bottom sheet (mobile only) */}
+      <AnimatePresence>
+        {showCustomLinksSheet && (
+          <>
+            <motion.div key="cl-backdrop" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/40 z-50 md:hidden" onClick={() => setShowCustomLinksSheet(false)} />
+            <motion.div key="cl-sheet" initial={{ y: 80, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 80, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl p-5 z-50 md:hidden"
+              style={{ boxShadow: '0 -8px 32px rgba(0,0,0,0.15)', maxHeight: '80vh', overflowY: 'auto' }}>
+              <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mb-4" />
+              <div className="flex items-center justify-between mb-4">
+                <p className="text-sm font-bold text-gray-900">קישורים מותאמים</p>
+                <button type="button" onClick={addCustomLink}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold text-white"
+                  style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                  הוסף
+                </button>
+              </div>
+              <div className="space-y-2 mb-4">
+                {customLinks.map((link, idx) => (
+                  <CustomLinkEditor
+                    key={link.id || idx}
+                    link={link}
+                    onChange={val => updateCustomLink(idx, val)}
+                    onDelete={() => removeCustomLink(idx)}
+                  />
+                ))}
+                {customLinks.length === 0 && (
+                  <p className="text-center text-xs text-gray-400 py-4">לא נוספו קישורים עדיין</p>
+                )}
+              </div>
+              <button onClick={() => setShowCustomLinksSheet(false)}
+                className="w-full py-3 rounded-xl text-sm font-bold text-white"
                 style={{ background: 'linear-gradient(135deg, #F4938C, #5BC4C8)' }}>
                 סגור ✓
               </button>
