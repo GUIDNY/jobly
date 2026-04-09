@@ -336,38 +336,21 @@ export default function CardPreview({ data = {}, compact = false, showActions = 
       {/* Contact buttons — below services */}
       {contact_position === 'below' && actionButtons}
 
-      {/* ── Social ── */}
-      {showSocial && hasSocial && (
-        <div className="flex gap-2.5 justify-center" style={{ padding: compact ? '12px 14px 0' : '16px 16px 0', background: background_style === 'dark' ? '#0a0a12' : '#fff' }}>
+      {/* ── Social + Custom Links ── */}
+      {showSocial && (hasSocial || (custom_links && custom_links.filter(l => l.url && l.label).length > 0)) && (
+        <div className="flex gap-2.5 justify-center flex-wrap" style={{ padding: compact ? '12px 14px 0' : '16px 16px 0', background: background_style === 'dark' ? '#0a0a12' : '#fff' }}>
           {instagram && <SocialBtn href={`https://instagram.com/${instagram.replace('@', '')}`} color="#E1306C"><InstagramIcon size={compact ? 14 : 18} /></SocialBtn>}
           {facebook && <SocialBtn href={facebook.startsWith('http') ? facebook : `https://facebook.com/${facebook}`} color="#1877F2"><FacebookIcon size={compact ? 14 : 18} /></SocialBtn>}
           {tiktok && <SocialBtn href={`https://tiktok.com/@${tiktok.replace('@', '')}`} color="#000"><TikTokIcon size={compact ? 14 : 18} /></SocialBtn>}
           {location_url && <SocialBtn href={location_url} color="#4285F4"><MapPinIcon size={compact ? 14 : 18} /></SocialBtn>}
-        </div>
-      )}
-
-      {/* ── Custom Links ── */}
-      {(custom_links && custom_links.length > 0) && (
-        <div className="space-y-2" style={{ padding: compact ? '10px 14px 0' : '14px 16px 0', background: background_style === 'dark' ? '#0a0a12' : '#fff' }}>
-          {custom_links.filter(l => l.url && l.label).map((link, i) => (
+          {(custom_links || []).filter(l => l.url && l.label).map((link, i) => (
             <a key={i} href={link.url} target="_blank" rel="noopener noreferrer"
-              className="flex items-center gap-2.5 w-full rounded-2xl font-semibold border border-gray-100 transition-opacity hover:opacity-80"
-              style={{ padding: compact ? '8px 12px' : '11px 14px', fontSize: compact ? 12 : 14, color: '#374151', background: background_style === 'dark' ? '#1a1a2e' : '#f9fafb', borderColor: background_style === 'dark' ? 'rgba(255,255,255,0.08)' : '#f3f4f6' }}>
-              <span style={{ fontSize: compact ? 14 : 18 }}>{link.icon || '🔗'}</span>
-              <span style={{ color: background_style === 'dark' ? 'rgba(255,255,255,0.8)' : '#374151' }}>{link.label}</span>
+              className="w-10 h-10 rounded-full flex items-center justify-center shadow-sm transition-transform hover:scale-110"
+              style={{ background: background_style === 'dark' ? 'rgba(255,255,255,0.1)' : '#f3f4f6', fontSize: compact ? 14 : 18 }}
+              title={link.label}>
+              {link.icon || '🔗'}
             </a>
           ))}
-        </div>
-      )}
-      {/* ── Random Link ── */}
-      {random_link && random_link.enabled && (random_link.urls || []).filter(Boolean).length > 0 && (
-        <div style={{ padding: compact ? '8px 14px 0' : '10px 16px 0', background: background_style === 'dark' ? '#0a0a12' : '#fff' }}>
-          <div
-            className="flex items-center gap-2.5 w-full rounded-2xl font-semibold justify-center cursor-pointer transition-opacity hover:opacity-80"
-            style={{ padding: compact ? '8px 12px' : '11px 14px', fontSize: compact ? 12 : 14, background: `linear-gradient(135deg, ${primary_color}22, ${primary_color}11)`, border: `1px solid ${primary_color}33`, color: primary_color }}>
-            <span style={{ fontSize: compact ? 14 : 18 }}>{random_link.icon || '🎲'}</span>
-            <span>{random_link.label || 'הפתעה!'}</span>
-          </div>
         </div>
       )}
 

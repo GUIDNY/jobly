@@ -356,8 +356,8 @@ export default function CardPage() {
         {/* Bottom bar */}
         <div className="fixed bottom-0 z-20"
           style={{ left: '50%', transform: 'translateX(-50%)', width: '100%', maxWidth: 520, background: 'rgba(255,255,255,0.97)', backdropFilter: 'blur(20px)', borderTop: '1px solid rgba(0,0,0,0.06)', borderRadius: '0', boxShadow: '0 -4px 24px rgba(0,0,0,0.06)' }}>
-          {(card.instagram || card.facebook || card.tiktok || card.location_url) && (
-            <div className="flex justify-center gap-2.5 px-4 pt-2.5 pb-1">
+          {(card.instagram || card.facebook || card.tiktok || card.location_url || (card.custom_links && card.custom_links.filter(l => l.url && l.label).length > 0)) && (
+            <div className="flex justify-center gap-2.5 px-4 pt-2.5 pb-1 flex-wrap">
               {card.instagram && (
                 <a href={`https://instagram.com/${card.instagram.replace('@','')}`} target="_blank" rel="noopener noreferrer"
                   className="w-10 h-10 rounded-2xl flex items-center justify-center text-white transition-transform active:scale-95 hover:scale-105"
@@ -386,6 +386,14 @@ export default function CardPage() {
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
                 </a>
               )}
+              {(card.custom_links || []).filter(l => l.url && l.label).map((link, i) => (
+                <a key={i} href={link.url} target="_blank" rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-2xl flex items-center justify-center transition-transform active:scale-95 hover:scale-105"
+                  style={{ background: '#f3f4f6', fontSize: 18 }}
+                  title={link.label}>
+                  {link.icon || '🔗'}
+                </a>
+              ))}
             </div>
           )}
           <div className="flex justify-center pb-2.5 pt-1.5">
@@ -846,25 +854,6 @@ export default function CardPage() {
                 </a>
               ))}
             </div>
-          </section>
-        )}
-
-        {/* ── RANDOM LINK ── */}
-        {card.random_link && card.random_link.enabled && (card.random_link.urls || []).filter(Boolean).length > 0 && (
-          <section className="px-5 pb-6">
-            <button
-              onClick={() => {
-                const urls = (card.random_link.urls || []).filter(Boolean);
-                if (urls.length > 0) {
-                  const picked = urls[Math.floor(Math.random() * urls.length)];
-                  window.open(picked, '_blank', 'noopener,noreferrer');
-                }
-              }}
-              className="flex items-center gap-3 w-full rounded-2xl font-semibold transition-all hover:scale-[1.01] active:scale-[0.99]"
-              style={{ background: `linear-gradient(135deg, ${accent}22, ${accent}11)`, border: `1px solid ${accent}44`, padding: '14px 18px', color: accent, fontSize: 14 }}>
-              <span style={{ fontSize: 20 }}>{card.random_link.icon || '🎲'}</span>
-              <span>{card.random_link.label || 'הפתעה!'}</span>
-            </button>
           </section>
         )}
 
