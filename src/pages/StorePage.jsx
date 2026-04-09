@@ -177,6 +177,14 @@ function SingleStorePage({ d }) {
   const [showCheckout, setShowCheckout] = useState(false);
   const [openFaq, setOpenFaq] = useState(null);
   const isDesktop = useIsDesktop();
+  const heroType = d.heroType || 'image';
+  const heroImagesArr = d.heroImages || [];
+  const [heroIdx, setHeroIdx] = useState(0);
+  useEffect(() => {
+    if (heroType !== 'gallery' || heroImagesArr.length < 2) return;
+    const t = setInterval(() => setHeroIdx(i => (i + 1) % heroImagesArr.length), 3000);
+    return () => clearInterval(t);
+  }, [heroType, heroImagesArr.length]);
 
   const item = { name: d.name || 'מוצר', image: d.image, price: d.price || '0', qty: 1 };
 
@@ -290,15 +298,31 @@ function SingleStorePage({ d }) {
         </button>
       </div>
 
-      {/* ── 2. Hero image ── */}
+      {/* ── 2. Hero image / gallery / video ── */}
       <div style={{ position:'relative', width:'100%', height:isDesktop?560:320, overflow:'hidden', background:'#111' }}>
-        {d.image
-          ? <img src={d.image} alt={d.name} style={{ width:'100%', height:'100%', objectFit:'cover', display:'block' }} />
-          : <div style={{ width:'100%', height:'100%', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', gap:12, background:`linear-gradient(135deg,${accent}22,${accent}08)` }}>
-              <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke={`${accent}88`} strokeWidth="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-              <span style={{ fontSize:13, color:`${accent}88`, fontWeight:600 }}>תמונת המוצר תופיע כאן</span>
-            </div>
-        }
+        {heroType === 'video' && d.heroVideo ? (
+          <video src={d.heroVideo} autoPlay loop muted playsInline style={{ width:'100%', height:'100%', objectFit:'cover', display:'block' }} />
+        ) : heroType === 'gallery' && heroImagesArr.length > 0 ? (
+          <div style={{ position:'relative', width:'100%', height:'100%' }}>
+            {heroImagesArr.map((src, i) => (
+              <img key={i} src={src} alt="" style={{ position:'absolute', inset:0, width:'100%', height:'100%', objectFit:'cover', opacity: i === heroIdx ? 1 : 0, transition:'opacity 0.7s ease' }} />
+            ))}
+            {heroImagesArr.length > 1 && (
+              <div style={{ position:'absolute', bottom:12, left:'50%', transform:'translateX(-50%)', display:'flex', gap:5 }}>
+                {heroImagesArr.map((_, i) => (
+                  <div key={i} style={{ width: i === heroIdx ? 18 : 6, height:6, borderRadius:3, background:'white', opacity: i === heroIdx ? 1 : 0.5, transition:'all 0.3s' }} />
+                ))}
+              </div>
+            )}
+          </div>
+        ) : d.image ? (
+          <img src={d.image} alt={d.name} style={{ width:'100%', height:'100%', objectFit:'cover', display:'block' }} />
+        ) : (
+          <div style={{ width:'100%', height:'100%', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', gap:12, background:`linear-gradient(135deg,${accent}22,${accent}08)` }}>
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke={`${accent}88`} strokeWidth="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <span style={{ fontSize:13, color:`${accent}88`, fontWeight:600 }}>תמונת המוצר תופיע כאן</span>
+          </div>
+        )}
         <div style={{ position:'absolute', inset:0, background:'linear-gradient(to bottom, rgba(0,0,0,0.02) 0%, transparent 40%, rgba(0,0,0,0.72) 100%)' }} />
         {/* Store name badge */}
         {d.storeName && (
@@ -592,6 +616,14 @@ function MultiStorePage({ ms }) {
   const isDesktop = useIsDesktop();
   const dtFeaturedRef = useRef(null);
   const mbFeaturedRef = useRef(null);
+  const coverType = ms.coverType || 'image';
+  const carouselImages = ms.coverImages || [];
+  const [coverIdx, setCoverIdx] = useState(0);
+  useEffect(() => {
+    if (coverType !== 'carousel' || carouselImages.length < 2) return;
+    const t = setInterval(() => setCoverIdx(i => (i + 1) % carouselImages.length), 3000);
+    return () => clearInterval(t);
+  }, [coverType, carouselImages.length]);
 
   const cartCount = cart.reduce((s, i) => s + (i.qty || 1), 0);
   const cartTotal = cart.reduce((s, i) => s + (Number(i.price) || 0) * i.qty, 0);
@@ -811,9 +843,26 @@ function MultiStorePage({ ms }) {
         </div>
 
         {/* Hero */}
-        {ms.coverImage ? (
+        {(coverType === 'video' && ms.coverVideo) || (coverType === 'carousel' && carouselImages.length > 0) || ms.coverImage ? (
           <div style={{ position: 'relative', height: 480, overflow: 'hidden' }}>
-            <img src={ms.coverImage} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            {coverType === 'video' && ms.coverVideo ? (
+              <video src={ms.coverVideo} autoPlay loop muted playsInline style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+            ) : coverType === 'carousel' && carouselImages.length > 0 ? (
+              <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+                {carouselImages.map((src, i) => (
+                  <img key={i} src={src} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: i === coverIdx ? 1 : 0, transition: 'opacity 0.7s ease' }} />
+                ))}
+                {carouselImages.length > 1 && (
+                  <div style={{ position: 'absolute', bottom: 16, left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: 6, zIndex: 2 }}>
+                    {carouselImages.map((_, i) => (
+                      <div key={i} style={{ width: i === coverIdx ? 20 : 7, height: 7, borderRadius: 4, background: 'white', opacity: i === coverIdx ? 1 : 0.5, transition: 'all 0.3s' }} />
+                    ))}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <img src={ms.coverImage} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            )}
             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(transparent 40%, rgba(0,0,0,0.55))' }} />
             <div style={{ position: 'absolute', bottom: 40, right: 0, left: 0, maxWidth: 1200, margin: '0 auto', padding: '0 48px', display: 'flex', alignItems: 'flex-end', gap: 18 }}>
               {ms.logoImage && <img src={ms.logoImage} alt="" style={{ width: 64, height: 64, borderRadius: 14, objectFit: 'cover', border: '2px solid rgba(255,255,255,0.5)', flexShrink: 0 }} />}
@@ -1199,11 +1248,27 @@ function MultiStorePage({ ms }) {
       </div>
 
       {/* ── Hero ── */}
-      {ms.coverImage ? (
+      {(coverType === 'video' && ms.coverVideo) || (coverType === 'carousel' && carouselImages.length > 0) || ms.coverImage ? (
         <div style={{ position: 'relative', height: 260, overflow: 'hidden' }}>
-          <img src={ms.coverImage} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          {coverType === 'video' && ms.coverVideo ? (
+            <video src={ms.coverVideo} autoPlay loop muted playsInline style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+          ) : coverType === 'carousel' && carouselImages.length > 0 ? (
+            <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+              {carouselImages.map((src, i) => (
+                <img key={i} src={src} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: i === coverIdx ? 1 : 0, transition: 'opacity 0.7s ease' }} />
+              ))}
+              {carouselImages.length > 1 && (
+                <div style={{ position: 'absolute', bottom: 50, left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: 5, zIndex: 2 }}>
+                  {carouselImages.map((_, i) => (
+                    <div key={i} style={{ width: i === coverIdx ? 16 : 6, height: 6, borderRadius: 3, background: 'white', opacity: i === coverIdx ? 1 : 0.5, transition: 'all 0.3s' }} />
+                  ))}
+                </div>
+              )}
+            </div>
+          ) : (
+            <img src={ms.coverImage} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          )}
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, transparent 30%, rgba(0,0,0,0.65) 100%)' }} />
-          {/* Logo + name pill at bottom */}
           <div style={{ position: 'absolute', bottom: 18, right: 16, left: 16, display: 'flex', alignItems: 'center', gap: 12 }}>
             {ms.logoImage && (
               <div style={{ width: 52, height: 52, borderRadius: 14, overflow: 'hidden', border: '2px solid rgba(255,255,255,0.9)', flexShrink: 0, boxShadow: '0 4px 16px rgba(0,0,0,0.35)', background: 'white' }}>
