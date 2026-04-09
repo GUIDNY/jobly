@@ -287,8 +287,11 @@ function SingleStorePage({ d }) {
       {/* ── 1. Sticky Nav ── */}
       <div style={{ position:'sticky', top:0, zIndex:40, background:'rgba(255,255,255,0.96)', backdropFilter:'blur(12px)', borderBottom:'1px solid #f0f0f0', padding:`0 ${px}px`, height:64, display:'flex', alignItems:'center', justifyContent:'space-between', maxWidth:'100%' }}>
         <div style={{ display:'flex', alignItems:'center', gap:10 }}>
-          <div style={{ width:34, height:34, borderRadius:10, background:`linear-gradient(135deg,${accent},${accent}bb)`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
-            <span style={{ fontSize:16 }}>🛍️</span>
+          <div style={{ width:34, height:34, borderRadius:10, overflow:'hidden', flexShrink:0, background:d.storeLogo?'transparent':`linear-gradient(135deg,${accent},${accent}bb)`, display:'flex', alignItems:'center', justifyContent:'center' }}>
+            {d.storeLogo
+              ? <img src={d.storeLogo} alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} />
+              : <span style={{ fontSize:16 }}>🛍️</span>
+            }
           </div>
           <span style={{ fontWeight:900, fontSize:isDesktop?17:14, color:'#111', letterSpacing:'-0.3px' }}>{d.storeName||'החנות שלי'}</span>
         </div>
